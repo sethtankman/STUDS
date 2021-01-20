@@ -14,9 +14,11 @@ public class Checkpoint : MonoBehaviour
     public string soundName;
 
     public AudioSource mySource;
+
     private float timeCount;
     private bool display;
     private int playerID;
+
     // Start is called before the first frame update
     void Start()
     {
