@@ -15,6 +15,7 @@ public class CharacterMovementController : MonoBehaviour
     public Animator animator;
 
     public GameObject playerCamera;
+    public GameObject binky;
 
     private float moveSpeed;
     public float gravity;
@@ -606,5 +607,10 @@ public class CharacterMovementController : MonoBehaviour
     public int GetFinishPosition()
     {
         return finishPosition;
+    }
+
+    public void SetBinky(bool isActive)
+    {
+        binky.SetActive(isActive);
     }
 }
