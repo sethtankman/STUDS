@@ -362,7 +362,10 @@ public class CharacterMovementController : MonoBehaviour
         if (context.performed)
         { 
             pickupPressed = true;
-
+            if (electronicObject != null)
+            {
+                electronicObject.GetComponent<Interaction>().ToggleVisual();
+            }
         }
         else
         {
@@ -513,6 +516,9 @@ public class CharacterMovementController : MonoBehaviour
                     hasGrabbed = true;
                     pickupPressed = false;
                 }
+            } else if(collider.tag == "LevelSelectGrab")
+            {
+                collider.gameObject.GetComponent<SceneSwitcher>().LoadSpecificScene();
             }
         }
         if (!foundGrabbable)

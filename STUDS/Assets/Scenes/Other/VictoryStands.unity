@@ -1889,6 +1889,94 @@ Transform:
   m_Father: {fileID: 946333704}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &735327072
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 735327075}
+  - component: {fileID: 735327074}
+  - component: {fileID: 735327073}
+  - component: {fileID: 735327076}
+  m_Layer: 0
+  m_Name: LoadNextScene
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &735327073
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 735327072}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dfee1b78786cbc44f858d99a24e97c2b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  specificScene: PowerBill_prototype
+--- !u!114 &735327074
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 735327072}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7110d8ccdcc7eb4e97f07e9d297ff56, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  duration: 15
+  OnStartTimer:
+    m_PersistentCalls:
+      m_Calls: []
+  OnEndTimer:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 735327073}
+        m_MethodName: LoadSpecificScene
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!4 &735327075
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 735327072}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 5.71901, y: -64.42762, z: 112.528885}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &735327076
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 735327072}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 992efcdd557232d42b209df70afc9640, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &736799363
 GameObject:
   m_ObjectHideFlags: 0
@@ -4255,6 +4343,14 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: e80297b6-522d-4ebd-8ac8-75bceb619eab
     m_ActionName: PlayerMovement/CameraZoom[/XInputControllerWindows/dpad/up,/XInputControllerWindows/dpad/up,/XInputControllerWindows/dpad/down,/XInputControllerWindows/dpad/down]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 563529da-24ca-4ac5-a6ab-7746d28b75c9
+    m_ActionName: PlayerMovement/QuitGame[/Keyboard/l,/XInputControllerWindows/select]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 83523902-8819-4a87-8723-980a57831b22
+    m_ActionName: PlayerMovement/RestartGame[/XInputControllerWindows/leftShoulder,/Keyboard/r]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: PlayerScheme
   m_DefaultActionMap: PlayerMovement
@@ -4957,6 +5053,14 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: e80297b6-522d-4ebd-8ac8-75bceb619eab
     m_ActionName: PlayerMovement/CameraZoom[/XInputControllerWindows/dpad/up,/XInputControllerWindows/dpad/down]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 563529da-24ca-4ac5-a6ab-7746d28b75c9
+    m_ActionName: PlayerMovement/QuitGame[/Keyboard/l,/XInputControllerWindows/select]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 83523902-8819-4a87-8723-980a57831b22
+    m_ActionName: PlayerMovement/RestartGame[/XInputControllerWindows/leftShoulder,/Keyboard/r]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: PlayerScheme
   m_DefaultActionMap: PlayerMovement
@@ -5708,6 +5812,14 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: e80297b6-522d-4ebd-8ac8-75bceb619eab
     m_ActionName: PlayerMovement/CameraZoom[/XInputControllerWindows/dpad/up,/XInputControllerWindows/dpad/down]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 563529da-24ca-4ac5-a6ab-7746d28b75c9
+    m_ActionName: PlayerMovement/QuitGame[/Keyboard/l,/XInputControllerWindows/select]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 83523902-8819-4a87-8723-980a57831b22
+    m_ActionName: PlayerMovement/RestartGame[/XInputControllerWindows/leftShoulder,/Keyboard/r]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: PlayerScheme
   m_DefaultActionMap: PlayerMovement
@@ -8841,6 +8953,14 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: e80297b6-522d-4ebd-8ac8-75bceb619eab
     m_ActionName: PlayerMovement/CameraZoom[/XInputControllerWindows/dpad/up,/XInputControllerWindows/dpad/up,/XInputControllerWindows/dpad/down,/XInputControllerWindows/dpad/down]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 563529da-24ca-4ac5-a6ab-7746d28b75c9
+    m_ActionName: PlayerMovement/QuitGame[/Keyboard/l,/XInputControllerWindows/select]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 83523902-8819-4a87-8723-980a57831b22
+    m_ActionName: PlayerMovement/RestartGame[/XInputControllerWindows/leftShoulder,/Keyboard/r]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: PlayerScheme
   m_DefaultActionMap: PlayerMovement

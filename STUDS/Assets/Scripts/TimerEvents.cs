@@ -11,7 +11,7 @@ public class TimerEvents : MonoBehaviour {
     public UnityEvent OnEndTimer;
 
     private bool _timing;
-    private float time;
+    [SerializeField] private float time;
 
 	public void StartTimer ()
     {
