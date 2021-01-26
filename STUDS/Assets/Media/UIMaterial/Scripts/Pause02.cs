@@ -73,12 +73,15 @@ public class Pause02 : MonoBehaviour
 
     void Pause()
     {
-     
+        theImage01.SetActive(false);
+        theImage02.SetActive(false);
+        theImage03.SetActive(false);
         if (!gameisPaused)
         {
-            //UnityEngine.Debug.Log("Testing");
-            ResumeText.fontSize = newFontsize02;
+          
+          
             PauseMenuUI.SetActive(true);
+           
             gameisPaused = true;
        
             Time.timeScale = 0f;
@@ -97,6 +100,7 @@ public class Pause02 : MonoBehaviour
         if (gameisPaused)
         {
             PauseMenuUI.SetActive(false);
+           
             gameisPaused = false;
             Time.timeScale = 1f;
         }
