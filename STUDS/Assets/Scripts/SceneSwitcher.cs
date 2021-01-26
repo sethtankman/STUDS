@@ -6,6 +6,13 @@ using UnityEngine.SceneManagement;
 
 public class SceneSwitcher : MonoBehaviour
 {
+    public string specificScene = "";
+
+    public void LoadSpecificScene()
+    {
+        SceneManager.LoadScene(specificScene);
+    }
+
     public void NextScene()
     {
         SceneManager.LoadScene("GarageScene");
