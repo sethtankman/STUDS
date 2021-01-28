@@ -46,7 +46,7 @@ public class PWRBill_Manager : MonoBehaviour
         {
             //int tmp = Random.Range(0, Interactives.Count);
             
-            Interactives[Validation[i]].ToggleVisual();
+            Interactives[Validation[i]].ToggleVisual(false);
      
         }
     }

@@ -15,6 +15,7 @@ public class CharacterMovementController : MonoBehaviour
     public Animator animator;
 
     public GameObject playerCamera;
+    public GameObject binky;
 
     private float moveSpeed;
     public float gravity;
@@ -38,6 +39,8 @@ public class CharacterMovementController : MonoBehaviour
     private GameObject grabbedObject;
 
     private bool hasGrabbed = false;
+
+    public bool isMini = false;
 
     //public Text GrabText;
 
@@ -364,7 +367,7 @@ public class CharacterMovementController : MonoBehaviour
             pickupPressed = true;
             if (electronicObject != null)
             {
-                electronicObject.GetComponent<Interaction>().ToggleVisual();
+                electronicObject.GetComponent<Interaction>().ToggleVisual(isMini);
             }
         }
         else
@@ -391,7 +394,7 @@ public class CharacterMovementController : MonoBehaviour
         {
             if (electronicObject != null)
             {
-                electronicObject.GetComponent<Interaction>().ToggleVisual();
+                electronicObject.GetComponent<Interaction>().ToggleVisual(isMini);
             }
         }
         else
@@ -606,5 +609,10 @@ public class CharacterMovementController : MonoBehaviour
     public int GetFinishPosition()
     {
         return finishPosition;
+    }
+
+    public void SetBinky(bool isActive)
+    {
+        binky.SetActive(isActive);
     }
 }
