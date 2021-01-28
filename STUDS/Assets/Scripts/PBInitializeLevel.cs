@@ -41,6 +41,7 @@ public class PBInitializeLevel : MonoBehaviour
                 {
                     players[i].transform.localScale = new Vector3(20, 20, 20); //Shrink the player. OG size is 30, 30, 30
                     players[i].GetComponent<CharacterMovementController>().SetBinky(true); //Activate the binky!!!!
+                    players[i].GetComponent<CharacterMovementController>().isMini = true; //The Eugine will now act as a child.
                 }
             }
         }

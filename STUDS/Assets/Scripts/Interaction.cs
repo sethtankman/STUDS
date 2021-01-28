@@ -54,15 +54,21 @@ public class Interaction : MonoBehaviour
         }
     }
 
-    public void ToggleVisual()
+    public void ToggleVisual(bool isMini)
     {
-        if (interactPressed == false)
+        if (isMini && !Object_active.activeSelf)
+        {
+            GameMaster.NumItemsOn += 1;
+            interactPressed = true;
+            Object_active.SetActive(true);
+            Object_inactive.SetActive(false);
+        }
+        else if(!isMini && Object_active.activeSelf)
         {
             GameMaster.NumItemsOn -= 1;
+            interactPressed = true;
+            Object_active.SetActive(false);
+            Object_inactive.SetActive(true);
         }
-        interactPressed = true;
-        Object_active.SetActive(false);
-        Object_inactive.SetActive(true);
-        
     }
 }

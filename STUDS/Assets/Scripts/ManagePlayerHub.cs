@@ -58,7 +58,8 @@ public class ManagePlayerHub : MonoBehaviour
     {
         if (playerJoined)
         {
-            StartText.text = "";
+            if(StartText)
+                StartText.text = "";
             int readyCount = 0;
             foreach (GameObject player in players)
             {

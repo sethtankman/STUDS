@@ -40,6 +40,8 @@ public class CharacterMovementController : MonoBehaviour
 
     private bool hasGrabbed = false;
 
+    public bool isMini = false;
+
     //public Text GrabText;
 
     public VirtualAudioSource grabSound;
@@ -365,7 +367,7 @@ public class CharacterMovementController : MonoBehaviour
             pickupPressed = true;
             if (electronicObject != null)
             {
-                electronicObject.GetComponent<Interaction>().ToggleVisual();
+                electronicObject.GetComponent<Interaction>().ToggleVisual(isMini);
             }
         }
         else
@@ -392,7 +394,7 @@ public class CharacterMovementController : MonoBehaviour
         {
             if (electronicObject != null)
             {
-                electronicObject.GetComponent<Interaction>().ToggleVisual();
+                electronicObject.GetComponent<Interaction>().ToggleVisual(isMini);
             }
         }
         else
