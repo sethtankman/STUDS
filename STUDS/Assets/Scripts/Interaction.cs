@@ -28,7 +28,7 @@ public class Interaction : MonoBehaviour
 
     private bool interactPressed = false;
 
-    private void Start()
+    private void Awake()
     {
         GameMaster = GameObject.Find("Game Manager").GetComponent<PWRBill_Manager>();
     }
@@ -70,5 +70,13 @@ public class Interaction : MonoBehaviour
             Object_active.SetActive(false);
             Object_inactive.SetActive(true);
         }
+    }
+
+    public void ToggleVisualGM()
+    {
+            GameMaster.NumItemsOn -= 1;
+            interactPressed = true;
+            Object_active.SetActive(false);
+            Object_inactive.SetActive(true);
     }
 }

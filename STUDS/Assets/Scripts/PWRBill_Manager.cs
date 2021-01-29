@@ -43,15 +43,16 @@ public class PWRBill_Manager : MonoBehaviour
         for (int j = 0; j < MaxObjectsOff; j++)
         {
             ValidatePicks();
-            print(Validation.Count);
+
         }
 
         for (int i = 0; i < MaxObjectsOff; i++)
         {
             //int tmp = Random.Range(0, Interactives.Count);
             
-            Interactives[Validation[i]].ToggleVisual(false);
-     
+            Interactives[Validation[i]].ToggleVisualGM();
+            print(Interactives[Validation[i]].name);
+
         }
     }
 
