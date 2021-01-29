@@ -11,7 +11,7 @@ using UnityEngine.SceneManagement;
 public class Interaction : MonoBehaviour
 
 {
-    public PWRBill_Manager GameMaster;
+    public PWRBill_Manager GameMaster ; 
 
     public int PowerCharge = 1;
 
@@ -59,7 +59,7 @@ public class Interaction : MonoBehaviour
         if (isMini && !Object_active.activeSelf)
         {
             GameMaster.NumItemsOn += 1;
-            interactPressed = true;
+            interactPressed = false;
             Object_active.SetActive(true);
             Object_inactive.SetActive(false);
         }
