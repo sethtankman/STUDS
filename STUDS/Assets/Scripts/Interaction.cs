@@ -11,7 +11,7 @@ using UnityEngine.SceneManagement;
 public class Interaction : MonoBehaviour
 
 {
-    public PWRBill_Manager GameMaster;
+    public PWRBill_Manager GameMaster ; 
 
     public int PowerCharge = 1;
 
@@ -28,7 +28,7 @@ public class Interaction : MonoBehaviour
 
     private bool interactPressed = false;
 
-    private void Start()
+    private void Awake()
     {
         GameMaster = GameObject.Find("Game Manager").GetComponent<PWRBill_Manager>();
     }
@@ -59,7 +59,7 @@ public class Interaction : MonoBehaviour
         if (isMini && !Object_active.activeSelf)
         {
             GameMaster.NumItemsOn += 1;
-            interactPressed = true;
+            interactPressed = false;
             Object_active.SetActive(true);
             Object_inactive.SetActive(false);
         }
@@ -70,5 +70,13 @@ public class Interaction : MonoBehaviour
             Object_active.SetActive(false);
             Object_inactive.SetActive(true);
         }
+    }
+
+    public void ToggleVisualGM()
+    {
+            GameMaster.NumItemsOn -= 1;
+            interactPressed = true;
+            Object_active.SetActive(false);
+            Object_inactive.SetActive(true);
     }
 }

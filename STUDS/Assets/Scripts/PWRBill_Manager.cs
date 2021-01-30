@@ -14,7 +14,7 @@ public class PWRBill_Manager : MonoBehaviour
 
     //List of objects to interact with
     public List<Interaction> Interactives = new List<Interaction>();
-    private List<int> Validation = new List<int>();
+    public List<int> Validation = new List<int>();
     public int MaxObjectsOff;
 
     //Timer for the end of the game
@@ -32,22 +32,27 @@ public class PWRBill_Manager : MonoBehaviour
         foreach (GameObject Electronic in GameObject.FindGameObjectsWithTag("RandomPick"))
         {
             Interactives.Add(Electronic.GetComponent<Interaction>());
+            if (Interactives.Contains(null))
+            {
+                Interactives.Remove(null);
+            }
             
         }
         NumItemsOn = Interactives.Count;
 
-        for (int j = 0; j <= MaxObjectsOff; j++)
+        for (int j = 0; j < MaxObjectsOff; j++)
         {
             ValidatePicks();
 
         }
 
-        for (int i = 0; i <= MaxObjectsOff; i++)
+        for (int i = 0; i < MaxObjectsOff; i++)
         {
             //int tmp = Random.Range(0, Interactives.Count);
             
-            Interactives[Validation[i]].ToggleVisual(false);
-     
+            Interactives[Validation[i]].ToggleVisualGM();
+            print(Interactives[Validation[i]].name);
+
         }
     }
 

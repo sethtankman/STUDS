@@ -464,7 +464,7 @@ public class CharacterMovementController : MonoBehaviour
         throwSound.Play();
         Vector3 forward = transform.forward;
         grabbedObject.transform.forward = forward;
-        Vector3 throwingForce = forward * throwForce * 1.5f; //transform.rotation.normalized * new Vector3(0, throwForce*2000, throwForce*300);
+        Vector3 throwingForce = forward * throwForce * 2.3f; //transform.rotation.normalized * new Vector3(0, throwForce*2000, throwForce*300);
         Vector3 movementAdjust = forward * direction.magnitude * moveSpeedGrab * 40;
         throwingForce += movementAdjust;
         throwingForce.y = 300f;
