@@ -10,7 +10,7 @@ public class InitializeLevel : MonoBehaviour
     public GameObject playerPrefab;
 
     private bool spawnedPlayers = false;
-    private float waitTime = 8f;
+    public float waitTime = 15f;
     private float currentTime = 0;
 
     public Material strollerColor1;
