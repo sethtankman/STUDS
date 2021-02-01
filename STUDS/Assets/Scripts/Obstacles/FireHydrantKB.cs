@@ -26,6 +26,20 @@ public class FireHydrantKB : MonoBehaviour
     void Update()
     {
         delay -= Time.deltaTime;
+
+        if ((delay > 0 && delay < 1) && Spraying == false)
+        {
+            
+            var tmp = WaterEffect.main;
+            tmp.startLifetime = .09f;
+            WaterEffect.Play();
+
+        }
+        else if (delay < 0 && Spraying == true)
+        {
+            WaterEffect.Stop();
+        }
+
         if (delay < 0)
         {
             if (Spraying)
@@ -38,9 +52,12 @@ public class FireHydrantKB : MonoBehaviour
 
         if (Spraying)
         {
+            //WaterEffect.Play();
+            var tmp = WaterEffect.main;
+            tmp.startLifetime = 1.45f;
             waterKB.SetActive(true);
             waterKB.GetComponent<KnockBack>().kBForce = force;
-            WaterEffect.Play();
+            
             
 
         }
@@ -48,7 +65,7 @@ public class FireHydrantKB : MonoBehaviour
         {
             waterKB.SetActive(false);
             waterKB.GetComponent<KnockBack>().kBForce = 0;
-            WaterEffect.Stop();
+            //WaterEffect.Stop();
         }
     }
 }
