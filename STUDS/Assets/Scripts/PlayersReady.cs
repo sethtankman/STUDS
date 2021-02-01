@@ -35,7 +35,7 @@ public class PlayersReady : MonoBehaviour
         if (allReady)
         {
             gameManager.GetComponent<ManagePlayerHub>().SaveState();
-            SceneManager.LoadScene("TempLevelSelect");
+            SceneManager.LoadScene("TheBlock_Scott");
         }
 
     }
