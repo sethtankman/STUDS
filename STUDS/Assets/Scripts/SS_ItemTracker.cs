@@ -12,7 +12,7 @@ public class SS_ItemTracker : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        itemList = new string[] {"Propane" };
+        itemList = new string[] {"Propane", "Sprinkler", "Toolbox", "Boombox", "Cooler", "SlowSign"};
         completedItemsCheck = new bool[itemList.Length];
         
     }

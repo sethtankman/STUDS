@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 5389644497257682193}
   - component: {fileID: 8700876288626130282}
   - component: {fileID: 3774796544435060303}
+  - component: {fileID: 1146242543742986200}
   m_Layer: 0
   m_Name: Sprinkler
   m_TagString: ShoppingItem
@@ -72,7 +73,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f784a562306bf314a96b294c9c39d0ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  name: Sprinkler
+  name: Sprinkler(Clone)
+--- !u!54 &1146242543742986200
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 334851178083070711}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &4898296173960663738
 GameObject:
   m_ObjectHideFlags: 0
