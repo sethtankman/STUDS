@@ -79,6 +79,7 @@ GameObject:
   - component: {fileID: 7428982239099070671}
   - component: {fileID: 7703250766489200880}
   - component: {fileID: 1512158197606061540}
+  - component: {fileID: -4847988555244648627}
   m_Layer: 0
   m_Name: Rigged_Dad
   m_TagString: Player
@@ -355,6 +356,7 @@ MonoBehaviour:
   turnTime: 0.1
   jumpHeightGrab: 0.85
   throwForce: 300
+  isMini: 0
   grabSound: {fileID: 6002832575061448149}
   throwSound: {fileID: 2318193617786232316}
   runSound: {fileID: 4301404226638939745}
@@ -380,6 +382,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pan2DForListener: 0
+--- !u!114 &-4847988555244648627
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 932691824398563431}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74f83e7288172244e9aef17f8c09c547, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  listText: {fileID: 0}
 --- !u!1 &941638315054393277
 GameObject:
   m_ObjectHideFlags: 0

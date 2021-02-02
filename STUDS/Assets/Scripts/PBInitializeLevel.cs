@@ -11,7 +11,7 @@ public class PBInitializeLevel : MonoBehaviour
     public GameObject loadingScreen;
 
     private bool spawnedPlayers = false;
-    private float waitTime = 8f;
+    private float waitTime = 2f;
     private float currentTime = 0;
     private GameObject[] players;
 

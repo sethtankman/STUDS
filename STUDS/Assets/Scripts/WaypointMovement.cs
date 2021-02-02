@@ -9,6 +9,7 @@ public class WaypointMovement : MonoBehaviour
     public Transform[] Waypoints;
     public bool warpToStart = false;
     public float speed;
+    public float halt;
 
 
     //These are used to determine which next step to take
@@ -18,6 +19,7 @@ public class WaypointMovement : MonoBehaviour
     private Transform pointTo;
     private int waypointIndex = 0;
     private float distance;
+    private bool moving = false;
 
 
     // Start is called before the first frame update
@@ -38,15 +40,19 @@ public class WaypointMovement : MonoBehaviour
         percentageMoved = timeSinceBegan / distance;
 
         //Interpolates between the points
-        transform.position = Vector3.Lerp(pointFrom.position, pointTo.position, percentageMoved);
-        transform.rotation = Quaternion.Lerp(pointFrom.rotation, pointTo.rotation, percentageMoved);
-        if (percentageMoved >= 1.0f && waypointIndex + 1 < Waypoints.Length)
+        if (moving)
+        {
+            transform.position = Vector3.Lerp(pointFrom.position, pointTo.position, percentageMoved);
+            transform.rotation = Quaternion.Lerp(pointFrom.rotation, pointTo.rotation, percentageMoved);
+        }
+
+        if (percentageMoved >= 1.0f && waypointIndex + 1 < Waypoints.Length && moving)
         {
             waypointIndex++;
             setPoints();
         }
 
-        if(waypointIndex + 1 >= Waypoints.Length)
+        if(waypointIndex + 1 >= Waypoints.Length && moving)
         {
             if (warpToStart)
             {
@@ -67,7 +73,7 @@ public class WaypointMovement : MonoBehaviour
         pointFrom = Waypoints[waypointIndex];
         if(waypointIndex+1 < Waypoints.Length)
             pointTo = Waypoints[waypointIndex + 1];
-        startTime = Time.time;
+        StartCoroutine(resetTime());
         distance = Vector3.Distance(pointFrom.position, pointTo.position);
     }
 
@@ -75,8 +81,17 @@ public class WaypointMovement : MonoBehaviour
     {
         pointFrom = Waypoints[waypointIndex];
         pointTo = Waypoints[0];
-        startTime = Time.time;
+        StartCoroutine(resetTime());
         distance = Vector3.Distance(pointFrom.position, pointTo.position);
+    }
+
+    IEnumerator resetTime()
+    {
+        moving = false;
+        yield return new WaitForSeconds(halt);
+        startTime = Time.time;
+        moving = true;
+        yield return null;
     }
 
 }

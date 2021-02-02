@@ -62,9 +62,8 @@ public class PWRBill_Manager : MonoBehaviour
         Mathf.RoundToInt(timer);
 
         PowerTXT.text = "Power Bill: $" + Score;
-        ItemsOnTXT.text = "Electronics: " + NumItemsOn;
-        
-
+        ItemsOnTXT.text = "Appliances: " + (NumItemsOn + 1);
+               
         timer -= Time.deltaTime;
 
         if (timer > 0.0f)
@@ -73,7 +72,7 @@ public class PWRBill_Manager : MonoBehaviour
         }
         else
         {
-            //End of round
+            EndGame();
         }
 
     }

@@ -496,8 +496,12 @@ public class CharacterMovementController : MonoBehaviour
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, 1);
         foreach (Collider collider in hitColliders)
         {
-            if (collider.tag == "Grabbable")
+            if (collider.tag == "Grabbable" || collider.tag == "ShoppingItem")
             {
+                if(collider.tag == "ShoppingItem")
+                {
+                    collider.gameObject.GetComponent<ShoppingItem>().SetPlayer(this.gameObject);
+                }
                 foundGrabbable = true;
                 if (hasGrabbed)
                 {
