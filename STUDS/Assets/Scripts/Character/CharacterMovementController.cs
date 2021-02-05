@@ -90,6 +90,8 @@ public class CharacterMovementController : MonoBehaviour
 
     private GameObject electronicObject;
 
+    //Particle effects
+    private PLR_ParticleController Dustcloud_SCP;
 
     // Start is called before the first frame update
     void Start()
@@ -99,6 +101,7 @@ public class CharacterMovementController : MonoBehaviour
         isReady = false;
         finishPosition = -1;
         controller = GetComponent<CharacterController>();
+        Dustcloud_SCP = GetComponent<PLR_ParticleController>();
     }
 
     // Update is called once per frame
@@ -281,6 +284,7 @@ public class CharacterMovementController : MonoBehaviour
             isMoving = false;
             velocity.x = 0;
             velocity.z = 0;
+            Dustcloud_SCP.TurnOffRunning();
         }
     }
 
@@ -305,6 +309,7 @@ public class CharacterMovementController : MonoBehaviour
             animator.SetBool("isRunning", true);
             //runSound.Play();
             controller.Move((dirVector.normalized * moveSpeed) * Time.deltaTime);
+
         }
         else
         {
@@ -319,6 +324,9 @@ public class CharacterMovementController : MonoBehaviour
     public void OnMove(CallbackContext context)
     {
         direction = context.ReadValue<Vector2>();
+        Dustcloud_SCP.TurnOnRunning();
+        
+        
     }
 
     public void OnCameraMove(CallbackContext context)
