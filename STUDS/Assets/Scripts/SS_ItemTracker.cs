@@ -12,7 +12,7 @@ public class SS_ItemTracker : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        itemList = new string[] {"Propane", "Sprinkler", "Toolbox", "Boombox", "Cooler", "SlowSign"};
+        itemList = new string[] {"Propane", "Sprinkler", "Toolbox", "Boombox", "Cooler", "SlowSign", "Helmet", "Shovel", "Hammer",};
         completedItemsCheck = new bool[itemList.Length];
         
     }
@@ -34,17 +34,18 @@ public class SS_ItemTracker : MonoBehaviour
         }
         else
         {
-            string text = "Shopping List:\n";
+            string text = "SHOPPING LIST:\n";
             for (int i = 0; i < itemList.Length; i++)
             {
                 if (completedItemsCheck[i])
                 {
-                    text += itemList[i] + ": Complete!\n";
+                    text += itemList[i] + " - Complete!\n";
                     Debug.Log("Added complete");
                 }
                 else
                 {
-                    text += itemList[i] + ": Missing!\n";
+                    //text += itemList[i] + ": Missing!\n";
+                    text += itemList[i] + "\n";
                     Debug.Log("Added missing");
                 }
             }
