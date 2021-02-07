@@ -30,10 +30,12 @@ public class SS_Initialize : MonoBehaviour
         PlayerInputManager.instance.DisableJoining();
         if(players.Length > 0)
         {
+            players[0].gameObject.AddComponent<SS_ItemTracker>();
             players[0].gameObject.GetComponent<SS_ItemTracker>().listText = player1List;
 
-        }else if(players.Length > 1) 
+        }else if(players.Length > 1)
         {
+            players[0].gameObject.AddComponent<SS_ItemTracker>();
             players[1].gameObject.GetComponent<SS_ItemTracker>().listText = player2List;
         }
     }

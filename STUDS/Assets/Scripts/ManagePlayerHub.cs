@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class ManagePlayerHub : MonoBehaviour
@@ -56,7 +57,7 @@ public class ManagePlayerHub : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (playerJoined)
+        if (playerJoined && SceneManager.GetActiveScene().name.Equals("GarageScene"))
         {
             if(StartText)
                 StartText.text = "";
@@ -69,6 +70,9 @@ public class ManagePlayerHub : MonoBehaviour
                 }
             }
             ReadyText.text = "" + readyCount + "/" + players.Count + " players are ready! Stand on the start line to begin!";
+        } else if(playerJoined && !SceneManager.GetActiveScene().name.Equals("GarageScene"))
+        {
+            playerJoined = false; //This is mainly to save time in the if check of the previous if block.
         }
 
     }
