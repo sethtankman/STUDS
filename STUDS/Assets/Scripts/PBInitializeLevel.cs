@@ -13,12 +13,12 @@ public class PBInitializeLevel : MonoBehaviour
     private bool spawnedPlayers = false;
     private float waitTime = 2f;
     private float currentTime = 0;
-    private GameObject[] players;
+    private List<GameObject> players;
 
     // Start is called before the first frame update
     void Start()
     {
-        players = ManagePlayerHub.Instance.getPlayers().ToArray();
+        players = ManagePlayerHub.Instance.getPlayers();
         PlayerInputManager.instance.DisableJoining();
     }
 
@@ -33,16 +33,12 @@ public class PBInitializeLevel : MonoBehaviour
         else if (!spawnedPlayers)
         {
             Debug.Log("Spawning player");
-            for (int i = 0; i < players.Length; i++)
+            int i = 0;
+            foreach (GameObject player in players)
             {
-                players[i].transform.forward = playerSpawns[i].transform.forward;
-                players[i].transform.position = playerSpawns[i].position;
-                if(i > 0)
-                {
-                    players[i].transform.localScale = new Vector3(20, 20, 20); //Shrink the player. OG size is 30, 30, 30
-                    players[i].GetComponent<CharacterMovementController>().SetBinky(true); //Activate the binky!!!!
-                    players[i].GetComponent<CharacterMovementController>().isMini = true; //The Eugine will now act as a child.
-                }
+                player.transform.forward = playerSpawns[i].transform.forward;
+                player.transform.position = playerSpawns[i].position;
+                i++;
             }
         }
     }

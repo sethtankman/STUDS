@@ -40,7 +40,8 @@ public class VirtualAudioSource_ClosestListenerOnly : VirtualAudioSource {
 			GameObject sfx = GameObject.Find("SFX");
 			Transform trans = sfx.transform;
 			Transform target = trans.Find(audioSourceName);
-			mySource = target.gameObject.GetComponent<AudioSource>();
+            if(target)
+			    mySource = target.gameObject.GetComponent<AudioSource>();
 		}
 		if(alwaysPlays)
         { // This forces the play on enable to work.
