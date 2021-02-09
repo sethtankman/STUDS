@@ -13,9 +13,11 @@ public class CharacterMovementController : MonoBehaviour
     private CharacterController controller;
     public Transform camPos;
     public Animator animator;
+    public Renderer renderer;
 
     public GameObject playerCamera;
     public GameObject binky;
+    public GameObject target;
 
     private float moveSpeed;
     public float gravity;
@@ -92,6 +94,8 @@ public class CharacterMovementController : MonoBehaviour
 
     //Particle effects
     private PLR_ParticleController Dustcloud_SCP;
+    private bool isBlinking;
+    public bool hasAimAssist;
 
     // Start is called before the first frame update
     void Start()
@@ -113,7 +117,7 @@ public class CharacterMovementController : MonoBehaviour
         else
         {
             timeUntilMoveEnabled -= Time.deltaTime;
-            if(timeUntilMoveEnabled < 0)
+            if (timeUntilMoveEnabled < 0)
             {
                 timeUntilMoveEnabled = 0;
                 movementEnabled = true;
@@ -152,9 +156,9 @@ public class CharacterMovementController : MonoBehaviour
             if (hasGrabbed)
             {
 
-               grabbedObject.transform.position = transform.position + (transform.forward * 1.3f) + (transform.up * 0.7f);
-               grabbedObject.transform.rotation = transform.rotation;
-               //grabbedObject.transform.rotation *= Quaternion.Euler(0, 90, 0);
+                grabbedObject.transform.position = transform.position + (transform.forward * 1.3f) + (transform.up * 0.7f);
+                grabbedObject.transform.rotation = transform.rotation;
+                //grabbedObject.transform.rotation *= Quaternion.Euler(0, 90, 0);
                 //grabbedObject.transform.LookAt(transform.position);
 
                 //If player released "e" then let go
@@ -187,7 +191,7 @@ public class CharacterMovementController : MonoBehaviour
                 //grabbedObject.transform.rotation *= Quaternion.Euler(0, 90, 0);
             }
         }
-        if(pickupCooldown > 0)
+        if (pickupCooldown > 0)
         {
             pickupCooldown -= 1;
         }
@@ -197,7 +201,7 @@ public class CharacterMovementController : MonoBehaviour
     private void CollisionDetection()
     {
         RaycastHit hit;
-        Ray ray = new Ray(transform.position, Vector3.down); 
+        Ray ray = new Ray(transform.position, Vector3.down);
         if (airborn)
         {
             if (Physics.Raycast(ray, out hit, 0.1f) && beingKnockedBack)
@@ -214,7 +218,8 @@ public class CharacterMovementController : MonoBehaviour
                     movementEnabled = false;
                     timeUntilMoveEnabled = 1.5f;
                 }
-            } else if(Physics.Raycast(ray, out hit, 0.1f))
+            }
+            else if (Physics.Raycast(ray, out hit, 0.1f))
             {
 
                 animator.ResetTrigger("Jump");
@@ -229,7 +234,8 @@ public class CharacterMovementController : MonoBehaviour
             if (Physics.Raycast(ray, out hit, 0.1f) == false || hit.transform.tag != "Ground")
             {
                 airborn = true;
-            } else if (Physics.Raycast(ray, out hit, 0.1f) && beingKnockedBack)
+            }
+            else if (Physics.Raycast(ray, out hit, 0.1f) && beingKnockedBack)
             {
                 animator.ResetTrigger("Jump");
                 animator.ResetTrigger("Land");
@@ -325,8 +331,8 @@ public class CharacterMovementController : MonoBehaviour
     {
         direction = context.ReadValue<Vector2>();
         Dustcloud_SCP.TurnOnRunning();
-        
-        
+
+
     }
 
     public void OnCameraMove(CallbackContext context)
@@ -359,7 +365,7 @@ public class CharacterMovementController : MonoBehaviour
 
     public void OnRestart(CallbackContext context)
     {
-        if(context.performed)
+        if (context.performed)
         {
             GameObject gameManager = GameObject.Find("GameManager");
             gameManager.GetComponent<ManagePlayerHub>().DeletePlayers();
@@ -371,7 +377,7 @@ public class CharacterMovementController : MonoBehaviour
     public void OnPickup(CallbackContext context)
     {
         if (context.performed)
-        { 
+        {
             pickupPressed = true;
             if (electronicObject != null)
             {
@@ -414,7 +420,7 @@ public class CharacterMovementController : MonoBehaviour
     void OnCollisionEnter(Collision obj)
     {
         if (obj.gameObject.tag == "Ground")
-         {
+        {
             velocity.x = 0;
             velocity.z = 0;
         }
@@ -448,7 +454,7 @@ public class CharacterMovementController : MonoBehaviour
             beingKnockedBack = true;
         }
         velocity = direction;
-        
+
     }
 
     public void DropGrabbedItem()
@@ -464,6 +470,33 @@ public class CharacterMovementController : MonoBehaviour
         }
     }
 
+    public void Blink(bool _isBlinking)
+    {
+        isBlinking = _isBlinking;
+        if (isBlinking)
+        {
+            Debug.Log("Blink...Start!");
+            StartCoroutine(BlinkC());
+        }
+        else
+        {
+            Debug.Log("Blink...Stop.");
+            StopCoroutine(BlinkC());
+            renderer.material.SetColor("_Color", Color.white);
+        }
+    }
+
+    private IEnumerator BlinkC()
+    {
+        while (isBlinking)
+        {
+            renderer.material.SetColor("_Color", Color.red);
+            yield return new WaitForSeconds(0.5f);
+            renderer.material.SetColor("_Color", Color.white);
+            yield return new WaitForSeconds(0.5f);
+        }
+    }
+
     private IEnumerator performThrow()
     {
         animator.ResetTrigger("Land");
@@ -472,6 +505,11 @@ public class CharacterMovementController : MonoBehaviour
         throwSound.Play();
         Vector3 forward = transform.forward;
         grabbedObject.transform.forward = forward;
+        if (hasAimAssist)
+        {
+            Debug.Log("Resetting forward vector");
+            forward = Vector3.Normalize(target.transform.position - transform.position);
+        }
         Vector3 throwingForce = forward * throwForce * 2.3f; //transform.rotation.normalized * new Vector3(0, throwForce*2000, throwForce*300);
         Vector3 movementAdjust = forward * direction.magnitude * moveSpeedGrab * 40;
         throwingForce += movementAdjust;
@@ -481,7 +519,8 @@ public class CharacterMovementController : MonoBehaviour
         grabbedObject.GetComponent<Rigidbody>().useGravity = true;
         //Debug.Log("Velocity: " + direction.magnitude);
         grabbedObject.GetComponent<Rigidbody>().AddForce(throwingForce);
-        if(grabbedObject.GetComponent<StrollerController>())
+
+        if (grabbedObject.GetComponent<StrollerController>())
         {
             grabbedObject.GetComponent<StrollerController>().EnableKnockBack();
         }
@@ -506,7 +545,7 @@ public class CharacterMovementController : MonoBehaviour
         {
             if (collider.tag == "Grabbable" || collider.tag == "ShoppingItem")
             {
-                if(collider.tag == "ShoppingItem")
+                if (collider.tag == "ShoppingItem")
                 {
                     collider.gameObject.GetComponent<ShoppingItem>().SetPlayer(this.gameObject);
                 }
@@ -531,7 +570,8 @@ public class CharacterMovementController : MonoBehaviour
                     hasGrabbed = true;
                     pickupPressed = false;
                 }
-            } else if(collider.tag == "LevelSelectGrab")
+            }
+            else if (collider.tag == "LevelSelectGrab")
             {
                 collider.gameObject.GetComponent<SceneSwitcher>().LoadSpecificScene();
             }
