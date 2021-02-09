@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &2834774175446282880
+--- !u!1 &3000721321570638523
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,49 +8,49 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 3178684523082508346}
-  - component: {fileID: 1995990935499073439}
-  - component: {fileID: 4348181905754198869}
-  - component: {fileID: 1104790400382641293}
-  - component: {fileID: 3027792287266593093}
-  - component: {fileID: 6612860388900246453}
-  - component: {fileID: 10800647371237954}
+  - component: {fileID: 2517341252548608001}
+  - component: {fileID: 1531434006302150564}
+  - component: {fileID: 3649121126049069934}
+  - component: {fileID: 2694803997967362024}
+  - component: {fileID: 3236310176230454083}
+  - component: {fileID: 3236310176230454080}
+  - component: {fileID: 2752616306360193519}
   m_Layer: 0
-  m_Name: Cooler
+  m_Name: Propane
   m_TagString: ShoppingItem
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &3178684523082508346
+--- !u!4 &2517341252548608001
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2834774175446282880}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 25.756931, y: 0.77, z: -0.7615591}
-  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_GameObject: {fileID: 3000721321570638523}
+  m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 35.771, y: 0.295, z: -59.425}
+  m_LocalScale: {x: 2.6014, y: 2.6014, z: 2.6014}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &1995990935499073439
+  m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
+--- !u!33 &1531434006302150564
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2834774175446282880}
-  m_Mesh: {fileID: -3544303833182790403, guid: bd55f4401ed0ba643a999ef955a7edff, type: 3}
---- !u!23 &4348181905754198869
+  m_GameObject: {fileID: 3000721321570638523}
+  m_Mesh: {fileID: 2020662945463300709, guid: 2cc6fb5a36b556a44ad8fecb39e53cf2, type: 3}
+--- !u!23 &3649121126049069934
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2834774175446282880}
+  m_GameObject: {fileID: 3000721321570638523}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -62,8 +62,10 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 28ffe6f63f9950c468d6fd9ad30d2f01, type: 2}
+  - {fileID: 2100000, guid: e26d37ac38ab32043b5e74cc8c5d0cac, type: 2}
+  - {fileID: 2100000, guid: d821564deb779914696bb78f357bbd87, type: 2}
   - {fileID: 2100000, guid: e62cb4237d63f4e4982b78f10b9e5da6, type: 2}
+  - {fileID: 2100000, guid: a1beb39c12cb0df46abc72d250de199c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -84,51 +86,51 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!65 &1104790400382641293
+--- !u!65 &2694803997967362024
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2834774175446282880}
+  m_GameObject: {fileID: 3000721321570638523}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.46732086, y: 0.3164843, z: 0.33062553}
+  m_Size: {x: 0.19720182, y: 0.29092366, z: 0.19720179}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &3027792287266593093
+--- !u!114 &3236310176230454083
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2834774175446282880}
+  m_GameObject: {fileID: 3000721321570638523}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 05c2c06cf2a57ac4fb093982f3023b77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &6612860388900246453
+--- !u!114 &3236310176230454080
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2834774175446282880}
+  m_GameObject: {fileID: 3000721321570638523}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f784a562306bf314a96b294c9c39d0ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  name: Cooler
---- !u!54 &10800647371237954
+  name: Propane
+--- !u!54 &2752616306360193519
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2834774175446282880}
+  m_GameObject: {fileID: 3000721321570638523}
   serializedVersion: 2
   m_Mass: 1
   m_Drag: 0
