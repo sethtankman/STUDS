@@ -468,7 +468,7 @@ public class CharacterMovementController : MonoBehaviour
     {
         animator.ResetTrigger("Land");
         animator.SetTrigger("Throw");
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(0.25f);
         throwSound.Play();
         Vector3 forward = transform.forward;
         grabbedObject.transform.forward = forward;
