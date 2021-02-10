@@ -26,11 +26,13 @@ public class Interaction : MonoBehaviour
 
     protected float CashTimer;
 
-    private bool interactPressed = false;
+    public bool interactPressed = false;
+
 
     private void Awake()
     {
         GameMaster = GameObject.Find("Game Manager").GetComponent<PWRBill_Manager>();
+        
     }
 
     public void Update()
