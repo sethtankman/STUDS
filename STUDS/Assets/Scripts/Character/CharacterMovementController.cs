@@ -93,13 +93,10 @@ public class CharacterMovementController : MonoBehaviour
     private GameObject electronicObject;
 
     //Particle effects
-<<<<<<< Updated upstream
-    private PLR_ParticleController Dustcloud_SCP;
     private bool isBlinking;
     public bool hasAimAssist;
-=======
     private PLR_ParticleController PlayerParticles;
->>>>>>> Stashed changes
+
 
     // Start is called before the first frame update
     void Start()
@@ -334,15 +331,8 @@ public class CharacterMovementController : MonoBehaviour
     public void OnMove(CallbackContext context)
     {
         direction = context.ReadValue<Vector2>();
-<<<<<<< Updated upstream
-        Dustcloud_SCP.TurnOnRunning();
 
-
-=======
         PlayerParticles.TurnOnRunning();
-        
-        
->>>>>>> Stashed changes
     }
 
     public void OnCameraMove(CallbackContext context)
