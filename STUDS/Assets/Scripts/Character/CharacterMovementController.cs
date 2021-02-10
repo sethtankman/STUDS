@@ -93,9 +93,13 @@ public class CharacterMovementController : MonoBehaviour
     private GameObject electronicObject;
 
     //Particle effects
+<<<<<<< Updated upstream
     private PLR_ParticleController Dustcloud_SCP;
     private bool isBlinking;
     public bool hasAimAssist;
+=======
+    private PLR_ParticleController PlayerParticles;
+>>>>>>> Stashed changes
 
     // Start is called before the first frame update
     void Start()
@@ -105,7 +109,7 @@ public class CharacterMovementController : MonoBehaviour
         isReady = false;
         finishPosition = -1;
         controller = GetComponent<CharacterController>();
-        Dustcloud_SCP = GetComponent<PLR_ParticleController>();
+        PlayerParticles = GetComponent<PLR_ParticleController>();
     }
 
     // Update is called once per frame
@@ -290,7 +294,7 @@ public class CharacterMovementController : MonoBehaviour
             isMoving = false;
             velocity.x = 0;
             velocity.z = 0;
-            Dustcloud_SCP.TurnOffRunning();
+            PlayerParticles.TurnOffRunning();
         }
     }
 
@@ -330,9 +334,15 @@ public class CharacterMovementController : MonoBehaviour
     public void OnMove(CallbackContext context)
     {
         direction = context.ReadValue<Vector2>();
+<<<<<<< Updated upstream
         Dustcloud_SCP.TurnOnRunning();
 
 
+=======
+        PlayerParticles.TurnOnRunning();
+        
+        
+>>>>>>> Stashed changes
     }
 
     public void OnCameraMove(CallbackContext context)
@@ -409,6 +419,8 @@ public class CharacterMovementController : MonoBehaviour
             if (electronicObject != null)
             {
                 electronicObject.GetComponent<Interaction>().ToggleVisual(isMini);
+                PlayerParticles.inRange = false;
+                //PlayerParticles.DisableEmote();
             }
         }
         else
