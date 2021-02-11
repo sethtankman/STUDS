@@ -29,9 +29,16 @@ public class ManagePlayerHub : MonoBehaviour
 
     public static ManagePlayerHub Instance { get; private set; }
 
-    private void Awake()
+    private void OnLevelWasLoaded(int level)
     {
-
+        if(SceneManager.GetActiveScene().name == "TheBlock_Scott")
+        {
+            Debug.Log("This was called.");
+            foreach (GameObject player in players)
+            {
+                player.GetComponent<CharacterMovementController>().EnableAimAssist();
+            }
+        }
     }
 
     public void SaveState()
