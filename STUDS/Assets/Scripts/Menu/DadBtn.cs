@@ -6,7 +6,8 @@ using UnityEngine.UI;
 public class DadBtn : MonoBehaviour
 {
     public Text btnText;
-    public Sprite btnSprite; //This will be used once we have the eugine images.
+    public Image btnImage;
+    public Sprite[] btnSprites; //This will be used once we have the eugine images.
     public GameObject player; //So the button can be connected to the player.
     public DadButtonMngr manager;
 
@@ -31,9 +32,34 @@ public class DadBtn : MonoBehaviour
         SetupPlayers();
     }
 
-    public void SetText(string newText)
+
+    /// <summary>
+    /// Sets the sprite to the one specified.
+    /// </summary>
+    /// <param name="colorNum"></param>
+    public void SetSprite(string colorName)
     {
-        btnText.text = newText;
+        switch(colorName)
+        {
+            case "Blue":
+                btnImage.sprite = btnSprites[0];
+                break;
+            case "Green":
+                btnImage.sprite = btnSprites[1];
+                break;
+            case "Orange":
+                btnImage.sprite = btnSprites[2];
+                break;
+            case "Purple":
+                btnImage.sprite = btnSprites[3];
+                break;
+            case "Yellow":
+                btnImage.sprite = btnSprites[4];
+                break;
+            default:
+                Debug.LogError("Unable to set sprite to specified color: " + colorName);
+                break;
+        }
     }
 
     public void SetPlayer(GameObject refPlayer)
