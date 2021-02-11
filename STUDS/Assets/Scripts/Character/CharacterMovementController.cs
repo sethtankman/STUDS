@@ -18,6 +18,7 @@ public class CharacterMovementController : MonoBehaviour
     public GameObject playerCamera;
     public GameObject binky;
     public GameObject target;
+    public GameObject aimAssist;
 
     private float moveSpeed;
     public float gravity;
@@ -470,6 +471,12 @@ public class CharacterMovementController : MonoBehaviour
             hasGrabbed = false;
             moveSpeed = moveSpeedNormal;
         }
+    }
+
+    public void EnableAimAssist()
+    {
+        Debug.Log("Trying to Enable Aim Assist");
+        aimAssist.SetActive(true);
     }
 
     public void Blink(bool _isBlinking)
