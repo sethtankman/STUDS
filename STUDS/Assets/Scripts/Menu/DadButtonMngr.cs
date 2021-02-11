@@ -30,7 +30,7 @@ public class DadButtonMngr : MonoBehaviour
             foreach (GameObject player in players)
             {
                 GameObject button = Instantiate(characterButton, buttonLocations[i].position, Quaternion.identity, canv.transform);
-                button.GetComponent<DadBtn>().SetText(player.GetComponent<CharacterMovementController>().GetColorName());
+                button.GetComponent<DadBtn>().SetSprite(player.GetComponent<CharacterMovementController>().GetColorName());
                 button.GetComponent<DadBtn>().SetPlayer(player);
                 i++;
             }
