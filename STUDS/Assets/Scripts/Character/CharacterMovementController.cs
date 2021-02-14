@@ -10,6 +10,7 @@ using UnityEngine.SceneManagement;
 
 public class CharacterMovementController : MonoBehaviour
 {
+    public AK.Wwise.Event JumpSound;
     private CharacterController controller;
     public Transform camPos;
     public Animator animator;
@@ -345,6 +346,7 @@ public class CharacterMovementController : MonoBehaviour
     {
         if (context.ReadValueAsButton())
         {
+            JumpSound.Post(gameObject);
             isJumping = true;
             animator.ResetTrigger("Land");
             animator.SetTrigger("Jump");
