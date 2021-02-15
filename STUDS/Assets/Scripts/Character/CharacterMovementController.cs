@@ -11,6 +11,9 @@ using UnityEngine.SceneManagement;
 public class CharacterMovementController : MonoBehaviour
 {
     public AK.Wwise.Event JumpSound;
+    public AK.Wwise.Event GrabSound;
+    public AK.Wwise.Event ThrowSound;
+    public AK.Wwise.Event RunSound;
     private CharacterController controller;
     public Transform camPos;
     public Animator animator;
@@ -167,7 +170,8 @@ public class CharacterMovementController : MonoBehaviour
                 //If player released "e" then let go
                 if (pickupPressed)
                 {
-                    grabSound.Play();
+                    GrabSound.Post(gameObject);
+                    //grabSound.Play();
                     DropGrabbedItem();
                     pickupPressed = false;
                     animator.SetBool("isHoldingSomething", false);
@@ -256,7 +260,8 @@ public class CharacterMovementController : MonoBehaviour
         {
             if (!isAI)
             {
-                jumpSound.Play();
+                JumpSound.Post(gameObject);
+                //jumpSound.Play();
             }
             if (hasGrabbed)
             {
@@ -302,7 +307,8 @@ public class CharacterMovementController : MonoBehaviour
         float timeBetween = 0.25f;
         if (isMoving && !airborn && stepSoundCooldown < 0)
         {
-            runSound.Play();
+            RunSound.Post(gameObject);
+            //runSound.Play();
             stepSoundCooldown = timeBetween;
         }
         else
@@ -346,7 +352,6 @@ public class CharacterMovementController : MonoBehaviour
     {
         if (context.ReadValueAsButton())
         {
-            JumpSound.Post(gameObject);
             isJumping = true;
             animator.ResetTrigger("Land");
             animator.SetTrigger("Jump");
@@ -398,6 +403,7 @@ public class CharacterMovementController : MonoBehaviour
         if (context.ReadValueAsButton())
         {
             throwPressed = true;
+            ThrowSound.Post(gameObject);
         }
         else
         {
@@ -513,7 +519,7 @@ public class CharacterMovementController : MonoBehaviour
         animator.ResetTrigger("Land");
         animator.SetTrigger("Throw");
         yield return new WaitForSeconds(0.25f);
-        throwSound.Play();
+        //throwSound.Play();
         Vector3 forward = transform.forward;
         grabbedObject.transform.forward = forward;
         if (hasAimAssist)
@@ -573,7 +579,8 @@ public class CharacterMovementController : MonoBehaviour
                 if (pickupPressed && !hasGrabbed)
                 {
                     animator.SetBool("isHoldingSomething", true);
-                    grabSound.Play();
+                    GrabSound.Post(gameObject);
+                    //grabSound.Play();
                     grabbedObject = collider.gameObject;
                     grabbedObject.GetComponent<Rigidbody>().isKinematic = true;
                     grabbedObject.GetComponent<Rigidbody>().useGravity = false;
