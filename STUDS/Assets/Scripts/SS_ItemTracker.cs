@@ -39,7 +39,7 @@ public class SS_ItemTracker : MonoBehaviour
             {
                 if (completedItemsCheck[i])
                 {
-                    text += itemList[i] + " - Complete!\n";
+                    text += itemList[i] + " - ✓\n";
                     Debug.Log("Added complete");
                 }
                 else
