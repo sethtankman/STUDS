@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.EventSystems;
 
 public class SettingsMenu_Scott : MonoBehaviour
 {
@@ -12,6 +13,8 @@ public class SettingsMenu_Scott : MonoBehaviour
     Resolution[] resolutions;
 
     public TMP_Dropdown resolutionDropdown;
+
+    public GameObject optionsPlayButton, optionsFirstButton, optionsCloseButton;
 
     void Start()
     {
@@ -49,5 +52,23 @@ public class SettingsMenu_Scott : MonoBehaviour
     public void SetFullscreen(bool isFullscreen)
     {
         Screen.fullScreen = isFullscreen;
+    }
+
+    public void OpenMainMenu()
+    {
+        EventSystem.current.SetSelectedGameObject(null);
+        EventSystem.current.SetSelectedGameObject(optionsPlayButton);
+    }
+
+    public void OpenOptions()
+    {
+        EventSystem.current.SetSelectedGameObject(null);
+        EventSystem.current.SetSelectedGameObject(optionsFirstButton);
+    }
+
+    public void CloseOptions()
+    {
+        EventSystem.current.SetSelectedGameObject(null);
+        EventSystem.current.SetSelectedGameObject(optionsCloseButton);
     }
 }
