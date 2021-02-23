@@ -37,7 +37,7 @@ public class PlayersReady : MonoBehaviour
             gameManager.GetComponent<ManagePlayerHub>().SaveState();
             if (gameObject.tag.Equals("PennyPincher"))
             {
-                SceneManager.LoadScene("HF_roomrework");
+                SceneManager.LoadScene("PBDadRandomizer");
             }
             else if (gameObject.tag.Equals("StrollerRace"))
             {
