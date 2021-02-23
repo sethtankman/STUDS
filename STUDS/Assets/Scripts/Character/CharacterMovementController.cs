@@ -97,6 +97,8 @@ public class CharacterMovementController : MonoBehaviour
 
     private GameObject electronicObject;
 
+    private bool isChild;
+
     //Particle effects
     private bool isBlinking;
     public bool hasAimAssist;
@@ -272,8 +274,20 @@ public class CharacterMovementController : MonoBehaviour
                 velocity.y = Mathf.Sqrt(jumpHeight * -2 * gravity);
             }
         }
-        velocity.y += gravity * Time.deltaTime;
-        controller.Move(velocity * Time.deltaTime);
+        if (!gameObject.GetComponent<CharacterController>().isGrounded)
+        {
+            velocity.y += gravity * Time.deltaTime;
+            controller.Move(velocity * Time.deltaTime);
+        }
+        else
+        {
+            velocity.y += gravity * Time.deltaTime;
+            controller.Move(velocity * Time.deltaTime);
+            velocity.y = 0;
+        }
+        Debug.Log("velocity y is: " + velocity.y);
+
+
     }
 
     private void Move()
@@ -592,6 +606,9 @@ public class CharacterMovementController : MonoBehaviour
             else if (collider.tag == "LevelSelectGrab")
             {
                 collider.gameObject.GetComponent<SceneSwitcher>().LoadSpecificScene();
+            }else if(collider.tag == "Player" && collider.gameObject.GetComponent<CharacterMovementController>().GetIsChild())
+            {
+                collider.gameObject.GetComponent<KidTimeout>().Timeout();
             }
         }
         if (!foundGrabbable)
@@ -684,5 +701,15 @@ public class CharacterMovementController : MonoBehaviour
     public void SetBinky(bool isActive)
     {
         binky.SetActive(isActive);
+    }
+
+    public void SetIsChild(bool isChild)
+    {
+        this.isChild = isChild;
+    }
+
+    public bool GetIsChild()
+    {
+        return isChild;
     }
 }

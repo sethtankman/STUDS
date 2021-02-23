@@ -20,6 +20,18 @@ public class PBInitializeLevel : MonoBehaviour
     {
         players = ManagePlayerHub.Instance.getPlayers();
         PlayerInputManager.instance.DisableJoining();
+        if(players.Count > 0)
+        {
+            int dadNum = Random.Range(0, players.Count);
+            for(int i = 0; i < players.Count; i++)
+            {
+                if(i != dadNum)
+                {
+                    players[i].GetComponent<CharacterMovementController>().SetIsChild(true);
+                }
+            }
+        }
+
     }
 
     // Update is called once per frame

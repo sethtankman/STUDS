@@ -162,6 +162,7 @@ GameObject:
   - component: {fileID: 1512158197606061540}
   - component: {fileID: 7574005608530412624}
   - component: {fileID: 7455231681854528080}
+  - component: {fileID: 6403045030480722751}
   m_Layer: 0
   m_Name: Rigged_Dad
   m_TagString: Player
@@ -177,7 +178,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 932691824398563431}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.4193006, y: 0.42, z: -4.686983}
+  m_LocalPosition: {x: -3.39, y: 1.604, z: 32.33}
   m_LocalScale: {x: 30, y: 30, z: 30}
   m_Children:
   - {fileID: 1137848144580744069}
@@ -523,6 +524,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ProgressPoints: []
   Progress: 0
+--- !u!114 &6403045030480722751
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 932691824398563431}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a6fa81f9f301a842b532280d6cd5a90, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timeoutTimer: 5
+  timeoutPos: {x: 0.6, y: 0.4, z: 39.14521}
+  backinPos: {x: 0.6, y: 0.4, z: 34.56}
 --- !u!1 &941638315054393277
 GameObject:
   m_ObjectHideFlags: 0

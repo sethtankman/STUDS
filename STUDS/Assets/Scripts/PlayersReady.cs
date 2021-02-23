@@ -35,7 +35,19 @@ public class PlayersReady : MonoBehaviour
         if (allReady)
         {
             gameManager.GetComponent<ManagePlayerHub>().SaveState();
-            SceneManager.LoadScene("TempLevelSelect");
+            if (gameObject.tag.Equals("PennyPincher"))
+            {
+                SceneManager.LoadScene("HF_roomrework");
+            }
+            else if (gameObject.tag.Equals("StrollerRace"))
+            {
+                SceneManager.LoadScene("TheBlock_Scott");
+            }
+            else if (gameObject.tag.Equals("ShoppingSpree"))
+            {
+                SceneManager.LoadScene("Shopping_Spree-Scott");
+            }
+
         }
 
     }

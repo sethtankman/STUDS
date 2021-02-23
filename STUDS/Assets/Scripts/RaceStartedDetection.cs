@@ -27,8 +27,12 @@ public class RaceStartedDetection : MonoBehaviour
 
     void OnTriggerEnter(Collider obj)
     {
-        AI1.GetComponent<PlayerAI>().StartAI();
-        AI2.GetComponent<PlayerAI>().StartAI();
-        gameManager.GetComponent<LevelStart>().DisableJoin();
+        if (obj.tag.Equals("Player"))
+        {
+            AI1.GetComponent<PlayerAI>().StartAI();
+            AI2.GetComponent<PlayerAI>().StartAI();
+            gameManager.GetComponent<LevelStart>().DisableJoin();
+        }
+
     }
 }
