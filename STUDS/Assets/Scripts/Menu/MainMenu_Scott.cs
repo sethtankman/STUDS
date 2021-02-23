@@ -7,7 +7,7 @@ public class MainMenu_Scott : MonoBehaviour
 {
     public void PlayGame()
     {
-        SceneManager.LoadScene("GarageScene");
+        SceneManager.LoadScene("TheBlock_LevelSelect");
     }
 
     public void QuitGame()
