@@ -47,7 +47,8 @@ public class SS_Initialize : MonoBehaviour
         if (currentTime > waitTime && !spawnedPlayers)
         {
             Destroy(startCam);
-            startText.text = "";
+            if(startText)
+                startText.text = "";
             Debug.Log("Loading in players");
             for (int i = 0; i < players.Length; i++)
             { 

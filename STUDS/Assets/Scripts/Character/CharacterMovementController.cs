@@ -97,8 +97,6 @@ public class CharacterMovementController : MonoBehaviour
 
     private GameObject electronicObject;
 
-    private bool isChild;
-
     //Particle effects
     private bool isBlinking;
     public bool hasAimAssist;
@@ -606,7 +604,7 @@ public class CharacterMovementController : MonoBehaviour
             else if (collider.tag == "LevelSelectGrab")
             {
                 collider.gameObject.GetComponent<SceneSwitcher>().LoadSpecificScene();
-            }else if(collider.tag == "Player" && collider.gameObject.GetComponent<CharacterMovementController>().GetIsChild())
+            }else if(collider.tag == "Player" && collider.gameObject.GetComponent<CharacterMovementController>().isMini)
             {
                 collider.gameObject.GetComponent<KidTimeout>().Timeout();
             }
@@ -701,15 +699,5 @@ public class CharacterMovementController : MonoBehaviour
     public void SetBinky(bool isActive)
     {
         binky.SetActive(isActive);
-    }
-
-    public void SetIsChild(bool isChild)
-    {
-        this.isChild = isChild;
-    }
-
-    public bool GetIsChild()
-    {
-        return isChild;
     }
 }
