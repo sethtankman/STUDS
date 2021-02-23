@@ -467,10 +467,6 @@ MonoBehaviour:
   jumpHeightGrab: 0.85
   throwForce: 300
   isMini: 0
-  grabSound: {fileID: 6002832575061448149}
-  throwSound: {fileID: 2318193617786232316}
-  runSound: {fileID: 4301404226638939745}
-  jumpSound: {fileID: 2114361203415111584}
   knockBackTime: 1
   isJumping: 0
   airborn: 0
@@ -1192,7 +1188,6 @@ GameObject:
   - component: {fileID: 6110989605533066366}
   - component: {fileID: 9126197353489790519}
   - component: {fileID: 2118617953570906843}
-  - component: {fileID: 7961601466782726091}
   - component: {fileID: 1153798013646940113}
   m_Layer: 8
   m_Name: Main Camera
@@ -1377,40 +1372,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isDefaultListener: 1
   listenerId: 0
---- !u!114 &7961601466782726091
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3450374694476005406}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 48c7e472c745447459d5c3df8f557f16, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  triggerList: f2d9e0ec
-  useOtherObject: 0
-  actionOnEventType: 0
-  curveInterpolation: 4
-  enableActionOnEvent: 0
-  data:
-    idInternal: 0
-    valueGuidInternal: 
-    WwiseObjectReference: {fileID: 11400000, guid: b01a9fae4e2937f499748cb2ac25c7ed,
-      type: 2}
-  useCallbacks: 0
-  Callbacks: []
-  playingId: 0
-  soundEmitterObject: {fileID: 0}
-  transitionDuration: 0
-  eventIdInternal: 0
-  valueGuidInternal: 
-  m_callbackDataInternal: {fileID: 0}
-  MultiPositionType: 1
-  multiPositionTypeLabel: 0
-  LargeModePositions: []
-  multiPositionArray: []
 --- !u!114 &1153798013646940113
 MonoBehaviour:
   m_ObjectHideFlags: 0

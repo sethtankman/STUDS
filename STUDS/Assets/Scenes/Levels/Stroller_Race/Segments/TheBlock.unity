@@ -1170,6 +1170,7 @@ MonoBehaviour:
   - {fileID: 1656701874}
   warpToStart: 1
   speed: 15
+  halt: 0
 --- !u!4 &89211871 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6569673618710039042, guid: bab2a0a867ca65741866903688df18de,
@@ -1394,6 +1395,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   directionVector: {x: 0, y: 0, z: 0}
   kBForce: 0
+  makePlayerDrop: 0
+  KBSound: 
+  mySource: {fileID: 0}
+  slidethrough: 0
 --- !u!65 &117380916
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1998,6 +2003,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   directionVector: {x: 0, y: 0, z: 0}
   kBForce: 0
+  makePlayerDrop: 0
+  KBSound: 
+  mySource: {fileID: 0}
+  slidethrough: 0
 --- !u!114 &157005833
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2451,6 +2460,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   directionVector: {x: 0, y: 0, z: 0}
   kBForce: 0
+  makePlayerDrop: 0
+  KBSound: 
+  mySource: {fileID: 0}
+  slidethrough: 0
 --- !u!65 &184689695
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -12450,6 +12463,7 @@ MonoBehaviour:
   - {fileID: 1475145256}
   warpToStart: 1
   speed: 15
+  halt: 0
 --- !u!4 &908031207 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5952951893888995833, guid: 169e0c2b655ffd44bbf45b4e56353afe,
@@ -15139,6 +15153,7 @@ MonoBehaviour:
   - {fileID: 1602340823}
   warpToStart: 1
   speed: 15
+  halt: 0
 --- !u!4 &1138907181 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3073752982533475067, guid: d36d6bf9170cbc240aab2fca1965eca8,
@@ -19568,6 +19583,64 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1100203990}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1576927565
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1576927567}
+  - component: {fileID: 1576927566}
+  m_Layer: 0
+  m_Name: WwiseGlobal
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1576927566
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1576927565}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0ea23b1bea95cd44bc0ec074ca7e501, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  InitializationSettings: {fileID: 11400000, guid: dd2666b8827b7a94c813960c101d493a,
+    type: 2}
+  basePath: 
+  language: 
+  defaultPoolSize: 0
+  lowerPoolSize: 0
+  streamingPoolSize: 0
+  memoryCutoffThreshold: 0
+  monitorPoolSize: 0
+  monitorQueuePoolSize: 0
+  callbackManagerBufferSize: 0
+  spatialAudioPoolSize: 0
+  maxSoundPropagationDepth: 0
+  diffractionFlags: 11
+  engineLogging: 0
+--- !u!4 &1576927567
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1576927565}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 22
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1579521732
 GameObject:
   m_ObjectHideFlags: 0
@@ -20378,6 +20451,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startCam: {fileID: 1080365872}
   startText: {fileID: 1799021174}
+  playerColor1: {fileID: 0}
+  playerColor2: {fileID: 0}
+  playerColor3: {fileID: 0}
+  playerColor4: {fileID: 0}
 --- !u!4 &1656701874 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6665936137855232750, guid: a77ce94d334f37444972e17cfd0be3d1,
@@ -20419,6 +20496,7 @@ MonoBehaviour:
   - {fileID: 1637378641}
   warpToStart: 1
   speed: 15
+  halt: 0
 --- !u!4 &1677119895 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6569673618710039042, guid: bab2a0a867ca65741866903688df18de,

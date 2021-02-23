@@ -51,6 +51,8 @@ public class CharacterMovementController : MonoBehaviour
 
     //public Text GrabText;
 
+    /*
+
     public VirtualAudioSource grabSound;
 
     public VirtualAudioSource throwSound;
@@ -58,12 +60,13 @@ public class CharacterMovementController : MonoBehaviour
     public VirtualAudioSource runSound;
 
     public VirtualAudioSource jumpSound;
+    */
 
     public float knockBackTime;
 
     private float knockBackCounter;
 
-    public bool isJumping;
+    public bool isJumping = false;
 
     private bool pickupPressed;
 
@@ -415,7 +418,6 @@ public class CharacterMovementController : MonoBehaviour
         if (context.ReadValueAsButton())
         {
             throwPressed = true;
-            ThrowSound.Post(gameObject);
         }
         else
         {
@@ -531,6 +533,7 @@ public class CharacterMovementController : MonoBehaviour
         animator.ResetTrigger("Land");
         animator.SetTrigger("Throw");
         yield return new WaitForSeconds(0.0f);
+        ThrowSound.Post(gameObject);
         //throwSound.Play();
         Vector3 forward = transform.forward;
         grabbedObject.transform.forward = forward;

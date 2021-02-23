@@ -7,8 +7,7 @@ public class KnockBack : MonoBehaviour
     public Vector3 directionVector;
     public short kBForce;
     public bool makePlayerDrop;
-    public string KBSound;
-    public AudioSource mySource;
+    public AK.Wwise.Event KBSound;
     public bool slidethrough = false;
     private BoxCollider PaintColl;
     
@@ -21,8 +20,6 @@ public class KnockBack : MonoBehaviour
             //Debug.Log("Searching for : " + KBSound);
             GameObject sfx = GameObject.Find("SFX");
             Transform trans = sfx.transform;
-            Transform target = trans.Find(KBSound);
-            mySource = target.gameObject.GetComponent<AudioSource>();
         }
     }
 
@@ -37,7 +34,7 @@ public class KnockBack : MonoBehaviour
             other.gameObject.GetComponent<CharacterMovementController>().KnockBack(direction * kBForce, makePlayerDrop);
             if(!KBSound.Equals("") && other.gameObject.GetComponent<CharacterMovementController>().isAI == false)
             {
-                mySource.Play();
+                KBSound.Post(gameObject);
             }
             if (slidethrough)
             {

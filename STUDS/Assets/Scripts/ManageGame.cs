@@ -19,7 +19,7 @@ public class ManageGame : MonoBehaviour
 
     public string soundName;
 
-    public AudioSource mySource;
+    public AK.Wwise.Event mySource;
 
     private float timeCount;
     private bool display;
@@ -36,7 +36,6 @@ public class ManageGame : MonoBehaviour
         GameObject sfx = GameObject.Find("SFX");
         Transform trans = sfx.transform;
         Transform target = trans.Find(soundName);
-        mySource = target.gameObject.GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -86,7 +85,7 @@ public class ManageGame : MonoBehaviour
                     positions++;
                     if (collider.gameObject.GetComponent<CharacterMovementController>().isAI == false)
                     {
-                        mySource.Play();
+                        mySource.Post(gameObject);
                     }
                 }
 

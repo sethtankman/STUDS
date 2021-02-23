@@ -99,7 +99,7 @@ public class CM_CharacterMovementController : CharacterMovementController
                 //If player released "e" then let go
                 if (pickupPressed)
                 {
-                    grabSound.Play();
+                    //grabSound.Play();
                     DropGrabbedItem();
                     pickupPressed = false;
                     animator.SetBool("isHoldingSomething", false);
@@ -367,7 +367,7 @@ public class CM_CharacterMovementController : CharacterMovementController
                 if (pickupPressed && !hasGrabbed)
                 {
                     animator.SetBool("isHoldingSomething", true);
-                    grabSound.Play();
+                    //grabSound.Play();
                     grabbedObject = collider.gameObject;
                     grabbedObject.GetComponent<Rigidbody>().isKinematic = true;
                     grabbedObject.GetComponent<Rigidbody>().useGravity = false;

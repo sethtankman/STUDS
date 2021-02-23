@@ -13,8 +13,7 @@ public class Checkpoint : MonoBehaviour
 
     public string soundName;
 
-    public AudioSource mySource;
-
+    public AK.Wwise.Event mySource;
     private float timeCount;
     private bool display;
     private int playerID;
@@ -27,7 +26,6 @@ public class Checkpoint : MonoBehaviour
         GameObject sfx = GameObject.Find("SFX");
         Transform trans = sfx.transform;
         Transform target = trans.Find(soundName);
-        mySource = target.gameObject.GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -62,7 +60,7 @@ public class Checkpoint : MonoBehaviour
                     playerID = player.getPlayerID() + 1;
                     if(player.isAI == false)
                     {
-                        mySource.Play();
+                        mySource.Post(gameObject);
                     }
                 }
 
