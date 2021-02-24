@@ -15,18 +15,30 @@ public class KnockBack : MonoBehaviour
     private void Start()
     {
         PaintColl = gameObject.GetComponent<BoxCollider>();
+        /*
         if(!KBSound.Equals(""))
         {
             //Debug.Log("Searching for : " + KBSound);
             GameObject sfx = GameObject.Find("SFX");
             Transform trans = sfx.transform;
         }
+        */
     }
 
     public void OnTriggerEnter(Collider other)
     {
         if (other.tag == "Player")
         {
+            
+            if(gameObject.GetComponentInParent<StrollerController>())
+            {
+                string otherColor = other.gameObject.GetComponent<CharacterMovementController>().GetColorName();
+                string myColor = gameObject.GetComponentInParent<StrollerController>().GetColor();
+                if(otherColor != null && myColor.Equals(otherColor))
+                {
+                    return;
+                }
+            }
             Vector3 direction = other.transform.position - transform.position;
             direction = direction.normalized + directionVector;
             Debug.Log("direction: " + direction.ToString() + " Force " + kBForce + " MakePlayerDrop " + makePlayerDrop);

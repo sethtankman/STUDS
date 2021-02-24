@@ -8,7 +8,7 @@ public class AimAssist : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.tag == "Player")
+        if(other.tag == "Player" && myController.target == null)
         {
             myController.target = other.gameObject;
             var charController = other.gameObject.GetComponent<CharacterMovementController>();
@@ -21,10 +21,10 @@ public class AimAssist : MonoBehaviour
     {
         if (other.tag == "Player")
         {
+            myController.hasAimAssist = false;
             myController.target = null;
             var charController = other.gameObject.GetComponent<CharacterMovementController>();
             charController.Blink(false);
-            myController.hasAimAssist = false;
         }
     }
 }

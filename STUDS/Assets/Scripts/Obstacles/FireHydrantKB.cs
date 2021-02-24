@@ -13,12 +13,13 @@ public class FireHydrantKB : MonoBehaviour
 
     public GameObject waterKB;
     public ParticleSystem WaterEffect;
-    private VirtualAudioSource spraySound;
+    //private VirtualAudioSource spraySound;
+    public AK.Wwise.Event spraySound;
 
     // Start is called before the first frame update
     void Start()
     {
-        spraySound = GetComponent<VirtualAudioSource>();
+        //spraySound = GetComponent<VirtualAudioSource>();
         timer = delay;
     }
 
@@ -42,10 +43,12 @@ public class FireHydrantKB : MonoBehaviour
 
         if (delay < 0)
         {
+            /*
             if (Spraying)
                 spraySound.enabled = false;
             else
                 spraySound.enabled = true;
+            */
             Spraying = !Spraying;
             delay = timer;
         }

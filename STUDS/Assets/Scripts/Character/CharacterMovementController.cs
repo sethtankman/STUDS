@@ -43,6 +43,8 @@ public class CharacterMovementController : MonoBehaviour
 
     public float throwForce;
 
+    public float throwCoolDown = 0;
+
     private GameObject grabbedObject;
 
     private bool hasGrabbed = false;
@@ -179,10 +181,11 @@ public class CharacterMovementController : MonoBehaviour
                     pickupPressed = false;
                     animator.SetBool("isHoldingSomething", false);
                 }
-                else if (throwPressed)
+                else if (throwPressed && throwCoolDown <= 0)
                 {
                     StartCoroutine(performThrow());
                     animator.SetBool("isHoldingSomething", false);
+                    throwCoolDown = 1;
                 }
             }
             else
@@ -201,9 +204,13 @@ public class CharacterMovementController : MonoBehaviour
                 //grabbedObject.transform.rotation *= Quaternion.Euler(0, 90, 0);
             }
         }
+
+        if (throwCoolDown > 0)
+            throwCoolDown -= Time.deltaTime;
+
         if (pickupCooldown > 0)
         {
-            pickupCooldown -= 1;
+            pickupCooldown -= Time.deltaTime;
         }
 
     }
@@ -393,7 +400,7 @@ public class CharacterMovementController : MonoBehaviour
             GameObject gameManager = GameObject.Find("GameManager");
             gameManager.GetComponent<ManagePlayerHub>().DeletePlayers();
             Destroy(gameManager);
-            SceneManager.LoadScene("GarageScene");
+            SceneManager.LoadScene("TheBlock_LevelSelect");
         }
     }
 
@@ -603,10 +610,6 @@ public class CharacterMovementController : MonoBehaviour
                     hasGrabbed = true;
                     pickupPressed = false;
                 }
-            }
-            else if (collider.tag == "LevelSelectGrab")
-            {
-                collider.gameObject.GetComponent<SceneSwitcher>().LoadSpecificScene();
             }else if(collider.tag == "Player" && collider.gameObject.GetComponent<CharacterMovementController>().isMini)
             {
                 collider.gameObject.GetComponent<KidTimeout>().Timeout();

@@ -87,5 +87,6 @@ public class InitializeLevel : MonoBehaviour
         {
             stroller.GetComponent<MeshRenderer>().material = strollerColor5;
         }
+        stroller.GetComponent<StrollerController>().SetColor(colorName);
     }
 }
