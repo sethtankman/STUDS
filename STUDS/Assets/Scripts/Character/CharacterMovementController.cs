@@ -502,10 +502,13 @@ public class CharacterMovementController : MonoBehaviour
         }
     }
 
-    public void EnableAimAssist()
+    /// <summary>
+    /// Sets aim assist to toggle
+    /// </summary>
+    /// <param name="toggle"></param>
+    public void SetAimAssist(bool toggle)
     {
-        Debug.Log("Trying to Enable Aim Assist");
-        aimAssist.SetActive(true);
+        aimAssist.SetActive(toggle);
     }
 
     public void Blink(bool _isBlinking)
@@ -559,9 +562,9 @@ public class CharacterMovementController : MonoBehaviour
         //Debug.Log("Velocity: " + direction.magnitude);
         grabbedObject.GetComponent<Rigidbody>().AddForce(throwingForce);
 
-        if (grabbedObject.GetComponent<StrollerController>())
+        if (grabbedObject.GetComponent<CombatThrow>())
         {
-            grabbedObject.GetComponent<StrollerController>().EnableKnockBack();
+            grabbedObject.GetComponent<CombatThrow>().EnableKnockBack();
         }
         hasGrabbed = false;
         moveSpeed = moveSpeedNormal;

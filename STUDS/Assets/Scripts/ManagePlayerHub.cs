@@ -31,12 +31,18 @@ public class ManagePlayerHub : MonoBehaviour
 
     private void OnLevelWasLoaded(int level)
     {
-        if(SceneManager.GetActiveScene().name == "TheBlock_Scott")
+        if(SceneManager.GetActiveScene().name == "TheBlock_Scott" || SceneManager.GetActiveScene().name == "Shopping_Spree-Scott")
         {
             Debug.Log("This was called.");
             foreach (GameObject player in players)
             {
-                player.GetComponent<CharacterMovementController>().EnableAimAssist();
+                player.GetComponent<CharacterMovementController>().SetAimAssist(true);
+            }
+        } else
+        {
+            foreach (GameObject player in players)
+            {
+                player.GetComponent<CharacterMovementController>().SetAimAssist(false);
             }
         }
     }
