@@ -13,17 +13,15 @@ public class PlayersReady : MonoBehaviour
         players = new List<GameObject>();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnTriggerExit(Collider other)
     {
-        
+        other.gameObject.GetComponent<CharacterMovementController>().ReadyPlayer(false);
     }
-
 
     private void OnTriggerEnter(Collider other)
     {
         bool allReady = true;
-        other.gameObject.GetComponent<CharacterMovementController>().ReadyPlayer();
+        other.gameObject.GetComponent<CharacterMovementController>().ReadyPlayer(true);
         players = gameManager.GetComponent<ManagePlayerHub>().getPlayers();
         foreach(GameObject player in players)
         {

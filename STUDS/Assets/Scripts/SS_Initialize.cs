@@ -22,7 +22,12 @@ public class SS_Initialize : MonoBehaviour
 
     public Text player2List;
 
+    public Text player3List;
+
+    public Text player4List;
+
     public Text startText;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -32,12 +37,23 @@ public class SS_Initialize : MonoBehaviour
         {
             players[0].gameObject.AddComponent<SS_ItemTracker>();
             players[0].gameObject.GetComponent<SS_ItemTracker>().listText = player1List;
-
-        }else if(players.Length > 1)
-        {
-            players[0].gameObject.AddComponent<SS_ItemTracker>();
-            players[1].gameObject.GetComponent<SS_ItemTracker>().listText = player2List;
+            if (players.Length > 1)
+            {
+                players[1].gameObject.AddComponent<SS_ItemTracker>();
+                players[1].gameObject.GetComponent<SS_ItemTracker>().listText = player2List;
+                if (players.Length > 2)
+                {
+                    players[2].gameObject.AddComponent<SS_ItemTracker>();
+                    players[2].gameObject.GetComponent<SS_ItemTracker>().listText = player3List;
+                    if (players.Length > 3)
+                    {
+                        players[3].gameObject.AddComponent<SS_ItemTracker>();
+                        players[3].gameObject.GetComponent<SS_ItemTracker>().listText = player4List;
+                    }
+                }
+            }
         }
+        
     }
 
     // Update is called once per frame
