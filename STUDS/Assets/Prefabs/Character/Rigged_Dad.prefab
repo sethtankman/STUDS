@@ -455,6 +455,7 @@ MonoBehaviour:
   camPos: {fileID: 3450374694476005401}
   animator: {fileID: 406437671202242167}
   renderer: {fileID: 5994938408997206725}
+  cameraShake: {fileID: 781154080254920008}
   playerCamera: {fileID: 3450374694476005406}
   binky: {fileID: 9113705332806400845}
   target: {fileID: 0}
@@ -466,6 +467,7 @@ MonoBehaviour:
   turnTime: 0.1
   jumpHeightGrab: 0.85
   throwForce: 300
+  throwCoolDown: 0
   isMini: 0
   knockBackTime: 1
   isJumping: 0
@@ -1189,6 +1191,7 @@ GameObject:
   - component: {fileID: 9126197353489790519}
   - component: {fileID: 2118617953570906843}
   - component: {fileID: 1153798013646940113}
+  - component: {fileID: 781154080254920008}
   m_Layer: 8
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -1397,6 +1400,18 @@ MonoBehaviour:
   unloadTriggerList: 958ca0ea
   bankNameInternal: 
   valueGuidInternal: 
+--- !u!114 &781154080254920008
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3450374694476005406}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df126c7bdeaa8c14382b55e97f715437, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3666379523277006241
 GameObject:
   m_ObjectHideFlags: 0

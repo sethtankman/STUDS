@@ -18,6 +18,7 @@ public class CharacterMovementController : MonoBehaviour
     public Transform camPos;
     public Animator animator;
     public Renderer renderer;
+    public CameraShake cameraShake;
 
     public GameObject playerCamera;
     public GameObject binky;
@@ -185,7 +186,7 @@ public class CharacterMovementController : MonoBehaviour
                 {
                     StartCoroutine(performThrow());
                     animator.SetBool("isHoldingSomething", false);
-                    throwCoolDown = 1;
+                    throwCoolDown = 1;                    
                 }
             }
             else
@@ -484,6 +485,7 @@ public class CharacterMovementController : MonoBehaviour
         {
             DropGrabbedItem();
             beingKnockedBack = true;
+            StartCoroutine(cameraShake.Shake(0.15f, 0.4f));
         }
         velocity = direction;
 
