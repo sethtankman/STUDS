@@ -685,9 +685,9 @@ public class CharacterMovementController : MonoBehaviour
         return color;
     }
 
-    public void ReadyPlayer()
+    public void ReadyPlayer(bool _isReady)
     {
-        isReady = true;
+        isReady = _isReady;
     }
 
     public bool GetReadyPlayer()
