@@ -6,22 +6,14 @@ public class ShoppingItem : MonoBehaviour
 {
     private GameObject player;
 
-    public string name;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public bool isBeingHeld = true;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public string name;
 
     public void SetPlayer(GameObject player) 
     {
         this.player = player;
+        isBeingHeld = true;
     }
 
     public GameObject GetPlayer()

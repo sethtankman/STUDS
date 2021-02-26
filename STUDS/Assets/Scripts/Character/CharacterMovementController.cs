@@ -186,7 +186,7 @@ public class CharacterMovementController : MonoBehaviour
                 {
                     StartCoroutine(performThrow());
                     animator.SetBool("isHoldingSomething", false);
-                    throwCoolDown = 1;                    
+                    throwCoolDown = 1;
                 }
             }
             else
@@ -294,7 +294,7 @@ public class CharacterMovementController : MonoBehaviour
             controller.Move(velocity * Time.deltaTime);
             velocity.y = 0;
         }
-        Debug.Log("velocity y is: " + velocity.y);
+        //Debug.Log("velocity y is: " + velocity.y);
 
 
     }
@@ -496,6 +496,10 @@ public class CharacterMovementController : MonoBehaviour
         if (grabbedObject)
         {
             animator.SetBool("isHoldingSomething", false);
+            if(grabbedObject.GetComponent<ShoppingItem>())
+            {
+                grabbedObject.GetComponent<ShoppingItem>().isBeingHeld = false;
+            }
             grabbedObject.GetComponent<Rigidbody>().isKinematic = false;
             grabbedObject.GetComponent<Rigidbody>().useGravity = true;
             grabbedObject = null;
@@ -542,6 +546,7 @@ public class CharacterMovementController : MonoBehaviour
 
     private IEnumerator performThrow()
     {
+
         animator.ResetTrigger("Land");
         animator.SetTrigger("Throw");
         yield return new WaitForSeconds(0.0f);
@@ -567,6 +572,10 @@ public class CharacterMovementController : MonoBehaviour
         if (grabbedObject.GetComponent<CombatThrow>())
         {
             grabbedObject.GetComponent<CombatThrow>().EnableKnockBack();
+        }
+        if (grabbedObject.GetComponent<ShoppingItem>())
+        {
+            grabbedObject.GetComponent<ShoppingItem>().isBeingHeld = false;
         }
         hasGrabbed = false;
         moveSpeed = moveSpeedNormal;
@@ -614,10 +623,34 @@ public class CharacterMovementController : MonoBehaviour
                     moveSpeed = moveSpeedGrab;
                     hasGrabbed = true;
                     pickupPressed = false;
+                    if (grabbedObject.GetComponent<ShoppingItem>())
+                    {
+                        grabbedObject.GetComponent<ShoppingItem>().isBeingHeld = true;
+                    }
                 }
-            }else if(collider.tag == "Player" && collider.gameObject.GetComponent<CharacterMovementController>().isMini)
+            }
+            else if (collider.tag == "Player" && collider.gameObject.GetComponent<CharacterMovementController>().isMini)
             {
                 collider.gameObject.GetComponent<KidTimeout>().Timeout();
+            }
+            else if (collider.tag == "ShoppingCart" && pickupPressed && !hasGrabbed)
+            {
+                GameObject givenObject = collider.GetComponent<ShoppingCartController>().GiveObject();
+                if (givenObject)
+                {
+                    GameObject takenObject = Instantiate(givenObject, gameObject.transform.position + (transform.forward * 1.3f) + (transform.up * 0.7f), Quaternion.identity);
+                    grabbedObject = takenObject;
+                    takenObject.GetComponent<ShoppingItem>().SetPlayer(this.gameObject);
+                    foundGrabbable = true;
+                    animator.SetBool("isHoldingSomething", true);
+                    GrabSound.Post(gameObject);
+                    takenObject.GetComponent<Rigidbody>().isKinematic = true;
+                    takenObject.GetComponent<Rigidbody>().useGravity = false;
+                    moveSpeed = moveSpeedGrab;
+                    hasGrabbed = true;
+                    pickupPressed = false;
+                }
+
             }
         }
         if (!foundGrabbable)
