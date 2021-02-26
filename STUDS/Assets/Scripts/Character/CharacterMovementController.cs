@@ -294,7 +294,7 @@ public class CharacterMovementController : MonoBehaviour
             controller.Move(velocity * Time.deltaTime);
             velocity.y = 0;
         }
-        Debug.Log("velocity y is: " + velocity.y);
+        //Debug.Log("velocity y is: " + velocity.y);
 
 
     }
