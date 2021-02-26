@@ -13,6 +13,7 @@ public class FireHydrantKB : MonoBehaviour
 
     public GameObject waterKB;
     public ParticleSystem WaterEffect;
+    public ParticleSystem SteamSpray;
     //private VirtualAudioSource spraySound;
     public AK.Wwise.Event spraySound;
 
@@ -31,14 +32,10 @@ public class FireHydrantKB : MonoBehaviour
         if ((delay > 0 && delay < 1) && Spraying == false)
         {
             
-            var tmp = WaterEffect.main;
-            tmp.startLifetime = .09f;
-            WaterEffect.Play();
+            //var tmp = WaterEffect.main;
+            //tmp.startLifetime = .09f;
+            SteamSpray.Play();
 
-        }
-        else if (delay < 0 && Spraying == true)
-        {
-            WaterEffect.Stop();
         }
 
         if (delay < 0)
@@ -51,13 +48,21 @@ public class FireHydrantKB : MonoBehaviour
             */
             Spraying = !Spraying;
             delay = timer;
+            SteamSpray.Stop();
         }
+
+        if (delay < 0 && Spraying == true)
+        {
+
+            
+        }
+
+        
 
         if (Spraying)
         {
-            //WaterEffect.Play();
-            var tmp = WaterEffect.main;
-            tmp.startLifetime = 1.45f;
+            WaterEffect.Play();
+
             waterKB.SetActive(true);
             waterKB.GetComponent<KnockBack>().kBForce = force;
             
@@ -66,6 +71,7 @@ public class FireHydrantKB : MonoBehaviour
         }
         else
         {
+            WaterEffect.Stop();
             waterKB.SetActive(false);
             waterKB.GetComponent<KnockBack>().kBForce = 0;
             //WaterEffect.Stop();

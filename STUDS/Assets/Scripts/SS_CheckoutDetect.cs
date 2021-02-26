@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class SS_CheckoutDetect : MonoBehaviour
 {
+    public ParticleSystem CheckoutEffect;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -28,6 +30,7 @@ public class SS_CheckoutDetect : MonoBehaviour
                 if (itemlist[i].Equals(itemName))
                 {
                     player.GetComponent<SS_ItemTracker>().CheckoutItem(i);
+                    CheckoutEffect.Play();
                 }
             }
             Destroy(collision.collider.gameObject);
