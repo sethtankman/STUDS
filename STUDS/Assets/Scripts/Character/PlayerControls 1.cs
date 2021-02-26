@@ -215,8 +215,8 @@ public class @PlayerControls1 : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""272dbf58-4b76-40e8-bc3d-4e1b9e9e32e2"",
-                    ""path"": ""<Keyboard>/e"",
+                    ""id"": ""0c1601f5-0630-4a71-8e85-fad86f8c5a17"",
+                    ""path"": ""<Keyboard>/q"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""PlayerScheme"",
@@ -228,17 +228,6 @@ public class @PlayerControls1 : IInputActionCollection, IDisposable
                     ""name"": """",
                     ""id"": ""9470d98a-1438-497f-bcdd-5b8438cd1197"",
                     ""path"": ""<Gamepad>/buttonWest"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""PlayerScheme"",
-                    ""action"": ""Interact"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""0c1601f5-0630-4a71-8e85-fad86f8c5a17"",
-                    ""path"": ""<Keyboard>/q"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""PlayerScheme"",
@@ -331,6 +320,17 @@ public class @PlayerControls1 : IInputActionCollection, IDisposable
                     ""processors"": """",
                     ""groups"": ""PlayerScheme"",
                     ""action"": ""RestartGame"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""272dbf58-4b76-40e8-bc3d-4e1b9e9e32e2"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""PlayerScheme"",
+                    ""action"": ""Interact"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }

@@ -10,11 +10,13 @@ public class SettingsMenu_Scott : MonoBehaviour
 {
     public AudioMixer audioMixer;
 
+    public static bool GameIsPaused = false;
+
     Resolution[] resolutions;
 
     public TMP_Dropdown resolutionDropdown;
 
-    public GameObject optionsPlayButton, optionsFirstButton, optionsCloseButton;
+    public GameObject menuPlayButton, optionsFirstButton, optionsCloseButton, creditsFirstButton, videoFirstButton, videoCloseButton, soundFirstButton, soundCloseButton, controlsFirstButton, controlsCloseButton;
 
     void Start()
     {
@@ -31,6 +33,11 @@ public class SettingsMenu_Scott : MonoBehaviour
         }
 
         resolutionDropdown.AddOptions(options);
+    }
+
+    private void Update()
+    {
+        // get key down
     }
 
     public void SetResolution(int resolutionIndex)
@@ -57,18 +64,60 @@ public class SettingsMenu_Scott : MonoBehaviour
     public void OpenMainMenu()
     {
         EventSystem.current.SetSelectedGameObject(null);
-        EventSystem.current.SetSelectedGameObject(optionsPlayButton);
+        EventSystem.current.SetSelectedGameObject(menuPlayButton);
     }
 
-    public void OpenOptions()
+    public void OpenOptionsMenu()
     {
         EventSystem.current.SetSelectedGameObject(null);
         EventSystem.current.SetSelectedGameObject(optionsFirstButton);
     }
 
-    public void CloseOptions()
+    public void CloseOptionsMenu()
     {
         EventSystem.current.SetSelectedGameObject(null);
-        EventSystem.current.SetSelectedGameObject(optionsCloseButton);
+        EventSystem.current.SetSelectedGameObject(menuPlayButton);
+    }
+
+    public void OpenVideoMenu()
+    {
+        EventSystem.current.SetSelectedGameObject(null);
+        EventSystem.current.SetSelectedGameObject(videoFirstButton);
+    }
+
+    public void CloseVideoMenu()
+    {
+        EventSystem.current.SetSelectedGameObject(null);
+        EventSystem.current.SetSelectedGameObject(optionsFirstButton);
+    }
+
+    public void OpenSoundMenu()
+    {
+        EventSystem.current.SetSelectedGameObject(null);
+        EventSystem.current.SetSelectedGameObject(soundFirstButton);
+    }
+
+    public void CloseSoundMenu()
+    {
+        EventSystem.current.SetSelectedGameObject(null);
+        EventSystem.current.SetSelectedGameObject(optionsFirstButton);
+    }
+
+    public void OpenControlsMenu()
+    {
+        EventSystem.current.SetSelectedGameObject(null);
+        EventSystem.current.SetSelectedGameObject(controlsFirstButton);
+    }
+
+    public void CloseControlsMenu()
+    {
+        EventSystem.current.SetSelectedGameObject(null);
+        EventSystem.current.SetSelectedGameObject(optionsFirstButton);
+    }
+
+    public void OpenCreditsMenu()
+    {
+        EventSystem.current.SetSelectedGameObject(null);
+        EventSystem.current.SetSelectedGameObject(creditsFirstButton);
     }
 }
