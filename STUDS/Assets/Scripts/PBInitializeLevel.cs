@@ -29,6 +29,7 @@ public class PBInitializeLevel : MonoBehaviour
         if (currentTime > waitTime && !spawnedPlayers)
         {
             loadingScreen.SetActive(false);
+            spawnedPlayers = true;
         }
         else if (!spawnedPlayers)
         {
@@ -41,5 +42,10 @@ public class PBInitializeLevel : MonoBehaviour
                 i++;
             }
         }
+    }
+
+    public bool IsLevelLoaded()
+    {
+        return spawnedPlayers;
     }
 }
