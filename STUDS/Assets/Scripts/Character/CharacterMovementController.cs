@@ -631,7 +631,10 @@ public class CharacterMovementController : MonoBehaviour
             }
             else if (collider.tag == "Player" && collider.gameObject.GetComponent<CharacterMovementController>().isMini)
             {
-                collider.gameObject.GetComponent<KidTimeout>().Timeout();
+                if (pickupPressed)  // This is just making it so timeout doesn't work...
+                {
+                    collider.gameObject.GetComponent<KidTimeout>().Timeout();
+                }
             }
             else if (collider.tag == "ShoppingCart" && pickupPressed && !hasGrabbed)
             {
@@ -743,5 +746,10 @@ public class CharacterMovementController : MonoBehaviour
     public void SetBinky(bool isActive)
     {
         binky.SetActive(isActive);
+    }
+
+    public CharacterController GetController()
+    {
+        return controller;
     }
 }

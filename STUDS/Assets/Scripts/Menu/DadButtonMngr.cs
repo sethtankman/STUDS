@@ -11,6 +11,7 @@ public class DadButtonMngr : MonoBehaviour
     private GameObject canv;
     public GameObject characterButton;
     public Transform[] buttonLocations;
+    public string levelName;
 
     // Start is called before the first frame update
     void Start()
@@ -63,7 +64,7 @@ public class DadButtonMngr : MonoBehaviour
 
     private void LoadLevel()
     {
-        SceneManager.LoadScene("HF_roomrework");
+        SceneManager.LoadScene(levelName);
     }
 
     // Update is called once per frame
