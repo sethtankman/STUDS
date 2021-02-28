@@ -55,10 +55,17 @@ public class PennyPincherAI : MonoBehaviour
 
             agent.velocity = movementController.GetController().velocity;
 
-            if(Vector3.Distance(transform.position, target.position) < 1.5f)
+            float distance = Vector3.Distance(transform.position, target.position);
+            if (distance < 1.5f)
             {
                 hasTarget = false;
+            } else if(Mathf.Abs(target.position.x - transform.position.x) < 0.1f 
+                && Mathf.Abs(target.position.z - transform.position.z) < 0.1f 
+                && target.position.y - transform.position.y < 3)
+            {
+                movementController.isJumping = true;
             }
+
         } else if (start && !hasTarget)
         {
             currentTargetIndex++;
