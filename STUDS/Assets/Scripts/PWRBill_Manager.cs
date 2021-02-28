@@ -21,9 +21,6 @@ public class PWRBill_Manager : MonoBehaviour
     public Text TimerTXT;
     public float timer;
     private float Sprint = 10.0f;
-   
-
-
 
     // Start is called before the first frame update
     void Start()
