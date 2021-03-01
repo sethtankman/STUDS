@@ -1,27 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
 <SoundBanksInfo Platform="Mac" BasePlatform="Mac" SchemaVersion="12" SoundbankVersion="135">
 	<RootPaths>
-		<ProjectRoot>C:\Users\addys\GameProjects\STUDS_WwiseProject\STUDS_WwiseProject\</ProjectRoot>
-		<SourceFilesRoot>C:\Users\addys\GameProjects\STUDS_WwiseProject\STUDS_WwiseProject\.cache\Mac\</SourceFilesRoot>
-		<SoundBanksRoot>C:\Users\addys\GameProjects\STUDS_WwiseProject\STUDS_WwiseProject\GeneratedSoundBanks\Mac\</SoundBanksRoot>
+		<ProjectRoot>D:\Semester 7 &amp; 8\1_Semester 8\Capstone\Audio\STUDS_WwiseProject\</ProjectRoot>
+		<SourceFilesRoot>D:\Semester 7 &amp; 8\1_Semester 8\Capstone\Audio\STUDS_WwiseProject\.cache\Mac\</SourceFilesRoot>
+		<SoundBanksRoot>D:\Semester 7 &amp; 8\1_Semester 8\Capstone\Audio\STUDS_WwiseProject\GeneratedSoundBanks\Mac\</SoundBanksRoot>
 		<ExternalSourcesInputFile></ExternalSourcesInputFile>
-		<ExternalSourcesOutputRoot>C:\Users\addys\GameProjects\STUDS_WwiseProject\STUDS_WwiseProject\GeneratedSoundBanks\Mac</ExternalSourcesOutputRoot>
+		<ExternalSourcesOutputRoot>D:\Semester 7 &amp; 8\1_Semester 8\Capstone\Audio\STUDS_WwiseProject\GeneratedSoundBanks\Mac</ExternalSourcesOutputRoot>
 	</RootPaths>
 	<DialogueEvents/>
 	<StreamedFiles/>
 	<MediaFilesNotInAnyBank/>
 	<SoundBanks>
+		<SoundBank Id="33181775" Language="SFX" Hash="402509559">
+			<ObjectPath>\SoundBanks\Default Work Unit\Appliance_Bank</ObjectPath>
+			<ShortName>Appliance_Bank</ShortName>
+			<Path>Appliance_Bank.bnk</Path>
+			<IncludedEvents>
+				<Event Id="1544264091" Name="Lamp_Use" ObjectPath="\Events\Default Work Unit\Appliances\Lamp_Use">
+					<IncludedMemoryFiles>
+						<File Id="585466955" Language="SFX">
+							<ShortName>sfx_lamp_use.wav</ShortName>
+							<Path>SFX\sfx_lamp_use_10C4C929.wem</Path>
+						</File>
+					</IncludedMemoryFiles>
+				</Event>
+				<Event Id="3725903807" Name="Music_Start" ObjectPath="\Events\Default Work Unit\Appliances\Music_Start">
+					<IncludedMemoryFiles>
+						<File Id="1061979473" Language="SFX">
+							<ShortName>STUDS House Level Theme.wav</ShortName>
+							<Path>SFX\STUDS House Level Theme_D79FB2B7.wem</Path>
+						</File>
+					</IncludedMemoryFiles>
+				</Event>
+				<Event Id="2630690521" Name="Switch_Flip" ObjectPath="\Events\Default Work Unit\Appliances\Switch_Flip">
+					<IncludedMemoryFiles>
+						<File Id="852504797" Language="SFX">
+							<ShortName>sfx_switch_flip.wav</ShortName>
+							<Path>SFX\sfx_switch_flip_10C4C929.wem</Path>
+						</File>
+					</IncludedMemoryFiles>
+				</Event>
+				<Event Id="3474953567" Name="SwitchorButton_Click" ObjectPath="\Events\Default Work Unit\Appliances\SwitchorButton_Click">
+					<IncludedMemoryFiles>
+						<File Id="270815411" Language="SFX">
+							<ShortName>sfx_switch_click.wav</ShortName>
+							<Path>SFX\sfx_switch_click_10C4C929.wem</Path>
+						</File>
+					</IncludedMemoryFiles>
+				</Event>
+				<Event Id="4079112898" Name="Washer_Run_Start" ObjectPath="\Events\Default Work Unit\Appliances\Washer_Run_Start">
+					<IncludedMemoryFiles>
+						<File Id="9631814" Language="SFX">
+							<ShortName>sfx_washer_run.wav</ShortName>
+							<Path>SFX\sfx_washer_run_D79FB2B7.wem</Path>
+						</File>
+					</IncludedMemoryFiles>
+				</Event>
+				<Event Id="1990754874" Name="Washer_Run_Stop" ObjectPath="\Events\Default Work Unit\Appliances\Washer_Run_Stop"/>
+				<Event Id="2699243585" Name="Water_Run_Start" ObjectPath="\Events\Default Work Unit\Appliances\Water_Run_Start">
+					<IncludedMemoryFiles>
+						<File Id="772817420" Language="SFX">
+							<ShortName>sfx_water_run.wav</ShortName>
+							<Path>SFX\sfx_water_run_D79FB2B7.wem</Path>
+						</File>
+					</IncludedMemoryFiles>
+				</Event>
+				<Event Id="497567739" Name="Water_Run_Stop" ObjectPath="\Events\Default Work Unit\Appliances\Water_Run_Stop"/>
+			</IncludedEvents>
+		</SoundBank>
 		<SoundBank Id="1355168291" Language="SFX" Hash="2791650184">
 			<ObjectPath>Init</ObjectPath>
 			<ShortName>Init</ShortName>
 			<Path>Init.bnk</Path>
 		</SoundBank>
-		<SoundBank Id="2277190520" Language="SFX" Hash="282527578">
+		<SoundBank Id="2277190520" Language="SFX" Hash="2200892194">
 			<ObjectPath>\SoundBanks\Default Work Unit\General_Bank</ObjectPath>
 			<ShortName>General_Bank</ShortName>
 			<Path>General_Bank.bnk</Path>
 			<IncludedEvents>
-				<Event Id="2072673020" Name="Menu_Scroll" ObjectPath="\Events\Default Work Unit\Menu_UI\Menu_Scroll" DurationType="OneShot" DurationMin="0.117462" DurationMax="0.117462">
+				<Event Id="2072673020" Name="Menu_Scroll" ObjectPath="\Events\Default Work Unit\Menu_UI\Menu_Scroll">
 					<IncludedMemoryFiles>
 						<File Id="845710301" Language="SFX">
 							<ShortName>sfx_menu_scroll.wav</ShortName>
@@ -29,7 +86,7 @@
 						</File>
 					</IncludedMemoryFiles>
 				</Event>
-				<Event Id="4203375351" Name="Menu_Select" ObjectPath="\Events\Default Work Unit\Menu_UI\Menu_Select" DurationType="OneShot" DurationMin="0.619369" DurationMax="0.619369">
+				<Event Id="4203375351" Name="Menu_Select" ObjectPath="\Events\Default Work Unit\Menu_UI\Menu_Select">
 					<IncludedMemoryFiles>
 						<File Id="904871564" Language="SFX">
 							<ShortName>sfx_menu_select.wav</ShortName>
@@ -37,7 +94,7 @@
 						</File>
 					</IncludedMemoryFiles>
 				</Event>
-				<Event Id="816303795" Name="Player_Grab" ObjectPath="\Events\Default Work Unit\Player\Player_Grab" DurationType="OneShot" DurationMin="0.342250" DurationMax="0.342250">
+				<Event Id="816303795" Name="Player_Grab" ObjectPath="\Events\Default Work Unit\Player\Player_Grab">
 					<IncludedMemoryFiles>
 						<File Id="179201538" Language="SFX">
 							<ShortName>sfx_player_grab.wav</ShortName>
@@ -45,7 +102,7 @@
 						</File>
 					</IncludedMemoryFiles>
 				</Event>
-				<Event Id="1305133589" Name="Player_Jump" ObjectPath="\Events\Default Work Unit\Player\Player_Jump" DurationType="OneShot" DurationMin="0.585896" DurationMax="0.585896">
+				<Event Id="1305133589" Name="Player_Jump" ObjectPath="\Events\Default Work Unit\Player\Player_Jump">
 					<IncludedMemoryFiles>
 						<File Id="1000431366" Language="SFX">
 							<ShortName>sfx_player_jump.wav</ShortName>
@@ -53,7 +110,7 @@
 						</File>
 					</IncludedMemoryFiles>
 				</Event>
-				<Event Id="1136018332" Name="Player_Run" ObjectPath="\Events\Default Work Unit\Player\Player_Run" DurationType="OneShot" DurationMin="0.290167" DurationMax="0.307417">
+				<Event Id="1136018332" Name="Player_Run" ObjectPath="\Events\Default Work Unit\Player\Player_Run">
 					<IncludedMemoryFiles>
 						<File Id="284858175" Language="SFX">
 							<ShortName>Run\sfx_player_run_03.wav</ShortName>
@@ -73,7 +130,7 @@
 						</File>
 					</IncludedMemoryFiles>
 				</Event>
-				<Event Id="65181031" Name="Player_Throw" ObjectPath="\Events\Default Work Unit\Player\Player_Throw" DurationType="OneShot" DurationMin="0.450667" DurationMax="0.450667">
+				<Event Id="65181031" Name="Player_Throw" ObjectPath="\Events\Default Work Unit\Player\Player_Throw">
 					<IncludedMemoryFiles>
 						<File Id="204355060" Language="SFX">
 							<ShortName>sfx_player_throw.wav</ShortName>
@@ -81,7 +138,7 @@
 						</File>
 					</IncludedMemoryFiles>
 				</Event>
-				<Event Id="2147561130" Name="Player_Walk" ObjectPath="\Events\Default Work Unit\Player\Player_Walk" DurationType="OneShot" DurationMin="0.279667" DurationMax="0.313917">
+				<Event Id="2147561130" Name="Player_Walk" ObjectPath="\Events\Default Work Unit\Player\Player_Walk">
 					<IncludedMemoryFiles>
 						<File Id="197621079" Language="SFX">
 							<ShortName>Walk\sfx_player_walk_01.wav</ShortName>
@@ -117,8 +174,8 @@
 						</File>
 					</IncludedMemoryFiles>
 				</Event>
-				<Event Id="3932352759" Name="STOP_ALL_GameObject" ObjectPath="\Events\Default Work Unit\STOP_ALL_GameObject" MaxAttenuation="0.000000" DurationType="OneShot" DurationMin="0.000000" DurationMax="0.000000"/>
-				<Event Id="1789415777" Name="STOP_ALL_Global" ObjectPath="\Events\Default Work Unit\STOP_ALL_Global" MaxAttenuation="0.000000" DurationType="OneShot" DurationMin="0.000000" DurationMax="0.000000"/>
+				<Event Id="3932352759" Name="STOP_ALL_GameObject" ObjectPath="\Events\Default Work Unit\STOP_ALL_GameObject"/>
+				<Event Id="1789415777" Name="STOP_ALL_Global" ObjectPath="\Events\Default Work Unit\STOP_ALL_Global"/>
 			</IncludedEvents>
 			<IncludedMemoryFiles>
 				<File Id="179201538" Language="SFX">
@@ -191,12 +248,12 @@
 				</File>
 			</IncludedMemoryFiles>
 		</SoundBank>
-		<SoundBank Id="4118075836" Language="SFX" Hash="184371639">
+		<SoundBank Id="4118075836" Language="SFX" Hash="1260168692">
 			<ObjectPath>\SoundBanks\Default Work Unit\CradleRace_Bank</ObjectPath>
 			<ShortName>CradleRace_Bank</ShortName>
 			<Path>CradleRace_Bank.bnk</Path>
 			<IncludedEvents>
-				<Event Id="2174557433" Name="Car_Driving" ObjectPath="\Events\Default Work Unit\Cradle_Race\Props\Car_Driving" MaxAttenuation="55.000000" DurationType="Infinite">
+				<Event Id="2174557433" Name="Car_Driving" ObjectPath="\Events\Default Work Unit\Cradle_Race\Props\Car_Driving">
 					<IncludedMemoryFiles>
 						<File Id="163899007" Language="SFX">
 							<ShortName>sfx_car_driving.wav</ShortName>
@@ -204,7 +261,7 @@
 						</File>
 					</IncludedMemoryFiles>
 				</Event>
-				<Event Id="3122449099" Name="Cardboard_Collision_Dog" ObjectPath="\Events\Default Work Unit\Cradle_Race\Props\Cardboard_Collision_Dog" MaxAttenuation="55.000000" DurationType="OneShot" DurationMin="0.898667" DurationMax="0.898667">
+				<Event Id="3122449099" Name="Cardboard_Collision_Dog" ObjectPath="\Events\Default Work Unit\Cradle_Race\Props\Cardboard_Collision_Dog">
 					<IncludedMemoryFiles>
 						<File Id="126919260" Language="SFX">
 							<ShortName>sfx_cardboard_slide_collision_01.wav</ShortName>
@@ -212,7 +269,7 @@
 						</File>
 					</IncludedMemoryFiles>
 				</Event>
-				<Event Id="3275882303" Name="Cardboard_Slide" ObjectPath="\Events\Default Work Unit\Cradle_Race\Props\Cardboard_Slide" MaxAttenuation="55.000000" DurationType="Infinite">
+				<Event Id="3275882303" Name="Cardboard_Slide" ObjectPath="\Events\Default Work Unit\Cradle_Race\Props\Cardboard_Slide">
 					<IncludedMemoryFiles>
 						<File Id="368533851" Language="SFX">
 							<ShortName>sfx_cardboard_slide.wav</ShortName>
@@ -220,7 +277,7 @@
 						</File>
 					</IncludedMemoryFiles>
 				</Event>
-				<Event Id="3311417623" Name="Cardboard_Up" ObjectPath="\Events\Default Work Unit\Cradle_Race\Props\Cardboard_Up" MaxAttenuation="55.000000" DurationType="OneShot" DurationMin="0.955875" DurationMax="0.955875">
+				<Event Id="3311417623" Name="Cardboard_Up" ObjectPath="\Events\Default Work Unit\Cradle_Race\Props\Cardboard_Up">
 					<IncludedMemoryFiles>
 						<File Id="39926021" Language="SFX">
 							<ShortName>sfx_cardboard_up.wav</ShortName>
@@ -228,7 +285,7 @@
 						</File>
 					</IncludedMemoryFiles>
 				</Event>
-				<Event Id="18469868" Name="Hydrant_Spurt" ObjectPath="\Events\Default Work Unit\Cradle_Race\Props\Hydrant_Spurt" MaxAttenuation="55.000000" DurationType="Infinite">
+				<Event Id="18469868" Name="Hydrant_Spurt" ObjectPath="\Events\Default Work Unit\Cradle_Race\Props\Hydrant_Spurt">
 					<IncludedMemoryFiles>
 						<File Id="1051170269" Language="SFX">
 							<ShortName>sfx_hydrant_spurt.wav</ShortName>
@@ -236,7 +293,7 @@
 						</File>
 					</IncludedMemoryFiles>
 				</Event>
-				<Event Id="2848109285" Name="Manhole" ObjectPath="\Events\Default Work Unit\Cradle_Race\Props\Manhole" MaxAttenuation="55.000000" DurationType="OneShot" DurationMin="4.640229" DurationMax="4.640229">
+				<Event Id="2848109285" Name="Manhole" ObjectPath="\Events\Default Work Unit\Cradle_Race\Props\Manhole">
 					<IncludedMemoryFiles>
 						<File Id="929620314" Language="SFX">
 							<ShortName>sfx_manhole.wav</ShortName>
@@ -244,7 +301,7 @@
 						</File>
 					</IncludedMemoryFiles>
 				</Event>
-				<Event Id="421883777" Name="Mower" ObjectPath="\Events\Default Work Unit\Cradle_Race\Props\Mower" MaxAttenuation="55.000000" DurationType="Infinite">
+				<Event Id="421883777" Name="Mower" ObjectPath="\Events\Default Work Unit\Cradle_Race\Props\Mower">
 					<IncludedMemoryFiles>
 						<File Id="363724395" Language="SFX">
 							<ShortName>sfx_mower_mowing.wav</ShortName>
@@ -252,7 +309,7 @@
 						</File>
 					</IncludedMemoryFiles>
 				</Event>
-				<Event Id="3390419047" Name="Race_Checkpoint" ObjectPath="\Events\Default Work Unit\Cradle_Race\UI\Race_Checkpoint" DurationType="OneShot" DurationMin="1.230584" DurationMax="1.230584">
+				<Event Id="3390419047" Name="Race_Checkpoint" ObjectPath="\Events\Default Work Unit\Cradle_Race\UI\Race_Checkpoint">
 					<IncludedMemoryFiles>
 						<File Id="971899985" Language="SFX">
 							<ShortName>sfx_race_checkpoint.wav</ShortName>
@@ -260,7 +317,7 @@
 						</File>
 					</IncludedMemoryFiles>
 				</Event>
-				<Event Id="240991271" Name="Race_CountdownandStart" ObjectPath="\Events\Default Work Unit\Cradle_Race\UI\Race_CountdownandStart" DurationType="OneShot" DurationMin="5.314667" DurationMax="5.314667">
+				<Event Id="240991271" Name="Race_CountdownandStart" ObjectPath="\Events\Default Work Unit\Cradle_Race\UI\Race_CountdownandStart">
 					<IncludedMemoryFiles>
 						<File Id="193020445" Language="SFX">
 							<ShortName>sfx_race_countdown.wav</ShortName>
@@ -271,7 +328,7 @@
 						<ActionPostEventEntry Id="1714347020" Name="Start_Loop" ObjectPath="\Events\Default Work Unit\Cradle_Race\Music\Start_Loop"/>
 					</ActionPostEvent>
 				</Event>
-				<Event Id="3189445568" Name="Race_Finish" ObjectPath="\Events\Default Work Unit\Cradle_Race\UI\Race_Finish" DurationType="OneShot" DurationMin="5.500000" DurationMax="5.500000">
+				<Event Id="3189445568" Name="Race_Finish" ObjectPath="\Events\Default Work Unit\Cradle_Race\UI\Race_Finish">
 					<IncludedMemoryFiles>
 						<File Id="983740843" Language="SFX">
 							<ShortName>sfx_race_finish.wav</ShortName>
@@ -282,7 +339,7 @@
 						<ActionPostEventEntry Id="1640874226" Name="Stop_Loop" ObjectPath="\Events\Default Work Unit\Cradle_Race\Music\Stop_Loop"/>
 					</ActionPostEvent>
 				</Event>
-				<Event Id="1714347020" Name="Start_Loop" ObjectPath="\Events\Default Work Unit\Cradle_Race\Music\Start_Loop" DurationType="Infinite">
+				<Event Id="1714347020" Name="Start_Loop" ObjectPath="\Events\Default Work Unit\Cradle_Race\Music\Start_Loop">
 					<IncludedMemoryFiles>
 						<File Id="150656467" Language="SFX">
 							<ShortName>mx_lp_cradle.wav</ShortName>
@@ -290,8 +347,8 @@
 						</File>
 					</IncludedMemoryFiles>
 				</Event>
-				<Event Id="1640874226" Name="Stop_Loop" ObjectPath="\Events\Default Work Unit\Cradle_Race\Music\Stop_Loop" MaxAttenuation="0.000000" DurationType="OneShot" DurationMin="0.000000" DurationMax="0.000000"/>
-				<Event Id="197486784" Name="TrafficCone_Collision" ObjectPath="\Events\Default Work Unit\Cradle_Race\Props\TrafficCone_Collision" MaxAttenuation="55.000000" DurationType="OneShot" DurationMin="0.554000" DurationMax="0.554000">
+				<Event Id="1640874226" Name="Stop_Loop" ObjectPath="\Events\Default Work Unit\Cradle_Race\Music\Stop_Loop"/>
+				<Event Id="197486784" Name="TrafficCone_Collision" ObjectPath="\Events\Default Work Unit\Cradle_Race\Props\TrafficCone_Collision">
 					<IncludedMemoryFiles>
 						<File Id="507122405" Language="SFX">
 							<ShortName>sfx_trafficcone_collision_XX.wav</ShortName>
@@ -299,7 +356,7 @@
 						</File>
 					</IncludedMemoryFiles>
 				</Event>
-				<Event Id="314666987" Name="Trampoline_Jump" ObjectPath="\Events\Default Work Unit\Cradle_Race\Props\Trampoline_Jump" MaxAttenuation="55.000000" DurationType="OneShot" DurationMin="1.169917" DurationMax="1.169917">
+				<Event Id="314666987" Name="Trampoline_Jump" ObjectPath="\Events\Default Work Unit\Cradle_Race\Props\Trampoline_Jump">
 					<IncludedMemoryFiles>
 						<File Id="448362785" Language="SFX">
 							<ShortName>sfx_trampoline_jump.wav</ShortName>
