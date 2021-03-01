@@ -16,7 +16,7 @@ public class SettingsMenu_Scott : MonoBehaviour
 
     public TMP_Dropdown resolutionDropdown;
 
-    public GameObject menuPlayButton, optionsFirstButton, optionsCloseButton, quitFirstButton, creditsFirstButton, videoFirstButton, videoCloseButton, soundFirstButton, soundCloseButton, controlsFirstButton, controlsCloseButton;
+    public GameObject menuPlayButton, optionsFirstButton, optionsCloseButton, quitFirstButton, creditsFirstButton, extrasFirstButton, feedbackFirstButton, videoFirstButton, videoCloseButton, soundFirstButton, soundCloseButton, controlsFirstButton, controlsCloseButton;
 
     void Start()
     {
@@ -28,7 +28,7 @@ public class SettingsMenu_Scott : MonoBehaviour
 
         for (int i = 0; i < resolutions.Length; i++)
         {
-            string option = resolutions[i].width + "x" + resolutions[i].height;
+            string option = resolutions[i].width + "x" + resolutions[i].height + " @ " + resolutions[i].refreshRate + "hz";
             options.Add(option);
         }
 
@@ -121,9 +121,26 @@ public class SettingsMenu_Scott : MonoBehaviour
         EventSystem.current.SetSelectedGameObject(creditsFirstButton);
     }
 
+    public void OpenExtrasMenu()
+    {
+        EventSystem.current.SetSelectedGameObject(null);
+        EventSystem.current.SetSelectedGameObject(extrasFirstButton);
+    }
+
+    public void OpenFeedbackMenu()
+    {
+        EventSystem.current.SetSelectedGameObject(null);
+        EventSystem.current.SetSelectedGameObject(feedbackFirstButton);
+    }
+
     public void OpenQuitMenu()
     {
         EventSystem.current.SetSelectedGameObject(null);
         EventSystem.current.SetSelectedGameObject(quitFirstButton);
+    }
+
+    public void OpenURL()
+    {
+        Application.OpenURL("https://www.dadshowdown.com/");
     }
 }
