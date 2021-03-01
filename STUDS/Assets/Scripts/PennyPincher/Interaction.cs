@@ -11,15 +11,16 @@ using UnityEngine.SceneManagement;
 public class Interaction : MonoBehaviour
 
 {
-    public PWRBill_Manager GameMaster ; 
+    public PWRBill_Manager GameMaster;
 
     public int PowerCharge = 1;
 
 
     public GameObject Object_active;
     public GameObject Object_inactive;
+    public VolumeTrigger trigger;
 
-    
+
     public int TimerDelayAmount = 1;
 
     public Text BillTotalText;
@@ -32,14 +33,14 @@ public class Interaction : MonoBehaviour
     private void Awake()
     {
         GameMaster = GameObject.Find("Game Manager").GetComponent<PWRBill_Manager>();
-        
+
     }
 
     public void Update()
     {
         if (interactPressed)
         {
-            
+
         }
 
         if (!interactPressed)
@@ -62,13 +63,15 @@ public class Interaction : MonoBehaviour
         {
             GameMaster.NumItemsOn += 1;
             interactPressed = false;
+            trigger.isSwitchActive = false;
             Object_active.SetActive(true);
             Object_inactive.SetActive(false);
         }
-        else if(!isMini && Object_active.activeSelf)
+        else if (!isMini && Object_active.activeSelf)
         {
             GameMaster.NumItemsOn -= 1;
             interactPressed = true;
+            trigger.isSwitchActive = true;
             Object_active.SetActive(false);
             Object_inactive.SetActive(true);
         }
@@ -76,9 +79,10 @@ public class Interaction : MonoBehaviour
 
     public void ToggleVisualGM()
     {
-            GameMaster.NumItemsOn -= 1;
-            interactPressed = true;
-            Object_active.SetActive(false);
-            Object_inactive.SetActive(true);
+        GameMaster.NumItemsOn -= 1;
+        interactPressed = true;
+        trigger.isSwitchActive = true;
+        Object_active.SetActive(false);
+        Object_inactive.SetActive(true);
     }
 }

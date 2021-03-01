@@ -325,6 +325,7 @@ MonoBehaviour:
   PowerCharge: 1
   Object_active: {fileID: 1872872464}
   Object_inactive: {fileID: 1623500648}
+  trigger: {fileID: 509871037}
   TimerDelayAmount: 1
   BillTotalText: {fileID: 149846335}
   interactPressed: 0
@@ -744,6 +745,18 @@ Transform:
   m_Father: {fileID: 2139679620}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8536948 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 612957759464284275, guid: d8be5311bc4698f4eab3e169f9c1abf7,
+    type: 3}
+  m_PrefabInstance: {fileID: 5119317772417481245}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c224bae26bc5fa54aa0fa4555cc1b6f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &10541941
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1382,6 +1395,7 @@ MonoBehaviour:
   PowerCharge: 1
   Object_active: {fileID: 17958131}
   Object_inactive: {fileID: 3063659}
+  trigger: {fileID: 178305492}
   TimerDelayAmount: 1
   BillTotalText: {fileID: 149846335}
   interactPressed: 0
@@ -3332,6 +3346,7 @@ MonoBehaviour:
   PowerCharge: 4
   Object_active: {fileID: 55901950}
   Object_inactive: {fileID: 681976185}
+  trigger: {fileID: 733286250}
   TimerDelayAmount: 3
   BillTotalText: {fileID: 149846335}
   interactPressed: 0
@@ -5717,6 +5732,7 @@ MonoBehaviour:
   PowerCharge: 2
   Object_active: {fileID: 1427705352}
   Object_inactive: {fileID: 1370726906}
+  trigger: {fileID: 240720519}
   TimerDelayAmount: 1
   BillTotalText: {fileID: 149846335}
   interactPressed: 0
@@ -7158,6 +7174,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   hideGizmo: 0
+  isSwitchActive: 0
+  interact: {fileID: 17958133}
 --- !u!135 &178305493
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -7357,6 +7375,7 @@ MonoBehaviour:
   PowerCharge: 1
   Object_active: {fileID: 183868876}
   Object_inactive: {fileID: 1795107807}
+  trigger: {fileID: 1774714962}
   TimerDelayAmount: 1
   BillTotalText: {fileID: 149846335}
   interactPressed: 0
@@ -7690,7 +7709,7 @@ GameObject:
   - component: {fileID: 193334377}
   - component: {fileID: 193334376}
   m_Layer: 9
-  m_Name: Interaction_trigger
+  m_Name: KitchenRange_Trigger
   m_TagString: Electronics
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7734,6 +7753,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   hideGizmo: 1
+  isSwitchActive: 0
+  interact: {fileID: 1463903997}
 --- !u!135 &193334377
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -10268,6 +10289,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   hideGizmo: 0
+  isSwitchActive: 0
+  interact: {fileID: 121379113}
 --- !u!135 &240720520
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -11142,6 +11165,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   hideGizmo: 1
+  isSwitchActive: 0
+  interact: {fileID: 1348838126}
 --- !u!135 &273763172
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -16082,6 +16107,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 4029194042055809688}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &385940626 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5655645696909484675, guid: e26a3a5e061a6f54ab12f2887fdcbee7,
+    type: 3}
+  m_PrefabInstance: {fileID: 5655645696085429705}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c224bae26bc5fa54aa0fa4555cc1b6f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &387819026
 GameObject:
   m_ObjectHideFlags: 0
@@ -20198,6 +20235,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   hideGizmo: 0
+  isSwitchActive: 0
+  interact: {fileID: 1471516}
 --- !u!135 &509871038
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -21320,6 +21359,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   hideGizmo: 1
+  isSwitchActive: 0
+  interact: {fileID: 0}
 --- !u!135 &530942711
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -22572,6 +22613,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 557457635}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &558716733 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4029194042017472399, guid: b44fdbe7eaa1f2f42a026dce3b5ad37d,
+    type: 3}
+  m_PrefabInstance: {fileID: 4029194042055809688}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c224bae26bc5fa54aa0fa4555cc1b6f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &560627665
 GameObject:
   m_ObjectHideFlags: 0
@@ -24061,6 +24114,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   hideGizmo: 1
+  isSwitchActive: 0
+  interact: {fileID: 0}
 --- !u!135 &599184664
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -24714,6 +24769,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   hideGizmo: 0
+  isSwitchActive: 0
+  interact: {fileID: 1111283244}
 --- !u!135 &618989105
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -26618,6 +26675,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   hideGizmo: 0
+  isSwitchActive: 0
+  interact: {fileID: 1750381494}
 --- !u!135 &649322883
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -27540,6 +27599,7 @@ MonoBehaviour:
   PowerCharge: 1
   Object_active: {fileID: 628295882}
   Object_inactive: {fileID: 6793807556229214812}
+  trigger: {fileID: 2085218073}
   TimerDelayAmount: 1
   BillTotalText: {fileID: 149846335}
   interactPressed: 0
@@ -29252,6 +29312,7 @@ MonoBehaviour:
   PowerCharge: 1
   Object_active: {fileID: 291274310}
   Object_inactive: {fileID: 656301843}
+  trigger: {fileID: 0}
   TimerDelayAmount: 1
   BillTotalText: {fileID: 149846335}
   interactPressed: 0
@@ -29521,6 +29582,7 @@ MonoBehaviour:
   PowerCharge: 1
   Object_active: {fileID: 566993653}
   Object_inactive: {fileID: 1145169679}
+  trigger: {fileID: 0}
   TimerDelayAmount: 1
   BillTotalText: {fileID: 149846335}
   interactPressed: 0
@@ -30322,6 +30384,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   hideGizmo: 0
+  isSwitchActive: 0
+  interact: {fileID: 55901952}
 --- !u!135 &733286251
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -42513,6 +42577,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   hideGizmo: 0
+  isSwitchActive: 0
+  interact: {fileID: 1506367168}
 --- !u!135 &925420273
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -45764,6 +45830,7 @@ MonoBehaviour:
   PowerCharge: 2
   Object_active: {fileID: 2146769821}
   Object_inactive: {fileID: 863583}
+  trigger: {fileID: 0}
   TimerDelayAmount: 1
   BillTotalText: {fileID: 149846335}
   interactPressed: 0
@@ -46845,7 +46912,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1045986643}
   m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 10.718, y: 2.668, z: 20.698}
+  m_LocalPosition: {x: 10.718, y: 2.3, z: 20.698}
   m_LocalScale: {x: 0.61148673, y: 0.61148673, z: 0.61148673}
   m_Children: []
   m_Father: {fileID: 1210871822}
@@ -46875,6 +46942,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   hideGizmo: 1
+  isSwitchActive: 0
+  interact: {fileID: 1210871823}
 --- !u!135 &1045986646
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -47078,6 +47147,7 @@ MonoBehaviour:
   PowerCharge: 1
   Object_active: {fileID: 1050487316}
   Object_inactive: {fileID: 11461720}
+  trigger: {fileID: 1544542496}
   TimerDelayAmount: 1
   BillTotalText: {fileID: 149846335}
   interactPressed: 0
@@ -50565,6 +50635,7 @@ MonoBehaviour:
   PowerCharge: 1
   Object_active: {fileID: 875453660}
   Object_inactive: {fileID: 1469696776}
+  trigger: {fileID: 618989104}
   TimerDelayAmount: 1
   BillTotalText: {fileID: 149846335}
   interactPressed: 0
@@ -51036,6 +51107,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   hideGizmo: 0
+  isSwitchActive: 0
+  interact: {fileID: 0}
 --- !u!135 &1119484222
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -52897,6 +52970,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b605e5225fc77e7409ddb1dc717ad93f, type: 3}
+--- !u!114 &1163390853 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 612957759331183210, guid: d8be5311bc4698f4eab3e169f9c1abf7,
+    type: 3}
+  m_PrefabInstance: {fileID: 5119317772417481245}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a29a07b6da943d24596006f59c6a88fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1163778859
 GameObject:
   m_ObjectHideFlags: 0
@@ -52987,6 +53072,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   hideGizmo: 0
+  isSwitchActive: 0
+  interact: {fileID: 1906258021}
 --- !u!135 &1167524738
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -54671,6 +54758,7 @@ MonoBehaviour:
   PowerCharge: 1
   Object_active: {fileID: 1664546561}
   Object_inactive: {fileID: 1562095081}
+  trigger: {fileID: 1045986645}
   TimerDelayAmount: 1
   BillTotalText: {fileID: 149846335}
   interactPressed: 0
@@ -56411,6 +56499,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1256190524}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1256519162 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1023173536691039669, guid: af6953d8de6b76f4a8bce31652905464,
+    type: 3}
+  m_PrefabInstance: {fileID: 1023173536822528967}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c224bae26bc5fa54aa0fa4555cc1b6f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1259304910
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -57289,6 +57389,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   hideGizmo: 0
+  isSwitchActive: 0
+  interact: {fileID: 0}
 --- !u!135 &1292443972
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -59189,6 +59291,7 @@ MonoBehaviour:
   PowerCharge: 1
   Object_active: {fileID: 1253416064}
   Object_inactive: {fileID: 1972598353}
+  trigger: {fileID: 273763171}
   TimerDelayAmount: 1
   BillTotalText: {fileID: 149846335}
   interactPressed: 0
@@ -61071,6 +61174,7 @@ MonoBehaviour:
   PowerCharge: 1
   Object_active: {fileID: 1921582601}
   Object_inactive: {fileID: 1583768275}
+  trigger: {fileID: 1961602259}
   TimerDelayAmount: 1
   BillTotalText: {fileID: 149846335}
   interactPressed: 0
@@ -69049,6 +69153,7 @@ MonoBehaviour:
   PowerCharge: 1
   Object_active: {fileID: 235107084}
   Object_inactive: {fileID: 1933268287}
+  trigger: {fileID: 2126875653}
   TimerDelayAmount: 1
   BillTotalText: {fileID: 149846335}
   interactPressed: 0
@@ -69432,6 +69537,7 @@ MonoBehaviour:
   PowerCharge: 7
   Object_active: {fileID: 919132147859384299}
   Object_inactive: {fileID: 122306689}
+  trigger: {fileID: 193334376}
   TimerDelayAmount: 5
   BillTotalText: {fileID: 149846335}
   interactPressed: 0
@@ -70683,6 +70789,7 @@ MonoBehaviour:
   PowerCharge: 1
   Object_active: {fileID: 852489830}
   Object_inactive: {fileID: 75801207}
+  trigger: {fileID: 925420272}
   TimerDelayAmount: 1
   BillTotalText: {fileID: 149846335}
   interactPressed: 0
@@ -76714,6 +76821,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   hideGizmo: 0
+  isSwitchActive: 0
+  interact: {fileID: 1050487318}
 --- !u!135 &1544542497
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -82740,6 +82849,7 @@ MonoBehaviour:
   PowerCharge: 1
   Object_active: {fileID: 1957905697}
   Object_inactive: {fileID: 421176827}
+  trigger: {fileID: 1950846611}
   TimerDelayAmount: 1
   BillTotalText: {fileID: 0}
   interactPressed: 0
@@ -84922,9 +85032,22 @@ MonoBehaviour:
   PowerCharge: 2
   Object_active: {fileID: 1597360584}
   Object_inactive: {fileID: 1388938012}
+  trigger: {fileID: 0}
   TimerDelayAmount: 1
   BillTotalText: {fileID: 149846335}
   interactPressed: 0
+--- !u!114 &1750797364 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4029194041674831644, guid: b44fdbe7eaa1f2f42a026dce3b5ad37d,
+    type: 3}
+  m_PrefabInstance: {fileID: 4029194042055809688}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a29a07b6da943d24596006f59c6a88fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1752062145
 GameObject:
   m_ObjectHideFlags: 0
@@ -85158,6 +85281,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1756476758}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1757608096 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5655645697016541753, guid: e26a3a5e061a6f54ab12f2887fdcbee7,
+    type: 3}
+  m_PrefabInstance: {fileID: 5655645696085429705}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a29a07b6da943d24596006f59c6a88fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1759324217
 GameObject:
   m_ObjectHideFlags: 0
@@ -85852,6 +85987,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   hideGizmo: 0
+  isSwitchActive: 0
+  interact: {fileID: 183868878}
 --- !u!135 &1774714963
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -92217,6 +92354,7 @@ MonoBehaviour:
   PowerCharge: 1
   Object_active: {fileID: 1906258019}
   Object_inactive: {fileID: 1184240197}
+  trigger: {fileID: 1167524737}
   TimerDelayAmount: 1
   BillTotalText: {fileID: 149846335}
   interactPressed: 0
@@ -93888,6 +94026,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   hideGizmo: 0
+  isSwitchActive: 0
+  interact: {fileID: 1702264419}
 --- !u!135 &1950846612
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -99076,6 +99216,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   hideGizmo: 1
+  isSwitchActive: 0
+  interact: {fileID: 1382884063}
 --- !u!135 &1961602260
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -108206,6 +108348,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   hideGizmo: 0
+  isSwitchActive: 0
+  interact: {fileID: 678460513}
 --- !u!135 &2085218074
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -108895,6 +109039,7 @@ MonoBehaviour:
   PowerCharge: 2
   Object_active: {fileID: 781857112}
   Object_inactive: {fileID: 1817218561}
+  trigger: {fileID: 0}
   TimerDelayAmount: 1
   BillTotalText: {fileID: 149846335}
   interactPressed: 0
@@ -109357,7 +109502,7 @@ GameObject:
   - component: {fileID: 2126875654}
   - component: {fileID: 2126875653}
   m_Layer: 9
-  m_Name: Interaction_trigger
+  m_Name: LightSwitch1_Trigger
   m_TagString: Electronics
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -109401,6 +109546,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   hideGizmo: 1
+  isSwitchActive: 0
+  interact: {fileID: 1456538835}
 --- !u!135 &2126875654
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -110979,6 +111126,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 904167743}
     m_Modifications:
+    - target: {fileID: 1023173536691039669, guid: af6953d8de6b76f4a8bce31652905464,
+        type: 3}
+      propertyPath: interact
+      value: 
+      objectReference: {fileID: 1023173536822528970}
     - target: {fileID: 1023173536691039670, guid: af6953d8de6b76f4a8bce31652905464,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -110993,6 +111145,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalPosition.z
       value: 16.877
+      objectReference: {fileID: 0}
+    - target: {fileID: 1023173536691039671, guid: af6953d8de6b76f4a8bce31652905464,
+        type: 3}
+      propertyPath: m_Name
+      value: Lamp_Trigger
       objectReference: {fileID: 0}
     - target: {fileID: 1023173537049475182, guid: af6953d8de6b76f4a8bce31652905464,
         type: 3}
@@ -111039,6 +111196,11 @@ PrefabInstance:
       propertyPath: BillTotalText
       value: 
       objectReference: {fileID: 149846335}
+    - target: {fileID: 1023173537856808949, guid: af6953d8de6b76f4a8bce31652905464,
+        type: 3}
+      propertyPath: trigger
+      value: 
+      objectReference: {fileID: 1256519162}
     - target: {fileID: 1023173537856808950, guid: af6953d8de6b76f4a8bce31652905464,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -111143,6 +111305,18 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0, y: 0, z: 0}
   m_TimeToStationary: 0.5
+--- !u!114 &1023173536822528970 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1023173537856808949, guid: af6953d8de6b76f4a8bce31652905464,
+    type: 3}
+  m_PrefabInstance: {fileID: 1023173536822528967}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1023173536822528968}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a29a07b6da943d24596006f59c6a88fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &1025317761971673346
 Transform:
   m_ObjectHideFlags: 0
@@ -111711,6 +111885,7 @@ MonoBehaviour:
   PowerCharge: 1
   Object_active: {fileID: 2101264134}
   Object_inactive: {fileID: 1528838364}
+  trigger: {fileID: 1251069364665931128}
   TimerDelayAmount: 1
   BillTotalText: {fileID: 149846335}
   interactPressed: 0
@@ -111906,6 +112081,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   hideGizmo: 0
+  isSwitchActive: 0
+  interact: {fileID: 1251069363914006961}
 --- !u!135 &1251069364665931129
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -112983,6 +113160,11 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 9
       objectReference: {fileID: 0}
+    - target: {fileID: 4029194041674831644, guid: b44fdbe7eaa1f2f42a026dce3b5ad37d,
+        type: 3}
+      propertyPath: trigger
+      value: 
+      objectReference: {fileID: 558716733}
     - target: {fileID: 4029194041674831645, guid: b44fdbe7eaa1f2f42a026dce3b5ad37d,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -113043,6 +113225,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: BoomboxInteract
       objectReference: {fileID: 0}
+    - target: {fileID: 4029194042017472399, guid: b44fdbe7eaa1f2f42a026dce3b5ad37d,
+        type: 3}
+      propertyPath: interact
+      value: 
+      objectReference: {fileID: 1750797364}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b44fdbe7eaa1f2f42a026dce3b5ad37d, type: 3}
 --- !u!4 &4029194042055809689 stripped
@@ -113406,6 +113593,11 @@ PrefabInstance:
       propertyPath: BillTotalText
       value: 
       objectReference: {fileID: 149846335}
+    - target: {fileID: 612957759331183210, guid: d8be5311bc4698f4eab3e169f9c1abf7,
+        type: 3}
+      propertyPath: trigger
+      value: 
+      objectReference: {fileID: 8536948}
     - target: {fileID: 612957759331183211, guid: d8be5311bc4698f4eab3e169f9c1abf7,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -113461,6 +113653,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 612957759464284275, guid: d8be5311bc4698f4eab3e169f9c1abf7,
+        type: 3}
+      propertyPath: interact
+      value: 
+      objectReference: {fileID: 1163390853}
     - target: {fileID: 612957759464284278, guid: d8be5311bc4698f4eab3e169f9c1abf7,
         type: 3}
       propertyPath: m_Name
@@ -114016,6 +114213,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Fridge_Interact
       objectReference: {fileID: 0}
+    - target: {fileID: 5655645696909484675, guid: e26a3a5e061a6f54ab12f2887fdcbee7,
+        type: 3}
+      propertyPath: interact
+      value: 
+      objectReference: {fileID: 1757608096}
     - target: {fileID: 5655645697016541734, guid: e26a3a5e061a6f54ab12f2887fdcbee7,
         type: 3}
       propertyPath: m_Name
@@ -114086,6 +114288,11 @@ PrefabInstance:
       propertyPath: BillTotalText
       value: 
       objectReference: {fileID: 149846335}
+    - target: {fileID: 5655645697016541753, guid: e26a3a5e061a6f54ab12f2887fdcbee7,
+        type: 3}
+      propertyPath: trigger
+      value: 
+      objectReference: {fileID: 385940626}
     - target: {fileID: 6764377721025727759, guid: e26a3a5e061a6f54ab12f2887fdcbee7,
         type: 3}
       propertyPath: m_LocalRotation.y

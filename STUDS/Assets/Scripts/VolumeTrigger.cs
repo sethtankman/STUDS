@@ -16,6 +16,13 @@ public class VolumeTrigger : MonoBehaviour {
     public UnityEvent StayEvent;
 
     public bool hideGizmo = false;
+    public bool isSwitchActive = false;
+    public Interaction interact;
+
+    public void FlipSwitch()
+    {
+        interact.ToggleVisual(true);
+    }
 
     private void OnTriggerEnter(Collider other)
     {

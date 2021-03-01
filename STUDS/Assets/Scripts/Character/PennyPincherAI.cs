@@ -8,16 +8,14 @@ public class PennyPincherAI : MonoBehaviour
     [SerializeField] private CharacterMovementController movementController;
     [SerializeField] private NavMeshAgent agent;
     public Transform[] switches;
-    private bool start = false;
+    private bool active = false;
     private bool hasTarget = false;
+    private bool gameStarted = false;
     [SerializeField] private Transform target;
 
     public float turnSpeed = 1;
 
     public int speed = 1;
-
-    public int currentTargetIndex = -1;
-
 
     // Start is called before the first frame update
     void Start()
@@ -36,7 +34,7 @@ public class PennyPincherAI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (start && hasTarget)
+        if (active && hasTarget)
         {
             Vector3 lookPos;
             Quaternion targetRot;
@@ -59,6 +57,7 @@ public class PennyPincherAI : MonoBehaviour
             if (distance < 1.5f)
             {
                 hasTarget = false;
+                target.GetComponent<VolumeTrigger>().FlipSwitch();
             } else if(Mathf.Abs(target.position.x - transform.position.x) < 0.1f 
                 && Mathf.Abs(target.position.z - transform.position.z) < 0.1f 
                 && target.position.y - transform.position.y < 3)
@@ -66,33 +65,36 @@ public class PennyPincherAI : MonoBehaviour
                 movementController.isJumping = true;
             }
 
-        } else if (start && !hasTarget)
+        } else if (active && !hasTarget)
         {
-            currentTargetIndex++;
-            if (currentTargetIndex > switches.Length)
+            active = false;
+            StartCoroutine("FindNewTarget");
+        }
+        else if (!gameStarted)
+        {
+            active = GameObject.Find("Game Manager").GetComponent<PBInitializeLevel>().IsLevelLoaded();
+            gameStarted = active;
+        }
+    }
+
+    public IEnumerator FindNewTarget()
+    {
+        movementController.isJumping = false;
+        while (hasTarget == false)
+        {
+            yield return new WaitForSecondsRealtime(1);
+            for (int i = 0; i < switches.Length; i++)
             {
-                movementController.isJumping = true;
-            }
-            else
-            {
-                while (hasTarget == false)
+                if (switches[i] != null && switches[i].GetComponent<VolumeTrigger>().isSwitchActive == true)
                 {
-                    if (switches[currentTargetIndex] != null)
-                    {
-                        hasTarget = true;
-                        target = switches[currentTargetIndex];
-                    }
-                    else
-                    {
-                        currentTargetIndex++;
-                    }
+                    active = true;
+                    hasTarget = true;
+                    target = switches[i];
+                    break;
                 }
             }
         }
-        else
-        {
-            start = GameObject.Find("Game Manager").GetComponent<PBInitializeLevel>().IsLevelLoaded();
-        }
+
     }
 
     public void CheckUpdateTarget()
