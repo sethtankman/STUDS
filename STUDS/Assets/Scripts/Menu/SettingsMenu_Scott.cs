@@ -14,6 +14,8 @@ public class SettingsMenu_Scott : MonoBehaviour
 
     Resolution[] resolutions;
 
+    private int resolutionIndex;
+
     public TMP_Dropdown resolutionDropdown;
 
     public GameObject menuPlayButton, optionsFirstButton, optionsCloseButton, quitFirstButton, creditsFirstButton, extrasFirstButton, feedbackFirstButton, videoFirstButton, videoCloseButton, soundFirstButton, soundCloseButton, controlsFirstButton, controlsCloseButton;
@@ -26,13 +28,20 @@ public class SettingsMenu_Scott : MonoBehaviour
 
         List<string> options = new List<string>();
 
-        for (int i = 0; i < resolutions.Length; i++)
+        string option = "";
+        int i = 0;
+        while (i < resolutions.Length)
         {
-            string option = resolutions[i].width + "x" + resolutions[i].height + " @ " + resolutions[i].refreshRate + "hz";
-            options.Add(option);
+            if (option != resolutions[i].width + "x" + resolutions[i].height)
+            {
+                option = resolutions[i].width + "x" + resolutions[i].height;
+                options.Add(option);
+            }
+            i++;
         }
 
         resolutionDropdown.AddOptions(options);
+        SetResolution(i);
     }
 
     private void Update()
@@ -40,10 +49,23 @@ public class SettingsMenu_Scott : MonoBehaviour
         // get key down
     }
 
-    public void SetResolution(int resolutionIndex)
+    public void SetResolution(int _resolutionIndex)
     {
-        Resolution resolution = resolutions[resolutionIndex];
+        resolutionIndex = _resolutionIndex;
+        Resolution resolution = resolutions[_resolutionIndex];
         Screen.SetResolution(resolution.width, resolution.height, Screen.fullScreen);
+    }
+
+    public void SetRefresh(int refreshRate)
+    {
+        int i = resolutionIndex;
+        while (i < resolutions.Length)
+        {
+            if (resolutions[i].refreshRate == refreshRate)
+            {
+                SetResolution(i);
+            }
+        }
     }
 
     public void SetVolume(float volume)
