@@ -17,6 +17,8 @@ public class ManholeGeiser : MonoBehaviour
     public ParticleSystem water;
     public GameObject cover;
     public VirtualAudioSource virtualAudioSource;
+    public AK.Wwise.Event manholeSound;
+
 
     public float size;
 

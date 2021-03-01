@@ -20,7 +20,7 @@ MonoBehaviour:
     ParentPath: Default Work Unit
     guid: 45fd757f7c467449a1acd85274852002
     GuidInternal: 
-    m_lastTime: -8585875709186488038
+    m_lastTime: -8585872428234775808
     List: []
   AuxBusWwu:
   - PhysicalPath: Master-Mixer Hierarchy\Default Work Unit.wwu
@@ -30,7 +30,7 @@ MonoBehaviour:
     ParentPath: Default Work Unit
     guid: 3f52858938b6ac41b992ebfda5895989
     GuidInternal: 
-    m_lastTime: -8585875709213171627
+    m_lastTime: -8585872428254775808
     List:
     - name: Master Audio Bus
       guid: d8a41415a61d2a41a17e75ca0c2149f3
@@ -49,8 +49,17 @@ MonoBehaviour:
     ParentPath: Default Work Unit
     guid: c4a059d5b2541045af3eb83e72a6805c
     GuidInternal: 
-    m_lastTime: -8585875709187838344
+    m_lastTime: -8585872422374775808
     List:
+    - name: Appliance_Bank
+      guid: f6b73ae7c1378a4a963f7d89ec330eb6
+      id: 33181775
+      PathAndIcons:
+      - ElementName: Default Work Unit
+        ObjectType: 12
+      - ElementName: Appliance_Bank
+        ObjectType: 7
+      Path: Default Work Unit\Appliance_Bank
     - name: CradleRace_Bank
       guid: ebbaec323813e1458528d1bb7df1e664
       id: 4118075836
@@ -77,8 +86,20 @@ MonoBehaviour:
     ParentPath: Default Work Unit
     guid: b47cc6f955b76a42b96db35e22fc3c0f
     GuidInternal: 
-    m_lastTime: -8585875709226065945
+    m_lastTime: -8585872421554775808
     List:
+    - name: Appliances
+      guid: 597e2a0f52b66c44b0415f72d48427a0
+      id: 3745104921
+      PathAndIcons:
+      - ElementName: Default Work Unit
+        ObjectType: 12
+      - ElementName: Appliances
+        ObjectType: 4
+      Path: Default Work Unit\Appliances
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
     - name: Car_Driving
       guid: 6d8a3ea9536f4249bc15984316251043
       id: 2174557433
@@ -92,7 +113,7 @@ MonoBehaviour:
       - ElementName: Car_Driving
         ObjectType: 3
       Path: Default Work Unit\Cradle_Race\Props\Car_Driving
-      maxAttenuation: 55
+      maxAttenuation: 35
       maxDuration: -1
       minDuration: -1
     - name: Cardboard_Collision_Dog
@@ -108,7 +129,7 @@ MonoBehaviour:
       - ElementName: Cardboard_Collision_Dog
         ObjectType: 3
       Path: Default Work Unit\Cradle_Race\Props\Cardboard_Collision_Dog
-      maxAttenuation: 55
+      maxAttenuation: 35
       maxDuration: 0.898667
       minDuration: 0.898667
     - name: Cardboard_Slide
@@ -124,7 +145,7 @@ MonoBehaviour:
       - ElementName: Cardboard_Slide
         ObjectType: 3
       Path: Default Work Unit\Cradle_Race\Props\Cardboard_Slide
-      maxAttenuation: 55
+      maxAttenuation: 35
       maxDuration: -1
       minDuration: -1
     - name: Cardboard_Up
@@ -140,7 +161,7 @@ MonoBehaviour:
       - ElementName: Cardboard_Up
         ObjectType: 3
       Path: Default Work Unit\Cradle_Race\Props\Cardboard_Up
-      maxAttenuation: 55
+      maxAttenuation: 35
       maxDuration: 0.955875
       minDuration: 0.955875
     - name: Cradle_Race
@@ -168,9 +189,23 @@ MonoBehaviour:
       - ElementName: Hydrant_Spurt
         ObjectType: 3
       Path: Default Work Unit\Cradle_Race\Props\Hydrant_Spurt
-      maxAttenuation: 55
+      maxAttenuation: 35
       maxDuration: -1
       minDuration: -1
+    - name: Lamp_Use
+      guid: e59046be6ed7f543b304af6473778022
+      id: 1544264091
+      PathAndIcons:
+      - ElementName: Default Work Unit
+        ObjectType: 12
+      - ElementName: Appliances
+        ObjectType: 4
+      - ElementName: Lamp_Use
+        ObjectType: 3
+      Path: Default Work Unit\Appliances\Lamp_Use
+      maxAttenuation: 35
+      maxDuration: 0.396
+      minDuration: 0.396
     - name: Manhole
       guid: 366cd55643d27d4ca374a558d710fd4f
       id: 2848109285
@@ -184,7 +219,7 @@ MonoBehaviour:
       - ElementName: Manhole
         ObjectType: 3
       Path: Default Work Unit\Cradle_Race\Props\Manhole
-      maxAttenuation: 55
+      maxAttenuation: 35
       maxDuration: 4.640229
       minDuration: 4.640229
     - name: Menu_Scroll
@@ -240,7 +275,7 @@ MonoBehaviour:
       - ElementName: Mower
         ObjectType: 3
       Path: Default Work Unit\Cradle_Race\Props\Mower
-      maxAttenuation: 55
+      maxAttenuation: 35
       maxDuration: -1
       minDuration: -1
     - name: Music
@@ -257,6 +292,20 @@ MonoBehaviour:
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
+    - name: Music_Start
+      guid: 661d20ffc23ee5468a74a7c2af080ecf
+      id: 3725903807
+      PathAndIcons:
+      - ElementName: Default Work Unit
+        ObjectType: 12
+      - ElementName: Appliances
+        ObjectType: 4
+      - ElementName: Music_Start
+        ObjectType: 3
+      Path: Default Work Unit\Appliances\Music_Start
+      maxAttenuation: 0
+      maxDuration: 98.56438
+      minDuration: 98.56438
     - name: Player
       guid: e3b8c61ae5eb884f8d321cead84223dd
       id: 1069431850
@@ -457,6 +506,34 @@ MonoBehaviour:
       maxAttenuation: 0
       maxDuration: 0
       minDuration: 0
+    - name: Switch_Flip
+      guid: 20c524a19f7aca488f9d177178306f3f
+      id: 2630690521
+      PathAndIcons:
+      - ElementName: Default Work Unit
+        ObjectType: 12
+      - ElementName: Appliances
+        ObjectType: 4
+      - ElementName: Switch_Flip
+        ObjectType: 3
+      Path: Default Work Unit\Appliances\Switch_Flip
+      maxAttenuation: 35
+      maxDuration: 0.138083
+      minDuration: 0.138083
+    - name: SwitchorButton_Click
+      guid: 5126e6598aa4c84ca138d33b6f787f23
+      id: 3474953567
+      PathAndIcons:
+      - ElementName: Default Work Unit
+        ObjectType: 12
+      - ElementName: Appliances
+        ObjectType: 4
+      - ElementName: SwitchorButton_Click
+        ObjectType: 3
+      Path: Default Work Unit\Appliances\SwitchorButton_Click
+      maxAttenuation: 35
+      maxDuration: 0.310417
+      minDuration: 0.310417
     - name: TrafficCone_Collision
       guid: 7cfc59644a5eff47aa4d8437e8b3b293
       id: 197486784
@@ -470,7 +547,7 @@ MonoBehaviour:
       - ElementName: TrafficCone_Collision
         ObjectType: 3
       Path: Default Work Unit\Cradle_Race\Props\TrafficCone_Collision
-      maxAttenuation: 55
+      maxAttenuation: 35
       maxDuration: 0.554
       minDuration: 0.554
     - name: Trampoline_Jump
@@ -486,7 +563,7 @@ MonoBehaviour:
       - ElementName: Trampoline_Jump
         ObjectType: 3
       Path: Default Work Unit\Cradle_Race\Props\Trampoline_Jump
-      maxAttenuation: 55
+      maxAttenuation: 35
       maxDuration: 1.169917
       minDuration: 1.169917
     - name: UI
@@ -503,6 +580,62 @@ MonoBehaviour:
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
+    - name: Washer_Run_Start
+      guid: 2a820b12ff331a4a9054405d8ea9c99e
+      id: 4079112898
+      PathAndIcons:
+      - ElementName: Default Work Unit
+        ObjectType: 12
+      - ElementName: Appliances
+        ObjectType: 4
+      - ElementName: Washer_Run_Start
+        ObjectType: 3
+      Path: Default Work Unit\Appliances\Washer_Run_Start
+      maxAttenuation: 35
+      maxDuration: -1
+      minDuration: -1
+    - name: Washer_Run_Stop
+      guid: fd15a79622b3354d9e154f77d50f511f
+      id: 1990754874
+      PathAndIcons:
+      - ElementName: Default Work Unit
+        ObjectType: 12
+      - ElementName: Appliances
+        ObjectType: 4
+      - ElementName: Washer_Run_Stop
+        ObjectType: 3
+      Path: Default Work Unit\Appliances\Washer_Run_Stop
+      maxAttenuation: 0
+      maxDuration: 0
+      minDuration: 0
+    - name: Water_Run_Start
+      guid: da598916fa8cea4cabc92e6d9f0e0708
+      id: 2699243585
+      PathAndIcons:
+      - ElementName: Default Work Unit
+        ObjectType: 12
+      - ElementName: Appliances
+        ObjectType: 4
+      - ElementName: Water_Run_Start
+        ObjectType: 3
+      Path: Default Work Unit\Appliances\Water_Run_Start
+      maxAttenuation: 35
+      maxDuration: -1
+      minDuration: -1
+    - name: Water_Run_Stop
+      guid: bc7cbc4be5465c4991b4319814390b60
+      id: 497567739
+      PathAndIcons:
+      - ElementName: Default Work Unit
+        ObjectType: 12
+      - ElementName: Appliances
+        ObjectType: 4
+      - ElementName: Water_Run_Stop
+        ObjectType: 3
+      Path: Default Work Unit\Appliances\Water_Run_Stop
+      maxAttenuation: 0
+      maxDuration: 0
+      minDuration: 0
   RtpcWwu:
   - PhysicalPath: Game Parameters\Default Work Unit.wwu
     PathAndIcons:
@@ -511,7 +644,7 @@ MonoBehaviour:
     ParentPath: Default Work Unit
     guid: ee4a250c88e72a4bb39619c462a87832
     GuidInternal: 
-    m_lastTime: -8585875709225755871
+    m_lastTime: -8585872428254775808
     List:
     - name: Distance
       guid: b38aafb32cc6444c997e4093480f3b3e
@@ -530,7 +663,7 @@ MonoBehaviour:
     ParentPath: Default Work Unit
     guid: a1cced9a237f9745a1ad58c1d5b44a17
     GuidInternal: 
-    m_lastTime: -8585875709187308223
+    m_lastTime: -8585872428234775808
     List: []
   SwitchWwu:
   - PhysicalPath: Switches\Default Work Unit.wwu
@@ -540,7 +673,7 @@ MonoBehaviour:
     ParentPath: Default Work Unit
     guid: c0767cbb3875eb4d94f14be8ed5c1e1a
     GuidInternal: 
-    m_lastTime: -8585875709187028159
+    m_lastTime: -8585872428234775808
     List: []
   TriggerWwu:
   - PhysicalPath: Triggers\Default Work Unit.wwu
@@ -550,12 +683,13 @@ MonoBehaviour:
     ParentPath: Default Work Unit
     guid: 09ae390ae48ef94995633f9bcba68b45
     GuidInternal: 
-    m_lastTime: -8585875709186758097
+    m_lastTime: -8585872428234775808
     List: []
   ExpandedItems:
   - /STUDS_WwiseProject
   - /STUDS_WwiseProject/Events
   - /STUDS_WwiseProject/Events/Default Work Unit
+  - /STUDS_WwiseProject/Events/Default Work Unit/Appliances
   - /STUDS_WwiseProject/Events/Default Work Unit/Cradle_Race
   - /STUDS_WwiseProject/Events/Default Work Unit/Cradle_Race/Props
   autoPopulateEnabled: 1
