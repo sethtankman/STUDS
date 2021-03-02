@@ -14,11 +14,48 @@ public class Music_Manager : MonoBehaviour
     void Start()
     {
         DontDestroyOnLoad(this.gameObject);
-        PlayMusic("Start_Loop");
+        PlayStopMusic("Menu", true);
     }
-    public void PlayMusic(string soundName)
+
+    public void PlayStopMusic(string soundName, bool play)
     {
+        if (play)
+        {
+            switch (soundName)
+            {
+                case "Menu":
+                    menuMusic.Post(gameObject);
+                    break;
+                case "Stroller":
+                    strollerMusic.Post(gameObject);
+                    break;
+                case "Shopping":
+                    shoppingMusic.Post(gameObject);
+                    break;
+                default:
+                    Debug.LogError("Yo, that's not the music's name.");
+                    break;
+            }
+        } else
+        {
+            switch (soundName)
+            {
+                case "Menu":
+                    menuMusic.Stop(gameObject);
+                    break;
+                case "Stroller":
+                    strollerMusic.Stop(gameObject);
+                    break;
+                case "Shopping":
+                    shoppingMusic.Stop(gameObject);
+                    break;
+                default:
+                    Debug.LogError("Yo, that's not the music's name.");
+                    break;
+            }
+        }
     }
+
     // Update is called once per frame
     void Update()
     {
