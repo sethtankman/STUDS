@@ -500,6 +500,10 @@ public class CharacterMovementController : MonoBehaviour
             {
                 grabbedObject.GetComponent<ShoppingItem>().isBeingHeld = false;
             }
+            if (grabbedObject.tag.Equals("Cart"))
+            {
+                grabbedObject.GetComponent<Rigidbody>().useGravity = true;
+            }
             grabbedObject.GetComponent<Rigidbody>().isKinematic = false;
             grabbedObject.GetComponent<Rigidbody>().useGravity = true;
             grabbedObject = null;
@@ -626,6 +630,10 @@ public class CharacterMovementController : MonoBehaviour
                     if (grabbedObject.GetComponent<ShoppingItem>())
                     {
                         grabbedObject.GetComponent<ShoppingItem>().isBeingHeld = true;
+                    }
+                    if (grabbedObject.tag.Equals("Cart"))
+                    {
+                        grabbedObject.GetComponent<Rigidbody>().useGravity = false;
                     }
                 }
             }

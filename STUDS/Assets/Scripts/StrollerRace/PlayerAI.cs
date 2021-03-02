@@ -13,9 +13,11 @@ public class PlayerAI : MonoBehaviour
 
     public GameObject stroller;
 
-    private bool start;
+    public bool start;
 
     public int ID;
+
+    public bool cycle;
 
     // Start is called before the first frame update
     void Start()
@@ -24,7 +26,6 @@ public class PlayerAI : MonoBehaviour
         GetComponent<CharacterMovementController>().SetGrabbedObject(stroller);
         GetComponent<CharacterMovementController>().SetPlayerID(ID);
         index = 0;
-        start = false;
     }
 
     // Update is called once per frame
@@ -66,6 +67,9 @@ public class PlayerAI : MonoBehaviour
                     GetComponent<CharacterMovementController>().isJumping = false;
                 }
             }
+        }else if (cycle && index+1 > pathNodes.Count)
+        {
+            index = 0;
         }
         else
         {
