@@ -30,7 +30,7 @@ MonoBehaviour:
     ParentPath: Default Work Unit
     guid: 3f52858938b6ac41b992ebfda5895989
     GuidInternal: 
-    m_lastTime: -8585872428254775808
+    m_lastTime: -8585869301188946364
     List:
     - name: Master Audio Bus
       guid: d8a41415a61d2a41a17e75ca0c2149f3
@@ -113,7 +113,7 @@ MonoBehaviour:
       - ElementName: Car_Driving
         ObjectType: 3
       Path: Default Work Unit\Cradle_Race\Props\Car_Driving
-      maxAttenuation: 35
+      maxAttenuation: 25
       maxDuration: -1
       minDuration: -1
     - name: Cardboard_Collision_Dog
@@ -129,7 +129,7 @@ MonoBehaviour:
       - ElementName: Cardboard_Collision_Dog
         ObjectType: 3
       Path: Default Work Unit\Cradle_Race\Props\Cardboard_Collision_Dog
-      maxAttenuation: 35
+      maxAttenuation: 25
       maxDuration: 0.898667
       minDuration: 0.898667
     - name: Cardboard_Slide
@@ -145,7 +145,7 @@ MonoBehaviour:
       - ElementName: Cardboard_Slide
         ObjectType: 3
       Path: Default Work Unit\Cradle_Race\Props\Cardboard_Slide
-      maxAttenuation: 35
+      maxAttenuation: 25
       maxDuration: -1
       minDuration: -1
     - name: Cardboard_Up
@@ -161,7 +161,7 @@ MonoBehaviour:
       - ElementName: Cardboard_Up
         ObjectType: 3
       Path: Default Work Unit\Cradle_Race\Props\Cardboard_Up
-      maxAttenuation: 35
+      maxAttenuation: 25
       maxDuration: 0.955875
       minDuration: 0.955875
     - name: Cradle_Race
@@ -189,7 +189,7 @@ MonoBehaviour:
       - ElementName: Hydrant_Spurt
         ObjectType: 3
       Path: Default Work Unit\Cradle_Race\Props\Hydrant_Spurt
-      maxAttenuation: 35
+      maxAttenuation: 25
       maxDuration: -1
       minDuration: -1
     - name: Lamp_Use
@@ -203,7 +203,7 @@ MonoBehaviour:
       - ElementName: Lamp_Use
         ObjectType: 3
       Path: Default Work Unit\Appliances\Lamp_Use
-      maxAttenuation: 35
+      maxAttenuation: 25
       maxDuration: 0.396
       minDuration: 0.396
     - name: Manhole
@@ -219,7 +219,7 @@ MonoBehaviour:
       - ElementName: Manhole
         ObjectType: 3
       Path: Default Work Unit\Cradle_Race\Props\Manhole
-      maxAttenuation: 35
+      maxAttenuation: 25
       maxDuration: 4.640229
       minDuration: 4.640229
     - name: Menu_Scroll
@@ -275,7 +275,7 @@ MonoBehaviour:
       - ElementName: Mower
         ObjectType: 3
       Path: Default Work Unit\Cradle_Race\Props\Mower
-      maxAttenuation: 35
+      maxAttenuation: 25
       maxDuration: -1
       minDuration: -1
     - name: Music
@@ -517,7 +517,7 @@ MonoBehaviour:
       - ElementName: Switch_Flip
         ObjectType: 3
       Path: Default Work Unit\Appliances\Switch_Flip
-      maxAttenuation: 35
+      maxAttenuation: 25
       maxDuration: 0.138083
       minDuration: 0.138083
     - name: SwitchorButton_Click
@@ -531,7 +531,7 @@ MonoBehaviour:
       - ElementName: SwitchorButton_Click
         ObjectType: 3
       Path: Default Work Unit\Appliances\SwitchorButton_Click
-      maxAttenuation: 35
+      maxAttenuation: 25
       maxDuration: 0.310417
       minDuration: 0.310417
     - name: TrafficCone_Collision
@@ -547,7 +547,7 @@ MonoBehaviour:
       - ElementName: TrafficCone_Collision
         ObjectType: 3
       Path: Default Work Unit\Cradle_Race\Props\TrafficCone_Collision
-      maxAttenuation: 35
+      maxAttenuation: 25
       maxDuration: 0.554
       minDuration: 0.554
     - name: Trampoline_Jump
@@ -563,7 +563,7 @@ MonoBehaviour:
       - ElementName: Trampoline_Jump
         ObjectType: 3
       Path: Default Work Unit\Cradle_Race\Props\Trampoline_Jump
-      maxAttenuation: 35
+      maxAttenuation: 25
       maxDuration: 1.169917
       minDuration: 1.169917
     - name: UI
@@ -591,7 +591,7 @@ MonoBehaviour:
       - ElementName: Washer_Run_Start
         ObjectType: 3
       Path: Default Work Unit\Appliances\Washer_Run_Start
-      maxAttenuation: 35
+      maxAttenuation: 25
       maxDuration: -1
       minDuration: -1
     - name: Washer_Run_Stop
@@ -619,7 +619,7 @@ MonoBehaviour:
       - ElementName: Water_Run_Start
         ObjectType: 3
       Path: Default Work Unit\Appliances\Water_Run_Start
-      maxAttenuation: 35
+      maxAttenuation: 25
       maxDuration: -1
       minDuration: -1
     - name: Water_Run_Stop
@@ -644,7 +644,7 @@ MonoBehaviour:
     ParentPath: Default Work Unit
     guid: ee4a250c88e72a4bb39619c462a87832
     GuidInternal: 
-    m_lastTime: -8585872428254775808
+    m_lastTime: -8585869309456346704
     List:
     - name: Distance
       guid: b38aafb32cc6444c997e4093480f3b3e
@@ -655,6 +655,26 @@ MonoBehaviour:
       - ElementName: Distance
         ObjectType: 13
       Path: Default Work Unit\Distance
+    - name: MasterVolume
+      guid: 1d3e728c4270d94da2c140f1f52574e8
+      id: 2918011349
+      PathAndIcons:
+      - ElementName: Default Work Unit
+        ObjectType: 12
+      - ElementName: Volume
+        ObjectType: 4
+      - ElementName: MasterVolume
+        ObjectType: 13
+      Path: Default Work Unit\Volume\MasterVolume
+    - name: Volume
+      guid: 592819fe6bda634bbd40093e3dce6337
+      id: 2415836739
+      PathAndIcons:
+      - ElementName: Default Work Unit
+        ObjectType: 12
+      - ElementName: Volume
+        ObjectType: 4
+      Path: Default Work Unit\Volume
   StateWwu:
   - PhysicalPath: States\Default Work Unit.wwu
     PathAndIcons:
