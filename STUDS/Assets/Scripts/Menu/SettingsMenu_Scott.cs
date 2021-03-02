@@ -14,7 +14,7 @@ public class SettingsMenu_Scott : MonoBehaviour
 
     Resolution[] resolutions;
 
-    private int resolutionIndex;
+    private int resolutionIndex, numRefreshOptions;
 
     public TMP_Dropdown resolutionDropdown;
 
@@ -40,8 +40,9 @@ public class SettingsMenu_Scott : MonoBehaviour
             i++;
         }
 
+        numRefreshOptions = i / options.Count;
         resolutionDropdown.AddOptions(options);
-        SetResolution(i);
+        SetResolution(i-1);
     }
 
     private void Update()
@@ -53,7 +54,7 @@ public class SettingsMenu_Scott : MonoBehaviour
 
     public void SetResolution(int _resolutionIndex)
     {
-        resolutionIndex = _resolutionIndex * 6; // Temporary solution
+        resolutionIndex = _resolutionIndex * numRefreshOptions;
         Resolution resolution = resolutions[resolutionIndex];
         Screen.SetResolution(resolution.width, resolution.height, Screen.fullScreen);
     }
