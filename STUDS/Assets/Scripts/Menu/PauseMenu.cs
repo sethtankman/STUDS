@@ -74,7 +74,7 @@ public class @PauseMenu : IInputActionCollection, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""f7ba7ba0-f00a-4963-bd48-ffa4999b6e3a"",
-                    ""path"": ""<Keyboard>/m"",
+                    ""path"": ""<Keyboard>/escape"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -134,6 +134,17 @@ public class @PauseMenu : IInputActionCollection, IDisposable
             ""name"": ""Testing"",
             ""bindingGroup"": ""Testing"",
             ""devices"": []
+        },
+        {
+            ""name"": ""PC"",
+            ""bindingGroup"": ""PC"",
+            ""devices"": [
+                {
+                    ""devicePath"": ""<Keyboard>"",
+                    ""isOptional"": true,
+                    ""isOR"": false
+                }
+            ]
         }
     ]
 }");
@@ -261,6 +272,15 @@ public class @PauseMenu : IInputActionCollection, IDisposable
         {
             if (m_TestingSchemeIndex == -1) m_TestingSchemeIndex = asset.FindControlSchemeIndex("Testing");
             return asset.controlSchemes[m_TestingSchemeIndex];
+        }
+    }
+    private int m_PCSchemeIndex = -1;
+    public InputControlScheme PCScheme
+    {
+        get
+        {
+            if (m_PCSchemeIndex == -1) m_PCSchemeIndex = asset.FindControlSchemeIndex("PC");
+            return asset.controlSchemes[m_PCSchemeIndex];
         }
     }
     public interface IMenuActions
