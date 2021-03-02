@@ -49,10 +49,12 @@ public class SettingsMenu_Scott : MonoBehaviour
         // get key down
     }
 
+    public Dictionary<string, int> val = new Dictionary<string, int>();
+
     public void SetResolution(int _resolutionIndex)
     {
-        resolutionIndex = _resolutionIndex;
-        Resolution resolution = resolutions[_resolutionIndex];
+        resolutionIndex = _resolutionIndex * 6; // Temporary solution
+        Resolution resolution = resolutions[resolutionIndex];
         Screen.SetResolution(resolution.width, resolution.height, Screen.fullScreen);
     }
 
