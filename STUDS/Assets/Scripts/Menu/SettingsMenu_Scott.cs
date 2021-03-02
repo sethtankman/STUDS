@@ -18,7 +18,7 @@ public class SettingsMenu_Scott : MonoBehaviour
 
     public TMP_Dropdown resolutionDropdown;
 
-    public GameObject menuPlayButton, optionsFirstButton, optionsCloseButton, quitFirstButton, creditsFirstButton, extrasFirstButton, feedbackFirstButton, videoFirstButton, videoCloseButton, soundFirstButton, soundCloseButton, controlsFirstButton, controlsCloseButton;
+    public GameObject menuPlayButton, optionsFirstButton, optionsCloseButton, quitFirstButton, creditsFirstButton, extrasFirstButton, feedbackFirstButton, videoFirstButton, videoCloseButton, soundFirstButton, soundCloseButton, controlsFirstButton, controlsCloseButton, ReturnFirstButton;
 
     void Start()
     {
@@ -166,5 +166,11 @@ public class SettingsMenu_Scott : MonoBehaviour
     public void OpenURL()
     {
         Application.OpenURL("https://www.dadshowdown.com/");
+    }
+
+    public void OpenReturnMenu()
+    {
+        EventSystem.current.SetSelectedGameObject(null);
+        EventSystem.current.SetSelectedGameObject(ReturnFirstButton);
     }
 }
