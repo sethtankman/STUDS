@@ -10,10 +10,11 @@ using static UnityEngine.InputSystem.InputAction;
 public class CameraMoveFG : MonoBehaviour
 {
     public float rotationSpeedLateral, rotationSpeedVertical;
-    public Transform target, player;
+    public Transform target, player, tracker;
     float mouseX, mouseY;
     public float minY, maxY, playerRotation;
     private Vector2 direction;
+    private bool obstructed;
 
     void Start()
     {
@@ -26,6 +27,17 @@ public class CameraMoveFG : MonoBehaviour
         float horizontalInput = direction.x;
         playerRotation += horizontalInput;
         Control(playerRotation);
+        RaycastHit hit;
+        Ray ray = new Ray(transform.position, transform.forward);
+        if (Physics.Raycast(ray, out hit, 3.5f))
+        {
+            if (hit.transform.tag != "Player")
+            {
+                tracker.gameObject.GetComponent<UCPTracker>().obstructed = true;
+                Debug.Log("I am not pointed at the player");
+                transform.Translate(target.position - transform.position);
+            }
+        }
         //For editor only!
         /*if (Input.GetKeyDown(KeyCode.Escape))
         {
