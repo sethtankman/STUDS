@@ -187,6 +187,64 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &407330052
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 407330054}
+  - component: {fileID: 407330053}
+  m_Layer: 0
+  m_Name: WwiseGlobal
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &407330053
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 407330052}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0ea23b1bea95cd44bc0ec074ca7e501, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  InitializationSettings: {fileID: 11400000, guid: dd2666b8827b7a94c813960c101d493a,
+    type: 2}
+  basePath: 
+  language: 
+  defaultPoolSize: 0
+  lowerPoolSize: 0
+  streamingPoolSize: 0
+  memoryCutoffThreshold: 0
+  monitorPoolSize: 0
+  monitorQueuePoolSize: 0
+  callbackManagerBufferSize: 0
+  spatialAudioPoolSize: 0
+  maxSoundPropagationDepth: 0
+  diffractionFlags: 11
+  engineLogging: 0
+--- !u!4 &407330054
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 407330052}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &543619690
 GameObject:
   m_ObjectHideFlags: 0
@@ -5423,6 +5481,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Dustcloud: {fileID: 785505866}
   IsRunning: 0
+  Emote: {fileID: 0}
+  inRange: 0
+  PLRCam: {fileID: 0}
 --- !u!1 &941638313643949963
 GameObject:
   m_ObjectHideFlags: 0
@@ -5828,6 +5889,8 @@ GameObject:
   - component: {fileID: 3450374693199976495}
   - component: {fileID: 3450374693199976494}
   - component: {fileID: 3775627533536483600}
+  - component: {fileID: 3450374693199976490}
+  - component: {fileID: 3450374693199976489}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -5835,6 +5898,42 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &3450374693199976489
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3450374693199976488}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 79d7bb1fb009c09448c8276650859ec2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isDefaultListener: 1
+  listenerId: 0
+--- !u!114 &3450374693199976490
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3450374693199976488}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eae3bf9f0a69159468fc14bc7859cd3d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 0
+  isStaticObject: 0
+  m_positionOffsetData:
+    KeepMe: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!20 &3450374693199976494
 Camera:
   m_ObjectHideFlags: 0
@@ -6687,10 +6786,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c19a2a694d578ab428f96a487586340d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  JumpSound:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 0}
+  GrabSound:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 0}
+  ThrowSound:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 0}
+  RunSound:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 0}
   camPos: {fileID: 3450374693199976495}
   animator: {fileID: 406437672073782849}
+  renderer: {fileID: 0}
+  cameraShake: {fileID: 0}
   playerCamera: {fileID: 3450374693199976488}
   binky: {fileID: 1259690420}
+  target: {fileID: 0}
+  aimAssist: {fileID: 0}
   gravity: -16
   jumpHeight: 1
   moveSpeedGrab: 10
@@ -6698,11 +6817,8 @@ MonoBehaviour:
   turnTime: 0.1
   jumpHeightGrab: 0.85
   throwForce: 300
+  throwCoolDown: 0
   isMini: 0
-  grabSound: {fileID: 6002832576069078499}
-  throwSound: {fileID: 2318193619194480074}
-  runSound: {fileID: 4301404227512458839}
-  jumpSound: {fileID: 2114361202543890326}
   knockBackTime: 1
   isJumping: 0
   airborn: 0
@@ -6711,6 +6827,7 @@ MonoBehaviour:
   isMoving: 0
   timeUntilMoveEnabled: 0
   isAI: 0
+  hasAimAssist: 0
 --- !u!1 &8026905844493217827
 GameObject:
   m_ObjectHideFlags: 0
