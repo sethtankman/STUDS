@@ -72,6 +72,8 @@ public class PauseV2 : MonoBehaviour
 
     }
 
+
+
     public void Pause()
     {
         //theImage01.SetActive(false);
