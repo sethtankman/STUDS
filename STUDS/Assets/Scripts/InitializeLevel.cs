@@ -42,23 +42,29 @@ public class InitializeLevel : MonoBehaviour
             Destroy(startCam);
             startText.text = "";
             Debug.Log("Loading in players");
-            for (int i = 0; i < players.Length; i++)
+            if (players != null)
             {
-                GameObject stroller = Instantiate(strollerPrefab, playerSpawns[i].position + new Vector3(0, 0, 2f), Quaternion.identity);
-                DetermineColor(players[i].GetComponent<CharacterMovementController>().GetColorName(), stroller);
-                stroller.GetComponent<StrollerController>().SetID(players[i].GetComponent<CharacterMovementController>().getPlayerID());
-                spawnedPlayers = true;
+                for (int i = 0; i < players.Length; i++)
+                {
+                    GameObject stroller = Instantiate(strollerPrefab, playerSpawns[i].position + new Vector3(0, 0, 2f), Quaternion.identity);
+                    DetermineColor(players[i].GetComponent<CharacterMovementController>().GetColorName(), stroller);
+                    stroller.GetComponent<StrollerController>().SetID(players[i].GetComponent<CharacterMovementController>().getPlayerID());
+                    spawnedPlayers = true;
+                }
             }
         }
         else if(!spawnedPlayers)
         {
             Debug.Log("Spawning player");
-            for (int i = 0; i < players.Length; i++)
+            if (players != null)
             {
-                //Vector3 flagPos = GameObject.Find("Proto_Flag_01").transform.position;
-                //players[i].transform.LookAt(new Vector3(transform.position.x, transform.position.y, transform.position.z));
-                players[i].transform.forward = new Vector3(0, 0, 1);
-                players[i].transform.position = playerSpawns[i].position;
+                for (int i = 0; i < players.Length; i++)
+                {
+                    //Vector3 flagPos = GameObject.Find("Proto_Flag_01").transform.position;
+                    //players[i].transform.LookAt(new Vector3(transform.position.x, transform.position.y, transform.position.z));
+                    players[i].transform.forward = new Vector3(0, 0, 1);
+                    players[i].transform.position = playerSpawns[i].position;
+                }
             }
         }
     }

@@ -321,7 +321,8 @@ public class CharacterMovementController : MonoBehaviour
             isMoving = false;
             velocity.x = 0;
             velocity.z = 0;
-            PlayerParticles.TurnOffRunning();
+            if(PlayerParticles)
+                PlayerParticles.TurnOffRunning();
         }
     }
 
