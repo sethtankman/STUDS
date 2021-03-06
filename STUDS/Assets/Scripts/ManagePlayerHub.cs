@@ -82,7 +82,7 @@ public class ManagePlayerHub : MonoBehaviour
                     readyCount++;
                 }
             }
-            ReadyText.text = "" + readyCount + "/" + players.Count + " players are ready! Stand on the start line to begin!";
+            ReadyText.text = "" + readyCount + "/" + players.Count + " players are ready! Choose your level!";
         } else if(playerJoined && !SceneManager.GetActiveScene().name.Equals("TheBlock_LevelSelect"))
         {
             playerJoined = false; //This is mainly to save time in the if check of the previous if block.
