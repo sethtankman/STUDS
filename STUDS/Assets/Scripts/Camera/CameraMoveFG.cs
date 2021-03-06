@@ -27,6 +27,7 @@ public class CameraMoveFG : MonoBehaviour
         float horizontalInput = direction.x;
         playerRotation += horizontalInput;
         Control(playerRotation);
+        /*
         RaycastHit hit;
         Ray ray = new Ray(transform.position, transform.forward);
         if (Physics.Raycast(ray, out hit, 3.5f))
@@ -38,6 +39,7 @@ public class CameraMoveFG : MonoBehaviour
                 transform.Translate(target.position - transform.position);
             }
         }
+        */
         //For editor only!
         /*if (Input.GetKeyDown(KeyCode.Escape))
         {
