@@ -14,7 +14,9 @@ public class CharacterMovementController : MonoBehaviour
     public AK.Wwise.Event GrabSound;
     public AK.Wwise.Event ThrowSound;
     public AK.Wwise.Event RunSound;
+
     private CharacterController controller;
+
     public Transform camPos;
     public Animator animator;
     public Renderer renderer;
@@ -26,82 +28,49 @@ public class CharacterMovementController : MonoBehaviour
     public GameObject aimAssist;
 
     private float moveSpeed;
+    private float knockBackCounter;
+    private float pickupCooldown;
+    private float stepSoundCooldown;
+
     public float gravity;
     public float jumpHeight;
-    Vector3 velocity;
+    public float moveSpeedGrab;
+    public float moveSpeedNormal;
+    public float turnTime;
+    public float jumpHeightGrab;
+    public float throwForce;
+    public float throwCoolDown = 0;
+    public float knockBackTime;
+    public float timeUntilMoveEnabled = 0;
+
+    public Vector3 velocity;
 
     private Vector2 direction;
 
     float turnSmoothVelocity;
 
-    public float moveSpeedGrab;
-
-    public float moveSpeedNormal;
-
-    public float turnTime;
-
-    public float jumpHeightGrab;
-
-    public float throwForce;
-
-    public float throwCoolDown = 0;
-
     private GameObject grabbedObject;
+    private GameObject electronicObject;
 
     private bool hasGrabbed = false;
+    private bool pickupPressed;
+    private bool throwPressed;
+    private bool isReady;
+    private bool drop;
 
     public bool isMini = false;
-
-    //public Text GrabText;
-
-    /*
-
-    public VirtualAudioSource grabSound;
-
-    public VirtualAudioSource throwSound;
-
-    public VirtualAudioSource runSound;
-
-    public VirtualAudioSource jumpSound;
-    */
-
-    public float knockBackTime;
-
-    private float knockBackCounter;
-
     public bool isJumping = false;
-
-    private bool pickupPressed;
-
-    private bool throwPressed;
-
     public bool airborn;
-
     public bool beingKnockedBack;
-
     public bool movementEnabled = true;
-
     public bool isMoving;
-
-    public float timeUntilMoveEnabled = 0;
-
-    private float pickupCooldown;
-
-    private float stepSoundCooldown;
-
-    private int playerID;
-
-    private int completedCheckpoints;
-
     public bool isAI = false;
 
-    private String color;
-
-    private bool isReady;
-
+    private int playerID;
+    private int completedCheckpoints;
     private int finishPosition;
 
-    private GameObject electronicObject;
+    private String color;
 
     //Particle effects
     private bool isBlinking;
@@ -157,13 +126,9 @@ public class CharacterMovementController : MonoBehaviour
             Vector3 moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
             controller.Move(moveDir.normalized * moveSpeed * Time.deltaTime);
         }*/
-
-
-
+        
         if (knockBackCounter <= 0)
         {
-
-
             //Handle moving and rotating the object that has been grabbed
             if (hasGrabbed)
             {
@@ -222,7 +187,7 @@ public class CharacterMovementController : MonoBehaviour
         Ray ray = new Ray(transform.position, Vector3.down);
         if (airborn)
         {
-            if (Physics.Raycast(ray, out hit, 0.1f) && beingKnockedBack)
+            if (Physics.Raycast(ray, out hit, 0.1f) && beingKnockedBack && drop)
             {
                 if (hit.transform.tag == "Ground")
                 {
@@ -235,6 +200,7 @@ public class CharacterMovementController : MonoBehaviour
                     airborn = false;
                     movementEnabled = false;
                     timeUntilMoveEnabled = 1.5f;
+                    drop = false;
                 }
             }
             else if (Physics.Raycast(ray, out hit, 0.1f))
@@ -253,13 +219,14 @@ public class CharacterMovementController : MonoBehaviour
             {
                 airborn = true;
             }
-            else if (Physics.Raycast(ray, out hit, 0.1f) && beingKnockedBack)
+            else if (Physics.Raycast(ray, out hit, 0.1f) && beingKnockedBack && drop)
             {
                 animator.ResetTrigger("Jump");
                 animator.ResetTrigger("Land");
                 animator.SetTrigger("FallDown");
                 beingKnockedBack = false;
                 movementEnabled = false;
+                drop = false;
                 timeUntilMoveEnabled = 1.3f;
             }
         }
@@ -319,8 +286,11 @@ public class CharacterMovementController : MonoBehaviour
         {
             animator.SetBool("isRunning", false);
             isMoving = false;
-            velocity.x = 0;
-            velocity.z = 0;
+            if (airborn == false)
+            {
+                velocity.x = 0;
+                velocity.z = 0;
+            }
             if(PlayerParticles)
                 PlayerParticles.TurnOffRunning();
         }
@@ -480,14 +450,15 @@ public class CharacterMovementController : MonoBehaviour
         }
     }
 
-    public void KnockBack(Vector3 direction, bool drop)
+    public void KnockBack(Vector3 direction, bool _drop)
     {
         Debug.Log("KBCalled with: " + direction.ToString());
         knockBackCounter = knockBackTime;
-        if (drop)
+        beingKnockedBack = true;
+        drop = _drop;
+        if (_drop)
         {
             DropGrabbedItem();
-            beingKnockedBack = true;
             StartCoroutine(cameraShake.Shake(0.15f, 0.4f));
         }
         velocity = direction;
