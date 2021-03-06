@@ -365,8 +365,8 @@ public class CharacterMovementController : MonoBehaviour
         direction = context.ReadValue<Vector2>();
         if (PlayerParticles)
             PlayerParticles.TurnOnRunning();
-        else
-            Debug.LogError("Running Particle effect not assigned.");
+        //else
+            //Debug.LogError("Running Particle effect not assigned.");
     }
 
     public void OnCameraMove(CallbackContext context)
