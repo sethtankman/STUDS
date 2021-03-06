@@ -8,7 +8,7 @@ public class KnockBack : MonoBehaviour
     public short kBForce;
     public bool makePlayerDrop;
     public AK.Wwise.Event KBSound;
-    public bool slidethrough = false;
+    public bool slidethrough = false, reflective;
     private BoxCollider PaintColl;
     
 
@@ -39,8 +39,15 @@ public class KnockBack : MonoBehaviour
                     return;
                 }
             }
-            Vector3 direction = other.transform.position - transform.position;
-            direction = direction.normalized + directionVector;
+            Vector3 direction;
+            if (reflective)
+            {
+                direction = (other.transform.position - transform.position).normalized;
+            }
+            else
+            {
+                direction = directionVector;
+            }
             Debug.Log("direction: " + direction.ToString() + " Force " + kBForce + " MakePlayerDrop " + makePlayerDrop);
 
             other.gameObject.GetComponent<CharacterMovementController>().KnockBack(direction * kBForce, makePlayerDrop);
