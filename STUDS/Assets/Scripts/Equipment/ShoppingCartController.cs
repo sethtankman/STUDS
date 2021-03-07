@@ -27,47 +27,73 @@ public class ShoppingCartController : MonoBehaviour
             string itemName = other.gameObject.GetComponent<ShoppingItem>().name;
             switch (itemName) {
                 case "Boombox":
-                    if(cartItems[0].activeSelf == false)
+                    if (cartItems[0].activeSelf == false)
+                    {
                         cartItems[0].SetActive(true);
+                        Destroy(other.gameObject);
+                    }
                     break;
                 case "Helmet":
                     if (cartItems[1].activeSelf == false)
+                    {
                         cartItems[1].SetActive(true);
+                        Destroy(other.gameObject);
+                    }
                     break;
                 case "Cooler":
                     if (cartItems[2].activeSelf == false)
+                    {
                         cartItems[2].SetActive(true);
+                        Destroy(other.gameObject);
+                    }
                     break;
                 case "Hammer":
                     if (cartItems[3].activeSelf == false)
+                    {
                         cartItems[3].SetActive(true);
+                        Destroy(other.gameObject);
+                    }
                     break;
                 case "Propane":
                     if (cartItems[4].activeSelf == false)
+                    {
                         cartItems[4].SetActive(true);
+                        Destroy(other.gameObject);
+                    }
                     break;
                 case "Shovel":
                     if (cartItems[5].activeSelf == false)
+                    {
                         cartItems[5].SetActive(true);
+                        Destroy(other.gameObject);
+                    }
                     break;
                 case "SlowSign":
                     if (cartItems[6].activeSelf == false)
+                    {
                         cartItems[6].SetActive(true);
+                        Destroy(other.gameObject);
+                    }
                     break;
                 case "Sprinkler":
                     if (cartItems[7].activeSelf == false)
+                    {
                         cartItems[7].SetActive(true);
+                        Destroy(other.gameObject);
+                    }
                     break;
                 case "Toolbox":
                     if (cartItems[8].activeSelf == false)
+                    {
                         cartItems[8].SetActive(true);
+                        Destroy(other.gameObject);
+                    }
                     break;
                 default:
                     Debug.Log("Item name not found.");
                     break;
             }
                 
-            Destroy(other.gameObject);
         }
     }
 }
