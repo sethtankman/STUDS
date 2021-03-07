@@ -80,7 +80,7 @@ public class InitializeLevel : MonoBehaviour
         {
             stroller.GetComponent<MeshRenderer>().material = strollerColor2;
         }
-        else if (colorName.Equals("Orange"))
+        else if (colorName.Equals("Red"))
         {
             Debug.Log("Orange Stroller");
             stroller.GetComponent<MeshRenderer>().material = strollerColor3;
