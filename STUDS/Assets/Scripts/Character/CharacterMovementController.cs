@@ -116,16 +116,6 @@ public class CharacterMovementController : MonoBehaviour
         Jump();
 
         CollisionDetection();
-
-        /*if (dirVector.magnitude >= 0.1f)
-        {
-            float targetAngle = Mathf.Atan2(dirVector.x, dirVector.z) * Mathf.Rad2Deg + camPos.eulerAngles.y;
-            float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnTime);
-            transform.rotation = Quaternion.Euler(0f, angle, 0f);
-
-            Vector3 moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
-            controller.Move(moveDir.normalized * moveSpeed * Time.deltaTime);
-        }*/
         
         if (knockBackCounter <= 0)
         {
@@ -480,6 +470,7 @@ public class CharacterMovementController : MonoBehaviour
             }
             grabbedObject.GetComponent<Rigidbody>().isKinematic = false;
             grabbedObject.GetComponent<Rigidbody>().useGravity = true;
+            grabbedObject.GetComponent<Collider>().enabled = true;
             grabbedObject = null;
             hasGrabbed = false;
             moveSpeed = moveSpeedNormal;
@@ -544,6 +535,7 @@ public class CharacterMovementController : MonoBehaviour
         //Debug.Log("Threw with Vector force: " + throwingForce);
         grabbedObject.GetComponent<Rigidbody>().isKinematic = false;
         grabbedObject.GetComponent<Rigidbody>().useGravity = true;
+        grabbedObject.GetComponent<Collider>().enabled = true;
         //Debug.Log("Velocity: " + direction.magnitude);
         grabbedObject.GetComponent<Rigidbody>().AddForce(throwingForce);
 
@@ -609,6 +601,7 @@ public class CharacterMovementController : MonoBehaviour
                     {
                         grabbedObject.GetComponent<Rigidbody>().useGravity = false;
                     }
+                    collider.enabled = false;
                 }
             }
             else if (collider.tag == "Player" && collider.gameObject.GetComponent<CharacterMovementController>().isMini)

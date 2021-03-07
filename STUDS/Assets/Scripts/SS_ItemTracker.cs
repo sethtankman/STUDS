@@ -8,11 +8,17 @@ public class SS_ItemTracker : MonoBehaviour
 
     private string[] itemList;
     private bool[] completedItemsCheck;
+    private Dictionary<string, bool> itemsCollected;
     public Text listText;
     // Start is called before the first frame update
     void Start()
     {
         itemList = new string[] {"Propane", "Sprinkler", "Toolbox", "Boombox", "Cooler", "SlowSign", "Helmet", "Shovel", "Hammer",};
+        itemsCollected = new Dictionary<string, bool>();
+        foreach (string item in itemList)
+        {
+            itemsCollected.Add(item, false);
+        }
         completedItemsCheck = new bool[itemList.Length];
         
     }
@@ -54,6 +60,11 @@ public class SS_ItemTracker : MonoBehaviour
 
     }
 
+    public bool isItemCompleted(string item)
+    {
+        return itemsCollected[item];
+    }
+
     public string[] GetList()
     {
         return itemList;
@@ -62,5 +73,7 @@ public class SS_ItemTracker : MonoBehaviour
     public void CheckoutItem(int i)
     {
         completedItemsCheck[i] = true;
+        itemsCollected[itemList[i]] = true;
+        Debug.Log("ID: " + i + ", itemList[i]: " + itemList[i]);
     }
 }

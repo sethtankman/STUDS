@@ -14,9 +14,9 @@ public class SS_Initialize : MonoBehaviour
 
     private GameObject[] players;
 
-    public GameObject strollerPrefab;
-
     public GameObject startCam;
+
+    public GameObject p1Paper, p2Paper, p3Paper, p4Paper;
 
     public Text player1List;
 
@@ -41,14 +41,17 @@ public class SS_Initialize : MonoBehaviour
             {
                 players[1].gameObject.AddComponent<SS_ItemTracker>();
                 players[1].gameObject.GetComponent<SS_ItemTracker>().listText = player2List;
+                p2Paper.SetActive(true);
                 if (players.Length > 2)
                 {
                     players[2].gameObject.AddComponent<SS_ItemTracker>();
                     players[2].gameObject.GetComponent<SS_ItemTracker>().listText = player3List;
+                    p3Paper.SetActive(true);
                     if (players.Length > 3)
                     {
                         players[3].gameObject.AddComponent<SS_ItemTracker>();
                         players[3].gameObject.GetComponent<SS_ItemTracker>().listText = player4List;
+                        p4Paper.SetActive(true);
                     }
                 }
             }

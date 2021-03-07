@@ -27,13 +27,13 @@ public class SS_CheckoutDetect : MonoBehaviour
             string[] itemlist = player.GetComponent<SS_ItemTracker>().GetList();
             for(int i = 0; i < itemlist.Length; i++)
             {
-                if (itemlist[i].Equals(itemName))
+                if (itemlist[i].Equals(itemName) && player.GetComponent<SS_ItemTracker>().isItemCompleted(itemName) == false)
                 {
                     player.GetComponent<SS_ItemTracker>().CheckoutItem(i);
                     CheckoutEffect.Play();
+                    Destroy(collision.collider.gameObject);
                 }
             }
-            Destroy(collision.collider.gameObject);
         }
     }
 }
