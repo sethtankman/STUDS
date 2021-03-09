@@ -122,8 +122,15 @@ public class CharacterMovementController : MonoBehaviour
             //Handle moving and rotating the object that has been grabbed
             if (hasGrabbed)
             {
-
-                grabbedObject.transform.position = transform.position + (transform.forward * 1.3f) + (transform.up * 0.7f);
+                float grabDistance = 1.3f;
+                float grabHeight = 0.7f;
+                //Quaternion grabRotation = Quaternion.; //Maybe we'll need this for the hammer in shopping spree
+                if(grabbedObject.GetComponent<GrabbableObjectController>())
+                {
+                    grabDistance = grabbedObject.GetComponent<GrabbableObjectController>().distance;
+                    grabHeight = grabbedObject.GetComponent<GrabbableObjectController>().height;
+                }
+                grabbedObject.transform.position = transform.position + (transform.forward * grabDistance) + (transform.up * grabHeight);
                 grabbedObject.transform.rotation = transform.rotation;
                 //grabbedObject.transform.rotation *= Quaternion.Euler(0, 90, 0);
                 //grabbedObject.transform.LookAt(transform.position);
@@ -252,14 +259,11 @@ public class CharacterMovementController : MonoBehaviour
             velocity.y = 0;
         }
         //Debug.Log("velocity y is: " + velocity.y);
-
-
     }
 
     private void Move()
     {
         Vector3 dirVector = new Vector3(direction.x, 0f, direction.y).normalized;
-        //controller.Move(dirVector * moveSpeed * Time.deltaTime);
 
         if (dirVector.magnitude >= 0.1f)
         {
@@ -460,17 +464,11 @@ public class CharacterMovementController : MonoBehaviour
         if (grabbedObject)
         {
             animator.SetBool("isHoldingSomething", false);
-            if(grabbedObject.GetComponent<ShoppingItem>())
-            {
-                grabbedObject.GetComponent<ShoppingItem>().isBeingHeld = false;
-            }
-            if (grabbedObject.tag.Equals("Cart"))
+            if (grabbedObject.tag.Equals("ShoppingCart"))
             {
                 grabbedObject.GetComponent<Rigidbody>().useGravity = true;
             }
-            grabbedObject.GetComponent<Rigidbody>().isKinematic = false;
-            grabbedObject.GetComponent<Rigidbody>().useGravity = true;
-            grabbedObject.GetComponent<Collider>().enabled = true;
+            grabbedObject.GetComponent<GrabbableObjectController>().LetGo();
             grabbedObject = null;
             hasGrabbed = false;
             moveSpeed = moveSpeedNormal;
@@ -491,12 +489,12 @@ public class CharacterMovementController : MonoBehaviour
         isBlinking = _isBlinking;
         if (isBlinking)
         {
-            Debug.Log("Blink...Start!");
+            //Debug.Log("Blink...Start!");
             StartCoroutine(BlinkC());
         }
         else
         {
-            Debug.Log("Blink...Stop.");
+            //Debug.Log("Blink...Stop.");
             StopCoroutine(BlinkC());
             renderer.material.SetColor("_Color", Color.white);
         }
@@ -520,22 +518,19 @@ public class CharacterMovementController : MonoBehaviour
         animator.SetTrigger("Throw");
         yield return new WaitForSeconds(0.0f);
         ThrowSound.Post(gameObject);
-        //throwSound.Play();
         Vector3 forward = transform.forward;
         grabbedObject.transform.forward = forward;
         if (hasAimAssist)
         {
-            Debug.Log("Resetting forward vector");
+            //Debug.Log("Resetting forward vector");
             forward = Vector3.Normalize(target.transform.position - transform.position);
         }
-        Vector3 throwingForce = forward * throwForce * 2.3f; //transform.rotation.normalized * new Vector3(0, throwForce*2000, throwForce*300);
+        Vector3 throwingForce = forward * throwForce * 2.3f;
         Vector3 movementAdjust = forward * direction.magnitude * moveSpeedGrab * 40;
         throwingForce += movementAdjust;
         throwingForce.y = 300f;
         //Debug.Log("Threw with Vector force: " + throwingForce);
-        grabbedObject.GetComponent<Rigidbody>().isKinematic = false;
-        grabbedObject.GetComponent<Rigidbody>().useGravity = true;
-        grabbedObject.GetComponent<Collider>().enabled = true;
+        grabbedObject.GetComponent<GrabbableObjectController>().LetGo();
         //Debug.Log("Velocity: " + direction.magnitude);
         grabbedObject.GetComponent<Rigidbody>().AddForce(throwingForce);
 
@@ -543,10 +538,7 @@ public class CharacterMovementController : MonoBehaviour
         {
             grabbedObject.GetComponent<CombatThrow>().EnableKnockBack();
         }
-        if (grabbedObject.GetComponent<ShoppingItem>())
-        {
-            grabbedObject.GetComponent<ShoppingItem>().isBeingHeld = false;
-        }
+        
         hasGrabbed = false;
         moveSpeed = moveSpeedNormal;
         grabbedObject = null;
@@ -588,20 +580,14 @@ public class CharacterMovementController : MonoBehaviour
                     GrabSound.Post(gameObject);
                     //grabSound.Play();
                     grabbedObject = collider.gameObject;
-                    grabbedObject.GetComponent<Rigidbody>().isKinematic = true;
-                    grabbedObject.GetComponent<Rigidbody>().useGravity = false;
+                    grabbedObject.GetComponent<GrabbableObjectController>().PickupObject();
                     moveSpeed = moveSpeedGrab;
                     hasGrabbed = true;
                     pickupPressed = false;
-                    if (grabbedObject.GetComponent<ShoppingItem>())
-                    {
-                        grabbedObject.GetComponent<ShoppingItem>().isBeingHeld = true;
-                    }
-                    if (grabbedObject.tag.Equals("Cart"))
+                    if (grabbedObject.name == "Grabpoint") // Designed to only use Grabpoint as the name of the Utility Cart Grabbing point.
                     {
                         grabbedObject.GetComponent<Rigidbody>().useGravity = false;
                     }
-                    collider.enabled = false;
                 }
             }
             else if (collider.tag == "Player" && collider.gameObject.GetComponent<CharacterMovementController>().isMini)
@@ -617,13 +603,12 @@ public class CharacterMovementController : MonoBehaviour
                 if (givenObject)
                 {
                     GameObject takenObject = Instantiate(givenObject, gameObject.transform.position + (transform.forward * 1.3f) + (transform.up * 0.7f), Quaternion.identity);
+                    takenObject.GetComponent<GrabbableObjectController>().PickupObject();
                     grabbedObject = takenObject;
                     takenObject.GetComponent<ShoppingItem>().SetPlayer(this.gameObject);
                     foundGrabbable = true;
                     animator.SetBool("isHoldingSomething", true);
                     GrabSound.Post(gameObject);
-                    takenObject.GetComponent<Rigidbody>().isKinematic = true;
-                    takenObject.GetComponent<Rigidbody>().useGravity = false;
                     moveSpeed = moveSpeedGrab;
                     hasGrabbed = true;
                     pickupPressed = false;

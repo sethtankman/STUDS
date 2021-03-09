@@ -16,6 +16,22 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 3
+--- !u!114 &978184592400623700
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5474897185545691202}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 722955d4dbfdca3458e7178917a26c98, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  distance: 1.1
+  height: 0.8
+  additionalColliders: []
+  rotation: {x: 0, y: 0, z: 0}
 --- !u!114 &6411814302693365504
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -40,6 +56,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f784a562306bf314a96b294c9c39d0ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isBeingHeld: 1
   name: Hammer
 --- !u!1001 &9047064120443430008
 PrefabInstance:
@@ -91,17 +108,17 @@ PrefabInstance:
     - target: {fileID: 4412627913996410496, guid: 712423f4143fbe64ba3d31c92fbf7f72,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4412627913996410496, guid: 712423f4143fbe64ba3d31c92fbf7f72,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4412627913996410496, guid: 712423f4143fbe64ba3d31c92fbf7f72,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4412627913996410496, guid: 712423f4143fbe64ba3d31c92fbf7f72,
         type: 3}

@@ -13,7 +13,7 @@ public class ShoppingItem : MonoBehaviour
     public void SetPlayer(GameObject player) 
     {
         this.player = player;
-        isBeingHeld = true;
+        //isBeingHeld = true;
     }
 
     public GameObject GetPlayer()

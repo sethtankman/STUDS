@@ -222,6 +222,7 @@ GameObject:
   - component: {fileID: 5959651138100646429}
   - component: {fileID: -7974120149847614853}
   - component: {fileID: 7519934254662303934}
+  - component: {fileID: 2806906171860117319}
   m_Layer: 0
   m_Name: SlowSign
   m_TagString: ShoppingItem
@@ -365,6 +366,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   knockBack: {fileID: 2746224764866545471}
   knockBackCooldown: 1
+--- !u!114 &2806906171860117319
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1277395567030926200}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 722955d4dbfdca3458e7178917a26c98, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  distance: 0.6
+  height: 0.9
+  additionalColliders: []
+  rotation: {x: 0, y: 0, z: 0}
 --- !u!1 &2746224764866545471
 GameObject:
   m_ObjectHideFlags: 0
@@ -417,6 +434,8 @@ MonoBehaviour:
     valueGuidInternal: 
     WwiseObjectReference: {fileID: 0}
   slidethrough: 0
+  reflective: 0
+  directional: 0
 --- !u!65 &6143635305089439498
 BoxCollider:
   m_ObjectHideFlags: 0

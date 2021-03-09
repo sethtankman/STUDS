@@ -52,6 +52,8 @@ MonoBehaviour:
     valueGuidInternal: 
     WwiseObjectReference: {fileID: 0}
   slidethrough: 0
+  reflective: 0
+  directional: 0
 --- !u!65 &238143574046990478
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -81,6 +83,7 @@ GameObject:
   - component: {fileID: 869273216596849207}
   - component: {fileID: 4637622501164273647}
   - component: {fileID: 532217893245767058}
+  - component: {fileID: 3470658471049579378}
   m_Layer: 0
   m_Name: Toolbox
   m_TagString: ShoppingItem
@@ -222,3 +225,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   knockBack: {fileID: 2155882088604651070}
   knockBackCooldown: 1
+--- !u!114 &3470658471049579378
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3673970781665907401}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 722955d4dbfdca3458e7178917a26c98, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  distance: 0.7
+  height: 1.1
+  additionalColliders: []
+  rotation: {x: 0, y: 0, z: 0}

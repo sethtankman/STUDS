@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 6612860388900246453}
   - component: {fileID: 10800647371237954}
   - component: {fileID: 1497929418321200445}
+  - component: {fileID: 5565907011593218748}
   m_Layer: 0
   m_Name: Cooler
   m_TagString: ShoppingItem
@@ -155,6 +156,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   knockBack: {fileID: 4868327694493085661}
   knockBackCooldown: 1
+--- !u!114 &5565907011593218748
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2834774175446282880}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 722955d4dbfdca3458e7178917a26c98, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  distance: 0.7
+  height: 0.8
+  additionalColliders: []
+  rotation: {x: 0, y: 0, z: 0}
 --- !u!1 &4868327694493085661
 GameObject:
   m_ObjectHideFlags: 0
@@ -207,6 +224,8 @@ MonoBehaviour:
     valueGuidInternal: 
     WwiseObjectReference: {fileID: 0}
   slidethrough: 0
+  reflective: 0
+  directional: 0
 --- !u!65 &6488117633427664896
 BoxCollider:
   m_ObjectHideFlags: 0

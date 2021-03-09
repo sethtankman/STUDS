@@ -16,9 +16,10 @@ GameObject:
   - component: {fileID: 3236310176230454080}
   - component: {fileID: 2752616306360193519}
   - component: {fileID: 8953681010114937567}
+  - component: {fileID: 8024237720261318043}
   m_Layer: 0
   m_Name: PropaneExplode
-  m_TagString: ShoppingItem
+  m_TagString: Grabbable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -125,7 +126,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f784a562306bf314a96b294c9c39d0ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isBeingHeld: 1
+  isBeingHeld: 0
   name: Propane
 --- !u!54 &2752616306360193519
 Rigidbody:
@@ -159,6 +160,22 @@ MonoBehaviour:
   knockBackCooldown: 1
   explosionEffect: {fileID: 2398608829508964987, guid: 7cdb33f284450a6458f750669d6125ff,
     type: 3}
+--- !u!114 &8024237720261318043
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3000721321570638523}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 722955d4dbfdca3458e7178917a26c98, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  distance: 0.8
+  height: 0.7
+  additionalColliders: []
+  rotation: {x: 0, y: 0, z: 0}
 --- !u!1 &4190459552753404649
 GameObject:
   m_ObjectHideFlags: 0
@@ -204,13 +221,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   directionVector: {x: 0, y: 1, z: 0}
-  kBForce: 5
+  kBForce: 20
   makePlayerDrop: 1
   KBSound:
     idInternal: 0
     valueGuidInternal: 
     WwiseObjectReference: {fileID: 0}
   slidethrough: 0
+  reflective: 1
+  directional: 1
 --- !u!65 &2326493226936067099
 BoxCollider:
   m_ObjectHideFlags: 0

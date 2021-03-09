@@ -52,6 +52,8 @@ MonoBehaviour:
     valueGuidInternal: 
     WwiseObjectReference: {fileID: 0}
   slidethrough: 0
+  reflective: 0
+  directional: 0
 --- !u!65 &903525145541334904
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -81,6 +83,7 @@ GameObject:
   - component: {fileID: 1577480905056710499}
   - component: {fileID: 8807206154095763198}
   - component: {fileID: 4440268038484094153}
+  - component: {fileID: 1006276156252610960}
   m_Layer: 0
   m_Name: Boombox
   m_TagString: ShoppingItem
@@ -222,3 +225,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   knockBack: {fileID: 4457504724506563704}
   knockBackCooldown: 1
+--- !u!114 &1006276156252610960
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7310380734523108174}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 722955d4dbfdca3458e7178917a26c98, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  distance: 0.5
+  height: 0.7
+  additionalColliders: []
+  rotation: {x: 0, y: 0, z: 0}
