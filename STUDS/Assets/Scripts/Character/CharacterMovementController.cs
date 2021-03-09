@@ -590,10 +590,6 @@ public class CharacterMovementController : MonoBehaviour
                     {
                         grabbedObject.GetComponent<Rigidbody>().useGravity = false;
                     }
-<<<<<<< HEAD
-=======
-                    //collider.enabled = false;
->>>>>>> main
                 }
             }
             else if (collider.tag == "Player" && collider.gameObject.GetComponent<CharacterMovementController>().isMini)
