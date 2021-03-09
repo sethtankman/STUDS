@@ -267,6 +267,7 @@ public class CharacterMovementController : MonoBehaviour
 
         if (dirVector.magnitude >= 0.1f)
         {
+
             animator.SetBool("isRunning", true);
             isMoving = true;
             float targetAngle = Mathf.Atan2(dirVector.x, dirVector.z) * Mathf.Rad2Deg + camPos.eulerAngles.y;
@@ -275,6 +276,7 @@ public class CharacterMovementController : MonoBehaviour
 
             Vector3 moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
             controller.Move((moveDir.normalized * moveSpeed) * Time.deltaTime);
+
         }
         else
         {
@@ -588,6 +590,10 @@ public class CharacterMovementController : MonoBehaviour
                     {
                         grabbedObject.GetComponent<Rigidbody>().useGravity = false;
                     }
+<<<<<<< HEAD
+=======
+                    //collider.enabled = false;
+>>>>>>> main
                 }
             }
             else if (collider.tag == "Player" && collider.gameObject.GetComponent<CharacterMovementController>().isMini)

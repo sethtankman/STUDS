@@ -29,7 +29,12 @@ public class CameraCollision : MonoBehaviour
         RaycastHit hit;
         Physics.Linecast(transform.parent.position, desiredCameraPosition, out hit);
         // The mesh renderer check is quick fix to stop collisions with invisible objects.
+<<<<<<< HEAD
         if (hit.transform && hit.transform.GetComponent<MeshRenderer>()) 
+=======
+        /*
+        if (hit.transform.GetComponent<MeshRenderer>()) 
+>>>>>>> main
         {
             Debug.Log("Camera collided with " + hit.transform.gameObject.name);
             distance = Mathf.Clamp(hit.distance, minDistance, maxDistance);
@@ -38,5 +43,5 @@ public class CameraCollision : MonoBehaviour
             distance = maxDistance;
         }
         transform.localPosition = Vector3.Lerp(transform.localPosition, dollyDirection * distance, Time.deltaTime * smooth);
-    }
+    */}
 }
