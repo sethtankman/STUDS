@@ -7,8 +7,10 @@ public class RaceTracker : MonoBehaviour
 {
     public List<GameObject> Players = new List<GameObject>();
     public List<PlaceTracker> PT = new List<PlaceTracker>();
-    public Text PositionTXT;
 
+    public GameObject BlueIcon;
+    public GameObject YellowIcon;
+    public GameObject RedIcon; 
 
     // Start is called before the first frame update
     void Awake()
@@ -19,6 +21,7 @@ public class RaceTracker : MonoBehaviour
         for(int i = 0; i < Players.Count; i++)
         {
             PT.Add(Players[i].GetComponent<PlaceTracker>());
+
         }
         
     }
@@ -26,12 +29,17 @@ public class RaceTracker : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        for (int i = 0; i < Players.Count; i++)
+        for (int i = 0; i < Players.Count - 1; i++)
         { 
                 if (PT[i].Progress > PT[i + 1].Progress)
             {
-                PositionTXT.text = i.ToString() + "st";
+                
             }
         }
+    }
+
+    void ValidatePosition(PlaceTracker Player)
+    {
+
     }
 }
