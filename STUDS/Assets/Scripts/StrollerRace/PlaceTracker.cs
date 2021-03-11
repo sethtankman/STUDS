@@ -7,8 +7,6 @@ public class PlaceTracker : MonoBehaviour
 {
     public List<GameObject> ProgressPoints = new List<GameObject>();
     public int Progress = 0;
-
-    
     
 
     public void OnTriggerEnter(Collider other)

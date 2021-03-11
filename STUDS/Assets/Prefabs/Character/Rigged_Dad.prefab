@@ -161,7 +161,6 @@ GameObject:
   - component: {fileID: 7703250766489200880}
   - component: {fileID: 1512158197606061540}
   - component: {fileID: 7574005608530412624}
-  - component: {fileID: 7455231681854528080}
   - component: {fileID: 6403045030480722751}
   m_Layer: 0
   m_Name: Rigged_Dad
@@ -189,6 +188,7 @@ Transform:
   - {fileID: 5060634770275224096}
   - {fileID: 3950392200148919116}
   - {fileID: 2178233895639008280}
+  - {fileID: 1643305692474451190}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -479,20 +479,6 @@ MonoBehaviour:
   Emote: {fileID: 422494816501745906}
   inRange: 0
   PLRCam: {fileID: 3450374694476005401}
---- !u!114 &7455231681854528080
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 932691824398563431}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b74733431145c824c99884edf2c9b669, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ProgressPoints: []
-  Progress: 0
 --- !u!114 &6403045030480722751
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -904,6 +890,66 @@ Transform:
   m_Father: {fileID: 5897133988603670622}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &3036638410415599429
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1643305692474451190}
+  - component: {fileID: 6152304110825326057}
+  - component: {fileID: 4425470786722604766}
+  m_Layer: 0
+  m_Name: RaceTracker
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1643305692474451190
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3036638410415599429}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 556835471894749917}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!135 &6152304110825326057
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3036638410415599429}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.03
+  m_Center: {x: 0, y: 0.03, z: 0}
+--- !u!114 &4425470786722604766
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3036638410415599429}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b74733431145c824c99884edf2c9b669, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ProgressPoints: []
+  Progress: 0
+  Col: {fileID: 0}
 --- !u!1 &3057230205462136630
 GameObject:
   m_ObjectHideFlags: 0
@@ -6635,15 +6681,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c94078c36f26dc34faa735ae7457364d, type: 3}
---- !u!1 &9113705332806400845 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: c94078c36f26dc34faa735ae7457364d,
-    type: 3}
-  m_PrefabInstance: {fileID: 8267214079346542108}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &8444726601827115511 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: c94078c36f26dc34faa735ae7457364d,
+    type: 3}
+  m_PrefabInstance: {fileID: 8267214079346542108}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &9113705332806400845 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: c94078c36f26dc34faa735ae7457364d,
     type: 3}
   m_PrefabInstance: {fileID: 8267214079346542108}
   m_PrefabAsset: {fileID: 0}
