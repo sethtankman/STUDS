@@ -10,11 +10,18 @@ public class Music_Manager : MonoBehaviour
     public AK.Wwise.Event strollerMusic;
     public AK.Wwise.Event shoppingMusic;
 
+    private static GameObject instance;
 
     void Start()
     {
-        DontDestroyOnLoad(this.gameObject);
-        PlayStopMusic("Menu", true);
+        if (instance == null)
+        {
+            instance = this.gameObject;
+            DontDestroyOnLoad(this.gameObject);
+            PlayStopMusic("Menu", true);
+        }
+        else
+            Destroy(this.gameObject);
     }
 
     public void PlayStopMusic(string soundName, bool play)
