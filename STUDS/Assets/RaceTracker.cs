@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Linq;
 
 public class RaceTracker : MonoBehaviour
 {
@@ -31,12 +32,25 @@ public class RaceTracker : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        PT = PT.OrderBy(e => e.GetComponent<PlaceTracker>().Progress).ToList();
+
+        for(int i = 0; i <= Players.Count; i++)
+        {
+            string PlrColor = PT[i].GetComponent<PlaceTracker>().PLRCol;
+
+            Positions[i].texture = IconPicker(PlrColor);
+
+        }
+
+        /*
         for (int i = 0; i < Positions.Length - 1; i++)
         {
-            string PlrColor = Players[i].GetComponent<CharacterMovementController>().GetColorName();
+
+            string PlrColor = Players[i].GetComponent<PlaceTracker>().PLRCol;
             if (PT[i].Progress > PT[i + 1].Progress)
+            compare
             {
-                
+                print("Here");
                if(PlrColor == "Blue")
                 {
                     Positions[i].texture = BlueIcon;
@@ -63,8 +77,28 @@ public class RaceTracker : MonoBehaviour
             {
                 Positions[Positions.Length].texture = YellowIcon;
             }
-        }
+        }*/
         
+    }
+
+    private Texture IconPicker(string Color)
+    {
+        if (Color == "Blue")
+        {
+            print("Blue");
+            return BlueIcon;
+        }
+        if (Color == "Red")
+        {
+            print("Red");
+            return RedIcon;
+        }
+        if (Color == "Yellow")
+        {
+            print("Yellow");
+            return YellowIcon;
+        }
+        return null;
     }
 
 }

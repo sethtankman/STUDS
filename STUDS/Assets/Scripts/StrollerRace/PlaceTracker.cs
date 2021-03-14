@@ -7,6 +7,8 @@ public class PlaceTracker : MonoBehaviour
 {
     public List<GameObject> ProgressPoints = new List<GameObject>();
     public int Progress = 0;
+
+    public string PLRCol;
     
 
     public void OnTriggerEnter(Collider other)
@@ -36,7 +38,8 @@ public class PlaceTracker : MonoBehaviour
 
     private void Start()
     {
-        
+            PLRCol = GetComponent<CharacterMovementController>().GetColorName();
+       
     }
 
 
