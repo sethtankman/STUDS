@@ -38,7 +38,7 @@ public class PlaceTracker : MonoBehaviour
 
     private void Start()
     {
-            PLRCol = GetComponent<CharacterMovementController>().GetColorName();
+            PLRCol = GetComponentInParent<CharacterMovementController>().GetColorName();
        
     }
 

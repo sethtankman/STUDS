@@ -32,11 +32,11 @@ public class RaceTracker : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        PT = PT.OrderBy(e => e.GetComponent<PlaceTracker>().Progress).ToList();
+        PT = PT.OrderBy(e => e.GetComponentInChildren<PlaceTracker>().Progress).ToList();
 
         for(int i = 0; i <= Players.Count; i++)
         {
-            string PlrColor = PT[i].GetComponent<PlaceTracker>().PLRCol;
+            string PlrColor = PT[i].GetComponentInChildren<PlaceTracker>().PLRCol;
 
             Positions[i].texture = IconPicker(PlrColor);
 
