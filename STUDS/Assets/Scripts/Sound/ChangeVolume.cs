@@ -7,7 +7,6 @@ public class ChangeVolume : MonoBehaviour
 {
     public Slider thisSlider;
     public float masterVolume;
-
     // Start is called before the first frame update
     void Start()
     {
@@ -29,7 +28,7 @@ public class ChangeVolume : MonoBehaviour
         {
             //Debug.Log("changed master volume to :" + thisSlider.value);
             masterVolume = thisSlider.value;
-            AkSoundEngine.SetRTPCValue("MasterVolume", masterVolume);
+            AkSoundEngine.SetRTPCValue("Master", masterVolume);
 
         }
     }

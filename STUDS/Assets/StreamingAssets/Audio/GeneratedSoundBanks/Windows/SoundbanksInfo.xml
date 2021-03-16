@@ -1,25 +1,89 @@
 <?xml version="1.0" encoding="utf-8"?>
 <SoundBanksInfo Platform="Windows" BasePlatform="Windows" SchemaVersion="12" SoundbankVersion="140">
 	<RootPaths>
-		<ProjectRoot>D:\Semester 7 &amp; 8\1_Semester 8\Capstone\Audio 2\STUDS_WwiseProject\</ProjectRoot>
-		<SourceFilesRoot>D:\Semester 7 &amp; 8\1_Semester 8\Capstone\Audio 2\STUDS_WwiseProject\.cache\Windows\</SourceFilesRoot>
-		<SoundBanksRoot>D:\Semester 7 &amp; 8\1_Semester 8\Capstone\Audio 2\STUDS_WwiseProject\GeneratedSoundBanks\Windows\</SoundBanksRoot>
+		<ProjectRoot>D:\Semester 7 &amp; 8\1_Semester 8\Capstone\Audio 3\STUDS_WwiseProject\</ProjectRoot>
+		<SourceFilesRoot>D:\Semester 7 &amp; 8\1_Semester 8\Capstone\Audio 3\STUDS_WwiseProject\.cache\Windows\</SourceFilesRoot>
+		<SoundBanksRoot>D:\Semester 7 &amp; 8\1_Semester 8\Capstone\Audio 3\STUDS_WwiseProject\GeneratedSoundBanks\Windows\</SoundBanksRoot>
 		<ExternalSourcesInputFile></ExternalSourcesInputFile>
-		<ExternalSourcesOutputRoot>D:\Semester 7 &amp; 8\1_Semester 8\Capstone\Audio 2\STUDS_WwiseProject\GeneratedSoundBanks\Windows</ExternalSourcesOutputRoot>
+		<ExternalSourcesOutputRoot>D:\Semester 7 &amp; 8\1_Semester 8\Capstone\Audio 3\STUDS_WwiseProject\GeneratedSoundBanks\Windows</ExternalSourcesOutputRoot>
 	</RootPaths>
 	<DialogueEvents/>
 	<StreamedFiles/>
 	<MediaFilesNotInAnyBank/>
 	<SoundBanks>
-		<SoundBank Id="1355168291" Language="SFX" Hash="138728269">
+		<SoundBank Id="33181775" Language="SFX" Hash="1783513509">
+			<ObjectPath>\SoundBanks\Default Work Unit\Appliance_Bank</ObjectPath>
+			<ShortName>Appliance_Bank</ShortName>
+			<Path>Appliance_Bank.bnk</Path>
+			<IncludedEvents>
+				<Event Id="2807648437" Name="Appliance_Music_Stop" ObjectPath="\Events\Default Work Unit\Appliances\Appliance_Music_Stop"/>
+				<Event Id="1544264091" Name="Lamp_Use" ObjectPath="\Events\Default Work Unit\Appliances\Lamp_Use">
+					<IncludedMemoryFiles>
+						<File Id="585466955" Language="SFX">
+							<ShortName>sfx_lamp_use.wav</ShortName>
+							<Path>SFX\sfx_lamp_use_10C4C929.wem</Path>
+						</File>
+					</IncludedMemoryFiles>
+				</Event>
+				<Event Id="3725903807" Name="Music_Start" ObjectPath="\Events\Default Work Unit\Appliances\Music_Start">
+					<IncludedMemoryFiles>
+						<File Id="1061979473" Language="SFX">
+							<ShortName>STUDS House Level Theme.wav</ShortName>
+							<Path>SFX\STUDS House Level Theme_D79FB2B7.wem</Path>
+						</File>
+					</IncludedMemoryFiles>
+				</Event>
+				<Event Id="2630690521" Name="Switch_Flip" ObjectPath="\Events\Default Work Unit\Appliances\Switch_Flip">
+					<IncludedMemoryFiles>
+						<File Id="852504797" Language="SFX">
+							<ShortName>sfx_switch_flip.wav</ShortName>
+							<Path>SFX\sfx_switch_flip_10C4C929.wem</Path>
+						</File>
+					</IncludedMemoryFiles>
+				</Event>
+				<Event Id="3474953567" Name="SwitchorButton_Click" ObjectPath="\Events\Default Work Unit\Appliances\SwitchorButton_Click">
+					<IncludedMemoryFiles>
+						<File Id="270815411" Language="SFX">
+							<ShortName>sfx_switch_click.wav</ShortName>
+							<Path>SFX\sfx_switch_click_10C4C929.wem</Path>
+						</File>
+					</IncludedMemoryFiles>
+				</Event>
+				<Event Id="4079112898" Name="Washer_Run_Start" ObjectPath="\Events\Default Work Unit\Appliances\Washer_Run_Start">
+					<IncludedMemoryFiles>
+						<File Id="9631814" Language="SFX">
+							<ShortName>sfx_washer_run.wav</ShortName>
+							<Path>SFX\sfx_washer_run_D79FB2B7.wem</Path>
+						</File>
+					</IncludedMemoryFiles>
+				</Event>
+				<Event Id="1990754874" Name="Washer_Run_Stop" ObjectPath="\Events\Default Work Unit\Appliances\Washer_Run_Stop"/>
+				<Event Id="2699243585" Name="Water_Run_Start" ObjectPath="\Events\Default Work Unit\Appliances\Water_Run_Start">
+					<IncludedMemoryFiles>
+						<File Id="772817420" Language="SFX">
+							<ShortName>sfx_water_run.wav</ShortName>
+							<Path>SFX\sfx_water_run_D79FB2B7.wem</Path>
+						</File>
+					</IncludedMemoryFiles>
+				</Event>
+				<Event Id="497567739" Name="Water_Run_Stop" ObjectPath="\Events\Default Work Unit\Appliances\Water_Run_Stop"/>
+			</IncludedEvents>
+			<GameParameters>
+				<GameParameter Id="1685527054" Name="MX" ObjectPath="\Game Parameters\Default Work Unit\Volume Sliders\MX"/>
+				<GameParameter Id="4056684167" Name="Master" ObjectPath="\Game Parameters\Default Work Unit\Volume Sliders\Master"/>
+			</GameParameters>
+		</SoundBank>
+		<SoundBank Id="1355168291" Language="SFX" Hash="896033565">
 			<ObjectPath>Init</ObjectPath>
 			<ShortName>Init</ShortName>
 			<Path>Init.bnk</Path>
 			<GameParameters>
-				<GameParameter Id="2918011349" Name="MasterVolume" ObjectPath="\Game Parameters\Default Work Unit\MasterVolume"/>
+				<GameParameter Id="393239870" Name="SFX" ObjectPath="\Game Parameters\Default Work Unit\Volume Sliders\SFX"/>
+				<GameParameter Id="1685527054" Name="MX" ObjectPath="\Game Parameters\Default Work Unit\Volume Sliders\MX"/>
+				<GameParameter Id="4056684167" Name="Master" ObjectPath="\Game Parameters\Default Work Unit\Volume Sliders\Master"/>
 			</GameParameters>
 		</SoundBank>
-		<SoundBank Id="2277190520" Language="SFX" Hash="777778732">
+		<SoundBank Id="2277190520" Language="SFX" Hash="4089494300">
 			<ObjectPath>\SoundBanks\Default Work Unit\General_Bank</ObjectPath>
 			<ShortName>General_Bank</ShortName>
 			<Path>General_Bank.bnk</Path>
@@ -58,21 +122,45 @@
 				</Event>
 				<Event Id="1136018332" Name="Player_Run" ObjectPath="\Events\Default Work Unit\Player\Player_Run">
 					<IncludedMemoryFiles>
-						<File Id="284858175" Language="SFX">
-							<ShortName>Run\sfx_player_run_03.wav</ShortName>
-							<Path>SFX\Run\sfx_player_run_03_10C4C929.wem</Path>
+						<File Id="52063833" Language="SFX">
+							<ShortName>sfx_player_run_02.wav</ShortName>
+							<Path>SFX\sfx_player_run_02_10C4C929.wem</Path>
 						</File>
-						<File Id="335260208" Language="SFX">
-							<ShortName>Run\sfx_player_run_01.wav</ShortName>
-							<Path>SFX\Run\sfx_player_run_01_10C4C929.wem</Path>
+						<File Id="196039740" Language="SFX">
+							<ShortName>sfx_player_run_06.wav</ShortName>
+							<Path>SFX\sfx_player_run_06_10C4C929.wem</Path>
 						</File>
-						<File Id="403248687" Language="SFX">
-							<ShortName>Run\sfx_player_run_04.wav</ShortName>
-							<Path>SFX\Run\sfx_player_run_04_10C4C929.wem</Path>
+						<File Id="266614544" Language="SFX">
+							<ShortName>sfx_player_run_04.wav</ShortName>
+							<Path>SFX\sfx_player_run_04_10C4C929.wem</Path>
 						</File>
-						<File Id="769321203" Language="SFX">
-							<ShortName>Run\sfx_player_run_02.wav</ShortName>
-							<Path>SFX\Run\sfx_player_run_02_10C4C929.wem</Path>
+						<File Id="382993469" Language="SFX">
+							<ShortName>sfx_player_run_01.wav</ShortName>
+							<Path>SFX\sfx_player_run_01_10C4C929.wem</Path>
+						</File>
+						<File Id="522782963" Language="SFX">
+							<ShortName>sfx_player_run_03.wav</ShortName>
+							<Path>SFX\sfx_player_run_03_10C4C929.wem</Path>
+						</File>
+						<File Id="710911892" Language="SFX">
+							<ShortName>sfx_player_run_07.wav</ShortName>
+							<Path>SFX\sfx_player_run_07_10C4C929.wem</Path>
+						</File>
+						<File Id="907821337" Language="SFX">
+							<ShortName>sfx_player_run_05.wav</ShortName>
+							<Path>SFX\sfx_player_run_05_10C4C929.wem</Path>
+						</File>
+						<File Id="1068509642" Language="SFX">
+							<ShortName>sfx_player_run_08.wav</ShortName>
+							<Path>SFX\sfx_player_run_08_10C4C929.wem</Path>
+						</File>
+					</IncludedMemoryFiles>
+				</Event>
+				<Event Id="2856562055" Name="Player_Slip" ObjectPath="\Events\Default Work Unit\ShoppingSpree\Player_Slip">
+					<IncludedMemoryFiles>
+						<File Id="954405603" Language="SFX">
+							<ShortName>sfx_slip.wav</ShortName>
+							<Path>SFX\sfx_slip_10C4C929.wem</Path>
 						</File>
 					</IncludedMemoryFiles>
 				</Event>
@@ -86,37 +174,61 @@
 				</Event>
 				<Event Id="2147561130" Name="Player_Walk" ObjectPath="\Events\Default Work Unit\Player\Player_Walk">
 					<IncludedMemoryFiles>
-						<File Id="197621079" Language="SFX">
-							<ShortName>Walk\sfx_player_walk_01.wav</ShortName>
-							<Path>SFX\Walk\sfx_player_walk_01_10C4C929.wem</Path>
+						<File Id="38531325" Language="SFX">
+							<ShortName>sfx_player_walk_05.wav</ShortName>
+							<Path>SFX\sfx_player_walk_05_10C4C929.wem</Path>
 						</File>
-						<File Id="423800931" Language="SFX">
-							<ShortName>Walk\sfx_player_walk_07.wav</ShortName>
-							<Path>SFX\Walk\sfx_player_walk_07_10C4C929.wem</Path>
+						<File Id="145061674" Language="SFX">
+							<ShortName>sfx_player_walk_06.wav</ShortName>
+							<Path>SFX\sfx_player_walk_06_10C4C929.wem</Path>
 						</File>
-						<File Id="517695269" Language="SFX">
-							<ShortName>Walk\sfx_player_walk_03.wav</ShortName>
-							<Path>SFX\Walk\sfx_player_walk_03_10C4C929.wem</Path>
+						<File Id="618864532" Language="SFX">
+							<ShortName>sfx_player_walk_01.wav</ShortName>
+							<Path>SFX\sfx_player_walk_01_10C4C929.wem</Path>
 						</File>
-						<File Id="559018822" Language="SFX">
-							<ShortName>Walk\sfx_player_walk_06.wav</ShortName>
-							<Path>SFX\Walk\sfx_player_walk_06_10C4C929.wem</Path>
+						<File Id="788101890" Language="SFX">
+							<ShortName>sfx_player_walk_02.wav</ShortName>
+							<Path>SFX\sfx_player_walk_02_10C4C929.wem</Path>
 						</File>
-						<File Id="778806086" Language="SFX">
-							<ShortName>Walk\sfx_player_walk_02.wav</ShortName>
-							<Path>SFX\Walk\sfx_player_walk_02_10C4C929.wem</Path>
+						<File Id="884995417" Language="SFX">
+							<ShortName>sfx_player_walk_03.wav</ShortName>
+							<Path>SFX\sfx_player_walk_03_10C4C929.wem</Path>
 						</File>
-						<File Id="794578408" Language="SFX">
-							<ShortName>Walk\sfx_player_walk_04.wav</ShortName>
-							<Path>SFX\Walk\sfx_player_walk_04_10C4C929.wem</Path>
+						<File Id="1025771443" Language="SFX">
+							<ShortName>sfx_player_walk_04.wav</ShortName>
+							<Path>SFX\sfx_player_walk_04_10C4C929.wem</Path>
 						</File>
-						<File Id="856880127" Language="SFX">
-							<ShortName>Walk\sfx_player_walk_05.wav</ShortName>
-							<Path>SFX\Walk\sfx_player_walk_05_10C4C929.wem</Path>
+					</IncludedMemoryFiles>
+				</Event>
+				<Event Id="443898124" Name="PlayerSelect_ParticleEffect" ObjectPath="\Events\Default Work Unit\Player\PlayerSelect_ParticleEffect">
+					<IncludedMemoryFiles>
+						<File Id="21881147" Language="SFX">
+							<ShortName>sfx_character_selection_particleeffect.wav</ShortName>
+							<Path>SFX\sfx_character_selection_particleeffect_10C4C929.wem</Path>
 						</File>
-						<File Id="894113781" Language="SFX">
-							<ShortName>Walk\sfx_player_walk_08.wav</ShortName>
-							<Path>SFX\Walk\sfx_player_walk_08_10C4C929.wem</Path>
+					</IncludedMemoryFiles>
+				</Event>
+				<Event Id="554627078" Name="Register" ObjectPath="\Events\Default Work Unit\ShoppingSpree\Register">
+					<IncludedMemoryFiles>
+						<File Id="385225234" Language="SFX">
+							<ShortName>sfx_register.wav</ShortName>
+							<Path>SFX\sfx_register_10C4C929.wem</Path>
+						</File>
+					</IncludedMemoryFiles>
+				</Event>
+				<Event Id="553397293" Name="Select_ParticleEffect" ObjectPath="\Events\Default Work Unit\Player\Select_ParticleEffect">
+					<IncludedMemoryFiles>
+						<File Id="117958585" Language="SFX">
+							<ShortName>sfx_select_particleeffect.wav</ShortName>
+							<Path>SFX\sfx_select_particleeffect_10C4C929.wem</Path>
+						</File>
+					</IncludedMemoryFiles>
+				</Event>
+				<Event Id="2745321152" Name="Shopping_Music_Start" ObjectPath="\Events\Default Work Unit\ShoppingSpree\Shopping_Music_Start">
+					<IncludedMemoryFiles>
+						<File Id="381455602" Language="SFX">
+							<ShortName>STUDS Store Theme.wav</ShortName>
+							<Path>SFX\STUDS Store Theme_D79FB2B7.wem</Path>
 						</File>
 					</IncludedMemoryFiles>
 				</Event>
@@ -124,80 +236,98 @@
 				<Event Id="1789415777" Name="STOP_ALL_Global" ObjectPath="\Events\Default Work Unit\STOP_ALL_Global"/>
 			</IncludedEvents>
 			<IncludedMemoryFiles>
+				<File Id="21881147" Language="SFX">
+					<ShortName>sfx_character_selection_particleeffect.wav</ShortName>
+					<Path>SFX\sfx_character_selection_particleeffect_10C4C929.wem</Path>
+				</File>
+				<File Id="38531325" Language="SFX">
+					<ShortName>sfx_player_walk_05.wav</ShortName>
+					<Path>SFX\sfx_player_walk_05_10C4C929.wem</Path>
+				</File>
+				<File Id="52063833" Language="SFX">
+					<ShortName>sfx_player_run_02.wav</ShortName>
+					<Path>SFX\sfx_player_run_02_10C4C929.wem</Path>
+				</File>
+				<File Id="117958585" Language="SFX">
+					<ShortName>sfx_select_particleeffect.wav</ShortName>
+					<Path>SFX\sfx_select_particleeffect_10C4C929.wem</Path>
+				</File>
+				<File Id="145061674" Language="SFX">
+					<ShortName>sfx_player_walk_06.wav</ShortName>
+					<Path>SFX\sfx_player_walk_06_10C4C929.wem</Path>
+				</File>
 				<File Id="179201538" Language="SFX">
 					<ShortName>sfx_player_grab.wav</ShortName>
 					<Path>SFX\sfx_player_grab_10C4C929.wem</Path>
 				</File>
-				<File Id="197621079" Language="SFX">
-					<ShortName>Walk\sfx_player_walk_01.wav</ShortName>
-					<Path>SFX\Walk\sfx_player_walk_01_10C4C929.wem</Path>
+				<File Id="196039740" Language="SFX">
+					<ShortName>sfx_player_run_06.wav</ShortName>
+					<Path>SFX\sfx_player_run_06_10C4C929.wem</Path>
 				</File>
 				<File Id="204355060" Language="SFX">
 					<ShortName>sfx_player_throw.wav</ShortName>
 					<Path>SFX\sfx_player_throw_10C4C929.wem</Path>
 				</File>
-				<File Id="284858175" Language="SFX">
-					<ShortName>Run\sfx_player_run_03.wav</ShortName>
-					<Path>SFX\Run\sfx_player_run_03_10C4C929.wem</Path>
+				<File Id="266614544" Language="SFX">
+					<ShortName>sfx_player_run_04.wav</ShortName>
+					<Path>SFX\sfx_player_run_04_10C4C929.wem</Path>
 				</File>
-				<File Id="335260208" Language="SFX">
-					<ShortName>Run\sfx_player_run_01.wav</ShortName>
-					<Path>SFX\Run\sfx_player_run_01_10C4C929.wem</Path>
+				<File Id="382993469" Language="SFX">
+					<ShortName>sfx_player_run_01.wav</ShortName>
+					<Path>SFX\sfx_player_run_01_10C4C929.wem</Path>
 				</File>
-				<File Id="403248687" Language="SFX">
-					<ShortName>Run\sfx_player_run_04.wav</ShortName>
-					<Path>SFX\Run\sfx_player_run_04_10C4C929.wem</Path>
+				<File Id="522782963" Language="SFX">
+					<ShortName>sfx_player_run_03.wav</ShortName>
+					<Path>SFX\sfx_player_run_03_10C4C929.wem</Path>
 				</File>
-				<File Id="423800931" Language="SFX">
-					<ShortName>Walk\sfx_player_walk_07.wav</ShortName>
-					<Path>SFX\Walk\sfx_player_walk_07_10C4C929.wem</Path>
+				<File Id="618864532" Language="SFX">
+					<ShortName>sfx_player_walk_01.wav</ShortName>
+					<Path>SFX\sfx_player_walk_01_10C4C929.wem</Path>
 				</File>
-				<File Id="517695269" Language="SFX">
-					<ShortName>Walk\sfx_player_walk_03.wav</ShortName>
-					<Path>SFX\Walk\sfx_player_walk_03_10C4C929.wem</Path>
+				<File Id="710911892" Language="SFX">
+					<ShortName>sfx_player_run_07.wav</ShortName>
+					<Path>SFX\sfx_player_run_07_10C4C929.wem</Path>
 				</File>
-				<File Id="559018822" Language="SFX">
-					<ShortName>Walk\sfx_player_walk_06.wav</ShortName>
-					<Path>SFX\Walk\sfx_player_walk_06_10C4C929.wem</Path>
-				</File>
-				<File Id="769321203" Language="SFX">
-					<ShortName>Run\sfx_player_run_02.wav</ShortName>
-					<Path>SFX\Run\sfx_player_run_02_10C4C929.wem</Path>
-				</File>
-				<File Id="778806086" Language="SFX">
-					<ShortName>Walk\sfx_player_walk_02.wav</ShortName>
-					<Path>SFX\Walk\sfx_player_walk_02_10C4C929.wem</Path>
-				</File>
-				<File Id="794578408" Language="SFX">
-					<ShortName>Walk\sfx_player_walk_04.wav</ShortName>
-					<Path>SFX\Walk\sfx_player_walk_04_10C4C929.wem</Path>
+				<File Id="788101890" Language="SFX">
+					<ShortName>sfx_player_walk_02.wav</ShortName>
+					<Path>SFX\sfx_player_walk_02_10C4C929.wem</Path>
 				</File>
 				<File Id="845710301" Language="SFX">
 					<ShortName>sfx_menu_scroll.wav</ShortName>
 					<Path>SFX\sfx_menu_scroll_10C4C929.wem</Path>
 				</File>
-				<File Id="856880127" Language="SFX">
-					<ShortName>Walk\sfx_player_walk_05.wav</ShortName>
-					<Path>SFX\Walk\sfx_player_walk_05_10C4C929.wem</Path>
-				</File>
-				<File Id="894113781" Language="SFX">
-					<ShortName>Walk\sfx_player_walk_08.wav</ShortName>
-					<Path>SFX\Walk\sfx_player_walk_08_10C4C929.wem</Path>
+				<File Id="884995417" Language="SFX">
+					<ShortName>sfx_player_walk_03.wav</ShortName>
+					<Path>SFX\sfx_player_walk_03_10C4C929.wem</Path>
 				</File>
 				<File Id="904871564" Language="SFX">
 					<ShortName>sfx_menu_select.wav</ShortName>
 					<Path>SFX\sfx_menu_select_10C4C929.wem</Path>
 				</File>
+				<File Id="907821337" Language="SFX">
+					<ShortName>sfx_player_run_05.wav</ShortName>
+					<Path>SFX\sfx_player_run_05_10C4C929.wem</Path>
+				</File>
 				<File Id="1000431366" Language="SFX">
 					<ShortName>sfx_player_jump.wav</ShortName>
 					<Path>SFX\sfx_player_jump_10C4C929.wem</Path>
 				</File>
+				<File Id="1025771443" Language="SFX">
+					<ShortName>sfx_player_walk_04.wav</ShortName>
+					<Path>SFX\sfx_player_walk_04_10C4C929.wem</Path>
+				</File>
+				<File Id="1068509642" Language="SFX">
+					<ShortName>sfx_player_run_08.wav</ShortName>
+					<Path>SFX\sfx_player_run_08_10C4C929.wem</Path>
+				</File>
 			</IncludedMemoryFiles>
 			<GameParameters>
-				<GameParameter Id="2918011349" Name="MasterVolume" ObjectPath="\Game Parameters\Default Work Unit\MasterVolume"/>
+				<GameParameter Id="393239870" Name="SFX" ObjectPath="\Game Parameters\Default Work Unit\Volume Sliders\SFX"/>
+				<GameParameter Id="1685527054" Name="MX" ObjectPath="\Game Parameters\Default Work Unit\Volume Sliders\MX"/>
+				<GameParameter Id="4056684167" Name="Master" ObjectPath="\Game Parameters\Default Work Unit\Volume Sliders\Master"/>
 			</GameParameters>
 		</SoundBank>
-		<SoundBank Id="4118075836" Language="SFX" Hash="2472517837">
+		<SoundBank Id="4118075836" Language="SFX" Hash="4234120690">
 			<ObjectPath>\SoundBanks\Default Work Unit\CradleRace_Bank</ObjectPath>
 			<ShortName>CradleRace_Bank</ShortName>
 			<Path>CradleRace_Bank.bnk</Path>
@@ -331,10 +461,6 @@
 					<ShortName>sfx_car_driving.wav</ShortName>
 					<Path>SFX\sfx_car_driving_D79FB2B7.wem</Path>
 				</File>
-				<File Id="193020445" Language="SFX">
-					<ShortName>sfx_race_countdown.wav</ShortName>
-					<Path>SFX\sfx_race_countdown_10C4C929.wem</Path>
-				</File>
 				<File Id="363724395" Language="SFX">
 					<ShortName>sfx_mower_mowing.wav</ShortName>
 					<Path>SFX\sfx_mower_mowing_D79FB2B7.wem</Path>
@@ -355,22 +481,16 @@
 					<ShortName>sfx_manhole.wav</ShortName>
 					<Path>SFX\sfx_manhole_10C4C929.wem</Path>
 				</File>
-				<File Id="971899985" Language="SFX">
-					<ShortName>sfx_race_checkpoint.wav</ShortName>
-					<Path>SFX\sfx_race_checkpoint_10C4C929.wem</Path>
-				</File>
-				<File Id="983740843" Language="SFX">
-					<ShortName>sfx_race_finish.wav</ShortName>
-					<Path>SFX\sfx_race_finish_10C4C929.wem</Path>
-				</File>
 				<File Id="1051170269" Language="SFX">
 					<ShortName>sfx_hydrant_spurt.wav</ShortName>
 					<Path>SFX\sfx_hydrant_spurt_D79FB2B7.wem</Path>
 				</File>
 			</IncludedMemoryFiles>
 			<GameParameters>
+				<GameParameter Id="393239870" Name="SFX" ObjectPath="\Game Parameters\Default Work Unit\Volume Sliders\SFX"/>
 				<GameParameter Id="1240670792" Name="Distance" ObjectPath="\Game Parameters\Default Work Unit\Distance"/>
-				<GameParameter Id="2918011349" Name="MasterVolume" ObjectPath="\Game Parameters\Default Work Unit\MasterVolume"/>
+				<GameParameter Id="1685527054" Name="MX" ObjectPath="\Game Parameters\Default Work Unit\Volume Sliders\MX"/>
+				<GameParameter Id="4056684167" Name="Master" ObjectPath="\Game Parameters\Default Work Unit\Volume Sliders\Master"/>
 			</GameParameters>
 		</SoundBank>
 	</SoundBanks>
