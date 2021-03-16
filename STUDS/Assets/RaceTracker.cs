@@ -12,6 +12,9 @@ public class RaceTracker : MonoBehaviour
     public Texture BlueIcon;
     public Texture YellowIcon;
     public Texture RedIcon;
+    public Texture PinkIcon;
+    public Texture OrangeIcon;
+    public Texture GreenIcon;
 
     public RawImage[] Positions;
 
@@ -21,6 +24,13 @@ public class RaceTracker : MonoBehaviour
         foreach(GameObject PT in GameObject.FindGameObjectsWithTag("Player")){
             Players.Add(PT);
         }
+        if(Players.Count < 4)
+        {
+            Color invis;
+            invis = new Color32(0, 0, 0, 0);
+            Positions[0].color = invis;
+        }
+
         for(int i = 0; i < Players.Count; i++)
         {
             PT.Add(Players[i].GetComponentInChildren<PlaceTracker>());
@@ -41,43 +51,6 @@ public class RaceTracker : MonoBehaviour
             Positions[i].texture = IconPicker(PlrColor);
 
         }
-
-        /*
-        for (int i = 0; i < Positions.Length - 1; i++)
-        {
-
-            string PlrColor = Players[i].GetComponent<PlaceTracker>().PLRCol;
-            if (PT[i].Progress > PT[i + 1].Progress)
-            compare
-            {
-                print("Here");
-               if(PlrColor == "Blue")
-                {
-                    Positions[i].texture = BlueIcon;
-                }
-                if(PlrColor == "Red")
-                {
-                    Positions[i].texture = RedIcon;
-                }if(PlrColor == "Yellow")
-                {
-                    Positions[i].texture = YellowIcon;
-                }
-
-            }
-            // Last Place
-            if (PlrColor == "Blue")
-            {
-                Positions[Positions.Length].texture = BlueIcon;
-            }
-            if (PlrColor == "Red")
-            {
-                Positions[Positions.Length].texture = RedIcon;
-            }
-            if (PlrColor == "Yellow")
-            {
-                Positions[Positions.Length].texture = YellowIcon;
-            }
-        }*/
         
     }
 
@@ -85,18 +58,27 @@ public class RaceTracker : MonoBehaviour
     {
         if (Color == "Blue")
         {
-            print("Blue");
             return BlueIcon;
         }
         if (Color == "Red")
         {
-            print("Red");
             return RedIcon;
         }
         if (Color == "Yellow")
         {
-            print("Yellow");
             return YellowIcon;
+        }
+        if (Color == "Purple")
+        {
+            return PinkIcon;
+        }
+        if (Color == "Green")
+        {
+            return GreenIcon;
+        }
+        if (Color == "Orange")
+        {
+            return OrangeIcon;
         }
         return null;
     }

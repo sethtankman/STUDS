@@ -15,6 +15,7 @@ public class PlaceTracker : MonoBehaviour
     {
         if (other.gameObject.tag == "RacePoint")
         {
+            print(PLRCol + " Point");
             if (ProgressPoints.Contains(other.gameObject))
             {
                 if (Progress > 0)
@@ -29,9 +30,6 @@ public class PlaceTracker : MonoBehaviour
                 Progress += 1;
                 ProgressPoints.Add(other.gameObject);
                 
-
-
-
             }
         }
     }
