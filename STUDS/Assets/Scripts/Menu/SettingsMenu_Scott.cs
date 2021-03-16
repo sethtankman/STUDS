@@ -67,7 +67,7 @@ public class SettingsMenu_Scott : MonoBehaviour
             if (resolutions[i].refreshRate == refreshRate)
             {
                 Debug.Log("Refresh Rate set to: " + resolutions[i].refreshRate);
-                SetResolution(i);
+                Screen.SetResolution(Screen.currentResolution.width, Screen.currentResolution.height, Screen.fullScreen, resolutions[i].refreshRate);
             }
         }
     }

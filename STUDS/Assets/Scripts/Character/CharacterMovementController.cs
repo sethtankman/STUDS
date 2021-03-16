@@ -73,7 +73,7 @@ public class CharacterMovementController : MonoBehaviour
     private String color;
 
     //Particle effects
-    private bool isBlinking;
+    //private bool isBlinking;
     public bool hasAimAssist;
     private PLR_ParticleController PlayerParticles;
 
@@ -486,6 +486,7 @@ public class CharacterMovementController : MonoBehaviour
         aimAssist.SetActive(toggle);
     }
 
+    /*
     public void Blink(bool _isBlinking)
     {
         isBlinking = _isBlinking;
@@ -512,7 +513,7 @@ public class CharacterMovementController : MonoBehaviour
             yield return new WaitForSeconds(0.5f);
         }
     }
-
+    */
     private IEnumerator performThrow()
     {
 

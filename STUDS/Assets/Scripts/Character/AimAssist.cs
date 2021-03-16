@@ -12,7 +12,7 @@ public class AimAssist : MonoBehaviour
         {
             myController.target = other.gameObject;
             var charController = other.gameObject.GetComponent<CharacterMovementController>();
-            charController.Blink(true);
+            //charController.Blink(true);
             myController.hasAimAssist = true;
         }
     }
@@ -24,7 +24,7 @@ public class AimAssist : MonoBehaviour
             myController.hasAimAssist = false;
             myController.target = null;
             var charController = other.gameObject.GetComponent<CharacterMovementController>();
-            charController.Blink(false);
+            //charController.Blink(false);
         }
     }
 }
