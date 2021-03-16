@@ -5,6 +5,7 @@ using UnityEngine;
 public class SS_CheckoutDetect : MonoBehaviour
 {
     public ParticleSystem CheckoutEffect;
+    public AK.Wwise.Event RegisterSound;
 
     // Start is called before the first frame update
     void Start()
@@ -22,6 +23,7 @@ public class SS_CheckoutDetect : MonoBehaviour
     {
         if(collision.collider.tag == "ShoppingItem")
         {
+            RegisterSound.Post(gameObject);
             GameObject player = collision.collider.gameObject.GetComponent<ShoppingItem>().GetPlayer();
             string itemName = collision.collider.gameObject.GetComponent<ShoppingItem>().name;
             string[] itemlist = player.GetComponent<SS_ItemTracker>().GetList();

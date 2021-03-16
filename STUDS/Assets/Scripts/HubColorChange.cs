@@ -10,6 +10,8 @@ public class HubColorChange : MonoBehaviour
 
     public string colorName;
 
+    public AK.Wwise.Event ParticleSound;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -37,6 +39,7 @@ public class HubColorChange : MonoBehaviour
             }
             if (!isTaken)
             {
+                ParticleSound.Post(gameObject);
                 other.gameObject.GetComponentInChildren<SkinnedMeshRenderer>().material = playerColor;
                 other.GetComponent<CharacterMovementController>().SetColorName(colorName);
             }

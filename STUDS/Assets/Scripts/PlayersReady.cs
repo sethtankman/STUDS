@@ -7,6 +7,7 @@ public class PlayersReady : MonoBehaviour
 {
     public GameObject gameManager;
     List<GameObject> players;
+    public AK.Wwise.Event EffectSound;
     // Start is called before the first frame update
     void Start()
     {
@@ -27,6 +28,7 @@ public class PlayersReady : MonoBehaviour
         {
             if (!player.GetComponent<CharacterMovementController>().GetReadyPlayer())
             {
+                EffectSound.Post(gameObject);
                 allReady = false;
             }
         }
