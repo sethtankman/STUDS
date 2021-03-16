@@ -18,7 +18,6 @@ public class Music_Manager : MonoBehaviour
         {
             instance = this.gameObject;
             DontDestroyOnLoad(this.gameObject);
-            PlayStopMusic("Menu", true);
         }
         else
             Destroy(this.gameObject);

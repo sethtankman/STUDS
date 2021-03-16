@@ -29,6 +29,8 @@ public class InitializeLevel : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        GameObject.Find("Music Manager").GetComponent<Music_Manager>().PlayStopMusic("Menu", false);
+        GameObject.Find("Music Manager").GetComponent<Music_Manager>().PlayStopMusic("Stroller", true);
         players = ManagePlayerHub.Instance.getPlayers().ToArray();
         PlayerInputManager.instance.DisableJoining();
     }
