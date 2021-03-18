@@ -28,7 +28,7 @@ public class RaceTracker : MonoBehaviour
         {
             Color invis;
             invis = new Color32(0, 0, 0, 0);
-            Positions[0].color = invis;
+            Positions[3].color = invis;
         }
 
         for(int i = 0; i < Players.Count; i++)
@@ -42,7 +42,7 @@ public class RaceTracker : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        PT = PT.OrderBy(e => e.GetComponentInChildren<PlaceTracker>().Progress).ToList();
+        PT = PT.OrderByDescending(e => e.GetComponentInChildren<PlaceTracker>().Progress).ToList();
 
         for(int i = 0; i <= Players.Count; i++)
         {
