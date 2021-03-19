@@ -4,12 +4,13 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using Steamworks;
 
 public class ManagePlayerHub : MonoBehaviour
 {
     public List<GameObject> players;
 
-    private int playerIDCount = 0;
+    private int playerIDCount = 0, count = 300;
 
     public Material playerColor1;
     public Material playerColor2;
@@ -28,17 +29,40 @@ public class ManagePlayerHub : MonoBehaviour
     private bool playerJoined;
 
     public static ManagePlayerHub Instance { get; private set; }
+    protected Callback<GameOverlayActivated_t> m_GameOverlayActivated;
+
+    private void OnEnable()
+    {
+        if (SteamManager.Initialized)
+        {
+            m_GameOverlayActivated = Callback<GameOverlayActivated_t>.Create(OnGameOverlayActivated);
+        }
+    }
+
+    private void OnGameOverlayActivated(GameOverlayActivated_t pCallback)
+    {
+        if (pCallback.m_bActive != 0)
+        {
+            Debug.Log("Steam Overlay has been activated");
+            GameObject.Find("GameManager").GetComponent<PauseV2>().Pause();
+        }
+        else
+        {
+            Debug.Log("Steam Overlay has been closed");
+        }
+    }
 
     private void OnLevelWasLoaded(int level)
     {
-        if(SceneManager.GetActiveScene().name == "TheBlock_Scott" || SceneManager.GetActiveScene().name == "Shopping_Spree-Scott")
+        if (SceneManager.GetActiveScene().name == "TheBlock_Scott" || SceneManager.GetActiveScene().name == "Shopping_Spree-Scott")
         {
-            Debug.Log("This was called.");
+            //Debug.Log("This was called.");
             foreach (GameObject player in players)
             {
                 player.GetComponent<CharacterMovementController>().SetAimAssist(true);
             }
-        } else
+        }
+        else
         {
             foreach (GameObject player in players)
             {
@@ -72,7 +96,7 @@ public class ManagePlayerHub : MonoBehaviour
     {
         if (playerJoined && SceneManager.GetActiveScene().name.Equals("TheBlock_LevelSelect"))
         {
-            if(StartText)
+            if (StartText)
                 StartText.text = "";
             int readyCount = 0;
             foreach (GameObject player in players)
@@ -83,11 +107,39 @@ public class ManagePlayerHub : MonoBehaviour
                 }
             }
             ReadyText.text = "" + readyCount + "/" + players.Count + " players are ready! Choose your level!";
-        } else if(playerJoined && !SceneManager.GetActiveScene().name.Equals("TheBlock_LevelSelect"))
+        }
+        else if (playerJoined && !SceneManager.GetActiveScene().name.Equals("TheBlock_LevelSelect"))
         {
             playerJoined = false; //This is mainly to save time in the if check of the previous if block.
         }
-
+        InputSystem.onDeviceChange +=
+        (device, change) =>
+        {
+            switch (change)
+            {
+                case InputDeviceChange.Added:
+                    Debug.Log("A device has been added.");
+                        // New Device.
+                        break;
+                case InputDeviceChange.Disconnected:
+                        // Device got unplugged.
+                        Debug.Log("A Player has disconnected");
+                    PauseV2 pauseFunction = GameObject.Find("GameManager").GetComponent<PauseV2>();
+                    pauseFunction.Pause();
+                    break;
+                case InputDeviceChange.Reconnected:
+                    Debug.Log("A Player has reconnected");
+                        // Plugged back in.
+                        break;
+                case InputDeviceChange.Removed:
+                    Debug.Log("A device has been removed");
+                        // Remove from Input System entirely; by default, Devices stay in the system once discovered.
+                        break;
+                default:
+                        // See InputDeviceChange reference for other event types.
+                        break;
+            }
+        };
     }
 
     public void HandlePlayerJoin(PlayerInput pi)
@@ -133,7 +185,7 @@ public class ManagePlayerHub : MonoBehaviour
 
     public void DeletePlayers()
     {
-        foreach(GameObject player in players)
+        foreach (GameObject player in players)
         {
             Destroy(player);
         }

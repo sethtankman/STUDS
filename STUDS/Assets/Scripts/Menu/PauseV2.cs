@@ -27,7 +27,7 @@ public class PauseV2 : MonoBehaviour
     int menutracker = 0;
 
 
-    PauseMenu thePause;
+    public PauseMenu thePause;
 
     public Text ResumeText;
     public Text MenuText;
