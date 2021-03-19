@@ -32,6 +32,12 @@ public class PlaceTracker : MonoBehaviour
                 
             }
         }
+        if(other.gameObject.name == "RaceReset")
+        {
+            PLRCol = GetComponentInParent<CharacterMovementController>().GetColorName();
+            ProgressPoints.Clear();
+
+        }
     }
 
     private void Start()
