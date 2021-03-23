@@ -17,6 +17,7 @@ public class PauseV2 : MonoBehaviour
     public GameObject PauseMenuUI;
     public GameObject OptionsMenu;
     public GameObject firstButton;
+    public GameObject[] allOtherMenus;
     public static bool gameisPaused = false;
 
     public GameObject theImage;
@@ -94,10 +95,22 @@ public class PauseV2 : MonoBehaviour
         }
         else
         {
-            PauseMenuUI.SetActive(false);
-            OptionsMenu.SetActive(false);
+            DeactivateAll();
             gameisPaused = false;
             Time.timeScale = 1f;
+        }
+    }
+
+    /// <summary>
+    /// Used to deactivate all menus when exiting the pause menu.
+    /// </summary>
+    private void DeactivateAll()
+    {
+        PauseMenuUI.SetActive(false);
+        OptionsMenu.SetActive(false);
+        foreach(GameObject menu in allOtherMenus)
+        {
+            menu.SetActive(false);
         }
     }
 

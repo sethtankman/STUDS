@@ -18,7 +18,9 @@ public class SettingsMenu_Scott : MonoBehaviour
 
     public TMP_Dropdown resolutionDropdown;
 
-    public GameObject menuPlayButton, optionsFirstButton, optionsCloseButton, quitFirstButton, creditsFirstButton, extrasFirstButton, feedbackFirstButton, videoFirstButton, videoCloseButton, soundFirstButton, soundCloseButton, controlsFirstButton, controlsCloseButton, ReturnFirstButton;
+    public GameObject menuPlayButton, optionsFirstButton, optionsCloseButton, quitFirstButton, creditsFirstButton,
+        extrasFirstButton, feedbackFirstButton, videoFirstButton, videoCloseButton, soundFirstButton, soundCloseButton,
+        controlsFirstButton, controlsCloseButton, ReturnFirstButton, okayButton;
 
     void Start()
     {
@@ -47,7 +49,7 @@ public class SettingsMenu_Scott : MonoBehaviour
 
     private void Update()
     {
-        // get key down
+
     }
 
     public Dictionary<string, int> val = new Dictionary<string, int>();
@@ -121,6 +123,12 @@ public class SettingsMenu_Scott : MonoBehaviour
     {
         EventSystem.current.SetSelectedGameObject(null);
         EventSystem.current.SetSelectedGameObject(soundFirstButton);
+    }
+
+    public void OpenPlayerConnectionMenu()
+    {
+        EventSystem.current.SetSelectedGameObject(null);
+        EventSystem.current.SetSelectedGameObject(okayButton);
     }
 
     public void CloseSoundMenu()
