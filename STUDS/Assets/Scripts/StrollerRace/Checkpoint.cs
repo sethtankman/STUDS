@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class Checkpoint : MonoBehaviour
 {
     public int checkPointNum;
 
-    public Text checkPointText;
+    public TextMeshProUGUI checkPointText;
 
     public float swapTime;
 

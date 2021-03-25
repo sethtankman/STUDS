@@ -30,7 +30,7 @@ public class ShoppingTimer : MonoBehaviour
 
     void EndGame()
     {
-        SceneManager.LoadScene("VictoryStands_PWR Bill");
+        SceneManager.LoadScene("VictoryStands");
     }
 
     void Showtime(float timeleft)

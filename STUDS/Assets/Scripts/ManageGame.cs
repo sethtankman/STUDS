@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using TMPro;
 
 public class ManageGame : MonoBehaviour
 {
@@ -11,7 +12,7 @@ public class ManageGame : MonoBehaviour
 
     public GameObject[] checkpoints;
 
-    public Text FinishText;
+    public TextMeshProUGUI FinishText;
 
     public float endTimer;
 

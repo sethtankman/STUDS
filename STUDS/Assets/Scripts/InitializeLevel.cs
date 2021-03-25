@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
+using TMPro;
 
 public class InitializeLevel : MonoBehaviour
 {
@@ -10,7 +11,7 @@ public class InitializeLevel : MonoBehaviour
     public GameObject playerPrefab;
 
     private bool spawnedPlayers = false;
-    public float waitTime = 15f;
+    public float waitTime = 5f;
     private float currentTime = 0;
 
     public Material strollerColor1;
@@ -25,7 +26,7 @@ public class InitializeLevel : MonoBehaviour
 
     public GameObject startCam;
 
-    public Text startText;
+    public TextMeshProUGUI startText;
     // Start is called before the first frame update
     void Start()
     {
