@@ -5,6 +5,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Steamworks;
+using TMPro;
 
 public class ManagePlayerHub : MonoBehaviour
 {
@@ -24,7 +25,7 @@ public class ManagePlayerHub : MonoBehaviour
     public string colorName3;
     public string colorName4;
 
-    public Text ReadyText;
+    public TextMeshProUGUI ReadyText;
 
     public Text StartText;
 
@@ -137,7 +138,7 @@ public class ManagePlayerHub : MonoBehaviour
                     readyCount++;
                 }
             }
-            ReadyText.text = "" + readyCount + "/" + players.Count + " players are ready! Choose your level!";
+            ReadyText.text = "" + readyCount + "/" + players.Count + " players are ready!";
         }
         else if (playerJoined && !SceneManager.GetActiveScene().name.Equals("TheBlock_LevelSelect"))
         {
