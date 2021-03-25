@@ -27,7 +27,7 @@ public class CharacterMovementController : MonoBehaviour
     public GameObject target;
     public GameObject aimAssist;
 
-    private float moveSpeed;
+    public float moveSpeed;
     private float knockBackCounter;
     private float pickupCooldown;
     private float stepSoundCooldown;

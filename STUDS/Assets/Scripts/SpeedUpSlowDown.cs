@@ -31,9 +31,10 @@ public class SpeedUpSlowDown : MonoBehaviour
     public void OnTriggerEnter(Collider other)
     {
 
+        Debug.Log("THIS IS WHAT WE'RE LOOKING FOR!!!!!!!!!!!!!!!!!!!!! " + other.tag);
         if (other.tag == "Player")
         {
-            //GETTERS
+            //GETTERS           
             CMC = other.GetComponent<CharacterMovementController>();
             CMC.setMoveSpeed(CMC.getMoveSpeed() * SpeedAdjustment);
             originalSpeedNormal = CMC.moveSpeedNormal;
