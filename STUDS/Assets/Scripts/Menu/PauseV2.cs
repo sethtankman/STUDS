@@ -83,10 +83,11 @@ public class PauseV2 : MonoBehaviour
         if (!gameisPaused)
         {
 
-            EventSystem.current.SetSelectedGameObject(null);
-            EventSystem.current.SetSelectedGameObject(firstButton);
             PauseMenuUI.SetActive(true);
             OptionsMenu.SetActive(true);
+
+            EventSystem.current.SetSelectedGameObject(null);
+            EventSystem.current.SetSelectedGameObject(firstButton);
 
             gameisPaused = true;
 
