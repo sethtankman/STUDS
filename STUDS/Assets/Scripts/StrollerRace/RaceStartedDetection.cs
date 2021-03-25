@@ -8,6 +8,8 @@ public class RaceStartedDetection : MonoBehaviour
     public GameObject AI1;
 
     public GameObject AI2;
+    
+    public GameObject AI3;
 
     public GameObject gameManager;
 
@@ -31,6 +33,7 @@ public class RaceStartedDetection : MonoBehaviour
         {
             AI1.GetComponent<PlayerAI>().StartAI();
             AI2.GetComponent<PlayerAI>().StartAI();
+            AI3.GetComponent<PlayerAI>().StartAI();
             gameManager.GetComponent<LevelStart>().DisableJoin();
         }
 
