@@ -13,7 +13,8 @@ public class ManagePlayerHub : MonoBehaviour
 
     public PlayerConnection playerConnectionPanel;
 
-    private int playerIDCount = 0, count = 300;
+    private int count = 300;
+    [SerializeField] private int playerIDCount = 0;
 
     public Material playerColor1;
     public Material playerColor2;
@@ -29,7 +30,7 @@ public class ManagePlayerHub : MonoBehaviour
 
     public Text StartText;
 
-    private bool playerJoined;
+    [SerializeField] private bool playerJoined, oldHub;
 
     public static ManagePlayerHub Instance { get; private set; }
     protected Callback<GameOverlayActivated_t> m_GameOverlayActivated;
@@ -64,6 +65,10 @@ public class ManagePlayerHub : MonoBehaviour
             {
                 player.GetComponent<CharacterMovementController>().SetAimAssist(true);
             }
+        }
+        else if(SceneManager.GetActiveScene().name == "TheBlock_LevelSelect" && oldHub)
+        {
+            Destroy(this.gameObject);
         }
         else
         {
@@ -152,6 +157,7 @@ public class ManagePlayerHub : MonoBehaviour
         playerJoined = true;
         players.Add(pi.gameObject);
         DontDestroyOnLoad(pi.gameObject);
+        oldHub = true;
         if (pi.gameObject.GetComponent<CharacterMovementController>())
         {
             pi.gameObject.GetComponent<CharacterMovementController>().SetPlayerID(playerIDCount);
@@ -191,6 +197,8 @@ public class ManagePlayerHub : MonoBehaviour
     public void HandlePlayerLeave(PlayerInput pi)
     {
         players.Remove(pi.gameObject);
+        Debug.Log(pi.devices.ToString());
+        InputSystem.RemoveDevice(pi.devices[0]);
         Debug.Log("A Player has left!");
     }
 

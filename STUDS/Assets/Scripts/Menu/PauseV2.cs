@@ -242,8 +242,6 @@ public class PauseV2 : MonoBehaviour
             menutracker = 3;
 
         }
-
-
     }
 
     void OnEnable()
