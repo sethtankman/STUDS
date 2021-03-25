@@ -10,6 +10,8 @@ public class ManagePlayerHub : MonoBehaviour
 {
     public List<GameObject> players;
 
+    public PlayerConnection playerConnectionPanel;
+
     private int playerIDCount = 0, count = 300;
 
     public Material playerColor1;
@@ -89,6 +91,35 @@ public class ManagePlayerHub : MonoBehaviour
     {
         players = new List<GameObject>();
         playerJoined = false;
+
+        InputSystem.onDeviceChange +=
+            (device, change) =>
+            {
+                switch (change)
+                {
+                    case InputDeviceChange.Added:
+                        Debug.Log("A device has been added.");
+                        // New Device.
+                        break;
+                    case InputDeviceChange.Disconnected:
+                        // Device got unplugged.
+                        Debug.Log("A Player has disconnected");
+                        PauseV2 pauseFunction = GameObject.Find("GameManager").GetComponent<PauseV2>();
+                        pauseFunction.Pause();
+                        break;
+                    case InputDeviceChange.Reconnected:
+                        Debug.Log("A Player has reconnected");
+                        // Plugged back in.
+                        break;
+                    case InputDeviceChange.Removed:
+                        Debug.Log("A device has been removed");
+                        // Remove from Input System entirely; by default, Devices stay in the system once discovered.
+                        break;
+                    default:
+                        // See InputDeviceChange reference for other event types.
+                        break;
+                }
+            };
     }
 
     // Update is called once per frame
@@ -112,34 +143,7 @@ public class ManagePlayerHub : MonoBehaviour
         {
             playerJoined = false; //This is mainly to save time in the if check of the previous if block.
         }
-        InputSystem.onDeviceChange +=
-        (device, change) =>
-        {
-            switch (change)
-            {
-                case InputDeviceChange.Added:
-                    Debug.Log("A device has been added.");
-                        // New Device.
-                        break;
-                case InputDeviceChange.Disconnected:
-                        // Device got unplugged.
-                        Debug.Log("A Player has disconnected");
-                    PauseV2 pauseFunction = GameObject.Find("GameManager").GetComponent<PauseV2>();
-                    pauseFunction.Pause();
-                    break;
-                case InputDeviceChange.Reconnected:
-                    Debug.Log("A Player has reconnected");
-                        // Plugged back in.
-                        break;
-                case InputDeviceChange.Removed:
-                    Debug.Log("A device has been removed");
-                        // Remove from Input System entirely; by default, Devices stay in the system once discovered.
-                        break;
-                default:
-                        // See InputDeviceChange reference for other event types.
-                        break;
-            }
-        };
+
     }
 
     public void HandlePlayerJoin(PlayerInput pi)
@@ -154,21 +158,26 @@ public class ManagePlayerHub : MonoBehaviour
             {
                 pi.gameObject.GetComponentInChildren<SkinnedMeshRenderer>().material = playerColor1;
                 pi.gameObject.GetComponent<CharacterMovementController>().SetColorName(colorName1);
+                playerConnectionPanel.SetPanelImage(playerIDCount, colorName1);
+
             }
             else if (playerIDCount == 1)
             {
                 pi.gameObject.GetComponentInChildren<SkinnedMeshRenderer>().material = playerColor2;
                 pi.gameObject.GetComponent<CharacterMovementController>().SetColorName(colorName2);
+                playerConnectionPanel.SetPanelImage(playerIDCount, colorName2);
             }
             else if (playerIDCount == 2)
             {
                 pi.gameObject.GetComponentInChildren<SkinnedMeshRenderer>().material = playerColor3;
                 pi.gameObject.GetComponent<CharacterMovementController>().SetColorName(colorName3);
+                playerConnectionPanel.SetPanelImage(playerIDCount, colorName3);
             }
             else if (playerIDCount == 3)
             {
                 pi.gameObject.GetComponentInChildren<SkinnedMeshRenderer>().material = playerColor4;
                 pi.gameObject.GetComponent<CharacterMovementController>().SetColorName(colorName4);
+                playerConnectionPanel.SetPanelImage(playerIDCount, colorName4);
             }
 
         }
@@ -176,6 +185,12 @@ public class ManagePlayerHub : MonoBehaviour
             pi.gameObject.GetComponent<CM_CharacterMovementController>().SetPlayerID(playerIDCount);
 
         playerIDCount++;
+    }
+
+    public void HandlePlayerLeave(PlayerInput pi)
+    {
+        players.Remove(pi.gameObject);
+        Debug.Log("A Player has left!");
     }
 
     public List<GameObject> getPlayers()

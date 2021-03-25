@@ -2,29 +2,25 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class PlayerConnection : MonoBehaviour
 {
     public ManagePlayerHub playerHub;
 
     public Image[] playerImages;
+    public GameObject[] textObjects;
 
-    public void OnEnable()
+    public void Start()
     {
         playerHub = GameObject.Find("GameManager").GetComponent<ManagePlayerHub>();
-        IEnumerator enumerator = playerHub.players.GetEnumerator();
-        for(int i = 0; i < 4; i++)
-        {
-            if(enumerator.MoveNext())
-            {
-                playerImages[i].color = Color.white;
-            }
-            else
-            {
-                playerImages[i].color = Color.grey;
-            }
+    }
 
-        }
+    public void SetPanelImage(int panelID, string colorName)
+    {
+        playerImages[panelID].color = Color.white;
+        Debug.Log("This is my color: " + colorName);
+        textObjects[panelID].GetComponent<TextMeshProUGUI>().text = "Player " + (panelID+1);
     }
 
 }

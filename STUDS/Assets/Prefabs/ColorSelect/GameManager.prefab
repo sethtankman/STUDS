@@ -64,7 +64,18 @@ MonoBehaviour:
         m_CallState: 2
   m_PlayerLeftEvent:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 6653746179830588750}
+        m_MethodName: HandlePlayerLeave
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_JoinAction:
     m_UseReference: 0
     m_Action:
@@ -100,6 +111,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   players: []
+  playerConnectionPanel: {fileID: 0}
   playerColor1: {fileID: 2100000, guid: 03b9124d1cc490342a4cfc40162f4ec2, type: 2}
   playerColor2: {fileID: 2100000, guid: 87a4d82006c08154f9f972679e026858, type: 2}
   playerColor3: {fileID: 2100000, guid: 9173f83340c50ed4489d001759834012, type: 2}
