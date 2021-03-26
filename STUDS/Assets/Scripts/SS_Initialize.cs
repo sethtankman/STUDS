@@ -9,7 +9,7 @@ public class SS_Initialize : MonoBehaviour
     public Transform[] playerSpawns;
 
     private bool spawnedPlayers = false;
-    public float waitTime = 6f;
+    public float waitTime = 5f;
     private float currentTime = 0;
 
     private GameObject[] players;

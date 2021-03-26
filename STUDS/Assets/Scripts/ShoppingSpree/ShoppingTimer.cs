@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class ShoppingTimer : MonoBehaviour
 
 {
-    public Text TimerTXT;
+    public TextMeshProUGUI TimerTXT;
     public float timer;
     private float Sprint = 10.0f;
 

@@ -36,7 +36,7 @@ public class SS_ItemTracker : MonoBehaviour
         }
         if (allComplete)
         {
-            listText.text = "You have successfully gathered all the items! You win!";
+            listText.text = "You have successfully gathered all the items!";
         }
         else
         {
