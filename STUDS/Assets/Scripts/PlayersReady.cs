@@ -24,36 +24,37 @@ public class PlayersReady : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        bool allReady = true;
         if (other.tag.Equals("Player"))
         {
+            bool allReady = true;
             other.gameObject.GetComponent<CharacterMovementController>().ReadyPlayer(true);
-        }
-        players = gameManager.GetComponent<ManagePlayerHub>().getPlayers();
-        foreach(GameObject player in players)
-        {
-            if (!player.GetComponent<CharacterMovementController>().GetReadyPlayer())
-            {
-                EffectSound.Post(gameObject);
-                allReady = false;
-            }
-        }
-        if (allReady)
-        {
-            gameManager.GetComponent<ManagePlayerHub>().SaveState();
-            if (gameObject.tag.Equals("PennyPincher"))
-            {
-                SceneManager.LoadScene("PBDadRandomizer");
-            }
-            else if (gameObject.tag.Equals("StrollerRace"))
-            {
-                SceneManager.LoadScene("TheBlock_Scott");
-            }
-            else if (gameObject.tag.Equals("ShoppingSpree"))
-            {
-                SceneManager.LoadScene("Shopping_Spree-Scott");
-            }
 
+            players = gameManager.GetComponent<ManagePlayerHub>().getPlayers();
+            foreach (GameObject player in players)
+            {
+                if (!player.GetComponent<CharacterMovementController>().GetReadyPlayer())
+                {
+                    EffectSound.Post(gameObject);
+                    allReady = false;
+                }
+            }
+            if (allReady)
+            {
+                gameManager.GetComponent<ManagePlayerHub>().SaveState();
+                if (gameObject.tag.Equals("PennyPincher"))
+                {
+                    SceneManager.LoadScene("PBDadRandomizer");
+                }
+                else if (gameObject.tag.Equals("StrollerRace"))
+                {
+                    SceneManager.LoadScene("TheBlock_Scott");
+                }
+                else if (gameObject.tag.Equals("ShoppingSpree"))
+                {
+                    SceneManager.LoadScene("Shopping_Spree-Scott");
+                }
+
+            }
         }
 
     }
