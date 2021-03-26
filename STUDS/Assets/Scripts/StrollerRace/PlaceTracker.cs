@@ -9,11 +9,14 @@ public class PlaceTracker : MonoBehaviour
     public int Progress = 0;
 
     public string PLRCol;
-    
+
+    public float ExitTime = 0.5f;
+    public float timer;
+    public bool Ready = true;
 
     public void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "RacePoint")
+        if (other.gameObject.tag == "RacePoint" && Ready)
         {
             print(PLRCol + " Point");
             if (ProgressPoints.Contains(other.gameObject))
@@ -40,10 +43,38 @@ public class PlaceTracker : MonoBehaviour
         }
     }
 
+    public void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.tag == "RacePoint")
+        {
+            Ready = false;
+            timer = ExitTime;
+        }
+    }
+
+    private void Update()
+    {
+        if (Ready == false && timer > 0.0f)
+        {            
+            timer -= Time.deltaTime;
+        }
+
+        if (timer <= 0.0f)
+        {
+            ReadySwap();
+        }
+    }
+
     private void Start()
     {
             PLRCol = GetComponentInParent<CharacterMovementController>().GetColorName();
-       
+        timer = ExitTime;
+    }
+
+    void ReadySwap()
+    {
+        Ready = true;
+
     }
 
 
