@@ -16,13 +16,19 @@ public class PlayersReady : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        other.gameObject.GetComponent<CharacterMovementController>().ReadyPlayer(false);
+        if (other.tag.Equals("Player"))
+        {
+            other.gameObject.GetComponent<CharacterMovementController>().ReadyPlayer(false);
+        }
     }
 
     private void OnTriggerEnter(Collider other)
     {
         bool allReady = true;
-        other.gameObject.GetComponent<CharacterMovementController>().ReadyPlayer(true);
+        if (other.tag.Equals("Player"))
+        {
+            other.gameObject.GetComponent<CharacterMovementController>().ReadyPlayer(true);
+        }
         players = gameManager.GetComponent<ManagePlayerHub>().getPlayers();
         foreach(GameObject player in players)
         {

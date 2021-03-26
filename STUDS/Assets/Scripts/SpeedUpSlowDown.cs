@@ -31,19 +31,19 @@ public class SpeedUpSlowDown : MonoBehaviour
     public void OnTriggerEnter(Collider other)
     {
 
-        Debug.Log("THIS IS WHAT WE'RE LOOKING FOR!!!!!!!!!!!!!!!!!!!!! " + other.tag);
         if (other.tag == "Player")
         {
             //GETTERS           
             CMC = other.GetComponent<CharacterMovementController>();
             CMC.setMoveSpeed(CMC.getMoveSpeed() * SpeedAdjustment);
+            CMC.CanJump = false;
             originalSpeedNormal = CMC.moveSpeedNormal;
             originalSpeedGrab = CMC.moveSpeedGrab;
             //SETTERS
             //CMC.moveSpeedGrab = originalSpeedGrab * SpeedAdjustment;
             //CMC.moveSpeedNormal = originalSpeedNormal * SpeedAdjustment;
 
-
+            
 
         }
 
@@ -55,6 +55,7 @@ public class SpeedUpSlowDown : MonoBehaviour
         {
             CMC = other.GetComponent<CharacterMovementController>();
             CMC.setMoveSpeed(originalSpeedNormal);
+            CMC.CanJump = true;
         }
     }
 }

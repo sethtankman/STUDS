@@ -213,5 +213,6 @@ public class ManagePlayerHub : MonoBehaviour
         {
             Destroy(player);
         }
+        players = new List<GameObject>();
     }
 }
