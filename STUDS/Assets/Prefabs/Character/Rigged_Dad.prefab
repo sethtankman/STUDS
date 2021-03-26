@@ -430,11 +430,12 @@ MonoBehaviour:
   binky: {fileID: 9113705332806400845}
   target: {fileID: 0}
   aimAssist: {fileID: 2300649859270433190}
+  moveSpeed: 0
   gravity: -16
   jumpHeight: 1
   moveSpeedGrab: 10
   moveSpeedNormal: 11
-  turnTime: 0.1
+  turnTime: 0.2
   jumpHeightGrab: 0.85
   throwForce: 300
   throwCoolDown: 0
@@ -950,6 +951,9 @@ MonoBehaviour:
   ProgressPoints: []
   Progress: 0
   PLRCol: 
+  ExitTime: 0.5
+  timer: 0
+  Ready: 1
 --- !u!1 &3057230205462136630
 GameObject:
   m_ObjectHideFlags: 0
