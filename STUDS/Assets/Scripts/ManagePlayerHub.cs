@@ -14,7 +14,7 @@ public class ManagePlayerHub : MonoBehaviour
     public PlayerConnection playerConnectionPanel;
 
     private int count = 300;
-    [SerializeField] private int playerIDCount = 0;
+    public int playerIDCount = 0;
 
     public Material playerColor1;
     public Material playerColor2;
@@ -189,11 +189,17 @@ public class ManagePlayerHub : MonoBehaviour
 
         }
         else if (pi.gameObject.GetComponent<CM_CharacterMovementController>())
+        {
             pi.gameObject.GetComponent<CM_CharacterMovementController>().SetPlayerID(playerIDCount);
-
+        }
         playerIDCount++;
     }
 
+    /// <summary>
+    /// This was causing issues when called from the GameManager Input System event,
+    /// so now we aren't using it.
+    /// </summary>
+    /// <param name="pi"></param>
     public void HandlePlayerLeave(PlayerInput pi)
     {
         players.Remove(pi.gameObject);
@@ -202,9 +208,33 @@ public class ManagePlayerHub : MonoBehaviour
         Debug.Log("A Player has left!");
     }
 
+    public void ChangePlayerColor(int id, string color)
+    {
+        playerConnectionPanel.SetPanelImage(id, color);
+    }
+
     public List<GameObject> getPlayers()
     {
         return players;
+    }
+
+    public void KickPlayer(int i)
+    {
+        int j = 0;
+        List<GameObject> newList = new List<GameObject>();
+        foreach(GameObject player in players)
+        {
+            if(j == i)
+            {
+                Destroy(player);
+            } else
+            {
+                newList.Add(player);
+            }
+            j++;
+        }
+        players = newList;
+        playerIDCount--;
     }
 
     public void DeletePlayers()
