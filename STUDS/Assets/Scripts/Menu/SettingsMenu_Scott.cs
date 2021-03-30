@@ -20,7 +20,7 @@ public class SettingsMenu_Scott : MonoBehaviour
 
     public GameObject menuPlayButton, optionsFirstButton, optionsCloseButton, quitFirstButton, creditsFirstButton,
         extrasFirstButton, feedbackFirstButton, videoFirstButton, videoCloseButton, soundFirstButton, soundCloseButton,
-        controlsFirstButton, controlsCloseButton, ReturnFirstButton, okayButton;
+        controlsFirstButton, controlsCloseButton, ReturnFirstButton, okayButton, noKickButton;
 
     void Start()
     {
@@ -182,5 +182,11 @@ public class SettingsMenu_Scott : MonoBehaviour
     {
         EventSystem.current.SetSelectedGameObject(null);
         EventSystem.current.SetSelectedGameObject(ReturnFirstButton);
+    }
+
+    public void OpenKickPlayerDialogue()
+    {
+        EventSystem.current.SetSelectedGameObject(null);
+        EventSystem.current.SetSelectedGameObject(noKickButton);
     }
 }

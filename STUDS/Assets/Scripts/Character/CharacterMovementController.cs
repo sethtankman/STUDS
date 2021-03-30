@@ -679,6 +679,8 @@ public class CharacterMovementController : MonoBehaviour
     public void SetColorName(String colorName)
     {
         color = colorName;
+        GameObject gameManager = GameObject.Find("GameManager");
+        gameManager.GetComponent<ManagePlayerHub>().ChangePlayerColor(playerID, colorName);
     }
 
     public String GetColorName()
