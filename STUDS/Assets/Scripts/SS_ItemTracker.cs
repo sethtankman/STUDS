@@ -13,7 +13,7 @@ public class SS_ItemTracker : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        itemList = new string[] {"Propane", "Sprinkler", "Toolbox", "Boombox", "Cooler", "SlowSign", "Helmet", "Shovel", "Hammer",};
+        itemList = new string[] {"Sprinkler", "Toolbox", "Boombox", "Cooler", "SlowSign", "Helmet", "Shovel", "Hammer",};
         itemsCollected = new Dictionary<string, bool>();
         foreach (string item in itemList)
         {
@@ -36,7 +36,7 @@ public class SS_ItemTracker : MonoBehaviour
         }
         if (allComplete)
         {
-            listText.text = "You have successfully gathered all the items! You win!";
+            listText.text = "You have successfully gathered all the items!";
         }
         else
         {

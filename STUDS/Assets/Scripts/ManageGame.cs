@@ -13,6 +13,7 @@ public class ManageGame : MonoBehaviour
     public GameObject[] checkpoints;
 
     public TextMeshProUGUI FinishText;
+    public TextMeshProUGUI FinishTimer;
 
     public float endTimer;
 
@@ -62,10 +63,15 @@ public class ManageGame : MonoBehaviour
         if (playerFinish)
         {
             timer += Time.deltaTime;
+            FinishTimer.text = "A player has finished the race! The race will end in " + (int)(endTimer - timer) + " seconds!";
             if(timer >= endTimer)
             {
                 SceneManager.LoadScene("VictoryStands");
             }
+        }
+        else
+        {
+            FinishTimer.text = "";
         }
     }
 

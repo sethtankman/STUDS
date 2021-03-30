@@ -42,7 +42,7 @@ public class VictoryCharacter : MonoBehaviour
         {
             GetComponentInChildren<SkinnedMeshRenderer>().material = color2;
         }
-        else if (colorName.Equals("Orange"))
+        else if (colorName.Equals("Red"))
         {
             GetComponentInChildren<SkinnedMeshRenderer>().material = color3;
         }

@@ -27,7 +27,7 @@ public class CharacterMovementController : MonoBehaviour
     public GameObject target;
     public GameObject aimAssist;
 
-    private float moveSpeed;
+    public float moveSpeed;
     private float knockBackCounter;
     private float pickupCooldown;
     private float stepSoundCooldown;
@@ -77,6 +77,7 @@ public class CharacterMovementController : MonoBehaviour
     public bool hasAimAssist;
     private PLR_ParticleController PlayerParticles;
 
+    public bool CanJump;
 
     // Start is called before the first frame update
     void Start()
@@ -87,6 +88,7 @@ public class CharacterMovementController : MonoBehaviour
         finishPosition = -1;
         controller = GetComponent<CharacterController>();
         PlayerParticles = GetComponent<PLR_ParticleController>();
+        CanJump = true;
     }
 
     // Update is called once per frame
@@ -231,7 +233,7 @@ public class CharacterMovementController : MonoBehaviour
 
     public void Jump()
     {
-        if (airborn == false && isJumping)
+        if (airborn == false && isJumping && CanJump)
         {
             if (!isAI)
             {
