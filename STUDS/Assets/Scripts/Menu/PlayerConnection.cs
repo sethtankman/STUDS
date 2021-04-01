@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.InputSystem;
 
 public class PlayerConnection : MonoBehaviour
 {
@@ -27,7 +28,10 @@ public class PlayerConnection : MonoBehaviour
         int i = 0;
         foreach (GameObject player in playerHub.players)
         {
-            SetPanelImage(i, player.GetComponent<CharacterMovementController>().GetColorName());
+            if (player)
+            {
+                SetPanelImage(i, player.GetComponent<CharacterMovementController>().GetColorName());
+            }
             i++;
         }
     }

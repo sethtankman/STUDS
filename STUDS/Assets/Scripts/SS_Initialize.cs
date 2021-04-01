@@ -33,7 +33,6 @@ public class SS_Initialize : MonoBehaviour
     {
         GameObject.Find("Music Manager").GetComponent<Music_Manager>().PlayStopMusic("Menu", false);
         GameObject.Find("Music Manager").GetComponent<Music_Manager>().PlayStopMusic("Shopping", true);
-        players = ManagePlayerHub.Instance.getPlayers().ToArray();
         PlayerInputManager.instance.DisableJoining();
         if(players.Length > 0)
         {

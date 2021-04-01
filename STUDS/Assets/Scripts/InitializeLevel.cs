@@ -32,7 +32,7 @@ public class InitializeLevel : MonoBehaviour
     {
         GameObject.Find("Music Manager").GetComponent<Music_Manager>().PlayStopMusic("Menu", false);
         GameObject.Find("Music Manager").GetComponent<Music_Manager>().PlayStopMusic("Stroller", true);
-        players = ManagePlayerHub.Instance.getPlayers().ToArray();
+        players = ManagePlayerHub.Instance.getPlayers();
         PlayerInputManager.instance.DisableJoining();
     }
 

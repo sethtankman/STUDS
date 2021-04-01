@@ -9,7 +9,8 @@ using TMPro;
 
 public class ManagePlayerHub : MonoBehaviour
 {
-    public List<GameObject> players;
+    public GameObject[] players;
+    public GameObject playerPrefab;
 
     public PlayerConnection playerConnectionPanel;
 
@@ -33,6 +34,7 @@ public class ManagePlayerHub : MonoBehaviour
     [SerializeField] private bool playerJoined, oldHub;
 
     public static ManagePlayerHub Instance { get; private set; }
+    public PlayerInputManager pim;
     protected Callback<GameOverlayActivated_t> m_GameOverlayActivated;
 
     private void OnEnable()
@@ -95,7 +97,7 @@ public class ManagePlayerHub : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        players = new List<GameObject>();
+        players = new GameObject[4];
         playerJoined = false;
 
         InputSystem.onDeviceChange +=
@@ -138,12 +140,12 @@ public class ManagePlayerHub : MonoBehaviour
             int readyCount = 0;
             foreach (GameObject player in players)
             {
-                if (player.GetComponent<CharacterMovementController>().GetReadyPlayer())
+                if (player && player.GetComponent<CharacterMovementController>().GetReadyPlayer())
                 {
                     readyCount++;
                 }
             }
-            ReadyText.text = "" + readyCount + "/" + players.Count + " players are ready!";
+            ReadyText.text = "" + readyCount + "/" + players.Length + " players are ready!";
         }
         else if (playerJoined && !SceneManager.GetActiveScene().name.Equals("TheBlock_LevelSelect"))
         {
@@ -155,11 +157,12 @@ public class ManagePlayerHub : MonoBehaviour
     public void HandlePlayerJoin(PlayerInput pi)
     {
         playerJoined = true;
-        players.Add(pi.gameObject);
+        players[playerIDCount] = pi.gameObject;
         DontDestroyOnLoad(pi.gameObject);
         oldHub = true;
         if (pi.gameObject.GetComponent<CharacterMovementController>())
         {
+
             pi.gameObject.GetComponent<CharacterMovementController>().SetPlayerID(playerIDCount);
             if (playerIDCount == 0)
             {
@@ -202,7 +205,6 @@ public class ManagePlayerHub : MonoBehaviour
     /// <param name="pi"></param>
     public void HandlePlayerLeave(PlayerInput pi)
     {
-        players.Remove(pi.gameObject);
         Debug.Log(pi.devices.ToString());
         InputSystem.RemoveDevice(pi.devices[0]);
         Debug.Log("A Player has left!");
@@ -213,28 +215,39 @@ public class ManagePlayerHub : MonoBehaviour
         playerConnectionPanel.SetPanelImage(id, color);
     }
 
-    public List<GameObject> getPlayers()
+    public GameObject[] getPlayers()
     {
         return players;
     }
 
     public void KickPlayer(int i)
     {
-        int j = 0;
-        List<GameObject> newList = new List<GameObject>();
-        foreach(GameObject player in players)
+        Destroy(players[i]);
+        players[i] = null;
+        for (int j = i; j< 4; j++)
         {
-            if(j == i)
+            Debug.Log("j=" + j);
+            for(int index = 0; index < players.Length; index++)
             {
-                Destroy(player);
-            } else
-            {
-                newList.Add(player);
+                Debug.Log("Index: " + index);
+                if(players[index])
+                    Debug.Log(players[index].name);
             }
-            j++;
+            if((j+1 == 4 || players[j+1] == null) && players[j] != null)
+            {
+                Debug.Log("Destroying Player: " + j);
+                Destroy(players[j]);
+                players[j] = null;
+            }
+            else if (j+1 != 4 || (players[j+1] != null && players[j] == null))
+            {
+                Debug.Log("Creating player");
+                players[j] = PlayerInput.Instantiate(playerPrefab, j, players[j + 1].GetComponent<PlayerInput>().currentControlScheme, j, players[j + 1].GetComponent<PlayerInput>().devices.ToArray()).gameObject;
+                Destroy(players[j + 1]);
+                players[j + 1] = null;
+            }
         }
-        players = newList;
-        playerIDCount--;
+        playerIDCount--; 
     }
 
     public void DeletePlayers()
@@ -243,6 +256,6 @@ public class ManagePlayerHub : MonoBehaviour
         {
             Destroy(player);
         }
-        players = new List<GameObject>();
+        players = new GameObject[4];
     }
 }
