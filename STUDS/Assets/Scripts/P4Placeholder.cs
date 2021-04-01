@@ -30,7 +30,7 @@ public class P4Placeholder : MonoBehaviour
 
             if (numPLR == 3)
             {
-                image.sizeDelta = new Vector2( Screen.width / 2,  Screen.height / 2);
+                image.sizeDelta = new Vector2( Screen.width/Screen.dpi,  Screen.height/Screen.dpi);
                 
                 PlaceholderOn = true;
                 P4PH.SetActive(true);

@@ -19,6 +19,8 @@ public class PauseV2 : MonoBehaviour
     public GameObject firstButton;
     public GameObject[] allOtherMenus;
     public static bool gameisPaused = false;
+    public GameObject p4PH;
+    public bool p4PHWasEnabled;
 
     public GameObject theImage;
     public GameObject theImage01;
@@ -77,12 +79,11 @@ public class PauseV2 : MonoBehaviour
 
     public void Pause()
     {
-        //theImage01.SetActive(false);
-        //theImage02.SetActive(false);
-        //theImage03.SetActive(false);
+        if(p4PH.activeSelf)
+            p4PHWasEnabled = true;
         if (!gameisPaused)
         {
-
+            p4PH.SetActive(false);
             PauseMenuUI.SetActive(true);
             OptionsMenu.SetActive(true);
 
@@ -96,6 +97,8 @@ public class PauseV2 : MonoBehaviour
         }
         else
         {
+            if (p4PHWasEnabled)
+                p4PH.SetActive(true);
             DeactivateAll();
             gameisPaused = false;
             Time.timeScale = 1f;

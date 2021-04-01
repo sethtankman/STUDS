@@ -10,7 +10,7 @@ using TMPro;
 public class ManagePlayerHub : MonoBehaviour
 {
     public GameObject[] players;
-    public GameObject playerPrefab;
+    public GameObject playerPrefab, player4PlaceHolder;
 
     public PlayerConnection playerConnectionPanel;
 
@@ -50,6 +50,7 @@ public class ManagePlayerHub : MonoBehaviour
         if (pCallback.m_bActive != 0)
         {
             Debug.Log("Steam Overlay has been activated");
+
             GameObject.Find("GameManager").GetComponent<PauseV2>().Pause();
         }
         else
@@ -145,7 +146,7 @@ public class ManagePlayerHub : MonoBehaviour
                     readyCount++;
                 }
             }
-            ReadyText.text = "" + readyCount + "/" + players.Length + " players are ready!";
+            ReadyText.text = "" + readyCount + "/" + playerIDCount + " players are ready!";
         }
         else if (playerJoined && !SceneManager.GetActiveScene().name.Equals("TheBlock_LevelSelect"))
         {
@@ -182,12 +183,14 @@ public class ManagePlayerHub : MonoBehaviour
                 pi.gameObject.GetComponentInChildren<SkinnedMeshRenderer>().material = playerColor3;
                 pi.gameObject.GetComponent<CharacterMovementController>().SetColorName(colorName3);
                 playerConnectionPanel.SetPanelImage(playerIDCount, colorName3);
+                player4PlaceHolder.SetActive(true);
             }
             else if (playerIDCount == 3)
             {
                 pi.gameObject.GetComponentInChildren<SkinnedMeshRenderer>().material = playerColor4;
                 pi.gameObject.GetComponent<CharacterMovementController>().SetColorName(colorName4);
                 playerConnectionPanel.SetPanelImage(playerIDCount, colorName4);
+                player4PlaceHolder.SetActive(false);
             }
 
         }
