@@ -34,12 +34,10 @@ public class PBInitializeLevel : MonoBehaviour
         else if (!spawnedPlayers)
         {
             Debug.Log("Spawning player");
-            int i = 0;
-            foreach (GameObject player in players)
+            for (int i = 0; players[i]; i++)
             {
-                player.transform.forward = playerSpawns[i].transform.forward;
-                player.transform.position = playerSpawns[i].position;
-                i++;
+                players[i].transform.forward = playerSpawns[i].transform.forward;
+                players[i].transform.position = playerSpawns[i].position;
             }
         }
     }
