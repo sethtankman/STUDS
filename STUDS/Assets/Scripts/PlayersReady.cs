@@ -32,7 +32,7 @@ public class PlayersReady : MonoBehaviour
             players = gameManager.GetComponent<ManagePlayerHub>().getPlayers();
             foreach (GameObject player in players)
             {
-                if (!player.GetComponent<CharacterMovementController>().GetReadyPlayer())
+                if (player && !player.GetComponent<CharacterMovementController>().GetReadyPlayer())
                 {
                     EffectSound.Post(gameObject);
                     allReady = false;

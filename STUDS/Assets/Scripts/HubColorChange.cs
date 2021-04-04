@@ -32,7 +32,7 @@ public class HubColorChange : MonoBehaviour
             bool isTaken = false;
             foreach(GameObject player in players)
             {
-                if (player.GetComponent<CharacterMovementController>().GetColorName().Equals(colorName))
+                if (player && player.GetComponent<CharacterMovementController>().GetColorName().Equals(colorName))
                 {
                     isTaken = true;
                 }
