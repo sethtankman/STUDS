@@ -13,7 +13,7 @@ public class PowerBillLevelInitializer : MonoBehaviour
     private float waitTime = 8f;
     private float currentTime = 0;
 
-    private GameObject[] players;
+    private List<GameObject> players;
 
     private int maxRounds;
     private int roundCount;
@@ -25,7 +25,7 @@ public class PowerBillLevelInitializer : MonoBehaviour
     void Start()
     {
         players = ManagePlayerHub.Instance.getPlayers();
-        maxRounds = players.Length + 1;
+        maxRounds = players.Count + 1;
         roundCount = 1;
         PlayerInputManager.instance.DisableJoining();
     }
@@ -43,7 +43,7 @@ public class PowerBillLevelInitializer : MonoBehaviour
         else if (!spawnedPlayers)
         {
             Debug.Log("Spawning player");
-            for (int i = 0; i < players.Length; i++)
+            for (int i = 0; i < players.Count; i++)
             {
                 //Vector3 flagPos = GameObject.Find("Proto_Flag_01").transform.position;
                 //players[i].transform.LookAt(new Vector3(transform.position.x, transform.position.y, transform.position.z));

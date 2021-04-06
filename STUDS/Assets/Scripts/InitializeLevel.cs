@@ -20,7 +20,7 @@ public class InitializeLevel : MonoBehaviour
     public Material strollerColor4;
     public Material strollerColor5;
 
-    private GameObject[] players;
+    private List<GameObject> players;
 
     public GameObject strollerPrefab;
 
@@ -47,7 +47,7 @@ public class InitializeLevel : MonoBehaviour
             Debug.Log("Loading in players");
             if (players != null)
             {
-                for (int i = 0; i < players.Length; i++)
+                for (int i = 0; i < players.Count; i++)
                 {
                     GameObject stroller = Instantiate(strollerPrefab, playerSpawns[i].position + new Vector3(0, 0, 2f), Quaternion.identity);
                     DetermineColor(players[i].GetComponent<CharacterMovementController>().GetColorName(), stroller);
@@ -61,7 +61,7 @@ public class InitializeLevel : MonoBehaviour
             Debug.Log("Spawning player");
             if (players != null)
             {
-                for (int i = 0; i < players.Length; i++)
+                for (int i = 0; i < players.Count; i++)
                 {
                     //Vector3 flagPos = GameObject.Find("Proto_Flag_01").transform.position;
                     //players[i].transform.LookAt(new Vector3(transform.position.x, transform.position.y, transform.position.z));

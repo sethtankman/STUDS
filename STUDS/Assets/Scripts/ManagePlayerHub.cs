@@ -9,7 +9,7 @@ using TMPro;
 
 public class ManagePlayerHub : MonoBehaviour
 {
-    public GameObject[] players;
+    public List<GameObject> players;
     public GameObject playerPrefab, player4PlaceHolder;
 
     public PlayerConnection playerConnectionPanel;
@@ -98,7 +98,7 @@ public class ManagePlayerHub : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        players = new GameObject[4];
+        players = new List<GameObject>();
         playerJoined = false;
 
         InputSystem.onDeviceChange +=
@@ -158,7 +158,7 @@ public class ManagePlayerHub : MonoBehaviour
     public void HandlePlayerJoin(PlayerInput pi)
     {
         playerJoined = true;
-        players[playerIDCount] = pi.gameObject;
+        players.Add(pi.gameObject);
         DontDestroyOnLoad(pi.gameObject);
         oldHub = true;
         if (pi.gameObject.GetComponent<CharacterMovementController>())
@@ -218,7 +218,7 @@ public class ManagePlayerHub : MonoBehaviour
         playerConnectionPanel.SetPanelImage(id, color);
     }
 
-    public GameObject[] getPlayers()
+    public List<GameObject> getPlayers()
     {
         return players;
     }
@@ -230,7 +230,7 @@ public class ManagePlayerHub : MonoBehaviour
         for (int j = i; j< 4; j++)
         {
             Debug.Log("j=" + j);
-            for(int index = 0; index < players.Length; index++)
+            for(int index = 0; index < players.Count; index++)
             {
                 Debug.Log("Index: " + index);
                 if(players[index])
@@ -259,6 +259,6 @@ public class ManagePlayerHub : MonoBehaviour
         {
             Destroy(player);
         }
-        players = new GameObject[4];
+        players = new List<GameObject>();
     }
 }

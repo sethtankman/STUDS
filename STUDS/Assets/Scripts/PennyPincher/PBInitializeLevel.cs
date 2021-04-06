@@ -13,7 +13,7 @@ public class PBInitializeLevel : MonoBehaviour
     private bool spawnedPlayers = false;
     private float waitTime = 2f;
     private float currentTime = 0;
-    private GameObject[] players;
+    private List<GameObject> players;
 
     // Start is called before the first frame update
     void Start()

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class VictoryCharacter : MonoBehaviour
 {
-    GameObject[] players;
+    List<GameObject> players;
     public int posNumber;
     public Material color1;
     public Material color2;
@@ -14,7 +14,7 @@ public class VictoryCharacter : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        players = new GameObject[4];
+        players = new List<GameObject>();
     }
 
     // Update is called once per frame

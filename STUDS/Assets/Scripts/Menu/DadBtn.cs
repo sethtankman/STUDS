@@ -18,9 +18,9 @@ public class DadBtn : MonoBehaviour
 
     public void RandomPlayer()
     {
-        ManagePlayerHub hub = GameObject.Find("GameManager").GetComponent<ManagePlayerHub>();
-        GameObject[] players = hub.getPlayers();
-        int selected = (int)(Random.value * players.Length);
+        List<GameObject> players = new List<GameObject>();
+        players = ManagePlayerHub.Instance.getPlayers();
+        int selected = (int)(Random.value * players.Count);
         int i = 0;
         foreach (GameObject _player in players) {
             if(selected == i)

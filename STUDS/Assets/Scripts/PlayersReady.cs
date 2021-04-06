@@ -6,12 +6,12 @@ using UnityEngine.SceneManagement;
 public class PlayersReady : MonoBehaviour
 {
     public GameObject gameManager;
-    GameObject[] players;
+    public List<GameObject> players;
     public AK.Wwise.Event EffectSound;
     // Start is called before the first frame update
     void Start()
     {
-        players = new GameObject[4];
+        players = new List<GameObject>();
     }
 
     private void OnTriggerExit(Collider other)

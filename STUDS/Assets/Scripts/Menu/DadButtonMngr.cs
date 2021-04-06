@@ -7,7 +7,7 @@ using UnityEngine.InputSystem;
 
 public class DadButtonMngr : MonoBehaviour
 {
-    private GameObject[] players;
+    private List<GameObject> players;
     private GameObject canv;
     public GameObject characterButton;
     public Transform[] buttonLocations;
@@ -19,7 +19,7 @@ public class DadButtonMngr : MonoBehaviour
         PlayerInputManager.instance.DisableJoining();  //Technically we shouldn't need this, because we should disable joining before level select.
         players = GameObject.Find("GameManager").GetComponent<ManagePlayerHub>().players;
         //if there is only one player, load into the next level.
-        if (players.Length == 1)
+        if (players.Count == 1)
         {
             LoadLevel();
         }

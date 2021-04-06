@@ -12,7 +12,7 @@ public class SS_Initialize : MonoBehaviour
     public float waitTime = 5f;
     private float currentTime = 0;
 
-    private GameObject[] players;
+    private List<GameObject> players;
 
     public GameObject startCam;
 
@@ -34,30 +34,32 @@ public class SS_Initialize : MonoBehaviour
         GameObject.Find("Music Manager").GetComponent<Music_Manager>().PlayStopMusic("Menu", false);
         GameObject.Find("Music Manager").GetComponent<Music_Manager>().PlayStopMusic("Shopping", true);
         PlayerInputManager.instance.DisableJoining();
-        if(players.Length > 0)
+        players = ManagePlayerHub.Instance.getPlayers();
+        for (int i = 0; i < players.Count; i++)
         {
-            players[0].gameObject.AddComponent<SS_ItemTracker>();
-            players[0].gameObject.GetComponent<SS_ItemTracker>().listText = player1List;
-            if (players.Length > 1)
-            {
-                players[1].gameObject.AddComponent<SS_ItemTracker>();
+            players[i].gameObject.AddComponent<SS_ItemTracker>();
+        }
+        switch (players.Count)
+        {
+            case 1:
+                players[0].gameObject.GetComponent<SS_ItemTracker>().listText = player1List;
+                break;
+            case 2:
                 players[1].gameObject.GetComponent<SS_ItemTracker>().listText = player2List;
                 p2Paper.SetActive(true);
-                if (players.Length > 2)
-                {
-                    players[2].gameObject.AddComponent<SS_ItemTracker>();
-                    players[2].gameObject.GetComponent<SS_ItemTracker>().listText = player3List;
-                    p3Paper.SetActive(true);
-                    if (players.Length > 3)
-                    {
-                        players[3].gameObject.AddComponent<SS_ItemTracker>();
-                        players[3].gameObject.GetComponent<SS_ItemTracker>().listText = player4List;
-                        p4Paper.SetActive(true);
-                    }
-                }
-            }
+                goto case 1;
+            case 3:
+                players[2].gameObject.GetComponent<SS_ItemTracker>().listText = player3List;
+                p3Paper.SetActive(true);
+                goto case 2;
+            case 4:
+                players[3].gameObject.GetComponent<SS_ItemTracker>().listText = player4List;
+                p4Paper.SetActive(true);
+                goto case 3;
+            default:
+                Debug.LogError("Invalid player list count");
+                break;
         }
-        
     }
 
     // Update is called once per frame
@@ -67,18 +69,18 @@ public class SS_Initialize : MonoBehaviour
         if (currentTime > waitTime && !spawnedPlayers)
         {
             Destroy(startCam);
-            if(startText)
+            if (startText)
                 startText.text = "";
             Debug.Log("Loading in players");
-            for (int i = 0; i < players.Length; i++)
-            { 
+            for (int i = 0; i < players.Count; i++)
+            {
                 spawnedPlayers = true;
             }
         }
         else if (!spawnedPlayers)
         {
             Debug.Log("Spawning player");
-            for (int i = 0; i < players.Length; i++)
+            for (int i = 0; i < players.Count; i++)
             {
                 //Vector3 flagPos = GameObject.Find("Proto_Flag_01").transform.position;
                 //players[i].transform.LookAt(new Vector3(transform.position.x, transform.position.y, transform.position.z));

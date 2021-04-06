@@ -26,7 +26,7 @@ public class HubColorChange : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        GameObject[] players = gameManager.GetComponent<ManagePlayerHub>().getPlayers();
+        List<GameObject> players = gameManager.GetComponent<ManagePlayerHub>().getPlayers();
         if (other.tag.Equals("Player"))
         {
             bool isTaken = false;
