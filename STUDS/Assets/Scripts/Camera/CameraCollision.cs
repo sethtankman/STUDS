@@ -31,7 +31,7 @@ public class CameraCollision : MonoBehaviour
         // The mesh renderer check is quick fix to stop collisions with invisible objects.
         if (hit.transform && hit.transform.GetComponent<MeshRenderer>()) 
         {
-            Debug.Log("Camera collided with " + hit.transform.gameObject.name);
+            // Debug.Log("Camera collided with " + hit.transform.gameObject.name);
             distance = Mathf.Clamp(hit.distance, minDistance, maxDistance);
         } else
         {
