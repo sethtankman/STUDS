@@ -26,6 +26,7 @@ public class PBInitializeLevel : MonoBehaviour
     void Update()
     {
         currentTime += Time.deltaTime;
+
         if (currentTime > waitTime && !spawnedPlayers)
         {
             loadingScreen.SetActive(false);
@@ -34,10 +35,12 @@ public class PBInitializeLevel : MonoBehaviour
         else if (!spawnedPlayers)
         {
             Debug.Log("Spawning player");
-            for (int i = 0; players[i]; i++)
+            int i = 0;
+            foreach (GameObject player in players)
             {
-                players[i].transform.forward = playerSpawns[i].transform.forward;
-                players[i].transform.position = playerSpawns[i].position;
+                player.transform.forward = playerSpawns[i].transform.forward;
+                player.transform.position = playerSpawns[i].position;
+                i++;
             }
         }
     }

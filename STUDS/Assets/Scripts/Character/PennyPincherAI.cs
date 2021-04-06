@@ -20,7 +20,8 @@ public class PennyPincherAI : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        var set2 = GameObject.FindGameObjectsWithTag("Electronics");
+        GameObject[] set2 = GameObject.FindGameObjectsWithTag("Electronics");
+        switches = new Transform[set2.Length];
         int i = 0;
         foreach (GameObject item in set2)
         {
