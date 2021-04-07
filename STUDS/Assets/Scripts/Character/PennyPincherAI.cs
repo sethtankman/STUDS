@@ -92,6 +92,9 @@ public class PennyPincherAI : MonoBehaviour
                     hasTarget = true;
                     target = switches[i];
                     break;
+                } else if (!switches[i].GetComponent<VolumeTrigger>())
+                {
+                    Debug.LogError("Could not find Volume Trigger for: " + switches[i].name);
                 }
             }
         }
