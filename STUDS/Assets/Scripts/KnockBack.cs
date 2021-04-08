@@ -5,7 +5,7 @@ using UnityEngine;
 public class KnockBack : MonoBehaviour
 {
     public Vector3 directionVector;
-    public short kBForce;
+    public short KBForce;
     public bool makePlayerDrop;
     public AK.Wwise.Event KBSound;
     public bool slidethrough = false, reflective, directional;
@@ -48,9 +48,9 @@ public class KnockBack : MonoBehaviour
             {
                 direction += directionVector.normalized;
             }
-            //Debug.Log("direction: " + direction.ToString() + " Force " + kBForce + " MakePlayerDrop " + makePlayerDrop);
+            Debug.Log("direction: " + direction.ToString() + " Force " + KBForce + " MakePlayerDrop " + makePlayerDrop);
 
-            other.gameObject.GetComponent<CharacterMovementController>().KnockBack(direction * kBForce, makePlayerDrop);
+            other.gameObject.GetComponent<CharacterMovementController>().KnockBack(direction * KBForce, makePlayerDrop);
             if(!KBSound.Equals("") && other.gameObject.GetComponent<CharacterMovementController>().isAI == false)
             {
                 KBSound.Post(gameObject);

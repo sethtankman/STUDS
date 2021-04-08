@@ -421,6 +421,7 @@ public class CharacterMovementController : MonoBehaviour
         }
     }
 
+    /*
     void OnCollisionEnter(Collision obj)
     {
         if (obj.gameObject.tag == "Ground")
@@ -428,7 +429,7 @@ public class CharacterMovementController : MonoBehaviour
             velocity.x = 0;
             velocity.z = 0;
         }
-    }
+    } */
 
     private void OnTriggerEnter(Collider other)
     {
@@ -450,7 +451,7 @@ public class CharacterMovementController : MonoBehaviour
 
     public void KnockBack(Vector3 direction, bool _drop)
     {
-        //Debug.Log("KBCalled with: " + direction.ToString());
+        Debug.Log("KBCalled with: " + direction.ToString());
         knockBackCounter = knockBackTime;
         beingKnockedBack = true;
         drop = _drop;

@@ -76,7 +76,7 @@ public class ManholeGeiser : MonoBehaviour
 
         if (up)
         {
-            waterCol.GetComponent<KnockBack>().kBForce = 10;
+            waterCol.GetComponent<KnockBack>().KBForce = 10;
 
             for (int i = 0; i < water.Length; i++)
             {
@@ -96,7 +96,7 @@ public class ManholeGeiser : MonoBehaviour
             }
             cover.transform.position = Vector3.Lerp(cover.transform.position, coverBaseT, Time.deltaTime * speed);
             waterCol.SetActive(false);
-            waterCol.GetComponent<KnockBack>().kBForce = 0;
+            waterCol.GetComponent<KnockBack>().KBForce = 0;
             
 
         }

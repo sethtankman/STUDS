@@ -75,6 +75,13 @@ public class Interaction : MonoBehaviour
             Object_active.SetActive(false);
             Object_inactive.SetActive(true);
         }
+        else if (isMini)
+        {
+            Debug.Log("Child trying to turn on object that is already on");
+        } else
+        {
+            Debug.Log("Parent trying to turn off object that is already off");
+        }
     }
 
     public void ToggleVisualGM()
