@@ -26,7 +26,7 @@ public class VolumeTrigger : MonoBehaviour {
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log(other.gameObject.name + " entered");
+        // Debug.Log(other.gameObject.name + " entered");
         if(Check(other))
             EnterEvent.Invoke();
     }

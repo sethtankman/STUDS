@@ -81,6 +81,7 @@ public class Interaction : MonoBehaviour
     {
         GameMaster.NumItemsOn -= 1;
         interactPressed = true;
+        Debug.Log("Toggle: " + gameObject.name);
         trigger.isSwitchActive = true;
         Object_active.SetActive(false);
         Object_inactive.SetActive(true);

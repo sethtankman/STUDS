@@ -34,7 +34,7 @@ public class PBInitializeLevel : MonoBehaviour
         }
         else if (!spawnedPlayers)
         {
-            Debug.Log("Spawning player");
+            // Debug.Log("Spawning player");
             int i = 0;
             foreach (GameObject player in players)
             {
