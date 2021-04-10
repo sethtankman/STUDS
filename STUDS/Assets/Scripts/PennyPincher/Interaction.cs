@@ -59,6 +59,7 @@ public class Interaction : MonoBehaviour
 
     public void ToggleVisual(bool isMini)
     {
+        Debug.Log("ToggleVisual Called.");
         if (isMini && !Object_active.activeSelf)
         {
             GameMaster.NumItemsOn += 1;
@@ -66,6 +67,11 @@ public class Interaction : MonoBehaviour
             trigger.isSwitchActive = false;
             Object_active.SetActive(true);
             Object_inactive.SetActive(false);
+            PennyPincherAI[] allAI = FindObjectsOfType(typeof(PennyPincherAI)) as PennyPincherAI[];
+            foreach(PennyPincherAI AI in allAI)
+            {
+                AI.CheckUpdateTarget(gameObject, trigger.isSwitchActive);
+            }
         }
         else if (!isMini && Object_active.activeSelf)
         {
@@ -74,6 +80,11 @@ public class Interaction : MonoBehaviour
             trigger.isSwitchActive = true;
             Object_active.SetActive(false);
             Object_inactive.SetActive(true);
+            PennyPincherAI[] allAI = FindObjectsOfType(typeof(PennyPincherAI)) as PennyPincherAI[];
+            foreach (PennyPincherAI AI in allAI)
+            {
+                AI.CheckUpdateTarget(gameObject, trigger.isSwitchActive);
+            }
         }
         else if (isMini)
         {

@@ -7,11 +7,10 @@ public class PennyPincherAI : MonoBehaviour
 {
     [SerializeField] private CharacterMovementController movementController;
     [SerializeField] private NavMeshAgent agent;
-    public Transform[] switches;
-    private bool active = false;
-    private bool hasTarget = false;
+    public List<Transform> availableSwitches;
+    [SerializeField] private bool hasTarget = false, active = false;
     private bool gameStarted = false;
-    [SerializeField] private Transform target;
+    [SerializeField] private Transform target, previousTarget;
 
     public float turnSpeed = 1;
 
@@ -21,11 +20,11 @@ public class PennyPincherAI : MonoBehaviour
     void Start()
     {
         GameObject[] set2 = GameObject.FindGameObjectsWithTag("Electronics");
-        switches = new Transform[set2.Length];
+        availableSwitches = new List<Transform>();
         int i = 0;
         foreach (GameObject item in set2)
         {
-            switches[i] = item.transform;
+            availableSwitches.Add(item.transform);
             i++;
         }
         target = null;
@@ -59,16 +58,19 @@ public class PennyPincherAI : MonoBehaviour
             {
                 hasTarget = false;
                 target.GetComponent<VolumeTrigger>().FlipSwitch();
-            } else if(Mathf.Abs(target.position.x - transform.position.x) < 0.1f 
-                && Mathf.Abs(target.position.z - transform.position.z) < 0.1f 
-                && target.position.y - transform.position.y < 3)
+            }
+            else if (Mathf.Abs(target.position.x - transform.position.x) < 0.1f
+              && Mathf.Abs(target.position.z - transform.position.z) < 0.1f
+              && target.position.y - transform.position.y < 3)
             {
                 movementController.isJumping = true;
             }
 
-        } else if (active && !hasTarget)
+        }
+        else if (active && !hasTarget)
         {
             active = false;
+            previousTarget = target;
             StartCoroutine("FindNewTarget");
         }
         else if (!gameStarted)
@@ -83,26 +85,39 @@ public class PennyPincherAI : MonoBehaviour
         movementController.isJumping = false;
         while (hasTarget == false)
         {
-            yield return new WaitForSecondsRealtime(1);
-            for (int i = 0; i < switches.Length; i++)
+            yield return new WaitForSecondsRealtime(0.5f);
+            int i = Random.Range(0, availableSwitches.Count);
+            if (availableSwitches[i] != null && availableSwitches[i].GetComponent<VolumeTrigger>().isSwitchActive == true)
             {
-                if (switches[i] != null && switches[i].GetComponent<VolumeTrigger>().isSwitchActive == true)
-                {
-                    active = true;
-                    hasTarget = true;
-                    target = switches[i];
-                    break;
-                } else if (!switches[i].GetComponent<VolumeTrigger>())
-                {
-                    Debug.LogError("Could not find Volume Trigger for: " + switches[i].name);
-                }
+                active = true;
+                hasTarget = true;
+                target = availableSwitches[i];
+                break;
+            } else if (availableSwitches[i] != null && availableSwitches[i].GetComponent<VolumeTrigger>().isSwitchActive == false)
+            {
+                availableSwitches.RemoveAt(i);
+                Debug.Log("switch in availableSwitches was not actually available");
             }
+            else if (!availableSwitches[i].GetComponent<VolumeTrigger>())
+            {
+                Debug.LogError("Could not find Volume Trigger for: " + availableSwitches[i].name);
+            }
+
         }
 
     }
 
-    public void CheckUpdateTarget()
+    public void CheckUpdateTarget(GameObject flippedSwitch, bool isSwitchActive)
     {
+        if (isSwitchActive)
+            availableSwitches.Remove(flippedSwitch.transform);
+        else
+            availableSwitches.Add(flippedSwitch.transform);
 
+        if (flippedSwitch.transform == target)
+        {
+            active = false;
+            StartCoroutine("FindNewTarget");
+        }
     }
 }
