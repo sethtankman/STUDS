@@ -21,11 +21,9 @@ public class PennyPincherAI : MonoBehaviour
     {
         GameObject[] set2 = GameObject.FindGameObjectsWithTag("Electronics");
         availableSwitches = new List<Transform>();
-        int i = 0;
-        foreach (GameObject item in set2)
+        for (int i = 0; i < set2.Length; i++)
         {
-            availableSwitches.Add(item.transform);
-            i++;
+            availableSwitches.Add(set2[i].transform);
         }
         target = null;
     }
@@ -54,8 +52,10 @@ public class PennyPincherAI : MonoBehaviour
             agent.velocity = movementController.GetController().velocity;
 
             float distance = Vector3.Distance(transform.position, target.position);
-            if (distance < 1.5f)
+            Debug.Log("Distance: " + distance);
+            if (distance < 1.7f)
             {
+                Debug.Log("Reached target: " + target.name);
                 hasTarget = false;
                 target.GetComponent<VolumeTrigger>().FlipSwitch();
             }
@@ -87,15 +87,19 @@ public class PennyPincherAI : MonoBehaviour
         {
             yield return new WaitForSecondsRealtime(0.5f);
             int i = Random.Range(0, availableSwitches.Count);
-            if (availableSwitches[i] != null && availableSwitches[i].GetComponent<VolumeTrigger>().isSwitchActive == true)
+            Debug.Log("I: " + i + " Count: " + availableSwitches.Count + " " + availableSwitches[i].name);
+            Transform selected = availableSwitches[i];
+            if (selected != null && availableSwitches.Contains(selected) 
+                && selected.GetComponent<VolumeTrigger>().isSwitchActive == true)
             {
                 active = true;
                 hasTarget = true;
-                target = availableSwitches[i];
+                target = selected;
                 break;
-            } else if (availableSwitches[i] != null && availableSwitches[i].GetComponent<VolumeTrigger>().isSwitchActive == false)
+            } else if (selected != null && availableSwitches.Contains(selected)
+                && selected.GetComponent<VolumeTrigger>().isSwitchActive == false)
             {
-                availableSwitches.RemoveAt(i);
+                availableSwitches.Remove(selected);
                 Debug.Log("switch in availableSwitches was not actually available");
             }
             else if (!availableSwitches[i].GetComponent<VolumeTrigger>())
@@ -107,12 +111,12 @@ public class PennyPincherAI : MonoBehaviour
 
     }
 
-    public void CheckUpdateTarget(GameObject flippedSwitch, bool isSwitchActive)
+    public void CheckUpdateTarget(GameObject flippedSwitch, bool isNowOn)
     {
-        if (isSwitchActive)
-            availableSwitches.Remove(flippedSwitch.transform);
-        else
+        if (isNowOn)
             availableSwitches.Add(flippedSwitch.transform);
+        else
+            availableSwitches.Remove(flippedSwitch.transform);
 
         if (flippedSwitch.transform == target)
         {

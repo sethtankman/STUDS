@@ -38,11 +38,6 @@ public class Interaction : MonoBehaviour
 
     public void Update()
     {
-        if (interactPressed)
-        {
-
-        }
-
         if (!interactPressed)
         {
             CashTimer += Time.deltaTime;
@@ -70,7 +65,7 @@ public class Interaction : MonoBehaviour
             PennyPincherAI[] allAI = FindObjectsOfType(typeof(PennyPincherAI)) as PennyPincherAI[];
             foreach(PennyPincherAI AI in allAI)
             {
-                AI.CheckUpdateTarget(gameObject, trigger.isSwitchActive);
+                AI.CheckUpdateTarget(gameObject, false);
             }
         }
         else if (!isMini && Object_active.activeSelf)
@@ -83,7 +78,7 @@ public class Interaction : MonoBehaviour
             PennyPincherAI[] allAI = FindObjectsOfType(typeof(PennyPincherAI)) as PennyPincherAI[];
             foreach (PennyPincherAI AI in allAI)
             {
-                AI.CheckUpdateTarget(gameObject, trigger.isSwitchActive);
+                AI.CheckUpdateTarget(gameObject, true);
             }
         }
         else if (isMini)
@@ -103,5 +98,10 @@ public class Interaction : MonoBehaviour
         trigger.isSwitchActive = true;
         Object_active.SetActive(false);
         Object_inactive.SetActive(true);
+        PennyPincherAI[] allAI = FindObjectsOfType(typeof(PennyPincherAI)) as PennyPincherAI[];
+        foreach (PennyPincherAI AI in allAI)
+        {
+            AI.CheckUpdateTarget(gameObject, false);
+        }
     }
 }
