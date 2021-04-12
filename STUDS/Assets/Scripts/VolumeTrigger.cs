@@ -21,6 +21,7 @@ public class VolumeTrigger : MonoBehaviour {
 
     public void FlipSwitch()
     {
+        Debug.Log("FlipSwitch Called");
         interact.ToggleVisual(true);
     }
 

@@ -101,6 +101,8 @@ public class ManagePlayerHub : MonoBehaviour
         players = new List<GameObject>();
         playerJoined = false;
 
+
+
         InputSystem.onDeviceChange +=
             (device, change) =>
             {

@@ -7,11 +7,10 @@ public class PennyPincherAI : MonoBehaviour
 {
     [SerializeField] private CharacterMovementController movementController;
     [SerializeField] private NavMeshAgent agent;
-    public Transform[] switches;
-    private bool active = false;
-    private bool hasTarget = false;
+    public List<Transform> availableSwitches;
+    [SerializeField] private bool hasTarget = false, active = false;
     private bool gameStarted = false;
-    [SerializeField] private Transform target;
+    [SerializeField] private Transform target, previousTarget;
 
     public float turnSpeed = 1;
 
@@ -21,12 +20,10 @@ public class PennyPincherAI : MonoBehaviour
     void Start()
     {
         GameObject[] set2 = GameObject.FindGameObjectsWithTag("Electronics");
-        switches = new Transform[set2.Length];
-        int i = 0;
-        foreach (GameObject item in set2)
+        availableSwitches = new List<Transform>();
+        for (int i = 0; i < set2.Length; i++)
         {
-            switches[i] = item.transform;
-            i++;
+            availableSwitches.Add(set2[i].transform);
         }
         target = null;
     }
@@ -55,20 +52,25 @@ public class PennyPincherAI : MonoBehaviour
             agent.velocity = movementController.GetController().velocity;
 
             float distance = Vector3.Distance(transform.position, target.position);
-            if (distance < 1.5f)
+            Debug.Log("Distance: " + distance);
+            if (distance < 1.7f)
             {
+                Debug.Log("Reached target: " + target.name);
                 hasTarget = false;
                 target.GetComponent<VolumeTrigger>().FlipSwitch();
-            } else if(Mathf.Abs(target.position.x - transform.position.x) < 0.1f 
-                && Mathf.Abs(target.position.z - transform.position.z) < 0.1f 
-                && target.position.y - transform.position.y < 3)
+            }
+            else if (Mathf.Abs(target.position.x - transform.position.x) < 0.1f
+              && Mathf.Abs(target.position.z - transform.position.z) < 0.1f
+              && target.position.y - transform.position.y < 3)
             {
                 movementController.isJumping = true;
             }
 
-        } else if (active && !hasTarget)
+        }
+        else if (active && !hasTarget)
         {
             active = false;
+            previousTarget = target;
             StartCoroutine("FindNewTarget");
         }
         else if (!gameStarted)
@@ -83,26 +85,43 @@ public class PennyPincherAI : MonoBehaviour
         movementController.isJumping = false;
         while (hasTarget == false)
         {
-            yield return new WaitForSecondsRealtime(1);
-            for (int i = 0; i < switches.Length; i++)
+            yield return new WaitForSecondsRealtime(0.5f);
+            int i = Random.Range(0, availableSwitches.Count);
+            Debug.Log("I: " + i + " Count: " + availableSwitches.Count + " " + availableSwitches[i].name);
+            Transform selected = availableSwitches[i];
+            if (selected != null && availableSwitches.Contains(selected) 
+                && selected.GetComponent<VolumeTrigger>().isSwitchActive == true)
             {
-                if (switches[i] != null && switches[i].GetComponent<VolumeTrigger>().isSwitchActive == true)
-                {
-                    active = true;
-                    hasTarget = true;
-                    target = switches[i];
-                    break;
-                } else if (!switches[i].GetComponent<VolumeTrigger>())
-                {
-                    Debug.LogError("Could not find Volume Trigger for: " + switches[i].name);
-                }
+                active = true;
+                hasTarget = true;
+                target = selected;
+                break;
+            } else if (selected != null && availableSwitches.Contains(selected)
+                && selected.GetComponent<VolumeTrigger>().isSwitchActive == false)
+            {
+                availableSwitches.Remove(selected);
+                Debug.Log("switch in availableSwitches was not actually available");
             }
+            else if (!availableSwitches[i].GetComponent<VolumeTrigger>())
+            {
+                Debug.LogError("Could not find Volume Trigger for: " + availableSwitches[i].name);
+            }
+
         }
 
     }
 
-    public void CheckUpdateTarget()
+    public void CheckUpdateTarget(GameObject flippedSwitch, bool isNowOn)
     {
+        if (isNowOn)
+            availableSwitches.Add(flippedSwitch.transform);
+        else
+            availableSwitches.Remove(flippedSwitch.transform);
 
+        if (flippedSwitch.transform == target)
+        {
+            active = false;
+            StartCoroutine("FindNewTarget");
+        }
     }
 }

@@ -17,7 +17,7 @@ public class PopUpCutout : MonoBehaviour
     void Start()
     {
         countdown = timer;
-        initialForce = this.GetComponent<KnockBack>().kBForce;
+        initialForce = this.GetComponent<KnockBack>().KBForce;
            currentPos = this.transform.rotation;
     }
 
@@ -33,14 +33,14 @@ public class PopUpCutout : MonoBehaviour
 
         if (Standing)
         {
-            this.GetComponent<KnockBack>().kBForce = 0;
+            this.GetComponent<KnockBack>().KBForce = 0;
             this.GetComponent<BoxCollider>().enabled = false;
             Quaternion wantedRotation = transform.rotation * Quaternion.AngleAxis(10, Vector3.left);
             transform.rotation = Quaternion.Slerp(transform.rotation, wantedRotation, Time.deltaTime*speed);
         }
         else
         {
-            this.GetComponent<KnockBack>().kBForce = initialForce;
+            this.GetComponent<KnockBack>().KBForce = initialForce;
             this.GetComponent<BoxCollider>().enabled = true;
             transform.rotation = Quaternion.Slerp(transform.rotation, currentPos, Time.deltaTime * speed);
         }

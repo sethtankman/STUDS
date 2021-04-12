@@ -64,7 +64,7 @@ public class FireHydrantKB : MonoBehaviour
             WaterEffect.Play();
 
             waterKB.SetActive(true);
-            waterKB.GetComponent<KnockBack>().kBForce = force;
+            waterKB.GetComponent<KnockBack>().KBForce = force;
             
             
 
@@ -73,7 +73,7 @@ public class FireHydrantKB : MonoBehaviour
         {
             WaterEffect.Stop();
             waterKB.SetActive(false);
-            waterKB.GetComponent<KnockBack>().kBForce = 0;
+            waterKB.GetComponent<KnockBack>().KBForce = 0;
             //WaterEffect.Stop();
         }
     }

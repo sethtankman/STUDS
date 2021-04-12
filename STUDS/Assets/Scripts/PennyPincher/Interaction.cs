@@ -38,11 +38,6 @@ public class Interaction : MonoBehaviour
 
     public void Update()
     {
-        if (interactPressed)
-        {
-
-        }
-
         if (!interactPressed)
         {
             CashTimer += Time.deltaTime;
@@ -59,6 +54,7 @@ public class Interaction : MonoBehaviour
 
     public void ToggleVisual(bool isMini)
     {
+        Debug.Log("ToggleVisual Called.");
         if (isMini && !Object_active.activeSelf)
         {
             GameMaster.NumItemsOn += 1;
@@ -66,6 +62,11 @@ public class Interaction : MonoBehaviour
             trigger.isSwitchActive = false;
             Object_active.SetActive(true);
             Object_inactive.SetActive(false);
+            PennyPincherAI[] allAI = FindObjectsOfType(typeof(PennyPincherAI)) as PennyPincherAI[];
+            foreach(PennyPincherAI AI in allAI)
+            {
+                AI.CheckUpdateTarget(gameObject, false);
+            }
         }
         else if (!isMini && Object_active.activeSelf)
         {
@@ -74,6 +75,18 @@ public class Interaction : MonoBehaviour
             trigger.isSwitchActive = true;
             Object_active.SetActive(false);
             Object_inactive.SetActive(true);
+            PennyPincherAI[] allAI = FindObjectsOfType(typeof(PennyPincherAI)) as PennyPincherAI[];
+            foreach (PennyPincherAI AI in allAI)
+            {
+                AI.CheckUpdateTarget(gameObject, true);
+            }
+        }
+        else if (isMini)
+        {
+            Debug.Log("Child trying to turn on object that is already on");
+        } else
+        {
+            Debug.Log("Parent trying to turn off object that is already off");
         }
     }
 
@@ -85,5 +98,10 @@ public class Interaction : MonoBehaviour
         trigger.isSwitchActive = true;
         Object_active.SetActive(false);
         Object_inactive.SetActive(true);
+        PennyPincherAI[] allAI = FindObjectsOfType(typeof(PennyPincherAI)) as PennyPincherAI[];
+        foreach (PennyPincherAI AI in allAI)
+        {
+            AI.CheckUpdateTarget(gameObject, false);
+        }
     }
 }
