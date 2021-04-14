@@ -175,7 +175,7 @@ public class SettingsMenu_Scott : MonoBehaviour
 
     public void OpenURL()
     {
-        Application.OpenURL("https://www.dadshowdown.com/");
+        Application.OpenURL("https://discord.gg/MvrPPpy6");
     }
 
     public void OpenReturnMenu()

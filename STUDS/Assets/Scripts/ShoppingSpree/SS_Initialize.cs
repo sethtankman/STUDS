@@ -18,15 +18,9 @@ public class SS_Initialize : MonoBehaviour
 
     public GameObject p1Paper, p2Paper, p3Paper, p4Paper;
 
-    public Text player1List;
-
-    public Text player2List;
-
-    public Text player3List;
-
-    public Text player4List;
-
     public Text startText;
+
+    public Image[] p1shoppingItemImages, p2shoppingItemImages, p3shoppingItemImages, p4shoppingItemImages;
 
     // Start is called before the first frame update
     void Start()
@@ -42,18 +36,26 @@ public class SS_Initialize : MonoBehaviour
         switch (players.Count)
         {
             case 1:
-                players[0].gameObject.GetComponent<SS_ItemTracker>().listText = player1List;
+                SS_ItemTracker tracker = players[0].gameObject.GetComponent<SS_ItemTracker>();
+                tracker.shoppingItemImages = p1shoppingItemImages;
+                tracker.myPaper = p1Paper;
                 break;
             case 2:
-                players[1].gameObject.GetComponent<SS_ItemTracker>().listText = player2List;
+                tracker = players[1].gameObject.GetComponent<SS_ItemTracker>();
+                tracker.shoppingItemImages = p2shoppingItemImages;
+                tracker.myPaper = p1Paper;
                 p2Paper.SetActive(true);
                 goto case 1;
             case 3:
-                players[2].gameObject.GetComponent<SS_ItemTracker>().listText = player3List;
+                tracker = players[2].gameObject.GetComponent<SS_ItemTracker>();
+                tracker.shoppingItemImages = p3shoppingItemImages;
+                tracker.myPaper = p1Paper;
                 p3Paper.SetActive(true);
                 goto case 2;
             case 4:
-                players[3].gameObject.GetComponent<SS_ItemTracker>().listText = player4List;
+                tracker = players[3].gameObject.GetComponent<SS_ItemTracker>();
+                tracker.shoppingItemImages = p4shoppingItemImages;
+                tracker.myPaper = p1Paper;
                 p4Paper.SetActive(true);
                 goto case 3;
             default:

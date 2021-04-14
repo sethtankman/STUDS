@@ -9,11 +9,14 @@ public class SS_ItemTracker : MonoBehaviour
     private string[] itemList;
     private bool[] completedItemsCheck;
     private Dictionary<string, bool> itemsCollected;
+    public Image[] shoppingItemImages;
+    public Image checkMark;
+    public GameObject myPaper;
     public Text listText;
     // Start is called before the first frame update
     void Start()
     {
-        itemList = new string[] {"Sprinkler", "Toolbox", "Boombox", "Cooler", "SlowSign", "Helmet", "Shovel", "Hammer",};
+        itemList = new string[] { "Boombox", "Cooler", "Hammer", "Helmet", "Shovel", "SlowSign", "Sprinkler", "Toolbox" };
         itemsCollected = new Dictionary<string, bool>();
         foreach (string item in itemList)
         {
@@ -36,26 +39,24 @@ public class SS_ItemTracker : MonoBehaviour
         }
         if (allComplete)
         {
-            listText.text = "You have successfully gathered all the items!";
+            //listText.text = "You have successfully gathered all the items!";
         }
         else
         {
-            string text = "SHOPPING LIST:\n";
+            //string text = "SHOPPING LIST:\n";
             for (int i = 0; i < itemList.Length; i++)
             {
                 if (completedItemsCheck[i])
                 {
-                    text += itemList[i] + " - ✓\n";
+                    shoppingItemImages[i].gameObject.GetComponent<ItemButton>().EnableCheckMark();
                     Debug.Log("Added complete");
                 }
                 else
                 {
-                    //text += itemList[i] + ": Missing!\n";
-                    text += itemList[i] + "\n";
                     Debug.Log("Added missing");
                 }
             }
-            listText.text = text;
+            //listText.text = text;
         }
 
     }
