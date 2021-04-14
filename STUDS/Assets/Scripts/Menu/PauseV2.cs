@@ -79,6 +79,8 @@ public class PauseV2 : MonoBehaviour
 
     public void Pause()
     {
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
         if(p4PH.activeSelf)
             p4PHWasEnabled = true;
         if (!gameisPaused)
@@ -110,6 +112,8 @@ public class PauseV2 : MonoBehaviour
     /// </summary>
     private void DeactivateAll()
     {
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
         PauseMenuUI.SetActive(false);
         OptionsMenu.SetActive(false);
         foreach(GameObject menu in allOtherMenus)

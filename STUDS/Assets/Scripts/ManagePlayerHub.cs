@@ -101,7 +101,8 @@ public class ManagePlayerHub : MonoBehaviour
         players = new List<GameObject>();
         playerJoined = false;
 
-
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
 
         InputSystem.onDeviceChange +=
             (device, change) =>

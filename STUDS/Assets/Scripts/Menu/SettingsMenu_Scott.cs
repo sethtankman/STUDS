@@ -24,6 +24,10 @@ public class SettingsMenu_Scott : MonoBehaviour
 
     void Start()
     {
+
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+
         resolutions = Screen.resolutions;
 
         resolutionDropdown.ClearOptions();
