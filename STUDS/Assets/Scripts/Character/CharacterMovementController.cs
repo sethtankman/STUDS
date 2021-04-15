@@ -233,7 +233,8 @@ public class CharacterMovementController : MonoBehaviour
 
     public void Jump()
     {
-        if (airborn == false && isJumping && CanJump)
+        //GameObject menu = GameObject.Find("GameManager");
+        if (airborn == false && isJumping && CanJump )
         {
             if (!isAI)
             {
