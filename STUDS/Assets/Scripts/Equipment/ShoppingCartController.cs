@@ -54,38 +54,31 @@ public class ShoppingCartController : MonoBehaviour
                         Destroy(other.gameObject);
                     }
                     break;
-                case "Propane":
+                case "Shovel":
                     if (cartItems[4].activeSelf == false)
                     {
                         cartItems[4].SetActive(true);
                         Destroy(other.gameObject);
                     }
                     break;
-                case "Shovel":
+                case "Sprinkler":
                     if (cartItems[5].activeSelf == false)
                     {
                         cartItems[5].SetActive(true);
                         Destroy(other.gameObject);
                     }
                     break;
-                case "SlowSign":
+                case "Toolbox":
                     if (cartItems[6].activeSelf == false)
                     {
                         cartItems[6].SetActive(true);
                         Destroy(other.gameObject);
                     }
                     break;
-                case "Sprinkler":
+                case "Vacuum":
                     if (cartItems[7].activeSelf == false)
                     {
                         cartItems[7].SetActive(true);
-                        Destroy(other.gameObject);
-                    }
-                    break;
-                case "Toolbox":
-                    if (cartItems[8].activeSelf == false)
-                    {
-                        cartItems[8].SetActive(true);
                         Destroy(other.gameObject);
                     }
                     break;

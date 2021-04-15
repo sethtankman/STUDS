@@ -10,27 +10,26 @@ public class SS_ItemTracker : MonoBehaviour
     private bool[] completedItemsCheck;
     private Dictionary<string, bool> itemsCollected;
     public Image[] shoppingItemImages;
-    public Image checkMark;
     public GameObject myPaper;
     public Text listText;
     // Start is called before the first frame update
     void Start()
     {
-        itemList = new string[] { "Boombox", "Cooler", "Hammer", "Helmet", "Shovel", "SlowSign", "Sprinkler", "Toolbox" };
+        itemList = new string[] { "Boombox", "Helmet", "Cooler", "Hammer", "Shovel", "Sprinkler", "Toolbox", "Vacuum" };
         itemsCollected = new Dictionary<string, bool>();
         foreach (string item in itemList)
         {
             itemsCollected.Add(item, false);
         }
         completedItemsCheck = new bool[itemList.Length];
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
         bool allComplete = true;
-        foreach(bool check in completedItemsCheck)
+        foreach (bool check in completedItemsCheck)
         {
             if (!check)
             {
@@ -41,23 +40,20 @@ public class SS_ItemTracker : MonoBehaviour
         {
             //listText.text = "You have successfully gathered all the items!";
         }
-        else
+        //string text = "SHOPPING LIST:\n";
+        for (int i = 0; i < itemList.Length; i++)
         {
-            //string text = "SHOPPING LIST:\n";
-            for (int i = 0; i < itemList.Length; i++)
+            if (completedItemsCheck[i])
             {
-                if (completedItemsCheck[i])
-                {
-                    shoppingItemImages[i].gameObject.GetComponent<ItemButton>().EnableCheckMark();
-                    Debug.Log("Added complete");
-                }
-                else
-                {
-                    Debug.Log("Added missing");
-                }
+                shoppingItemImages[i].gameObject.GetComponent<ItemButton>().EnableCheckMark();
+                Debug.Log("Added complete");
             }
-            //listText.text = text;
+            else
+            {
+                Debug.Log("Added missing");
+            }
         }
+        //listText.text = text;
 
     }
 
