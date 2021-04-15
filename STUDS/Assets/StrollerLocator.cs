@@ -33,8 +33,9 @@ public class StrollerLocator : MonoBehaviour
                 Arrow.SetActive(false);
             }
             //active = true;
-            Arrow.transform.LookAt(StrollerTarget.transform, -Arrow.transform.forward);
+            Arrow.transform.LookAt(StrollerTarget.transform);
         }
+
         if (StrollerTarget == null)
         {
             Arrow.SetActive(false);
