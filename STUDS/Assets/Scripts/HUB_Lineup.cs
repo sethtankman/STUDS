@@ -15,6 +15,7 @@ public class HUB_Lineup : MonoBehaviour
         if (other.tag == "Player" && !PlayerList.Contains(other.gameObject))
         {
             other.transform.position = Positions[NumJoined].position;
+            other.transform.rotation = Positions[NumJoined].rotation;
             PlayerList.Add(other.gameObject);
             NumJoined += 1;
         }

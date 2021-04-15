@@ -47,7 +47,7 @@ public class PauseV2 : MonoBehaviour
 
     private bool isOn = false;
     private bool isOnOptions = false;
-    /*
+    
     void Start()
     {
         currentTime = startingTime;
@@ -57,7 +57,7 @@ public class PauseV2 : MonoBehaviour
     {
         currentTime -= 1 * Time.deltaTime;
     }
-    */
+    
     // Start is called before the first frame update
     void Awake()
     {
@@ -121,6 +121,8 @@ public class PauseV2 : MonoBehaviour
             menu.SetActive(false);
         }
     }
+
+
 
     void Return()
     {
@@ -257,6 +259,8 @@ public class PauseV2 : MonoBehaviour
     }
     void OnDisable()
     {
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
         thePause.Menu.Disable();
     }
 
