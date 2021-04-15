@@ -17,6 +17,7 @@ public class SettingsMenu_Scott : MonoBehaviour
     private int resolutionIndex, numRefreshOptions;
 
     public TMP_Dropdown resolutionDropdown;
+    public TMP_Dropdown graphicsDropdown;
 
     public GameObject menuPlayButton, optionsFirstButton, optionsCloseButton, quitFirstButton, creditsFirstButton,
         extrasFirstButton, feedbackFirstButton, videoFirstButton, videoCloseButton, soundFirstButton, soundCloseButton,
@@ -31,24 +32,26 @@ public class SettingsMenu_Scott : MonoBehaviour
         resolutions = Screen.resolutions;
 
         resolutionDropdown.ClearOptions();
-
         List<string> options = new List<string>();
 
-        string option = "";
-        int i = 0;
-        while (i < resolutions.Length)
+        int currentResolutionIndex = 0;
+        for (int i = 0; i < resolutions.Length; i++)
         {
-            if (option != resolutions[i].width + "x" + resolutions[i].height)
-            {
-                option = resolutions[i].width + "x" + resolutions[i].height;
+            string option = resolutions[i].width + " x " + resolutions[i].height;
+            if (!options.Contains(option))
                 options.Add(option);
-            }
-            i++;
-        }
 
-        numRefreshOptions = i / options.Count;
+            if (resolutions[i].width == Screen.currentResolution.width &&
+                resolutions[i].height == Screen.currentResolution.height)
+            {
+                currentResolutionIndex = i;
+            }
+        }
         resolutionDropdown.AddOptions(options);
-        SetResolution(i-1);
+        resolutionDropdown.value = currentResolutionIndex;
+        resolutionDropdown.RefreshShownValue();
+        graphicsDropdown.value = QualitySettings.GetQualityLevel();
+        graphicsDropdown.RefreshShownValue();
     }
 
     private void Update()
@@ -58,9 +61,8 @@ public class SettingsMenu_Scott : MonoBehaviour
 
     public Dictionary<string, int> val = new Dictionary<string, int>();
 
-    public void SetResolution(int _resolutionIndex)
+    public void SetResolution(int resolutionIndex)
     {
-        resolutionIndex = _resolutionIndex * numRefreshOptions;
         Resolution resolution = resolutions[resolutionIndex];
         Screen.SetResolution(resolution.width, resolution.height, Screen.fullScreen);
     }
