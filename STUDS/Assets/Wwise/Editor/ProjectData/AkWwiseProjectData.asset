@@ -24,7 +24,7 @@ MonoBehaviour:
     ParentPath: Virtual Acoustics\Default Work Unit
     guid: 45fd757f7c467449a1acd85274852002
     GuidInternal: 
-    m_lastTime: -8585848620803655297
+    m_lastTime: -8585830935231680933
     List: []
   AuxBusWwu:
   - PhysicalPath: Master-Mixer Hierarchy\Default Work Unit.wwu
@@ -38,7 +38,7 @@ MonoBehaviour:
     ParentPath: Master-Mixer Hierarchy\Default Work Unit
     guid: 3f52858938b6ac41b992ebfda5895989
     GuidInternal: 
-    m_lastTime: -8585848620802578133
+    m_lastTime: -8585830935230893039
     List:
     - name: Master Audio Bus
       guid: d8a41415a61d2a41a17e75ca0c2149f3
@@ -100,7 +100,7 @@ MonoBehaviour:
     ParentPath: SoundBanks\Default Work Unit
     guid: c4a059d5b2541045af3eb83e72a6805c
     GuidInternal: 
-    m_lastTime: -8585848620802308862
+    m_lastTime: -8585830935231960195
     List:
     - name: Appliance_Bank
       guid: f6b73ae7c1378a4a963f7d89ec330eb6
@@ -156,7 +156,7 @@ MonoBehaviour:
     ParentPath: Events\Default Work Unit
     guid: b47cc6f955b76a42b96db35e22fc3c0f
     GuidInternal: 
-    m_lastTime: -8585848620802488384
+    m_lastTime: -8585830911270994739
     List:
     - name: Appliance_Music_Stop
       guid: 85989b49ae45324999df5c7ba161a286
@@ -487,6 +487,23 @@ MonoBehaviour:
         ObjectType: 3
         guid: 661d20ffc23ee5468a74a7c2af080ecf
       Path: Events\Default Work Unit\Appliances\Music_Start
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
+    - name: Play_MenuMusic
+      guid: b94bb559815dba499e69459a8b330d77
+      id: 2570041344
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: b47cc6f955b76a42b96db35e22fc3c0f
+      - ElementName: Play_MenuMusic
+        ObjectType: 3
+        guid: b94bb559815dba499e69459a8b330d77
+      Path: Events\Default Work Unit\Play_MenuMusic
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
@@ -893,6 +910,23 @@ MonoBehaviour:
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
+    - name: Stop_MenuMusic
+      guid: 02d4afe59d637848844f0ec536e1010e
+      id: 2753202630
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: b47cc6f955b76a42b96db35e22fc3c0f
+      - ElementName: Stop_MenuMusic
+        ObjectType: 3
+        guid: 02d4afe59d637848844f0ec536e1010e
+      Path: Events\Default Work Unit\Stop_MenuMusic
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
     - name: Switch_Flip
       guid: 20c524a19f7aca488f9d177178306f3f
       id: 2630690521
@@ -1091,7 +1125,7 @@ MonoBehaviour:
     ParentPath: Game Parameters\Default Work Unit
     guid: ee4a250c88e72a4bb39619c462a87832
     GuidInternal: 
-    m_lastTime: -8585848612850657374
+    m_lastTime: -8585830910202908788
     List:
     - name: Distance
       guid: b38aafb32cc6444c997e4093480f3b3e
@@ -1184,7 +1218,7 @@ MonoBehaviour:
     ParentPath: States\Default Work Unit
     guid: a1cced9a237f9745a1ad58c1d5b44a17
     GuidInternal: 
-    m_lastTime: -8585848620802368682
+    m_lastTime: -8585830935232678270
     List: []
   SwitchWwu:
   - PhysicalPath: Switches\Default Work Unit.wwu
@@ -1198,7 +1232,7 @@ MonoBehaviour:
     ParentPath: Switches\Default Work Unit
     guid: c0767cbb3875eb4d94f14be8ed5c1e1a
     GuidInternal: 
-    m_lastTime: -8585848620802388649
+    m_lastTime: -8585830935230972827
     List: []
   TriggerWwu:
   - PhysicalPath: Triggers\Default Work Unit.wwu
@@ -1212,9 +1246,9 @@ MonoBehaviour:
     ParentPath: Triggers\Default Work Unit
     guid: 09ae390ae48ef94995633f9bcba68b45
     GuidInternal: 
-    m_lastTime: -8585848620803266310
+    m_lastTime: -8585830935232508717
     List: []
-  ExpandedFileSystemItemIds: 0100000002000000030000000400000005000000060000000700000013000000190000001b0000001e00000031000000330000003500000036000000
+  ExpandedFileSystemItemIds: 01000000020000000300000005000000070000000f00000013000000190000001b0000001e00000031000000330000003500000036000000
   ExpandedWaapiItemIds: 
   AutoSyncSelection: 0
   autoPopulateEnabled: 1
