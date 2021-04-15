@@ -67,6 +67,7 @@ public class SettingsMenu_Scott : MonoBehaviour
         Screen.SetResolution(resolution.width, resolution.height, Screen.fullScreen);
     }
 
+    /*
     public void SetRefresh(int refreshRate)
     {
         int i = resolutionIndex;
@@ -79,6 +80,7 @@ public class SettingsMenu_Scott : MonoBehaviour
             }
         }
     }
+*/
 
     public void SetVolume(float volume)
     {
