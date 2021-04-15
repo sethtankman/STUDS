@@ -82,7 +82,7 @@ public class PWRBill_Manager : MonoBehaviour
 
     void EndGame()
     {
-        SceneManager.LoadScene("VictoryStands_PWR Bill");
+        SceneManager.LoadScene("VictoryStands");
     }
 
     void Showtime(float timeleft)
