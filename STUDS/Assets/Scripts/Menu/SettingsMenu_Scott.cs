@@ -23,6 +23,7 @@ public class SettingsMenu_Scott : MonoBehaviour
         extrasFirstButton, feedbackFirstButton, videoFirstButton, videoCloseButton, soundFirstButton, soundCloseButton,
         controlsFirstButton, controlsCloseButton, ReturnFirstButton, okayButton, noKickButton;
 
+    public AK.Wwise.Event PlayButtonSoundEvent;
     void Start()
     {
 
@@ -196,5 +197,10 @@ public class SettingsMenu_Scott : MonoBehaviour
     {
         EventSystem.current.SetSelectedGameObject(null);
         EventSystem.current.SetSelectedGameObject(noKickButton);
+    }
+    public void PlayButtonSound()
+    {
+        GameObject Manager = GameObject.Find("Music Manager");
+        PlayButtonSoundEvent.Post(Manager);
     }
 }
