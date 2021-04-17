@@ -52,7 +52,7 @@ public class PennyPincherAI : MonoBehaviour
             agent.velocity = movementController.GetController().velocity;
 
             float distance = Vector3.Distance(transform.position, target.position);
-            Debug.Log("Distance: " + distance);
+            // Debug.Log("Distance: " + distance);
             if (distance < 1.7f)
             {
                 Debug.Log("Reached target: " + target.name);
