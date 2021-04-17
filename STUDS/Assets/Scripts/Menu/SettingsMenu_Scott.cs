@@ -17,13 +17,20 @@ public class SettingsMenu_Scott : MonoBehaviour
     private int resolutionIndex, numRefreshOptions;
 
     public TMP_Dropdown resolutionDropdown;
+    public TMP_Dropdown graphicsDropdown;
 
     public GameObject menuPlayButton, optionsFirstButton, optionsCloseButton, quitFirstButton, creditsFirstButton,
         extrasFirstButton, feedbackFirstButton, videoFirstButton, videoCloseButton, soundFirstButton, soundCloseButton,
         controlsFirstButton, controlsCloseButton, ReturnFirstButton, okayButton, noKickButton;
 
+    public AK.Wwise.Event PlayButtonSoundEvent;
+
     void Start()
     {
+
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+
         resolutions = Screen.resolutions;
 
         resolutionDropdown.ClearOptions();
@@ -44,7 +51,7 @@ public class SettingsMenu_Scott : MonoBehaviour
 
         numRefreshOptions = i / options.Count;
         resolutionDropdown.AddOptions(options);
-        SetResolution(i-1);
+        SetResolution(i - 1);
     }
 
     private void Update()
@@ -61,6 +68,7 @@ public class SettingsMenu_Scott : MonoBehaviour
         Screen.SetResolution(resolution.width, resolution.height, Screen.fullScreen);
     }
 
+    /*
     public void SetRefresh(int refreshRate)
     {
         int i = resolutionIndex;
@@ -73,6 +81,7 @@ public class SettingsMenu_Scott : MonoBehaviour
             }
         }
     }
+*/
 
     public void SetVolume(float volume)
     {
@@ -188,5 +197,10 @@ public class SettingsMenu_Scott : MonoBehaviour
     {
         EventSystem.current.SetSelectedGameObject(null);
         EventSystem.current.SetSelectedGameObject(noKickButton);
+    }
+    public void PlayButtonSound()
+    {
+        GameObject Manager = GameObject.Find("Music Manager");
+        PlayButtonSoundEvent.Post(Manager);
     }
 }
