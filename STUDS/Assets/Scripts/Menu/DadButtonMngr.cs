@@ -7,59 +7,82 @@ using UnityEngine.InputSystem;
 
 public class DadButtonMngr : MonoBehaviour
 {
-    private List<GameObject> players;
-    private GameObject canv;
+    private List<GameObject> allPlayers, miniPlayers, dadPlayers;
+    public GameObject[] allButtons;
     public GameObject characterButton;
-    public Transform[] buttonLocations;
+    public RectTransform[] buttonLocations;
     public string levelName;
+    public int numAI, numPlayers;
 
     // Start is called before the first frame update
     void Start()
     {
+        miniPlayers = new List<GameObject>();
+        dadPlayers = new List<GameObject>();
         PlayerInputManager.instance.DisableJoining();  //Technically we shouldn't need this, because we should disable joining before level select.
-        players = GameObject.Find("GameManager").GetComponent<ManagePlayerHub>().players;
-        //if there is only one player, load into the next level.
-        if (players.Count == 1)
+        allPlayers = GameObject.Find("GameManager").GetComponent<ManagePlayerHub>().players;
+        allButtons = new GameObject[4];
+        int i = 0;
+        foreach (GameObject player in allPlayers)
         {
-            LoadLevel();
+            GameObject button = Instantiate(characterButton, buttonLocations[i].position, Quaternion.identity, gameObject.transform);
+            button.GetComponent<RectTransform>().pivot = buttonLocations[i].pivot;
+            button.GetComponent<DadBtn>().SetSprite(player.GetComponent<CharacterMovementController>().GetColorName());
+            button.GetComponent<DadBtn>().SetPlayer(player);
+            button.GetComponent<DadBtn>().manager = this;
+            allButtons[i] = button;
+            i++;
+            numPlayers = i;
+        }
+    }
+
+    public void ToggleMini(GameObject selectedPlayer)
+    {
+        if (miniPlayers.Contains(selectedPlayer))
+        {
+            miniPlayers.Remove(selectedPlayer);
+            dadPlayers.Add(selectedPlayer);
         }
         else
         {
-            canv = GameObject.Find("Canvas");
-            //if there are multiple players, spawn buttons
-            int i = 0;
-            foreach (GameObject player in players)
-            {
-                GameObject button = Instantiate(characterButton, buttonLocations[i].position, Quaternion.identity, canv.transform);
-                button.GetComponent<DadBtn>().SetSprite(player.GetComponent<CharacterMovementController>().GetColorName());
-                button.GetComponent<DadBtn>().SetPlayer(player);
-                i++;
-            }
+            miniPlayers.Add(selectedPlayer);
+            dadPlayers.Remove(selectedPlayer);
         }
     }
 
-    public void TransformPlayers(GameObject dad)
+    public void AddAI()
     {
-        foreach (GameObject player in players)
+        if (numPlayers + numAI < 4)
         {
-            TransformDadToKid(player);
+            GameObject button = Instantiate(characterButton, buttonLocations[numPlayers+numAI].position, Quaternion.identity, gameObject.transform);
+            button.GetComponent<DadBtn>().SetAI(true);
+            button.GetComponent<RectTransform>().pivot = buttonLocations[numPlayers+numAI].pivot;
+            allButtons[numPlayers + numAI] = button;
+            numAI++;
         }
-        TransformKidToDad(dad);
+    }
+
+    public void RemoveAI()
+    {
+        if (numAI > 0)
+        {
+            Destroy(allButtons[numPlayers + numAI - 1]);
+            allButtons[numPlayers + numAI - 1] = null;
+            numAI--;
+        }
+    }
+
+    public void Accept()
+    {
+        foreach (GameObject player in miniPlayers)
+        {
+            player.GetComponent<CharacterMovementController>().SetToMini(true);
+        }
+        foreach (GameObject dad in dadPlayers)
+        {
+            dad.GetComponent<CharacterMovementController>().SetToMini(false);
+        }
         LoadLevel();
-    }
-
-    private void TransformDadToKid(GameObject player)
-    {
-        player.transform.localScale = new Vector3(20, 20, 20); //Shrink the player. OG size is 30, 30, 30
-        player.GetComponent<CharacterMovementController>().SetBinky(true); //Activate the binky!!!!
-        player.GetComponent<CharacterMovementController>().isMini = true; //The Eugine will now act as a child.
-    }
-
-    private void TransformKidToDad(GameObject player)
-    {
-        player.transform.localScale = new Vector3(30, 30, 30); //Shrink the player. OG size is 30, 30, 30
-        player.GetComponent<CharacterMovementController>().SetBinky(false); //Activate the binky!!!!
-        player.GetComponent<CharacterMovementController>().isMini = false; //The Eugine will now act as a child.
     }
 
     private void LoadLevel()
@@ -70,6 +93,6 @@ public class DadButtonMngr : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 }
