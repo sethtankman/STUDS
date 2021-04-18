@@ -7,8 +7,7 @@ public class KidTimeout : MonoBehaviour
     public double timeoutTimer;
     private double currTime;
     private bool isTimeout;
-    public Vector3 timeoutPos;
-    public Vector3 backinPos;
+    GameObject mini;
     // Start is called before the first frame update
     void Start()
     {
@@ -22,20 +21,42 @@ public class KidTimeout : MonoBehaviour
         {
             if(currTime > timeoutTimer)
             {
-                currTime = 0;
-                isTimeout = false;
-                gameObject.transform.position = backinPos;
+                GameObject pos = GameObject.Find("KidTimeoutBackInside");
+                gameObject.transform.position = pos.transform.position;
+                if(currTime > (timeoutTimer + 0.1))
+                {
+                    currTime = 0;
+                    mini.GetComponent<CharacterMovementController>().CanMove = true;
+                    if (mini.GetComponent<CharacterMovementController>().isAI)
+                    {
+                        mini.GetComponent<PennyPincherAI>().CanMove = true;
+                    }
+                    mini = null;
+                    isTimeout = false;
+                    Debug.Log("Back in");
+                }
+                currTime += Time.deltaTime;
             }
             else
             {
                 currTime += Time.deltaTime;
+                GameObject pos = GameObject.Find("KidTimeoutOutside");
+                gameObject.transform.position = pos.transform.position;
             }
         }
     }
 
-    public void Timeout()
+    public void Timeout(GameObject mini)
     {
-        gameObject.transform.position = timeoutPos;
+        Debug.Log("in timeout");
+        GameObject pos = GameObject.Find("KidTimeoutOutside");
+        gameObject.transform.position = pos.transform.position;
+        mini.GetComponent<CharacterMovementController>().CanMove = false;
+        if (mini.GetComponent<CharacterMovementController>().isAI)
+        {
+            mini.GetComponent<PennyPincherAI>().CanMove = false;
+        }
+        this.mini = mini;
         isTimeout = true;
     }
 }

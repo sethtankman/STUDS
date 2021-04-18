@@ -16,6 +16,8 @@ public class PennyPincherAI : MonoBehaviour
 
     public int speed = 1;
 
+    public bool CanMove;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -26,13 +28,14 @@ public class PennyPincherAI : MonoBehaviour
             availableSwitches.Add(set2[i].transform);
         }
         target = null;
+        CanMove = true;
     }
 
 
     // Update is called once per frame
     void Update()
     {
-        if (active && hasTarget)
+        if (active && hasTarget && CanMove)
         {
             Vector3 lookPos;
             Quaternion targetRot;
@@ -47,9 +50,12 @@ public class PennyPincherAI : MonoBehaviour
             targetRot = Quaternion.LookRotation(lookPos);
             this.transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, Time.deltaTime * turnSpeed);
 
-            movementController.GetController().Move(agent.desiredVelocity.normalized * speed * Time.deltaTime);
+            //These are the two lines I commented out and replaced with the new line below to get animations on the move
+            //movementController.GetController().Move(agent.desiredVelocity.normalized * speed * Time.deltaTime);
+            //agent.velocity = movementController.GetController().velocity;
+            GetComponent<CharacterMovementController>().Move(agent.desiredVelocity.normalized * speed);
 
-            agent.velocity = movementController.GetController().velocity;
+
 
             float distance = Vector3.Distance(transform.position, target.position);
             // Debug.Log("Distance: " + distance);

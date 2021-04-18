@@ -79,6 +79,8 @@ public class CharacterMovementController : MonoBehaviour
 
     public bool CanJump;
 
+    public bool CanMove;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -89,6 +91,7 @@ public class CharacterMovementController : MonoBehaviour
         controller = GetComponent<CharacterController>();
         PlayerParticles = GetComponent<PLR_ParticleController>();
         CanJump = true;
+        CanMove = true;
     }
 
     // Update is called once per frame
@@ -266,33 +269,37 @@ public class CharacterMovementController : MonoBehaviour
 
     private void Move()
     {
-        Vector3 dirVector = new Vector3(direction.x, 0f, direction.y).normalized;
-
-        if (dirVector.magnitude >= 0.1f)
+        if (CanMove)
         {
+            Vector3 dirVector = new Vector3(direction.x, 0f, direction.y).normalized;
 
-            animator.SetBool("isRunning", true);
-            isMoving = true;
-            float targetAngle = Mathf.Atan2(dirVector.x, dirVector.z) * Mathf.Rad2Deg + camPos.eulerAngles.y;
-            float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnTime);
-            transform.rotation = Quaternion.Euler(0f, angle, 0f);
-
-            Vector3 moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
-            controller.Move((moveDir.normalized * moveSpeed) * Time.deltaTime);
-
-        }
-        else
-        {
-            animator.SetBool("isRunning", false);
-            isMoving = false;
-            if (airborn == false)
+            if (dirVector.magnitude >= 0.1f)
             {
-                velocity.x = 0;
-                velocity.z = 0;
+
+                animator.SetBool("isRunning", true);
+                isMoving = true;
+                float targetAngle = Mathf.Atan2(dirVector.x, dirVector.z) * Mathf.Rad2Deg + camPos.eulerAngles.y;
+                float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnTime);
+                transform.rotation = Quaternion.Euler(0f, angle, 0f);
+
+                Vector3 moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
+                controller.Move((moveDir.normalized * moveSpeed) * Time.deltaTime);
+
             }
-            if(PlayerParticles)
-                PlayerParticles.TurnOffRunning();
+            else
+            {
+                animator.SetBool("isRunning", false);
+                isMoving = false;
+                if (airborn == false)
+                {
+                    velocity.x = 0;
+                    velocity.z = 0;
+                }
+                if (PlayerParticles)
+                    PlayerParticles.TurnOffRunning();
+            }
         }
+
     }
 
     private void PlaySteps()
@@ -312,20 +319,24 @@ public class CharacterMovementController : MonoBehaviour
 
     public void Move(Vector3 dirVector)
     {
-        if (dirVector.magnitude >= 0.1f && movementEnabled)
+        if (CanMove)
         {
-            animator.SetBool("isRunning", true);
-            //runSound.Play();
-            controller.Move((dirVector.normalized * moveSpeed) * Time.deltaTime);
+            if (dirVector.magnitude >= 0.1f && movementEnabled)
+            {
+                animator.SetBool("isRunning", true);
+                //runSound.Play();
+                controller.Move((dirVector.normalized * moveSpeed) * Time.deltaTime);
 
+            }
+            else
+            {
+                animator.SetBool("isRunning", false);
+                //runSound.Stop();
+                velocity.x = 0;
+                velocity.z = 0;
+            }
         }
-        else
-        {
-            animator.SetBool("isRunning", false);
-            //runSound.Stop();
-            velocity.x = 0;
-            velocity.z = 0;
-        }
+
 
     }
 
@@ -599,9 +610,10 @@ public class CharacterMovementController : MonoBehaviour
             }
             else if (collider.tag == "Player" && collider.gameObject.GetComponent<CharacterMovementController>().isMini)
             {
+                Debug.Log("Collided with child");
                 if (pickupPressed)  // This is just making it so timeout doesn't work...
                 {
-                    collider.gameObject.GetComponent<KidTimeout>().Timeout();
+                    collider.gameObject.GetComponent<KidTimeout>().Timeout(collider.gameObject);
                 }
             }
             else if (collider.tag == "ShoppingCart" && pickupPressed && !hasGrabbed)
