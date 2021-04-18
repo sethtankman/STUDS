@@ -629,6 +629,21 @@ public class CharacterMovementController : MonoBehaviour
         }
     }
 
+    public void SetToMini(bool setMini)
+    {
+        if (setMini)
+        {
+            transform.localScale = new Vector3(20, 20, 20); //Shrink the player. OG size is 30, 30, 30
+            SetBinky(true); //Activate the binky!!!!
+            isMini = true; //The Eugine will now act as a child.
+        } else
+        {
+            transform.localScale = new Vector3(20, 20, 20); //Shrink the player. OG size is 30, 30, 30
+            SetBinky(true); //Activate the binky!!!!
+            isMini = true; //The Eugine will now act as a child.
+        }
+    }
+
     public bool GetHasGrabbed()
     {
         return hasGrabbed;

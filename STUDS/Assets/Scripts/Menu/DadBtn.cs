@@ -8,12 +8,12 @@ public class DadBtn : MonoBehaviour
     public Text btnText;
     public Image btnImage;
     public Sprite[] btnSprites; //This will be used once we have the eugine images.
-    public GameObject player; //So the button can be connected to the player.
+    public GameObject player, miniImage, aiImage; //So the button can be connected to the player.
     public DadButtonMngr manager;
 
     private void Start()
     {
-        manager = GameObject.Find("Canvas").GetComponent<DadButtonMngr>();
+        manager = GameObject.Find("Panel").GetComponent<DadButtonMngr>();
     }
 
     public void RandomPlayer()
@@ -22,14 +22,13 @@ public class DadBtn : MonoBehaviour
         players = ManagePlayerHub.Instance.getPlayers();
         int selected = (int)(Random.value * players.Count);
         int i = 0;
-        foreach (GameObject _player in players) {
-            if(selected == i)
+        foreach (GameObject _player in players)
+        {
+            if (selected == i)
             {
                 player = _player;
             }
         }
-
-        SetupPlayers();
     }
 
 
@@ -39,7 +38,7 @@ public class DadBtn : MonoBehaviour
     /// <param name="colorNum"></param>
     public void SetSprite(string colorName)
     {
-        switch(colorName)
+        switch (colorName)
         {
             case "Blue":
                 btnImage.sprite = btnSprites[0];
@@ -65,11 +64,20 @@ public class DadBtn : MonoBehaviour
     public void SetPlayer(GameObject refPlayer)
     {
         player = refPlayer;
-        GetComponent<Button>().onClick.AddListener(SetupPlayers);
+        GetComponent<Button>().onClick.AddListener(ToggleMini);
     }
 
-    public void SetupPlayers()
+    public void ToggleMini()
     {
-        manager.TransformPlayers(player);
+        if (aiImage.activeSelf == false)
+        {
+            miniImage.SetActive(!miniImage.activeSelf);
+            manager.ToggleMini(gameObject);
+        }
+    }
+
+    public void SetAI(bool setAI)
+    {
+        aiImage.SetActive(setAI);
     }
 }

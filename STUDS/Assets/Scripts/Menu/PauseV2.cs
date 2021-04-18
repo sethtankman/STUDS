@@ -81,7 +81,7 @@ public class PauseV2 : MonoBehaviour
     {
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
-        if(p4PH.activeSelf)
+        if(p4PH && p4PH.activeSelf)
             p4PHWasEnabled = true;
         if (!gameisPaused)
         {

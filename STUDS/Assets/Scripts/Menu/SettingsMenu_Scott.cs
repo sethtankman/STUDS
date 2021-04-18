@@ -24,6 +24,7 @@ public class SettingsMenu_Scott : MonoBehaviour
         controlsFirstButton, controlsCloseButton, ReturnFirstButton, okayButton, noKickButton;
 
     public AK.Wwise.Event PlayButtonSoundEvent;
+
     void Start()
     {
 
@@ -33,26 +34,24 @@ public class SettingsMenu_Scott : MonoBehaviour
         resolutions = Screen.resolutions;
 
         resolutionDropdown.ClearOptions();
+
         List<string> options = new List<string>();
 
-        int currentResolutionIndex = 0;
-        for (int i = 0; i < resolutions.Length; i++)
+        string option = "";
+        int i = 0;
+        while (i < resolutions.Length)
         {
-            string option = resolutions[i].width + " x " + resolutions[i].height;
-            if (!options.Contains(option))
-                options.Add(option);
-
-            if (resolutions[i].width == Screen.currentResolution.width &&
-                resolutions[i].height == Screen.currentResolution.height)
+            if (option != resolutions[i].width + "x" + resolutions[i].height)
             {
-                currentResolutionIndex = i;
+                option = resolutions[i].width + "x" + resolutions[i].height;
+                options.Add(option);
             }
+            i++;
         }
+
+        numRefreshOptions = i / options.Count;
         resolutionDropdown.AddOptions(options);
-        resolutionDropdown.value = currentResolutionIndex;
-        resolutionDropdown.RefreshShownValue();
-        graphicsDropdown.value = QualitySettings.GetQualityLevel();
-        graphicsDropdown.RefreshShownValue();
+        SetResolution(i - 1);
     }
 
     private void Update()
@@ -62,8 +61,9 @@ public class SettingsMenu_Scott : MonoBehaviour
 
     public Dictionary<string, int> val = new Dictionary<string, int>();
 
-    public void SetResolution(int resolutionIndex)
+    public void SetResolution(int _resolutionIndex)
     {
+        resolutionIndex = _resolutionIndex * numRefreshOptions;
         Resolution resolution = resolutions[resolutionIndex];
         Screen.SetResolution(resolution.width, resolution.height, Screen.fullScreen);
     }
