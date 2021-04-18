@@ -3,14 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class PWRBill_Manager : MonoBehaviour
 {
     //Electricity variables
     public int Score;
-    public Text PowerTXT;
+    public TextMeshProUGUI PowerTXT;
     public int NumItemsOn;
-    public Text ItemsOnTXT;
+    public TextMeshProUGUI ItemsOnTXT;
 
     //List of objects to interact with
     public List<Interaction> Interactives = new List<Interaction>();
@@ -18,7 +19,7 @@ public class PWRBill_Manager : MonoBehaviour
     public int MaxObjectsOff;
 
     //Timer for the end of the game
-    public Text TimerTXT;
+    public TextMeshProUGUI TimerTXT;
     public float timer;
     private float Sprint = 10.0f;
 
