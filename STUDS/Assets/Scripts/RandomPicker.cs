@@ -8,8 +8,6 @@ public class RandomPicker : MonoBehaviour
     public List<GameObject> ToBePicked = new List<GameObject>();
     private List<int> picks = new List<int>();
 
-
-
     // Start is called before the first frame update
     void Start()
     {

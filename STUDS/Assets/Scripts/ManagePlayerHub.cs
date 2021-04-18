@@ -15,7 +15,7 @@ public class ManagePlayerHub : MonoBehaviour
     public PlayerConnection playerConnectionPanel;
 
     private int count = 300;
-    public int playerIDCount = 0;
+    public int playerIDCount = 0, numAIToSpawnPB;
 
     public Material playerColor1;
     public Material playerColor2;

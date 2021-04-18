@@ -71,8 +71,18 @@ public class DadBtn : MonoBehaviour
     {
         if (aiImage.activeSelf == false)
         {
+            // If we are to change a kid to a dad, the number of dads cannot exceed the number of kids by more than one.
+            if(miniImage.activeSelf && manager.dadPlayers.Count <= manager.numAI + manager.miniPlayers.Count)
+            {
+                Debug.Log("Number of dads cannot exceed the number of kids by more than one");
+                return;
+            }
             miniImage.SetActive(!miniImage.activeSelf);
-            manager.ToggleMini(gameObject);
+            manager.ToggleMini(player);
+        } else
+        {
+            miniImage.SetActive(!miniImage.activeSelf);
+            manager.ToggleMini(player);
         }
     }
 

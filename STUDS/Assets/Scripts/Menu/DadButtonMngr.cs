@@ -7,9 +7,9 @@ using UnityEngine.InputSystem;
 
 public class DadButtonMngr : MonoBehaviour
 {
-    private List<GameObject> allPlayers, miniPlayers, dadPlayers;
+    public List<GameObject> allPlayers, miniPlayers, dadPlayers;
     public GameObject[] allButtons;
-    public GameObject characterButton;
+    public GameObject characterButton, GameManager;
     public RectTransform[] buttonLocations;
     public string levelName;
     public int numAI, numPlayers;
@@ -17,6 +17,7 @@ public class DadButtonMngr : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        GameManager = GameObject.Find("GameManager");
         miniPlayers = new List<GameObject>();
         dadPlayers = new List<GameObject>();
         PlayerInputManager.instance.DisableJoining();  //Technically we shouldn't need this, because we should disable joining before level select.
@@ -87,6 +88,7 @@ public class DadButtonMngr : MonoBehaviour
 
     private void LoadLevel()
     {
+        GameManager.GetComponent<ManagePlayerHub>().numAIToSpawnPB = numAI;
         SceneManager.LoadScene(levelName);
     }
 
