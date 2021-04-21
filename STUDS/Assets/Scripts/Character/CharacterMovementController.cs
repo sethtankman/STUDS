@@ -470,7 +470,8 @@ public class CharacterMovementController : MonoBehaviour
         if (_drop)
         {
             DropGrabbedItem();
-            StartCoroutine(cameraShake.Shake(0.15f, 0.4f));
+            if(cameraShake)
+                StartCoroutine(cameraShake.Shake(0.15f, 0.4f));
         }
         velocity = direction;
 

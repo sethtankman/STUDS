@@ -25,6 +25,11 @@ public class VolumeTrigger : MonoBehaviour {
         interact.ToggleVisual(true);
     }
 
+    public void NotifyInteractionOfSwitchTargetted(bool wasTurnedOn, GameObject immuneOne)
+    {
+        interact.NotifyAvailableSwitchChange(wasTurnedOn, immuneOne);
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         // Debug.Log(other.gameObject.name + " entered");

@@ -62,11 +62,7 @@ public class Interaction : MonoBehaviour
             trigger.isSwitchActive = false;
             Object_active.SetActive(true);
             Object_inactive.SetActive(false);
-            PennyPincherAI[] allAI = FindObjectsOfType(typeof(PennyPincherAI)) as PennyPincherAI[];
-            foreach(PennyPincherAI AI in allAI)
-            {
-                AI.CheckUpdateTarget(gameObject, false);
-            }
+            NotifyAvailableSwitchChange(true);
         }
         else if (!isMini && Object_active.activeSelf)
         {
@@ -75,11 +71,7 @@ public class Interaction : MonoBehaviour
             trigger.isSwitchActive = true;
             Object_active.SetActive(false);
             Object_inactive.SetActive(true);
-            PennyPincherAI[] allAI = FindObjectsOfType(typeof(PennyPincherAI)) as PennyPincherAI[];
-            foreach (PennyPincherAI AI in allAI)
-            {
-                AI.CheckUpdateTarget(gameObject, true);
-            }
+            NotifyAvailableSwitchChange(false);
         }
         else if (isMini)
         {
@@ -87,6 +79,24 @@ public class Interaction : MonoBehaviour
         } else
         {
             Debug.Log("Parent trying to turn off object that is already off");
+        }
+    }
+
+    public void NotifyAvailableSwitchChange(bool wasTurnedOn)
+    {
+        PennyPincherAI[] allAI = FindObjectsOfType(typeof(PennyPincherAI)) as PennyPincherAI[];
+        foreach (PennyPincherAI AI in allAI)
+        {
+            AI.CheckUpdateTarget(trigger.gameObject, wasTurnedOn);
+        }
+    }
+
+    public void NotifyAvailableSwitchChange(bool wasTurnedOn, GameObject immuneOne)
+    {
+        PennyPincherAI[] allAI = FindObjectsOfType(typeof(PennyPincherAI)) as PennyPincherAI[];
+        foreach (PennyPincherAI AI in allAI)
+        {
+            AI.CheckUpdateTarget(trigger.gameObject, wasTurnedOn, immuneOne);
         }
     }
 
