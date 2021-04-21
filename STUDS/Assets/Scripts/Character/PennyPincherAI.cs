@@ -37,29 +37,9 @@ public class PennyPincherAI : MonoBehaviour
     {
         if (active && hasTarget && CanMove)
         {
-            Vector3 lookPos;
-            Quaternion targetRot;
-
-            agent.SetDestination(target.position);
-
-            //agent.updatePosition = false;
-            //agent.updateRotation = false;
-
-            lookPos = agent.desiredVelocity;
-            lookPos.y = 0;
-            targetRot = Quaternion.LookRotation(lookPos);
-            this.transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, Time.deltaTime * turnSpeed);
-
-            //These are the two lines I commented out and replaced with the new line below to get animations on the move
-            //movementController.GetController().Move(agent.desiredVelocity.normalized * speed * Time.deltaTime);
-            //agent.velocity = movementController.GetController().velocity;
-            GetComponent<CharacterMovementController>().Move(agent.desiredVelocity.normalized * speed);
-
-
-
             float distance = Vector3.Distance(transform.position, target.position);
-            // Debug.Log("Distance: " + distance);
-            if (distance < 1.7f)
+            Debug.Log("Distance: " + distance);
+            if (distance < 1.9f)
             {
                 Debug.Log("Reached target: " + target.name);
                 hasTarget = false;
@@ -69,12 +49,34 @@ public class PennyPincherAI : MonoBehaviour
               && Mathf.Abs(target.position.z - transform.position.z) < 0.1f
               && target.position.y - transform.position.y < 3)
             {
+                Debug.Log("Jump!");
                 movementController.isJumping = true;
             }
+            else
+            {
+                Debug.Log("MOVING");
+                Vector3 lookPos;
+                Quaternion targetRot;
 
+                agent.SetDestination(target.position);
+
+                // agent.updatePosition = false;
+                // agent.updateRotation = false;
+
+                lookPos = agent.desiredVelocity;
+                lookPos.y = 0;
+                targetRot = Quaternion.LookRotation(lookPos);
+                this.transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, Time.deltaTime * turnSpeed);
+
+                // These are the two lines I commented out and replaced with the new line below to get animations on the move
+                // movementController.GetController().Move(agent.desiredVelocity.normalized * speed * Time.deltaTime);
+                // agent.velocity = movementController.GetController().velocity;
+                GetComponent<CharacterMovementController>().Move(agent.desiredVelocity.normalized * speed);
+            }
         }
         else if (active && !hasTarget)
         {
+            Debug.Log("Active set to false in Update");
             active = false;
             previousTarget = target;
             StartCoroutine("FindNewTarget");
@@ -95,15 +97,18 @@ public class PennyPincherAI : MonoBehaviour
             int i = Random.Range(0, availableSwitches.Count);
             Debug.Log("I: " + i + " Count: " + availableSwitches.Count + " " + availableSwitches[i].name);
             Transform selected = availableSwitches[i];
-            if (selected != null && availableSwitches.Contains(selected) 
+            if (selected != null && availableSwitches.Contains(selected)
                 && selected.GetComponent<VolumeTrigger>().isSwitchActive == true)
             {
+                Debug.Log("Active set to true.");
                 active = true;
                 hasTarget = true;
                 target = selected;
+                selected.GetComponent<VolumeTrigger>().NotifyInteractionOfSwitchTargetted(true, this.gameObject);
                 break;
-            } else if (selected != null && availableSwitches.Contains(selected)
-                && selected.GetComponent<VolumeTrigger>().isSwitchActive == false)
+            }
+            else if (selected != null && availableSwitches.Contains(selected)
+              && selected.GetComponent<VolumeTrigger>().isSwitchActive == false)
             {
                 availableSwitches.Remove(selected);
                 Debug.Log("switch in availableSwitches was not actually available");
@@ -111,6 +116,9 @@ public class PennyPincherAI : MonoBehaviour
             else if (!availableSwitches[i].GetComponent<VolumeTrigger>())
             {
                 Debug.LogError("Could not find Volume Trigger for: " + availableSwitches[i].name);
+            } else
+            {
+                Debug.LogError("Control reached here somehow");
             }
 
         }
@@ -120,12 +128,30 @@ public class PennyPincherAI : MonoBehaviour
     public void CheckUpdateTarget(GameObject flippedSwitch, bool isNowOn)
     {
         if (isNowOn)
-            availableSwitches.Add(flippedSwitch.transform);
-        else
             availableSwitches.Remove(flippedSwitch.transform);
+        else
+            availableSwitches.Add(flippedSwitch.transform);
 
         if (flippedSwitch.transform == target)
         {
+            Debug.Log("Active set to false in CheckUpdateTarget");
+            active = false;
+            StartCoroutine("FindNewTarget");
+        }
+    }
+
+    public void CheckUpdateTarget(GameObject flippedSwitch, bool isNowOn, GameObject immuneOne)
+    {
+        if (this.gameObject == immuneOne)
+            return;
+        if (isNowOn)
+            availableSwitches.Remove(flippedSwitch.transform);
+        else
+            availableSwitches.Add(flippedSwitch.transform);
+
+        if (flippedSwitch.transform == target)
+        {
+            Debug.Log("Active set to false in CheckUpdateTarget2");
             active = false;
             StartCoroutine("FindNewTarget");
         }
