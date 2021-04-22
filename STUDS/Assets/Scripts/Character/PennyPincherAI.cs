@@ -38,7 +38,7 @@ public class PennyPincherAI : MonoBehaviour
         if (active && hasTarget && CanMove)
         {
             float distance = Vector3.Distance(transform.position, target.position);
-            Debug.Log("Distance: " + distance);
+            // Debug.Log("Distance: " + distance);
             if (distance < 1.9f)
             {
                 Debug.Log("Reached target: " + target.name);
@@ -54,7 +54,7 @@ public class PennyPincherAI : MonoBehaviour
             }
             else
             {
-                Debug.Log("MOVING");
+                // Debug.Log("MOVING");
                 Vector3 lookPos;
                 Quaternion targetRot;
 

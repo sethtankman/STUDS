@@ -448,6 +448,15 @@ public class CharacterMovementController : MonoBehaviour
         if (other.tag.Equals("Electronics"))
         {
             electronicObject = other.transform.parent.gameObject;
+            Debug.Log("ElectronicObject Found");
+        }
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.tag.Equals("Electronics"))
+        {
+            electronicObject = other.transform.parent.gameObject;
             //Debug.Log("Assign to variable");
         }
     }
@@ -457,7 +466,7 @@ public class CharacterMovementController : MonoBehaviour
         if (other.tag.Equals("Electronics"))
         {
             electronicObject = null;
-            //Debug.Log("Assign to variable");
+            Debug.Log("Electronic Object lost");
         }
     }
 
@@ -611,7 +620,7 @@ public class CharacterMovementController : MonoBehaviour
             }
             else if (collider.tag == "Player" && collider.gameObject.GetComponent<CharacterMovementController>().isMini)
             {
-                Debug.Log("Collided with child");
+                // Debug.Log("Collided with child");
                 if (pickupPressed && isMini == false)  // This is just making it so timeout doesn't work...
                 {
                     collider.gameObject.GetComponent<KidTimeout>().Timeout(collider.gameObject);
