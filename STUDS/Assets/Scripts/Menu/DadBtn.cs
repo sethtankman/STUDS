@@ -46,7 +46,7 @@ public class DadBtn : MonoBehaviour
             case "Green":
                 btnImage.sprite = btnSprites[1];
                 break;
-            case "Orange":
+            case "Red":
                 btnImage.sprite = btnSprites[2];
                 break;
             case "Purple":
@@ -64,26 +64,29 @@ public class DadBtn : MonoBehaviour
     public void SetPlayer(GameObject refPlayer)
     {
         player = refPlayer;
-        GetComponent<Button>().onClick.AddListener(ToggleMini);
+        // GetComponent<Button>().onClick.AddListener(ToggleMini);
     }
 
     public void ToggleMini()
     {
         if (aiImage.activeSelf == false)
         {
-            // If we are to change a kid to a dad, the number of dads cannot exceed the number of kids by more than one.
-            if(miniImage.activeSelf && manager.dadPlayers.Count <= manager.numAI + manager.miniPlayers.Count)
+            
+            if(this.miniImage.activeSelf)
             {
-                Debug.Log("Number of dads cannot exceed the number of kids by more than one");
-                return;
+                Debug.Log("Setting to dad");
+                this.miniImage.SetActive(false);
+            } else
+            {
+                Debug.Log("Setting to kid");
+                this.miniImage.SetActive(true);
             }
-            miniImage.SetActive(!miniImage.activeSelf);
             manager.ToggleMini(player);
-        } else
+        } /*else  // this will enable setting ai to dads
         {
             miniImage.SetActive(!miniImage.activeSelf);
             manager.ToggleMini(player);
-        }
+        }*/
     }
 
     public void SetAI(bool setAI)

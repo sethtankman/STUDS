@@ -651,9 +651,9 @@ public class CharacterMovementController : MonoBehaviour
             isMini = true; //The Eugine will now act as a child.
         } else
         {
-            transform.localScale = new Vector3(20, 20, 20); //Shrink the player. OG size is 30, 30, 30
-            SetBinky(true); //Activate the binky!!!!
-            isMini = true; //The Eugine will now act as a child.
+            transform.localScale = new Vector3(30, 30, 30); // size is 30, 30, 30
+            SetBinky(false); // Deactivate Binky
+            isMini = false; //The Eugine will now act as a dad.
         }
     }
 

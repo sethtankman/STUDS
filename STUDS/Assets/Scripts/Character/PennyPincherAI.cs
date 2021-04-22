@@ -135,6 +135,7 @@ public class PennyPincherAI : MonoBehaviour
         if (flippedSwitch.transform == target)
         {
             Debug.Log("Active set to false in CheckUpdateTarget");
+            hasTarget = false;
             active = false;
             StartCoroutine("FindNewTarget");
         }
