@@ -612,7 +612,7 @@ public class CharacterMovementController : MonoBehaviour
             else if (collider.tag == "Player" && collider.gameObject.GetComponent<CharacterMovementController>().isMini)
             {
                 Debug.Log("Collided with child");
-                if (pickupPressed)  // This is just making it so timeout doesn't work...
+                if (pickupPressed && isMini == false)  // This is just making it so timeout doesn't work...
                 {
                     collider.gameObject.GetComponent<KidTimeout>().Timeout(collider.gameObject);
                 }
