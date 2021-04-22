@@ -9,12 +9,16 @@ public class KnockBack : MonoBehaviour
     public bool makePlayerDrop;
     public AK.Wwise.Event KBSound;
     public bool slidethrough = false, reflective, directional;
-    private BoxCollider PaintColl;
+    private Collider PaintColl;
     
 
     private void Start()
     {
         PaintColl = gameObject.GetComponent<BoxCollider>();
+        if(PaintColl == null)
+        {
+            PaintColl = gameObject.GetComponent<MeshCollider>();
+        }
         /*
         if(!KBSound.Equals(""))
         {
