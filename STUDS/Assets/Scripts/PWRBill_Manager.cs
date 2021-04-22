@@ -8,7 +8,7 @@ using TMPro;
 public class PWRBill_Manager : MonoBehaviour
 {
     //Electricity variables
-    public int Score;
+    public float Score;
     public TextMeshProUGUI PowerTXT;
     public int NumItemsOn;
     public TextMeshProUGUI ItemsOnTXT;
@@ -59,7 +59,7 @@ public class PWRBill_Manager : MonoBehaviour
     {
         Mathf.RoundToInt(timer);
 
-        PowerTXT.text = "Power Bill: $" + Score;
+        PowerTXT.text = "Power Bill: $" + (Score / 10) + "0";
         ItemsOnTXT.text = "Appliances: " + (NumItemsOn + 1);
                
         timer -= Time.deltaTime;
