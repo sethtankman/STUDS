@@ -9,7 +9,7 @@ public class DadButtonMngr : MonoBehaviour
 {
     public List<GameObject> allPlayers, miniPlayers, dadPlayers;
     public GameObject[] allButtons;
-    public GameObject characterButton, GameManager;
+    public GameObject characterButton, GameManager, acceptButton;
     public RectTransform[] buttonLocations;
     public string levelName;
     public int numAI, numPlayers;
@@ -32,6 +32,17 @@ public class DadButtonMngr : MonoBehaviour
             button.GetComponent<DadBtn>().SetPlayer(player);
             button.GetComponent<DadBtn>().manager = this;
             allButtons[i] = button;
+            Debug.Log("Button added");
+            if(i > 0) // This sort of performs it backwards: add the player to the wrong list, then switch them.
+            {
+                button.GetComponent<DadBtn>().miniImage.SetActive(true);
+                ToggleMini(player);
+            } else
+            {
+                Debug.Log("Adding: " + player);
+                miniPlayers.Add(player);
+                ToggleMini(player);
+            }
             i++;
             numPlayers = i;
         }
@@ -41,13 +52,23 @@ public class DadButtonMngr : MonoBehaviour
     {
         if (miniPlayers.Contains(selectedPlayer))
         {
+            Debug.Log("Removing: " + selectedPlayer);
             miniPlayers.Remove(selectedPlayer);
             dadPlayers.Add(selectedPlayer);
         }
         else
         {
+            Debug.Log("Adding1: " + selectedPlayer);
             miniPlayers.Add(selectedPlayer);
             dadPlayers.Remove(selectedPlayer);
+        }
+        // The number of dads cannot exceed the number of kids by more than one.
+        if (dadPlayers.Count > miniPlayers.Count + numAI + 1 || dadPlayers.Count == 0)
+        {
+            acceptButton.SetActive(false);
+        } else
+        {
+            acceptButton.SetActive(true);
         }
     }
 
@@ -60,6 +81,15 @@ public class DadButtonMngr : MonoBehaviour
             button.GetComponent<RectTransform>().pivot = buttonLocations[numPlayers+numAI].pivot;
             allButtons[numPlayers + numAI] = button;
             numAI++;
+
+            if (dadPlayers.Count > miniPlayers.Count + numAI + 1 || dadPlayers.Count == 0)
+            {
+                acceptButton.SetActive(false);
+            }
+            else
+            {
+                acceptButton.SetActive(true);
+            }
         }
     }
 
@@ -70,6 +100,15 @@ public class DadButtonMngr : MonoBehaviour
             Destroy(allButtons[numPlayers + numAI - 1]);
             allButtons[numPlayers + numAI - 1] = null;
             numAI--;
+
+            if (dadPlayers.Count > miniPlayers.Count + numAI + 1 || dadPlayers.Count == 0)
+            {
+                acceptButton.SetActive(false);
+            }
+            else
+            {
+                acceptButton.SetActive(true);
+            }
         }
     }
 
@@ -77,10 +116,12 @@ public class DadButtonMngr : MonoBehaviour
     {
         foreach (GameObject player in miniPlayers)
         {
+            Debug.Log("Mini: " + player);
             player.GetComponent<CharacterMovementController>().SetToMini(true);
         }
         foreach (GameObject dad in dadPlayers)
         {
+            Debug.Log("Dad: " + dad);
             dad.GetComponent<CharacterMovementController>().SetToMini(false);
         }
         LoadLevel();
@@ -95,6 +136,7 @@ public class DadButtonMngr : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
 
     }
 }
