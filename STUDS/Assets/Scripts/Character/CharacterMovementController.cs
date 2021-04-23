@@ -28,6 +28,7 @@ public class CharacterMovementController : MonoBehaviour
     public GameObject aimAssist;
 
     public float moveSpeed;
+    public float moveSpeedKid;
     private float knockBackCounter;
     private float pickupCooldown;
     private float stepSoundCooldown;
@@ -658,11 +659,13 @@ public class CharacterMovementController : MonoBehaviour
             transform.localScale = new Vector3(20, 20, 20); //Shrink the player. OG size is 30, 30, 30
             SetBinky(true); //Activate the binky!!!!
             isMini = true; //The Eugine will now act as a child.
+            moveSpeed = moveSpeedKid;
         } else
         {
             transform.localScale = new Vector3(30, 30, 30); // size is 30, 30, 30
             SetBinky(false); // Deactivate Binky
             isMini = false; //The Eugine will now act as a dad.
+            moveSpeed = moveSpeedNormal;
         }
     }
 
