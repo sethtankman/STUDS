@@ -8,6 +8,7 @@ using UnityEngine.InputSystem;
 public class DadButtonMngr : MonoBehaviour
 {
     public List<GameObject> allPlayers, miniPlayers, dadPlayers;
+    public List<string> remainingColors;
     public GameObject[] allButtons;
     public GameObject characterButton, GameManager, acceptButton;
     public RectTransform[] buttonLocations;
@@ -17,6 +18,7 @@ public class DadButtonMngr : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        remainingColors = new List<string>() { "Blue", "Red", "Purple", "Green", "Yellow"};
         GameManager = GameObject.Find("GameManager");
         miniPlayers = new List<GameObject>();
         dadPlayers = new List<GameObject>();
@@ -29,6 +31,7 @@ public class DadButtonMngr : MonoBehaviour
             GameObject button = Instantiate(characterButton, buttonLocations[i].position, Quaternion.identity, gameObject.transform);
             button.GetComponent<RectTransform>().pivot = buttonLocations[i].pivot;
             button.GetComponent<DadBtn>().SetSprite(player.GetComponent<CharacterMovementController>().GetColorName());
+            remainingColors.Remove(player.GetComponent<CharacterMovementController>().GetColorName());
             button.GetComponent<DadBtn>().SetPlayer(player);
             button.GetComponent<DadBtn>().manager = this;
             allButtons[i] = button;
@@ -77,6 +80,9 @@ public class DadButtonMngr : MonoBehaviour
         if (numPlayers + numAI < 4)
         {
             GameObject button = Instantiate(characterButton, buttonLocations[numPlayers+numAI].position, Quaternion.identity, gameObject.transform);
+            button.GetComponent<DadBtn>().SetSprite(remainingColors.ToArray()[0]);
+            button.GetComponent<DadBtn>().color = remainingColors.ToArray()[0];
+            remainingColors.Remove(remainingColors.ToArray()[0]);
             button.GetComponent<DadBtn>().SetAI(true);
             button.GetComponent<RectTransform>().pivot = buttonLocations[numPlayers+numAI].pivot;
             allButtons[numPlayers + numAI] = button;
@@ -97,6 +103,7 @@ public class DadButtonMngr : MonoBehaviour
     {
         if (numAI > 0)
         {
+            remainingColors.Add(allButtons[numPlayers + numAI - 1].GetComponent<DadBtn>().color);
             Destroy(allButtons[numPlayers + numAI - 1]);
             allButtons[numPlayers + numAI - 1] = null;
             numAI--;
