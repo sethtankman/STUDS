@@ -23,6 +23,8 @@ public class PWRBill_Manager : MonoBehaviour
     public float timer;
     private float Sprint = 10.0f;
 
+    public GameObject PBGameEndText;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -83,6 +85,9 @@ public class PWRBill_Manager : MonoBehaviour
 
     void EndGame()
     {
+        GameObject EndText = Instantiate(PBGameEndText);
+        DontDestroyOnLoad(EndText);
+        EndText.GetComponent<TextMeshProUGUI>().text = "" + Score;
         SceneManager.LoadScene("VictoryStands");
     }
 
