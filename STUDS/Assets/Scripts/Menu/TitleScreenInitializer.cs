@@ -14,6 +14,16 @@ public class TitleScreenInitializer : MonoBehaviour
         GameObject.Find("Music Manager").GetComponent<Music_Manager>().PlayStopMusic("Stroller", false);
         GameObject.Find("Music Manager").GetComponent<Music_Manager>().PlayStopMusic("Menu", true);
 
+        var players = ManagePlayerHub.Instance.getPlayers();
+        foreach(GameObject player in players)
+        {
+            /*
+            // Drop the players through the floor!
+            player.transform.position = new Vector3(0, -10, 0);
+            */
+            // Destroying the player might be better...
+            Destroy(player);
+        }
     }
 
     // Update is called once per frame
