@@ -5,6 +5,12 @@ using UnityEngine;
 public class ExplodingPropane : CombatThrow
 {
     public GameObject explosionEffect;
+    public SteamAchievements sa;
+
+    private void Start()
+    {
+        sa = GameObject.Find("SteamAchievements").GetComponent<SteamAchievements>();
+    }
 
     public new void EnableKnockBack() //Vector3 direction, bool dropStroller)
     {
@@ -22,6 +28,7 @@ public class ExplodingPropane : CombatThrow
     {
         if (knockBack.activeInHierarchy)
         {
+            sa.UnlockAchievement("SS_PROPANE");
             Instantiate(explosionEffect, transform.position, Quaternion.identity);
             Destroy(gameObject);
         }

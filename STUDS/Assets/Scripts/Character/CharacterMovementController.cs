@@ -17,6 +17,8 @@ public class CharacterMovementController : MonoBehaviour
 
     private CharacterController controller;
 
+    public SteamAchievements sa;
+
     public Transform camPos;
     public Animator animator;
     public Renderer renderer;
@@ -93,6 +95,7 @@ public class CharacterMovementController : MonoBehaviour
         PlayerParticles = GetComponent<PLR_ParticleController>();
         CanJump = true;
         CanMove = true;
+        sa = GameObject.Find("SteamAchievements").GetComponent<SteamAchievements>();
     }
 
     // Update is called once per frame
@@ -566,6 +569,10 @@ public class CharacterMovementController : MonoBehaviour
         if (grabbedObject.GetComponent<CombatThrow>())
         {
             grabbedObject.GetComponent<CombatThrow>().EnableKnockBack();
+        }
+        if (grabbedObject.GetComponent<StrollerController>())
+        {
+            sa.UnlockAchievement("SR_STROLLER");
         }
         
         hasGrabbed = false;

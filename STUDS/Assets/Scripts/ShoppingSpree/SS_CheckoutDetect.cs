@@ -6,11 +6,12 @@ public class SS_CheckoutDetect : MonoBehaviour
 {
     public ParticleSystem CheckoutEffect;
     public AK.Wwise.Event RegisterSound;
+    public SteamAchievements sa;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        sa = GameObject.Find("SteamAchievements").GetComponent<SteamAchievements>();
     }
 
     // Update is called once per frame
@@ -34,6 +35,7 @@ public class SS_CheckoutDetect : MonoBehaviour
                     player.GetComponent<SS_ItemTracker>().CheckoutItem(i);
                     CheckoutEffect.Play();
                     Destroy(collision.collider.gameObject);
+                    sa.UnlockAchievement("SS_CHECKOUT");
                 }
             }
         }

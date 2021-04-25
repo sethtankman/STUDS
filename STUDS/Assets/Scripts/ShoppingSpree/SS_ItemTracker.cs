@@ -12,6 +12,7 @@ public class SS_ItemTracker : MonoBehaviour
     public Image[] shoppingItemImages;
     public GameObject myPaper;
     public Text listText;
+    public SteamAchievements sa;
     // Start is called before the first frame update
     void Start()
     {
@@ -22,7 +23,7 @@ public class SS_ItemTracker : MonoBehaviour
             itemsCollected.Add(item, false);
         }
         completedItemsCheck = new bool[itemList.Length];
-
+        sa = GameObject.Find("SteamAchievements").GetComponent<SteamAchievements>();
     }
 
     // Update is called once per frame
@@ -39,6 +40,7 @@ public class SS_ItemTracker : MonoBehaviour
         if (allComplete)
         {
             //listText.text = "You have successfully gathered all the items!";
+            sa.UnlockAchievement("SS_FINISH");
         }
         //string text = "SHOPPING LIST:\n";
         for (int i = 0; i < itemList.Length; i++)

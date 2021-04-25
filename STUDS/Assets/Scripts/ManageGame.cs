@@ -15,6 +15,8 @@ public class ManageGame : MonoBehaviour
     public TextMeshProUGUI FinishText;
     public TextMeshProUGUI FinishTimer;
 
+    public SteamAchievements sa;
+
     public float endTimer;
 
     public float swapTime;
@@ -38,6 +40,7 @@ public class ManageGame : MonoBehaviour
         GameObject sfx = GameObject.Find("SFX");
         Transform trans = sfx.transform;
         Transform target = trans.Find(soundName);
+        sa = GameObject.Find("SteamAchievements").GetComponent<SteamAchievements>();
     }
 
     // Update is called once per frame
@@ -87,6 +90,7 @@ public class ManageGame : MonoBehaviour
                 {
                     Debug.Log("Finished!");
                     display = true;
+                    sa.UnlockAchievement("SR_COMPLETE");
                     playerID = collider.gameObject.GetComponent<CharacterMovementController>().getPlayerID() + 1;
                     collider.gameObject.GetComponent<CharacterMovementController>().SetFinishPosition(positions);
                     positions++;
