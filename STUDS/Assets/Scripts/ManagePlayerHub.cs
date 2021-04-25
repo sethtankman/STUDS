@@ -10,6 +10,7 @@ using TMPro;
 public class ManagePlayerHub : MonoBehaviour
 {
     public List<GameObject> players;
+    public Stack<string> aiColors;
     public GameObject playerPrefab, player4PlaceHolder;
 
     public PlayerConnection playerConnectionPanel;

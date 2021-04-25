@@ -9,6 +9,7 @@ public class DadButtonMngr : MonoBehaviour
 {
     public List<GameObject> allPlayers, miniPlayers, dadPlayers;
     public List<string> remainingColors;
+    public Stack<string> AIColors;
     public GameObject[] allButtons;
     public GameObject characterButton, GameManager, acceptButton;
     public RectTransform[] buttonLocations;
@@ -18,6 +19,7 @@ public class DadButtonMngr : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        AIColors = new Stack<string>();
         remainingColors = new List<string>() { "Blue", "Red", "Purple", "Green", "Yellow"};
         GameManager = GameObject.Find("GameManager");
         miniPlayers = new List<GameObject>();
@@ -82,6 +84,7 @@ public class DadButtonMngr : MonoBehaviour
             GameObject button = Instantiate(characterButton, buttonLocations[numPlayers+numAI].position, Quaternion.identity, gameObject.transform);
             button.GetComponent<DadBtn>().SetSprite(remainingColors.ToArray()[0]);
             button.GetComponent<DadBtn>().color = remainingColors.ToArray()[0];
+            AIColors.Push(remainingColors.ToArray()[0]);
             remainingColors.Remove(remainingColors.ToArray()[0]);
             button.GetComponent<DadBtn>().SetAI(true);
             button.GetComponent<RectTransform>().pivot = buttonLocations[numPlayers+numAI].pivot;
@@ -104,10 +107,11 @@ public class DadButtonMngr : MonoBehaviour
         if (numAI > 0)
         {
             remainingColors.Add(allButtons[numPlayers + numAI - 1].GetComponent<DadBtn>().color);
+            AIColors.Pop();
             Destroy(allButtons[numPlayers + numAI - 1]);
             allButtons[numPlayers + numAI - 1] = null;
             numAI--;
-
+            
             if (dadPlayers.Count > miniPlayers.Count + numAI + 1 || dadPlayers.Count == 0)
             {
                 acceptButton.SetActive(false);
@@ -137,6 +141,7 @@ public class DadButtonMngr : MonoBehaviour
     private void LoadLevel()
     {
         GameManager.GetComponent<ManagePlayerHub>().numAIToSpawnPB = numAI;
+        GameManager.GetComponent<ManagePlayerHub>().aiColors = AIColors;
         SceneManager.LoadScene(levelName);
     }
 

@@ -8,6 +8,7 @@ public class DadBtn : MonoBehaviour
     public Text btnText;
     public Image btnImage;
     public Sprite[] btnSprites; //This will be used once we have the eugine images.
+    public Material[] kidMaterials;
     public GameObject player, miniImage, aiImage; //So the button can be connected to the player.
     public DadButtonMngr manager;
     public string color;

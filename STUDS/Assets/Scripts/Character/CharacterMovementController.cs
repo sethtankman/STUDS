@@ -55,6 +55,9 @@ public class CharacterMovementController : MonoBehaviour
     private GameObject grabbedObject;
     private GameObject electronicObject;
 
+    private Material savedMaterial;
+    public Material[] kidsMaterials;
+
     private bool hasGrabbed = false;
     private bool pickupPressed;
     private bool throwPressed;
@@ -667,12 +670,36 @@ public class CharacterMovementController : MonoBehaviour
             SetBinky(true); //Activate the binky!!!!
             isMini = true; //The Eugine will now act as a child.
             moveSpeed = moveSpeedKid;
+            savedMaterial = gameObject.GetComponentInChildren<SkinnedMeshRenderer>().material;
+            gameObject.GetComponentInChildren<SkinnedMeshRenderer>().material = kidsMaterials[GetColorIndex(color)];
         } else
         {
             transform.localScale = new Vector3(30, 30, 30); // size is 30, 30, 30
             SetBinky(false); // Deactivate Binky
             isMini = false; //The Eugine will now act as a dad.
             moveSpeed = moveSpeedNormal;
+            if(savedMaterial)
+                gameObject.GetComponentInChildren<SkinnedMeshRenderer>().material = savedMaterial;
+        }
+    }
+
+    private int GetColorIndex(string _color)
+    {
+        switch(_color)
+        {
+            case "Red":
+                return 0;
+            case "Blue":
+                return 1;
+            case "Purple":
+                return 2;
+            case "Yellow":
+                return 3;
+            case "Green":
+                return 4;
+            default:
+                return -1;
+
         }
     }
 

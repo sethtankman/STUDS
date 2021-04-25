@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class PBInitializeLevel : MonoBehaviour
 {
     public Transform[] playerSpawns;
+    public Material[] kidsMaterials;
     public GameObject playerPrefab, AIPrefab;
     public GameObject loadingScreen;
 
@@ -16,6 +17,7 @@ public class PBInitializeLevel : MonoBehaviour
     private float currentTime = 0;
     private int numAI;
     private List<GameObject> players;
+    private Stack<string> aiColors;
 
     // Start is called before the first frame update
     void Start()
@@ -23,6 +25,7 @@ public class PBInitializeLevel : MonoBehaviour
         players = ManagePlayerHub.Instance.getPlayers();
         numAI = ManagePlayerHub.Instance.numAIToSpawnPB;
         aiInstantiated = new bool[numAI];
+        aiColors = ManagePlayerHub.Instance.aiColors;
         PlayerInputManager.instance.DisableJoining();
     }
 
@@ -51,10 +54,31 @@ public class PBInitializeLevel : MonoBehaviour
                 if (aiInstantiated[k] == false)
                 {
                     GameObject AI = Instantiate(AIPrefab, playerSpawns[i].position, playerSpawns[i].transform.rotation);
+                    AI.GetComponentInChildren<SkinnedMeshRenderer>().material = kidsMaterials[GetColorIndex(aiColors.Pop())];
                     aiInstantiated[k] = true;
                 }
                 i++;
             }
+        }
+    }
+
+    private int GetColorIndex(string _color)
+    {
+        switch (_color)
+        {
+            case "Red":
+                return 0;
+            case "Blue":
+                return 1;
+            case "Purple":
+                return 2;
+            case "Yellow":
+                return 3;
+            case "Green":
+                return 4;
+            default:
+                Debug.LogError("Invalid color name");
+                return -1;
         }
     }
 
