@@ -25,13 +25,13 @@ public class KidTimeout : MonoBehaviour
                 GameObject pos = GameObject.Find("KidTimeoutBackInside");
                 gameObject.transform.position = pos.transform.position;
                 // We need to reset the navigation agent when we teleport it as well.
-                mini.GetComponent<NavMeshAgent>().Warp(pos.transform.position);
                 if (currTime > (timeoutTimer + 0.1))
                 {
                     currTime = 0;
                     mini.GetComponent<CharacterMovementController>().CanMove = true;
                     if (mini.GetComponent<CharacterMovementController>().isAI)
                     {
+                        mini.GetComponent<NavMeshAgent>().Warp(pos.transform.position);
                         mini.GetComponent<PennyPincherAI>().CanMove = true;
                     }
                     mini = null;
