@@ -41,7 +41,7 @@ public class TitleScreenInitializer : MonoBehaviour
         finalText.transform.SetParent(GameObject.Find("Canvas").transform);
         double score = Double.Parse(finalText.GetComponent<TextMeshProUGUI>().text);
         finalText.GetComponent<TextMeshProUGUI>().text = "Power Bill: $" + (score / 10) + "0";
-        finalText.GetComponent<RectTransform>().localPosition = new Vector3(-430, 217, 0);
+        finalText.GetComponent<RectTransform>().localPosition = new Vector3(0, 0, 0);
         if(score > 4000)
         {
             finalText.GetComponent<TextMeshProUGUI>().text += " When your credit card is stolen but your credit starts to improve...";
