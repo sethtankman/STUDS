@@ -11,8 +11,6 @@ public class RaceStartedDetection : MonoBehaviour
     
     public GameObject AI3;
 
-    public GameObject gameManager;
-
 
     // Start is called before the first frame update
     void Start()
@@ -34,7 +32,6 @@ public class RaceStartedDetection : MonoBehaviour
             AI1.GetComponent<PlayerAI>().StartAI();
             AI2.GetComponent<PlayerAI>().StartAI();
             AI3.GetComponent<PlayerAI>().StartAI();
-            gameManager.GetComponent<LevelStart>().DisableJoin();
         }
 
     }
