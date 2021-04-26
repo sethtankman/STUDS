@@ -24,6 +24,7 @@ public class PowerBillLevelInitializer : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+      
         players = ManagePlayerHub.Instance.getPlayers();
         maxRounds = players.Count + 1;
         roundCount = 1;

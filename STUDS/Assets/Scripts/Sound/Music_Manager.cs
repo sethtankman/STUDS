@@ -9,6 +9,7 @@ public class Music_Manager : MonoBehaviour
     public AK.Wwise.Event menuMusic;
     public AK.Wwise.Event strollerMusic;
     public AK.Wwise.Event shoppingMusic;
+    public AK.Wwise.Event pennyMusic;
 
     private static GameObject instance;
 
@@ -38,6 +39,9 @@ public class Music_Manager : MonoBehaviour
                 case "Shopping":
                     shoppingMusic.Post(gameObject);
                     break;
+                case "Penny":
+                    pennyMusic.Post(gameObject);
+                    break;
                 default:
                     Debug.LogError("Yo, that's not the music's name.");
                     break;
@@ -54,6 +58,9 @@ public class Music_Manager : MonoBehaviour
                     break;
                 case "Shopping":
                     shoppingMusic.Stop(gameObject);
+                    break;
+                case "Penny":
+                    pennyMusic.Stop(gameObject);
                     break;
                 default:
                     Debug.LogError("Yo, that's not the music's name.");

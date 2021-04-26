@@ -16,6 +16,7 @@ public class TitleScreenInitializer : MonoBehaviour
         GameObject.Find("Music Manager").GetComponent<Music_Manager>().PlayStopMusic("Menu", false);
         GameObject.Find("Music Manager").GetComponent<Music_Manager>().PlayStopMusic("Shopping", false);
         GameObject.Find("Music Manager").GetComponent<Music_Manager>().PlayStopMusic("Stroller", false);
+        GameObject.Find("Music Manager").GetComponent<Music_Manager>().PlayStopMusic("Penny", false);
         GameObject.Find("Music Manager").GetComponent<Music_Manager>().PlayStopMusic("Menu", true);
 
         var players = ManagePlayerHub.Instance.getPlayers();
