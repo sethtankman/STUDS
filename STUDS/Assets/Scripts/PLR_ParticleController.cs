@@ -58,18 +58,28 @@ public class PLR_ParticleController : MonoBehaviour
 
 
     //Exclimation point 
-    public void OnTriggerEnter(Collider other)
+    public void OnTriggerStay(Collider other)
     {
         if (other.GetComponentInParent<Interaction>())
-        {
-            Interaction InteractiveSC = other.GetComponentInParent<Interaction>();
-            if (other.tag == "Electronics" && InteractiveSC.interactPressed == false)
+            {
+                Interaction InteractiveSC = other.GetComponentInParent<Interaction>();
+                if (other.tag == "Electronics" && InteractiveSC.interactPressed == false && CC.isMini == false)
+                {
+                    inRange = true;
+                    //Emote.SetActive(true);
+
+                }
+            if (other.tag == "Electronics" && InteractiveSC.interactPressed == true && CC.isMini == true)
             {
                 inRange = true;
                 //Emote.SetActive(true);
 
             }
+            else inRange = false;
         }
+        
+
+    
 
 
         if (other.tag == "ShoppingItem")
