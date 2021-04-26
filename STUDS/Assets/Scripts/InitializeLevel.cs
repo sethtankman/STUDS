@@ -39,17 +39,22 @@ public class InitializeLevel : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
         currentTime += Time.deltaTime;
+        Debug.Log("curr time is: " + currentTime);
         if (currentTime > waitTime && !spawnedPlayers)
         {
+            Debug.Log("players are:" + players);
+            Debug.Log("spawning strollers");
             Destroy(startCam);
             startText.text = "";
-            Debug.Log("Loading in players");
             if (players != null)
             {
+                Debug.Log("Loading in players with size: " + players.Count);
                 for (int i = 0; i < players.Count; i++)
                 {
                     GameObject stroller = Instantiate(strollerPrefab, playerSpawns[i].position + new Vector3(0, 0, 2f), Quaternion.identity);
+                    Debug.Log("Created stroller!");
                     DetermineColor(players[i].GetComponent<CharacterMovementController>().GetColorName(), stroller);
                     stroller.GetComponent<StrollerController>().SetID(players[i].GetComponent<CharacterMovementController>().getPlayerID());
                     spawnedPlayers = true;
@@ -58,7 +63,7 @@ public class InitializeLevel : MonoBehaviour
         }
         else if(!spawnedPlayers)
         {
-            Debug.Log("Spawning player");
+          Debug.Log("Spawning player");
             if (players != null)
             {
                 for (int i = 0; i < players.Count; i++)

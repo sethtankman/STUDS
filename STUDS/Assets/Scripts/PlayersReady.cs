@@ -52,6 +52,9 @@ public class PlayersReady : MonoBehaviour
                 else if (gameObject.tag.Equals("ShoppingSpree"))
                 {
                     SceneManager.LoadScene("Shopping_Spree-Scott");
+                }else if (gameObject.tag.Equals("Downtown"))
+                {
+                    SceneManager.LoadScene("Downtown_prototype");
                 }
 
             }
