@@ -265,4 +265,9 @@ public class ManagePlayerHub : MonoBehaviour
         }
         players = new List<GameObject>();
     }
+
+    public void AddPlayer(GameObject newPlayer)
+    {
+        players.Add(newPlayer);
+    }
 }
