@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 1555379809297781958}
   - component: {fileID: 1555379809297781961}
   - component: {fileID: 1555379809297781960}
+  - component: {fileID: 5832740949902997293}
   m_Layer: 0
   m_Name: HotDogStand
   m_TagString: Untagged
@@ -123,6 +124,29 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.024138488, y: 0.0068975273, z: 0.024196167}
   m_Center: {x: 0.000055694578, y: 0.010144738, z: 0.0013414001}
+--- !u!114 &5832740949902997293
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1825286487622511003}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e6c75dba9b09664d866479b179f9726, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  directionVector: {x: 1, y: 0, z: 0}
+  KBForce: 2
+  makePlayerDrop: 1
+  KBSound:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 222a481fc2e51444994f90d46a5f6379,
+      type: 2}
+  slidethrough: 0
+  reflective: 1
+  directional: 0
 --- !u!1 &1991322901612060763
 GameObject:
   m_ObjectHideFlags: 0
@@ -134,6 +158,7 @@ GameObject:
   - component: {fileID: 7068879585534327636}
   - component: {fileID: 1531361958404991171}
   - component: {fileID: 7011096256701750422}
+  - component: {fileID: 7283496052294527442}
   m_Layer: 0
   m_Name: Wheels
   m_TagString: Untagged
@@ -181,7 +206,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -4612162990109294230, guid: 0c608d30e1899d647a82ef08cc739a22, type: 3}
+  - {fileID: 2100000, guid: ec63bf5731d00174fa507041bd8f30de, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -202,6 +227,19 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!114 &7283496052294527442
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1991322901612060763}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a88cdb06d3d61e4eaf7d8a369abb36e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  turnSpeed: 500
 --- !u!1 &4492299007110037536
 GameObject:
   m_ObjectHideFlags: 0
@@ -213,6 +251,7 @@ GameObject:
   - component: {fileID: 7844954375478006402}
   - component: {fileID: 3720848065459551358}
   - component: {fileID: 8223583234481495934}
+  - component: {fileID: 4810458354417050198}
   m_Layer: 0
   m_Name: Wheels_02
   m_TagString: Untagged
@@ -260,7 +299,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -4612162990109294230, guid: 0c608d30e1899d647a82ef08cc739a22, type: 3}
+  - {fileID: 2100000, guid: ec63bf5731d00174fa507041bd8f30de, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -281,3 +320,16 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!114 &4810458354417050198
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4492299007110037536}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a88cdb06d3d61e4eaf7d8a369abb36e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  turnSpeed: 500

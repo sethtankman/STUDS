@@ -4,15 +4,11 @@ using UnityEngine;
 
 public class Propeller : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public float turnSpeed = 0;
 
     // Update is called once per frame
     void Update()
     {
-        transform.Rotate(1440 * Time.deltaTime, 0, 0, Space.Self);
+        transform.Rotate(turnSpeed * Time.deltaTime, 0, 0, Space.Self);
     }
 }
