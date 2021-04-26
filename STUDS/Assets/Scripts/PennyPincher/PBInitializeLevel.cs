@@ -22,6 +22,7 @@ public class PBInitializeLevel : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        loadingScreen.SetActive(true);
         GameObject.Find("Music Manager").GetComponent<Music_Manager>().PlayStopMusic("Menu", false);
         GameObject.Find("Music Manager").GetComponent<Music_Manager>().PlayStopMusic("Penny", true);
 
