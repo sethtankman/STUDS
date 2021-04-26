@@ -9,9 +9,10 @@ public class DadBtn : MonoBehaviour
     public Image btnImage;
     public Sprite[] btnSprites; //This will be used once we have the eugine images.
     public Material[] kidMaterials;
-    public GameObject player, miniImage, aiImage; //So the button can be connected to the player.
+    public GameObject player, aiImage; //So the button can be connected to the player.
     public DadButtonMngr manager;
     public string color;
+    private int imageIndex;
 
     private void Start()
     {
@@ -44,18 +45,23 @@ public class DadBtn : MonoBehaviour
         {
             case "Blue":
                 btnImage.sprite = btnSprites[0];
+                imageIndex = 0;
                 break;
             case "Green":
                 btnImage.sprite = btnSprites[1];
+                imageIndex = 1;
                 break;
             case "Red":
                 btnImage.sprite = btnSprites[2];
+                imageIndex = 2;
                 break;
             case "Purple":
                 btnImage.sprite = btnSprites[3];
+                imageIndex = 3;
                 break;
             case "Yellow":
                 btnImage.sprite = btnSprites[4];
+                imageIndex = 4;
                 break;
             default:
                 Debug.LogError("Unable to set sprite to specified color: " + colorName);
@@ -74,14 +80,16 @@ public class DadBtn : MonoBehaviour
         if (aiImage.activeSelf == false)
         {
             
-            if(this.miniImage.activeSelf)
+            if(imageIndex > 4)
             {
                 Debug.Log("Setting to dad");
-                this.miniImage.SetActive(false);
+                btnImage.sprite = btnSprites[imageIndex + 5];
+                imageIndex += 5;
             } else
             {
                 Debug.Log("Setting to kid");
-                this.miniImage.SetActive(true);
+                btnImage.sprite = btnSprites[imageIndex - 5];
+                imageIndex -= 5;
             }
             manager.ToggleMini(player);
         } /*else  // this will enable setting ai to dads

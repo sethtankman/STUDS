@@ -44,14 +44,14 @@ public class PennyPincherAI : MonoBehaviour
                 Debug.Log("Reached target: " + target.name);
                 hasTarget = false;
                 target.GetComponent<VolumeTrigger>().FlipSwitch();
-            }
+            } /*
             else if (Mathf.Abs(target.position.x - transform.position.x) < 0.1f
               && Mathf.Abs(target.position.z - transform.position.z) < 0.1f
               && target.position.y - transform.position.y < 3)
             {
                 Debug.Log("Jump!");
                 movementController.isJumping = true;
-            }
+            } */
             else
             {
                 // Debug.Log("MOVING");
