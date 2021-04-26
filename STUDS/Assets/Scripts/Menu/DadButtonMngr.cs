@@ -40,8 +40,7 @@ public class DadButtonMngr : MonoBehaviour
             Debug.Log("Button added");
             if(i > 0) // This sort of performs it backwards: add the player to the wrong list, then switch them.
             {
-                button.GetComponent<DadBtn>().miniImage.SetActive(true);
-                ToggleMini(player);
+                button.GetComponent<DadBtn>().ToggleMini();
             } else
             {
                 Debug.Log("Adding: " + player);
