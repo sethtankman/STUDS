@@ -13,7 +13,7 @@ public class PBInitializeLevel : MonoBehaviour
 
     private bool[] aiInstantiated;
     private bool spawnedPlayers = false;
-    private float waitTime = 2f;
+    private float waitTime = 5f;
     private float currentTime = 0;
     private int numAI;
     private List<GameObject> players;
