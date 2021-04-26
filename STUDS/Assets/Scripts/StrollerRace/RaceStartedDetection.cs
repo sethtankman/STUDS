@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class RaceStartedDetection : MonoBehaviour
 {
+    public AK.Wwise.Event StartSound;
 
     public GameObject AI1;
 
@@ -32,6 +33,8 @@ public class RaceStartedDetection : MonoBehaviour
             AI1.GetComponent<PlayerAI>().StartAI();
             AI2.GetComponent<PlayerAI>().StartAI();
             AI3.GetComponent<PlayerAI>().StartAI();
+
+            StartSound.Post(gameObject);
         }
 
     }
