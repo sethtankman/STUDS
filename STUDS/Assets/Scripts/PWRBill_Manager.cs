@@ -25,10 +25,14 @@ public class PWRBill_Manager : MonoBehaviour
 
     public GameObject PBGameEndText;
 
+    private int racePositions;
+    private int noFinishPos;
+
     // Start is called before the first frame update
     void Start()
     {
-
+        racePositions = 1;
+        noFinishPos = -1;
         foreach (GameObject Electronic in GameObject.FindGameObjectsWithTag("RandomPick"))
         {
             Interactives.Add(Electronic.GetComponent<Interaction>());
@@ -88,6 +92,32 @@ public class PWRBill_Manager : MonoBehaviour
         GameObject EndText = Instantiate(PBGameEndText);
         DontDestroyOnLoad(EndText);
         EndText.GetComponent<TextMeshProUGUI>().text = "" + Score;
+
+        GameObject[] allPlayers = GameObject.FindGameObjectsWithTag("Player");
+
+        foreach (GameObject player in allPlayers)
+        {
+            if (player.GetComponent<CharacterMovementController>().isAI)
+            {
+                DontDestroyOnLoad(player.transform.parent.gameObject);
+                ManagePlayerHub.Instance.AddPlayer(player);
+                Debug.Log("New AI added!");
+            }
+        }
+        List<GameObject> players = ManagePlayerHub.Instance.getPlayers();
+        foreach (GameObject player in players)
+        {
+            if (player.GetComponent<CharacterMovementController>().isMini)
+            {
+                player.GetComponent<CharacterMovementController>().SetFinishPosition(noFinishPos);
+                noFinishPos--;
+            }else if (!player.GetComponent<CharacterMovementController>().isMini)
+            {
+                player.GetComponent<CharacterMovementController>().SetFinishPosition(racePositions);
+                racePositions++;
+            }
+        }
+
         SceneManager.LoadScene("VictoryStands");
     }
 

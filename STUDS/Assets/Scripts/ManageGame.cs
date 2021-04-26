@@ -40,17 +40,6 @@ public class ManageGame : MonoBehaviour
         //Debug.Log("Searching for : " + soundName);
         sa = GameObject.Find("SteamAchievements").GetComponent<SteamAchievements>();
         Debug.Log("Steam Achievement object: " + sa);
-        GameObject[] allPlayers = GameObject.FindGameObjectsWithTag("Player");
-
-        foreach (GameObject player in allPlayers)
-        {
-            if (player.GetComponent<CharacterMovementController>().isAI)
-            {
-                DontDestroyOnLoad(player.transform.parent.gameObject);
-                ManagePlayerHub.Instance.AddPlayer(player);
-                Debug.Log("New AI added!");
-            }
-        }
     }
 
     // Update is called once per frame
@@ -79,8 +68,18 @@ public class ManageGame : MonoBehaviour
             FinishTimer.text = "A player has finished the race! The race will end in " + (int)(endTimer - timer) + " seconds!";
             if(timer >= endTimer)
             {
+                GameObject[] allPlayers = GameObject.FindGameObjectsWithTag("Player");
+
+                foreach (GameObject player in allPlayers)
+                {
+                    if (player.GetComponent<CharacterMovementController>().isAI)
+                    {
+                        DontDestroyOnLoad(player.transform.parent.gameObject);
+                        ManagePlayerHub.Instance.AddPlayer(player);
+                        Debug.Log("New AI added!");
+                    }
+                }
                 List<GameObject> players = ManagePlayerHub.Instance.getPlayers();
-                Time.timeScale = 0f;
                 foreach (GameObject player in players)
                 {
                     if(player.GetComponent<CharacterMovementController>().GetFinishPosition() == 0)

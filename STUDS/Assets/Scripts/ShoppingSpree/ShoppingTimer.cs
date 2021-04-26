@@ -12,6 +12,15 @@ public class ShoppingTimer : MonoBehaviour
     public float timer;
     private float Sprint = 10.0f;
 
+    public int racePositions;
+    public int noFinishPos;
+
+    void Start()
+    {
+        racePositions = 1;
+        noFinishPos = -1;
+    }
+
     void Update()
     {
         Mathf.RoundToInt(timer);
@@ -31,6 +40,16 @@ public class ShoppingTimer : MonoBehaviour
 
     void EndGame()
     {
+        List<GameObject> players = ManagePlayerHub.Instance.getPlayers();
+        foreach (GameObject player in players)
+        {
+            if (player.GetComponent<CharacterMovementController>().GetFinishPosition() == 0)
+            {
+                player.GetComponent<CharacterMovementController>().SetFinishPosition(noFinishPos);
+                noFinishPos--;
+            }
+        }
+
         SceneManager.LoadScene("VictoryStands");
     }
 

@@ -8,6 +8,8 @@ public class SS_CheckoutDetect : MonoBehaviour
     public AK.Wwise.Event RegisterSound;
     public SteamAchievements sa;
 
+    public GameObject timerManager;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -37,6 +39,25 @@ public class SS_CheckoutDetect : MonoBehaviour
                     Destroy(collision.collider.gameObject);
                     sa.UnlockAchievement("SS_CHECKOUT");
                 }
+            }
+
+            bool allDone = true;
+            foreach(string item in itemlist)
+            {
+                if (!player.GetComponent<SS_ItemTracker>().isItemCompleted(item))
+                {
+                    allDone = false;
+                }
+            }
+
+            if (allDone)
+            {
+                if(player.GetComponent<CharacterMovementController>().GetFinishPosition() == 0)
+                {
+                    player.GetComponent<CharacterMovementController>().SetFinishPosition(timerManager.GetComponent<ShoppingTimer>().racePositions);
+                    timerManager.GetComponent<ShoppingTimer>().racePositions++;
+                }
+
             }
         }
     }
