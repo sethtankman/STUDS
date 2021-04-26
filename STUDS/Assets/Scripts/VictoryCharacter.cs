@@ -11,10 +11,12 @@ public class VictoryCharacter : MonoBehaviour
     public Material color3;
     public Material color4;
     public Material color5;
+    private bool foundMatch;
     // Start is called before the first frame update
     void Start()
     {
         players = new List<GameObject>();
+        foundMatch = false;
     }
 
     // Update is called once per frame
@@ -27,7 +29,12 @@ public class VictoryCharacter : MonoBehaviour
             if(player.GetComponent<CharacterMovementController>().GetFinishPosition() == posNumber)
             {
                 SetColor(player.GetComponent<CharacterMovementController>().GetColorName());
+                foundMatch = true;
             }
+        }
+        if (!foundMatch)
+        {
+            gameObject.SetActive(false);
         }
     }
 
