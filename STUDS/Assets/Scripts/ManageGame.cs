@@ -32,15 +32,25 @@ public class ManageGame : MonoBehaviour
     private bool playerFinish = false;
 
     private int positions = 1;
+    private int noFinishPositions = -1;
 
     // Start is called before the first frame update
     void Start()
     {
         //Debug.Log("Searching for : " + soundName);
-        GameObject sfx = GameObject.Find("SFX");
-        Transform trans = sfx.transform;
-        Transform target = trans.Find(soundName);
         sa = GameObject.Find("SteamAchievements").GetComponent<SteamAchievements>();
+        Debug.Log("Steam Achievement object: " + sa);
+        GameObject[] allPlayers = GameObject.FindGameObjectsWithTag("Player");
+
+        foreach (GameObject player in allPlayers)
+        {
+            if (player.GetComponent<CharacterMovementController>().isAI)
+            {
+                DontDestroyOnLoad(player.transform.parent.gameObject);
+                ManagePlayerHub.Instance.AddPlayer(player);
+                Debug.Log("New AI added!");
+            }
+        }
     }
 
     // Update is called once per frame
@@ -69,6 +79,16 @@ public class ManageGame : MonoBehaviour
             FinishTimer.text = "A player has finished the race! The race will end in " + (int)(endTimer - timer) + " seconds!";
             if(timer >= endTimer)
             {
+                List<GameObject> players = ManagePlayerHub.Instance.getPlayers();
+                Time.timeScale = 0f;
+                foreach (GameObject player in players)
+                {
+                    if(player.GetComponent<CharacterMovementController>().GetFinishPosition() == 0)
+                    {
+                        player.GetComponent<CharacterMovementController>().SetFinishPosition(noFinishPositions);
+                        noFinishPositions--;
+                    }
+                }
                 SceneManager.LoadScene("VictoryStands");
             }
         }
@@ -86,7 +106,7 @@ public class ManageGame : MonoBehaviour
             Debug.Log("Player checkpoint: " + collider.gameObject.GetComponent<CharacterMovementController>().getCheckpointCount());
             if(collider.gameObject.GetComponent<CharacterMovementController>().getCheckpointCount() == checkpoints.Length && collider.gameObject.GetComponent<CharacterMovementController>().GetHasGrabbed())
             {
-                if(collider.gameObject.GetComponent<CharacterMovementController>().GetFinishPosition() == -1)
+                if(collider.gameObject.GetComponent<CharacterMovementController>().GetFinishPosition() == 0)
                 {
                     Debug.Log("Finished!");
                     display = true;

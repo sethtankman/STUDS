@@ -93,7 +93,7 @@ public class CharacterMovementController : MonoBehaviour
         moveSpeed = moveSpeedNormal;
         direction = new Vector2();
         isReady = false;
-        finishPosition = -1;
+        finishPosition = 0;
         controller = GetComponent<CharacterController>();
         PlayerParticles = GetComponent<PLR_ParticleController>();
         CanJump = true;

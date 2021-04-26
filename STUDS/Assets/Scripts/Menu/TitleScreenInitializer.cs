@@ -16,6 +16,7 @@ public class TitleScreenInitializer : MonoBehaviour
         GameObject.Find("Music Manager").GetComponent<Music_Manager>().PlayStopMusic("Menu", false);
         GameObject.Find("Music Manager").GetComponent<Music_Manager>().PlayStopMusic("Shopping", false);
         GameObject.Find("Music Manager").GetComponent<Music_Manager>().PlayStopMusic("Stroller", false);
+        GameObject.Find("Music Manager").GetComponent<Music_Manager>().PlayStopMusic("Penny", false);
         GameObject.Find("Music Manager").GetComponent<Music_Manager>().PlayStopMusic("Menu", true);
 
         var players = ManagePlayerHub.Instance.getPlayers();
@@ -26,7 +27,9 @@ public class TitleScreenInitializer : MonoBehaviour
             player.transform.position = new Vector3(0, -10, 0);
             */
             // Destroying the player might be better...
-            Destroy(player);
+            //Destroy(player);
+            //Going to set them to inactive here and will delete them in my script after I have extracted their race positions
+            player.SetActive(false);
         }
 
         finalText = GameObject.Find("PBFinalText(Clone)");

@@ -20,6 +20,9 @@ public class Interaction : MonoBehaviour
     public GameObject Object_inactive;
     public VolumeTrigger trigger;
 
+    public AK.Wwise.Event OnSound;
+    public AK.Wwise.Event OffSound;
+
 
     public int TimerDelayAmount = 1;
 
@@ -63,6 +66,7 @@ public class Interaction : MonoBehaviour
             Object_active.SetActive(true);
             Object_inactive.SetActive(false);
             NotifyAvailableSwitchChange(true);
+            OnSound.Post(gameObject);
         }
         else if (!isMini && Object_active.activeSelf)
         {
@@ -72,6 +76,7 @@ public class Interaction : MonoBehaviour
             Object_active.SetActive(false);
             Object_inactive.SetActive(true);
             NotifyAvailableSwitchChange(false);
+            OffSound.Post(gameObject);
         }
         else if (isMini)
         {
