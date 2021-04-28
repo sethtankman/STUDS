@@ -9,10 +9,22 @@ public class KidTimeout : MonoBehaviour
     private double currTime;
     private bool isTimeout;
     GameObject mini;
+
+    GameObject[] timeoutPos;
+    GameObject[] backInPos;
+    int currIdx;
     // Start is called before the first frame update
     void Start()
     {
-        
+        timeoutPos = new GameObject[3];
+        timeoutPos[0] = GameObject.Find("KidTimeoutOutside1");
+        timeoutPos[1] = GameObject.Find("KidTimeoutOutside2");
+        timeoutPos[2] = GameObject.Find("KidTimeoutOutside3");
+
+        backInPos = new GameObject[3];
+        backInPos[0] = GameObject.Find("KidTimeoutBackInside1");
+        backInPos[1] = GameObject.Find("KidTimeoutBackInside2");
+        backInPos[2] = GameObject.Find("KidTimeoutBackInside3");
     }
 
     // Update is called once per frame
@@ -22,8 +34,8 @@ public class KidTimeout : MonoBehaviour
         {
             if(currTime > timeoutTimer)
             {
-                GameObject pos = GameObject.Find("KidTimeoutBackInside");
-                gameObject.transform.position = pos.transform.position;
+                //GameObject pos = GameObject.Find("KidTimeoutBackInside");
+                gameObject.transform.position = backInPos[currIdx].transform.position;
                 // We need to reset the navigation agent when we teleport it as well.
                 if (currTime > (timeoutTimer + 0.1))
                 {
@@ -31,7 +43,7 @@ public class KidTimeout : MonoBehaviour
                     mini.GetComponent<CharacterMovementController>().CanMove = true;
                     if (mini.GetComponent<CharacterMovementController>().isAI)
                     {
-                        mini.GetComponent<NavMeshAgent>().Warp(pos.transform.position);
+                        mini.GetComponent<NavMeshAgent>().Warp(backInPos[currIdx].transform.position);
                         mini.GetComponent<PennyPincherAI>().CanMove = true;
                     }
                     mini = null;
@@ -43,8 +55,8 @@ public class KidTimeout : MonoBehaviour
             else
             {
                 currTime += Time.deltaTime;
-                GameObject pos = GameObject.Find("KidTimeoutOutside");
-                gameObject.transform.position = pos.transform.position;
+                //GameObject pos = GameObject.Find("KidTimeoutOutside");
+                gameObject.transform.position = timeoutPos[currIdx].transform.position;
             }
         }
     }
@@ -52,8 +64,15 @@ public class KidTimeout : MonoBehaviour
     public void Timeout(GameObject mini)
     {
         Debug.Log("in timeout");
-        GameObject pos = GameObject.Find("KidTimeoutOutside");
-        gameObject.transform.position = pos.transform.position;
+        //GameObject pos = GameObject.Find("KidTimeoutOutside");
+        int maxSize = timeoutPos.Length;
+        int randomidx = (int)Random.Range(0, maxSize);
+        if(randomidx > maxSize - 1)
+        {
+            randomidx = maxSize - 1;
+        }
+        currIdx = randomidx;
+        gameObject.transform.position = timeoutPos[currIdx].transform.position;
         mini.GetComponent<CharacterMovementController>().CanMove = false;
         if (mini.GetComponent<CharacterMovementController>().isAI)
         {
