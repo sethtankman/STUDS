@@ -51,6 +51,8 @@ public class PauseV2 : MonoBehaviour
     void Start()
     {
         currentTime = startingTime;
+
+        ManagePlayerHub.Instance.player4PlaceHolder = p4PH;
     }
 
     void Update()
@@ -64,6 +66,8 @@ public class PauseV2 : MonoBehaviour
         thePause = new PauseMenu();
 
         thePause.Menu.Pause.performed += ctx => Pause();
+
+        //p4PH = GameObject.Find("P4PlaceHolder");
 
         //thePause.Menu.Return.performed += ctx => Return();
 

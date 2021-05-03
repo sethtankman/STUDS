@@ -62,6 +62,18 @@ public class ManagePlayerHub : MonoBehaviour
 
     private void OnLevelWasLoaded(int level)
     {
+        if (playerIDCount != 3)
+        {
+            if (!player4PlaceHolder)
+            {
+                Debug.LogError("Couldn't find player 4 placeholder!");
+            }
+            else
+            {
+                player4PlaceHolder.SetActive(false);
+            }
+        }
+
         if (SceneManager.GetActiveScene().name == "TheBlock_Scott" || SceneManager.GetActiveScene().name == "Shopping_Spree-Scott")
         {
             //Debug.Log("This was called.");
