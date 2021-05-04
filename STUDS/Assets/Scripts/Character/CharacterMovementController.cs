@@ -76,7 +76,7 @@ public class CharacterMovementController : MonoBehaviour
     private int completedCheckpoints;
     private int finishPosition;
 
-    private String color;
+    private String color, selectedLevel;
 
     //Particle effects
     //private bool isBlinking;
@@ -766,14 +766,19 @@ public class CharacterMovementController : MonoBehaviour
         return color;
     }
 
-    public void ReadyPlayer(bool _isReady)
+    public void ReadyPlayer(bool _isReady, String _selectedLevel)
     {
         isReady = _isReady;
+        selectedLevel = _selectedLevel;
     }
 
-    public bool GetReadyPlayer()
+    public bool GetReadyPlayer(String _selectedLevel)
     {
-        return isReady;
+        if(_selectedLevel.Equals("ManagePlayerHub"))
+        {
+            return isReady;
+        }
+        return isReady && _selectedLevel == selectedLevel;
     }
 
     public void SetFinishPosition(int pos)

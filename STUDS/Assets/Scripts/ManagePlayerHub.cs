@@ -157,7 +157,7 @@ public class ManagePlayerHub : MonoBehaviour
             int readyCount = 0;
             foreach (GameObject player in players)
             {
-                if (player && player.GetComponent<CharacterMovementController>().GetReadyPlayer())
+                if (player && player.GetComponent<CharacterMovementController>().GetReadyPlayer("ManagePlayerHub"))
                 {
                     readyCount++;
                 }

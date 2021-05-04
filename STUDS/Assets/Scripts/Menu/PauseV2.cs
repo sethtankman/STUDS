@@ -47,7 +47,8 @@ public class PauseV2 : MonoBehaviour
 
     private bool isOn = false;
     private bool isOnOptions = false;
-    
+
+    // Start is called before the first frame update
     void Start()
     {
         currentTime = startingTime;
@@ -60,7 +61,6 @@ public class PauseV2 : MonoBehaviour
         currentTime -= 1 * Time.deltaTime;
     }
     
-    // Start is called before the first frame update
     void Awake()
     {
         thePause = new PauseMenu();

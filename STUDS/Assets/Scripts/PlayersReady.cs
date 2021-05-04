@@ -18,7 +18,7 @@ public class PlayersReady : MonoBehaviour
     {
         if (other.tag.Equals("Player"))
         {
-            other.gameObject.GetComponent<CharacterMovementController>().ReadyPlayer(false);
+            other.gameObject.GetComponent<CharacterMovementController>().ReadyPlayer(false, null);
         }
     }
 
@@ -27,12 +27,12 @@ public class PlayersReady : MonoBehaviour
         if (other.tag.Equals("Player"))
         {
             bool allReady = true;
-            other.gameObject.GetComponent<CharacterMovementController>().ReadyPlayer(true);
+            other.gameObject.GetComponent<CharacterMovementController>().ReadyPlayer(true, gameObject.tag);
 
             players = gameManager.GetComponent<ManagePlayerHub>().getPlayers();
             foreach (GameObject player in players)
             {
-                if (player && !player.GetComponent<CharacterMovementController>().GetReadyPlayer())
+                if (player && !player.GetComponent<CharacterMovementController>().GetReadyPlayer(gameObject.tag))
                 {
                     EffectSound.Post(gameObject);
                     allReady = false;
