@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FindEugene : MonoBehaviour
+public class FindAchievement : MonoBehaviour
 {
     public SteamAchievements sa;
+    public string achievementName;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -17,7 +19,7 @@ public class FindEugene : MonoBehaviour
         if (other.tag == "Player")
         {
             Debug.Log("Found Eugene!");
-            sa.UnlockAchievement("SR_EUGENE");
+            sa.UnlockAchievement(achievementName);
         }
     }
 }

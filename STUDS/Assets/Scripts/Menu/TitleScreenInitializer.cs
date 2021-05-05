@@ -7,6 +7,7 @@ using TMPro;
 public class TitleScreenInitializer : MonoBehaviour
 {
     public GameObject finalText;
+    public SteamAchievements sa;
 
     // Start is called before the first frame update
     void Start()
@@ -33,7 +34,8 @@ public class TitleScreenInitializer : MonoBehaviour
         }
 
         finalText = GameObject.Find("PBFinalText(Clone)");
-        if(finalText)
+        sa = GameObject.Find("SteamAchievements").GetComponent<SteamAchievements>();
+        if (finalText)
         {
             DetermineFinalText();
         }
@@ -59,6 +61,7 @@ public class TitleScreenInitializer : MonoBehaviour
             finalText.GetComponent<TextMeshProUGUI>().text += " Time for that new boat!";
         } else
         {
+            sa.UnlockAchievement("PB_THRIFTY");
             finalText.GetComponent<TextMeshProUGUI>().text += " My mother-in-law will have nothing to say...";
         }
     }

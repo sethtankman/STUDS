@@ -109,7 +109,10 @@ public class ManageGame : MonoBehaviour
                 {
                     Debug.Log("Finished!");
                     display = true;
-                    sa.UnlockAchievement("SR_COMPLETE");
+                    if (SceneManager.GetActiveScene().name.Equals("TheBlock_Scott"))
+                        sa.UnlockAchievement("SR_COMPLETE");
+                    else
+                        sa.UnlockAchievement("SR_DOWNTOWN");
                     playerID = collider.gameObject.GetComponent<CharacterMovementController>().getPlayerID() + 1;
                     collider.gameObject.GetComponent<CharacterMovementController>().SetFinishPosition(positions);
                     positions++;

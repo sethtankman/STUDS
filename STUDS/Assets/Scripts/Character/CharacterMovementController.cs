@@ -634,6 +634,7 @@ public class CharacterMovementController : MonoBehaviour
                 // Debug.Log("Collided with child");
                 if (pickupPressed && isMini == false)  // This is just making it so timeout doesn't work...
                 {
+                    sa.UnlockAchievement("PB_TIMEOUT");
                     collider.gameObject.GetComponent<KidTimeout>().Timeout(collider.gameObject);
                 }
             }

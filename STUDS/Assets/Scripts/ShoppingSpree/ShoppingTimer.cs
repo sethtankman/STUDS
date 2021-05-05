@@ -8,6 +8,7 @@ using TMPro;
 public class ShoppingTimer : MonoBehaviour
 
 {
+    public SteamAchievements sa;
     public TextMeshProUGUI TimerTXT;
     public float timer;
     private float Sprint = 10.0f;
@@ -19,6 +20,7 @@ public class ShoppingTimer : MonoBehaviour
     {
         racePositions = 1;
         noFinishPos = -1;
+        sa = GameObject.Find("SteamAchievements").GetComponent<SteamAchievements>();
     }
 
     void Update()
@@ -49,7 +51,7 @@ public class ShoppingTimer : MonoBehaviour
                 noFinishPos--;
             }
         }
-
+        sa.UnlockAchievement("SS_FINISH");
         SceneManager.LoadScene("VictoryStands");
     }
 
