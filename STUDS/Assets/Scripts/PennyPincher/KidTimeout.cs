@@ -30,6 +30,13 @@ public class KidTimeout : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        timeoutPos[0] = GameObject.Find("KidTimeoutOutside1");
+        timeoutPos[1] = GameObject.Find("KidTimeoutOutside2");
+        timeoutPos[2] = GameObject.Find("KidTimeoutOutside3");
+
+        backInPos[0] = GameObject.Find("KidTimeoutBackInside1");
+        backInPos[1] = GameObject.Find("KidTimeoutBackInside2");
+        backInPos[2] = GameObject.Find("KidTimeoutBackInside3");
         if (isTimeout)
         {
             if(currTime > timeoutTimer)
@@ -63,7 +70,7 @@ public class KidTimeout : MonoBehaviour
 
     public void Timeout(GameObject mini)
     {
-        Debug.Log("in timeout");
+        Debug.Log("in timeout: "+ mini.name);
         //GameObject pos = GameObject.Find("KidTimeoutOutside");
         int maxSize = timeoutPos.Length;
         int randomidx = (int)Random.Range(0, maxSize);
@@ -72,7 +79,12 @@ public class KidTimeout : MonoBehaviour
             randomidx = maxSize - 1;
         }
         currIdx = randomidx;
-        gameObject.transform.position = timeoutPos[currIdx].transform.position;
+        Debug.Log("current index is: " + currIdx);
+        Debug.Log("size is: " + timeoutPos.Length);
+        GameObject g = timeoutPos[currIdx];
+        Debug.Log("Obj is: " + g);
+        Vector3 newPos = g.transform.position;
+        mini.transform.position = newPos;
         mini.GetComponent<CharacterMovementController>().CanMove = false;
         if (mini.GetComponent<CharacterMovementController>().isAI)
         {
