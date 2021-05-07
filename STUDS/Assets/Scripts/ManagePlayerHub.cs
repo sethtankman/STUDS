@@ -64,6 +64,7 @@ public class ManagePlayerHub : MonoBehaviour
     {
         if (playerIDCount != 3)
         {
+            player4PlaceHolder = GameObject.Find("P4PlaceHolder");
             if (!player4PlaceHolder)
             {
                 Debug.LogError("Couldn't find player 4 placeholder!");
