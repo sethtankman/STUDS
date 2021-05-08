@@ -62,7 +62,7 @@ public class ManagePlayerHub : MonoBehaviour
 
     private void OnLevelWasLoaded(int level)
     {
-        if (playerIDCount != 3)
+        if (!(SceneManager.GetActiveScene().name == "TheBlock_LevelSelect") && playerIDCount != 3)
         {
             player4PlaceHolder = GameObject.Find("P4PlaceHolder");
             if (!player4PlaceHolder)
