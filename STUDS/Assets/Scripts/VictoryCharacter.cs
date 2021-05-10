@@ -11,12 +11,13 @@ public class VictoryCharacter : MonoBehaviour
     public Material color3;
     public Material color4;
     public Material color5;
-    private bool foundMatch;
+    private bool foundMatch, isPowerBill;
     // Start is called before the first frame update
     void Start()
     {
         players = new List<GameObject>();
         foundMatch = false;
+        isPowerBill = (GameObject.Find("PBFinalText(Clone)") != null);
     }
 
     // Update is called once per frame
@@ -30,7 +31,16 @@ public class VictoryCharacter : MonoBehaviour
             {
                 SetColor(player.GetComponent<CharacterMovementController>().GetColorName());
                 foundMatch = true;
+
+                /*
+                 * if (isPowerBill && player.GetComponent<CharacterMovementController>().isMini)
+                {
+                    gameObject.GetComponent<CharacterMovementController>().enabled = true;
+                    gameObject.GetComponent<CharacterMovementController>().SetToMini(true);
+                    gameObject.GetComponent<CharacterMovementController>().enabled = false;
+                }*/
             }
+            
         }
         if (!foundMatch)
         {
