@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 1
   m_AmbientMode: 1
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 399594843}
+  m_SkyboxMaterial: {fileID: 1746228005}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -121,7 +121,27 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!21 &399594843
+--- !u!1 &1478385970 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8390642304161270991, guid: eac7b817e41768047a6ea4c802362b33,
+    type: 3}
+  m_PrefabInstance: {fileID: 573779128787210427}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1478385972
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1478385970}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1fb9b3963f75b7444b93c180d6cc0bc3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  finalText: {fileID: 0}
+  sa: {fileID: 0}
+--- !u!21 &1746228005
 Material:
   serializedVersion: 6
   m_ObjectHideFlags: 0
@@ -440,24 +460,6 @@ Material:
     - _Tint: {r: 1, g: 1, b: 1, a: 0}
     - _Vector1: {r: 0, g: 1, b: 1, a: 0}
     - _water: {r: 0.5, g: 0.5, b: 0.5, a: 1}
---- !u!1 &1478385970 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8390642304161270991, guid: eac7b817e41768047a6ea4c802362b33,
-    type: 3}
-  m_PrefabInstance: {fileID: 573779128787210427}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1478385972
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1478385970}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1fb9b3963f75b7444b93c180d6cc0bc3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1768498650
 GameObject:
   m_ObjectHideFlags: 0
@@ -541,6 +543,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalPosition.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1087861997094861471, guid: eac7b817e41768047a6ea4c802362b33,
+        type: 3}
+      propertyPath: m_MatchWidthOrHeight
+      value: 0.8
       objectReference: {fileID: 0}
     - target: {fileID: 8324892554119817641, guid: eac7b817e41768047a6ea4c802362b33,
         type: 3}
