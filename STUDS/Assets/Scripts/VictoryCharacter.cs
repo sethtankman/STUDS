@@ -18,6 +18,7 @@ public class VictoryCharacter : MonoBehaviour
         players = new List<GameObject>();
         foundMatch = false;
         isPowerBill = (GameObject.Find("PBFinalText(Clone)") != null);
+        
     }
 
     // Update is called once per frame
@@ -26,25 +27,33 @@ public class VictoryCharacter : MonoBehaviour
         players = ManagePlayerHub.Instance.getPlayers();
         foreach (GameObject player in players)
         {
+            gameObject.GetComponent<CharacterMovementController>().enabled = true;
             Debug.Log("Player Pos: " + player.GetComponent<CharacterMovementController>().GetFinishPosition());
-            if(player.GetComponent<CharacterMovementController>().GetFinishPosition() == posNumber)
+            if (player.GetComponent<CharacterMovementController>().GetFinishPosition() == posNumber)
             {
                 SetColor(player.GetComponent<CharacterMovementController>().GetColorName());
+                if (foundMatch == false)
+                    TurnMini(player);
                 foundMatch = true;
 
-                /*
-                 * if (isPowerBill && player.GetComponent<CharacterMovementController>().isMini)
-                {
-                    gameObject.GetComponent<CharacterMovementController>().enabled = true;
-                    gameObject.GetComponent<CharacterMovementController>().SetToMini(true);
-                    gameObject.GetComponent<CharacterMovementController>().enabled = false;
-                }*/
+
             }
-            
+
         }
         if (!foundMatch)
         {
             gameObject.SetActive(false);
+        }
+    }
+
+    private void TurnMini(GameObject player)
+    {
+        Debug.Log("Calling TurnMini " + isPowerBill + "  " + player.GetComponent<CharacterMovementController>().isMini);
+        if (isPowerBill && player.GetComponent<CharacterMovementController>().isMini)
+        {
+            Debug.Log("Changing...");
+            gameObject.GetComponent<CharacterMovementController>().SetToMini(true);
+            gameObject.GetComponent<CharacterMovementController>().enabled = false;
         }
     }
 

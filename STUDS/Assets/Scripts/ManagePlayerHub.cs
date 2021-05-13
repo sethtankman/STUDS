@@ -230,10 +230,12 @@ public class ManagePlayerHub : MonoBehaviour
         Debug.Log("A Player has left!");
     }
 
-    public void ChangePlayerColor(int id, string color)
+
+    // Not using player connection pannel
+    /* public void ChangePlayerColor(int id, string color)
     {
         playerConnectionPanel.SetPanelImage(id, color);
-    }
+    } */
 
     public List<GameObject> getPlayers()
     {

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -74,9 +73,10 @@ public class CharacterMovementController : MonoBehaviour
 
     private int playerID;
     private int completedCheckpoints;
-    private int finishPosition;
+    public int finishPosition;
 
-    private String color, selectedLevel;
+    private string selectedLevel;
+    public string color;
 
     //Particle effects
     //private bool isBlinking;
@@ -756,25 +756,26 @@ public class CharacterMovementController : MonoBehaviour
         return grabbedObject;
     }
 
-    public void SetColorName(String colorName)
+    public void SetColorName(string colorName)
     {
+        Debug.Log("Setting character color: " + colorName);
         color = colorName;
-        GameObject gameManager = GameObject.Find("GameManager");
-        gameManager.GetComponent<ManagePlayerHub>().ChangePlayerColor(playerID, colorName);
+        //GameObject gameManager = GameObject.Find("GameManager");
+        //gameManager.GetComponent<ManagePlayerHub>().ChangePlayerColor(playerID, colorName);
     }
 
-    public String GetColorName()
+    public string GetColorName()
     {
         return color;
     }
 
-    public void ReadyPlayer(bool _isReady, String _selectedLevel)
+    public void ReadyPlayer(bool _isReady, string _selectedLevel)
     {
         isReady = _isReady;
         selectedLevel = _selectedLevel;
     }
 
-    public bool GetReadyPlayer(String _selectedLevel)
+    public bool GetReadyPlayer(string _selectedLevel)
     {
         if(_selectedLevel.Equals("ManagePlayerHub"))
         {

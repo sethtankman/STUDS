@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -57,8 +58,14 @@ public class PBInitializeLevel : MonoBehaviour
             {
                 if (aiInstantiated[k] == false)
                 {
-                    GameObject AI = Instantiate(AIPrefab, playerSpawns[i].position, playerSpawns[i].transform.rotation);
-                    AI.GetComponentInChildren<SkinnedMeshRenderer>().material = kidsMaterials[GetColorIndex(aiColors.Pop())];
+                    if (aiColors.Count != 0)
+                    {
+                        Debug.Log("Instantiating...");
+                        GameObject AI = Instantiate(AIPrefab, playerSpawns[i].position, playerSpawns[i].transform.rotation);
+                        string aiColor = aiColors.Pop();
+                        AI.GetComponentInChildren<CharacterMovementController>(true).SetColorName(aiColor);
+                        AI.GetComponentInChildren<SkinnedMeshRenderer>(true).material = kidsMaterials[GetColorIndex(aiColor)];
+                    }
                     aiInstantiated[k] = true;
                 }
                 i++;
