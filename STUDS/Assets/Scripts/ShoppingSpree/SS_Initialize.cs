@@ -4,6 +4,10 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
+
+/// <summary>
+/// The level initializer for the Shopping Spree Level.
+/// </summary>
 public class SS_Initialize : MonoBehaviour
 {
     public Transform[] playerSpawns;
@@ -15,7 +19,7 @@ public class SS_Initialize : MonoBehaviour
     private List<GameObject> players;
 
     public GameObject startCam;
-
+    public GameObject pauseMenuUI;
     public GameObject p1Paper, p2Paper, p3Paper, p4Paper;
 
     public Text startText;
@@ -61,6 +65,13 @@ public class SS_Initialize : MonoBehaviour
             default:
                 Debug.LogError("Invalid player list count");
                 break;
+        }
+
+        if (pauseMenuUI)
+            GameObject.Find("GameManager").GetComponent<PauseV2>().PauseMenuUI = pauseMenuUI;
+        else
+        {
+            Debug.LogError("SS no pause menu UI");
         }
     }
 

@@ -13,11 +13,10 @@ GameObject:
   - component: {fileID: 1292191814161832669}
   - component: {fileID: 4690274333412843129}
   - component: {fileID: 1171750919195047411}
-  - component: {fileID: 4847897255502503195}
   - component: {fileID: 7223053183385849270}
   - component: {fileID: 332547806721599455}
   m_Layer: 0
-  m_Name: Fire_Hydrant 1 1
+  m_Name: Fire_Hydrant_warning
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -124,25 +123,6 @@ MonoBehaviour:
     valueGuidInternal: 
     WwiseObjectReference: {fileID: 11400000, guid: 2bd237ea413917343a4b7b9fed812a55,
       type: 2}
---- !u!114 &4847897255502503195
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 787626272135527176}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4cf4fb30e6029458385de56cad17bcf5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mySource: {fileID: 0}
-  playOnEnable: 1
-  loopCoroutine: 0
-  force3DSoundOnStartup: 1
-  alwaysPlays: 0
-  lockPlayingClipToListener: 1
-  audioSourceName: HydrantSpurt
 --- !u!114 &7223053183385849270
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14146,7 +14126,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   directionVector: {x: 0, y: 0, z: 0}
-  kBForce: 7
+  KBForce: 0
   makePlayerDrop: 1
   KBSound:
     idInternal: 0

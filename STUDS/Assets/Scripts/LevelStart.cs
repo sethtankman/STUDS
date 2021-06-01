@@ -8,6 +8,7 @@ using UnityEngine.UI;
 public class LevelStart : MonoBehaviour
 {
     public GameObject startCam;
+    public GameObject pauseMenuUI;
 
     public Text startText;
 
@@ -19,6 +20,12 @@ public class LevelStart : MonoBehaviour
     public Material playerColor4;
 
     private int playerIDCount = 0;
+
+    public void Start()
+    {
+        if (pauseMenuUI)
+            GameObject.Find("GameManager").GetComponent<PauseV2>().PauseMenuUI = pauseMenuUI;
+    }
 
     public void HandleGameStart(PlayerInput pi)
     {

@@ -47,13 +47,24 @@ public class PauseV2 : MonoBehaviour
 
     private bool isOn = false;
     private bool isOnOptions = false;
+    private bool lostPausePanels = false;
+
+    private void OnLevelWasLoaded(int level)
+    {
+        lostPausePanels = true;
+        p4PH = GameObject.Find("Player4PlaceHolder");
+        if (p4PH == false)
+            Debug.Log("PauseV2 Couln't find Player 4 PlaceHolder");
+        gameisPaused = false;
+    }
 
     // Start is called before the first frame update
     void Start()
     {
         currentTime = startingTime;
 
-        ManagePlayerHub.Instance.player4PlaceHolder = p4PH;
+        if(p4PH)
+            ManagePlayerHub.Instance.player4PlaceHolder = p4PH;
     }
 
     void Update()
@@ -87,19 +98,27 @@ public class PauseV2 : MonoBehaviour
         Cursor.visible = true;
         if(p4PH && p4PH.activeSelf)
             p4PHWasEnabled = true;
+        Debug.Log("GameIsPaused: " + gameisPaused + ", LostPausePanels: " + lostPausePanels);
         if (!gameisPaused)
         {
-            p4PH.SetActive(false);
-            PauseMenuUI.SetActive(true);
-            OptionsMenu.SetActive(true);
-
-            EventSystem.current.SetSelectedGameObject(null);
-            EventSystem.current.SetSelectedGameObject(firstButton);
-
+            if(p4PH)
+                p4PH.SetActive(false);
+            if (EventSystem.current)
+            {
+                EventSystem.current.SetSelectedGameObject(null);
+                EventSystem.current.SetSelectedGameObject(firstButton);
+            }
             gameisPaused = true;
 
             Time.timeScale = 0f;
+            PauseMenuUI.SetActive(true);
+            if (lostPausePanels)
+            {
+                allOtherMenus = PauseMenuUI.GetComponent<SettingsMenu_Scott>().allOtherMenus;
+                OptionsMenu = GameObject.Find("PauseMenu");
+            }
 
+            OptionsMenu.SetActive(true);
         }
         else
         {
@@ -119,7 +138,7 @@ public class PauseV2 : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         PauseMenuUI.SetActive(false);
-        OptionsMenu.SetActive(false);
+        OptionsMenu.SetActive(true);
         foreach(GameObject menu in allOtherMenus)
         {
             menu.SetActive(false);

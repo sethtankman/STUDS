@@ -5,6 +5,9 @@ using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using TMPro;
 
+/// <summary>
+/// The level initializer for the stroller race levels.
+/// </summary>
 public class InitializeLevel : MonoBehaviour
 {
     public Transform[] playerSpawns;
@@ -23,7 +26,7 @@ public class InitializeLevel : MonoBehaviour
     private List<GameObject> players;
 
     public GameObject strollerPrefab;
-
+    public GameObject pauseMenuUI;
     public GameObject startCam;
 
     public TextMeshProUGUI startText;
@@ -34,6 +37,8 @@ public class InitializeLevel : MonoBehaviour
         GameObject.Find("Music Manager").GetComponent<Music_Manager>().PlayStopMusic("Stroller", true);
         players = ManagePlayerHub.Instance.getPlayers();
         PlayerInputManager.instance.DisableJoining();
+        if(pauseMenuUI)
+            GameObject.Find("GameManager").GetComponent<PauseV2>().PauseMenuUI = pauseMenuUI;
     }
 
     // Update is called once per frame

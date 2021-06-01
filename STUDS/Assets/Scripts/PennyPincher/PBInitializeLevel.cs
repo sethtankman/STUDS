@@ -5,12 +5,16 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
+/// <summary>
+/// The Level Initializer for the Power Bill Level
+/// </summary>
 public class PBInitializeLevel : MonoBehaviour
 {
     public Transform[] playerSpawns;
     public Material[] kidsMaterials;
     public GameObject playerPrefab, AIPrefab;
     public GameObject loadingScreen;
+    public GameObject pauseMenuUI;
 
     private bool[] aiInstantiated;
     private bool spawnedPlayers = false;
@@ -32,6 +36,14 @@ public class PBInitializeLevel : MonoBehaviour
         aiInstantiated = new bool[numAI];
         aiColors = ManagePlayerHub.Instance.aiColors;
         PlayerInputManager.instance.DisableJoining();
+
+
+        if (pauseMenuUI)
+            GameObject.Find("GameManager").GetComponent<PauseV2>().PauseMenuUI = pauseMenuUI;
+        else
+        {
+            Debug.Log("PB no pause menu UI?");
+        }
     }
 
     // Update is called once per frame

@@ -12,6 +12,7 @@ public class ShoppingItemSpawner : MonoBehaviour
     private void Start()
     {
         SpawnAllItems();
+
     }
 
     private void SpawnAllItems()

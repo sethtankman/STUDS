@@ -19,6 +19,7 @@ public class SettingsMenu_Scott : MonoBehaviour
     public TMP_Dropdown resolutionDropdown;
     public TMP_Dropdown graphicsDropdown;
 
+    public GameObject[] allOtherMenus;
     public GameObject menuPlayButton, optionsFirstButton, optionsCloseButton, quitFirstButton, creditsFirstButton,
         extrasFirstButton, feedbackFirstButton, videoFirstButton, videoCloseButton, soundFirstButton, soundCloseButton,
         controlsFirstButton, controlsCloseButton, ReturnFirstButton, okayButton, noKickButton;
