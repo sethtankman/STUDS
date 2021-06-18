@@ -101,15 +101,18 @@ public class PauseV2 : MonoBehaviour
         Debug.Log("GameIsPaused: " + gameisPaused + ", LostPausePanels: " + lostPausePanels);
         if (!gameisPaused)
         {
-            if(p4PH)
+            if(p4PH) // Activates the player 4 placeholder image if it is set.
                 p4PH.SetActive(false);
             if (EventSystem.current)
             {
-                EventSystem.current.SetSelectedGameObject(null);
-                EventSystem.current.SetSelectedGameObject(firstButton);
+                //EventSystem.current.SetSelectedGameObject(null);
+                //EventSystem.current.SetSelectedGameObject(firstButton);
+            }
+            else
+            {
+                Debug.LogError("Event System not found.");
             }
             gameisPaused = true;
-
             Time.timeScale = 0f;
             PauseMenuUI.SetActive(true);
             if (lostPausePanels)
