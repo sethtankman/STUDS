@@ -274,6 +274,9 @@ public class CharacterMovementController : MonoBehaviour
         //Debug.Log("velocity y is: " + velocity.y);
     }
 
+    /// <summary>
+    /// Controls Movement animations and character controller movement.
+    /// </summary>
     private void Move()
     {
         if (CanMove)
@@ -352,8 +355,6 @@ public class CharacterMovementController : MonoBehaviour
         direction = context.ReadValue<Vector2>();
         if (PlayerParticles)
             PlayerParticles.TurnOnRunning();
-        //else
-            //Debug.LogError("Running Particle effect not assigned.");
     }
 
     public void OnCameraMove(CallbackContext context)
@@ -440,19 +441,9 @@ public class CharacterMovementController : MonoBehaviour
         }
     }
 
-    /*
-    void OnCollisionEnter(Collision obj)
-    {
-        if (obj.gameObject.tag == "Ground")
-        {
-            velocity.x = 0;
-            velocity.z = 0;
-        }
-    } */
-
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag.Equals("Electronics"))
+        if (other.CompareTag("Electronics"))
         {
             electronicObject = other.transform.parent.gameObject;
             Debug.Log("ElectronicObject Found");
@@ -461,7 +452,7 @@ public class CharacterMovementController : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        if (other.tag.Equals("Electronics"))
+        if (other.CompareTag("Electronics"))
         {
             electronicObject = other.transform.parent.gameObject;
             //Debug.Log("Assign to variable");
@@ -470,7 +461,7 @@ public class CharacterMovementController : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.tag.Equals("Electronics"))
+        if (other.CompareTag("Electronics"))
         {
             electronicObject = null;
             Debug.Log("Electronic Object lost");
@@ -498,7 +489,7 @@ public class CharacterMovementController : MonoBehaviour
         if (grabbedObject)
         {
             animator.SetBool("isHoldingSomething", false);
-            if (grabbedObject.tag.Equals("ShoppingCart"))
+            if (grabbedObject.CompareTag("ShoppingCart"))
             {
                 grabbedObject.GetComponent<Rigidbody>().useGravity = true;
             }
@@ -593,17 +584,15 @@ public class CharacterMovementController : MonoBehaviour
 
     private void HandleGrabObject()
     {
-        bool foundGrabbable = false;
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, 1);
         foreach (Collider collider in hitColliders)
         {
-            if (collider.tag == "Grabbable" || collider.tag == "ShoppingItem")
+            if (collider.CompareTag("Grabbable") || collider.CompareTag("ShoppingItem"))
             {
-                if (collider.tag == "ShoppingItem")
+                if (collider.CompareTag("ShoppingItem"))
                 {
                     collider.gameObject.GetComponent<ShoppingItem>().SetPlayer(this.gameObject);
                 }
-                foundGrabbable = true;
                 if (hasGrabbed)
                 {
                     //GrabText.text = "";
@@ -629,7 +618,7 @@ public class CharacterMovementController : MonoBehaviour
                     }
                 }
             }
-            else if (collider.tag == "Player" && collider.gameObject.GetComponent<CharacterMovementController>().isMini)
+            else if (collider.CompareTag("Player") && collider.gameObject.GetComponent<CharacterMovementController>().isMini)
             {
                 // Debug.Log("Collided with child");
                 if (pickupPressed && isMini == false)  // This is just making it so timeout doesn't work...
@@ -639,7 +628,7 @@ public class CharacterMovementController : MonoBehaviour
                     collider.gameObject.GetComponent<KidTimeout>().Timeout(collider.gameObject);
                 }
             }
-            else if (collider.tag == "ShoppingCart" && pickupPressed && !hasGrabbed)
+            else if (collider.CompareTag("ShoppingCart") && pickupPressed && !hasGrabbed)
             {
                 GameObject givenObject = collider.GetComponent<ShoppingCartController>().GiveObject();
                 if (givenObject)
@@ -648,7 +637,6 @@ public class CharacterMovementController : MonoBehaviour
                     takenObject.GetComponent<GrabbableObjectController>().PickupObject();
                     grabbedObject = takenObject;
                     takenObject.GetComponent<ShoppingItem>().SetPlayer(this.gameObject);
-                    foundGrabbable = true;
                     animator.SetBool("isHoldingSomething", true);
                     GrabSound.Post(gameObject);
                     moveSpeed = moveSpeedGrab;
@@ -657,10 +645,6 @@ public class CharacterMovementController : MonoBehaviour
                 }
 
             }
-        }
-        if (!foundGrabbable)
-        {
-            //GrabText.text = "";
         }
     }
 

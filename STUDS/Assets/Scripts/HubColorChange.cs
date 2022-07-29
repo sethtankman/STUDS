@@ -12,36 +12,47 @@ public class HubColorChange : MonoBehaviour
 
     public AK.Wwise.Event ParticleSound;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     private void OnTriggerEnter(Collider other)
     {
-        List<GameObject> players = gameManager.GetComponent<ManagePlayerHub>().getPlayers();
-        if (other.tag.Equals("Player"))
+        if (other.CompareTag("Player"))
         {
-            bool isTaken = false;
-            foreach(GameObject player in players)
+            if (gameManager.GetComponent<ManagePlayerHub>())
             {
-                if (player && player.GetComponent<CharacterMovementController>().GetColorName().Equals(colorName))
+                List<GameObject> players = gameManager.GetComponent<ManagePlayerHub>().getPlayers();
+
+                bool isTaken = false;
+                foreach (GameObject player in players)
                 {
-                    isTaken = true;
+                    if (player && player.GetComponent<CharacterMovementController>().GetColorName().Equals(colorName))
+                    {
+                        isTaken = true;
+                    }
+                }
+                if (!isTaken)
+                {
+                    ParticleSound.Post(gameObject);
+                    other.gameObject.GetComponentInChildren<SkinnedMeshRenderer>().material = playerColor;
+                    other.GetComponent<CharacterMovementController>().SetColorName(colorName);
                 }
             }
-            if (!isTaken)
+            else if (gameManager.GetComponent<NetGameManager>())
             {
-                ParticleSound.Post(gameObject);
-                other.gameObject.GetComponentInChildren<SkinnedMeshRenderer>().material = playerColor;
-                other.GetComponent<CharacterMovementController>().SetColorName(colorName);
+                List<GameObject> players = gameManager.GetComponent<NetGameManager>().getPlayers();
+
+                bool isTaken = false;
+                foreach (GameObject player in players)
+                {
+                    if (player.GetComponent<NetworkCharacterMovementController>().GetColorName().ToLower().Equals(colorName.ToLower()))
+                    {
+                        isTaken = true;
+                    }
+                }
+                if (!isTaken)
+                {
+                    ParticleSound.Post(gameObject);
+                    other.gameObject.GetComponentInChildren<SkinnedMeshRenderer>().material = playerColor;
+                    other.GetComponent<NetworkCharacterMovementController>().SetColorName(colorName.ToLower());
+                }
             }
         }
     }

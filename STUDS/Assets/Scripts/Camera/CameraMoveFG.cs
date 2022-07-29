@@ -13,17 +13,25 @@ public class CameraMoveFG : MonoBehaviour
     public Transform target, player, tracker;
     float mouseX, mouseY;
     public float minY, maxY, playerRotation;
+    public bool inNetworkPlay;
     private Vector2 direction;
     private bool obstructed;
 
-    void Start()
-    {
-        //Cursor.visible = false;
-        //Cursor.lockState = CursorLockMode.Locked;
-    }
-
+    /// <summary>
+    /// Late update is good because camera should update after player.
+    /// </summary>
     private void LateUpdate()
     {
+        // If we are in network play, we want to use the old input system.
+        if(inNetworkPlay)
+        {
+            if(player.GetComponent<NetworkCharacterMovementController>().isLocalPlayer == false)
+            {
+                Destroy(this.gameObject);
+            }
+            direction.x = Input.GetAxis("Mouse X");
+            direction.y = Input.GetAxis("Mouse Y");
+        }
         float horizontalInput = direction.x;
         playerRotation += horizontalInput;
         Control(playerRotation);

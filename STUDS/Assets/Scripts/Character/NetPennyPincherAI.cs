@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class PennyPincherAI : MonoBehaviour
+public class NetPennyPincherAI : MonoBehaviour
 {
-    [SerializeField] private CharacterMovementController movementController;
+    [SerializeField] private NetworkCharacterMovementController movementController;
     [SerializeField] private NavMeshAgent agent;
     public List<Transform> availableSwitches;
     [SerializeField] private bool hasTarget = false, active = false;
@@ -71,7 +71,7 @@ public class PennyPincherAI : MonoBehaviour
                 // These are the two lines I commented out and replaced with the new line below to get animations on the move
                 // movementController.GetController().Move(agent.desiredVelocity.normalized * speed * Time.deltaTime);
                 // agent.velocity = movementController.GetController().velocity;
-                GetComponent<CharacterMovementController>().Move(agent.desiredVelocity.normalized * speed);
+                GetComponent<NetworkCharacterMovementController>().Move(agent.desiredVelocity.normalized * speed);
             }
         }
         else if (active && !hasTarget)
@@ -83,10 +83,7 @@ public class PennyPincherAI : MonoBehaviour
         }
         else if (!gameStarted)
         {
-            if(GameObject.Find("Game Manager").GetComponent<PBInitializeLevel>())
-            {
-                active = GameObject.Find("Game Manager").GetComponent<PBInitializeLevel>().IsLevelLoaded();
-            } else if (GameObject.Find("Game Manager").GetComponent<NetPBInitLvl>())
+            if (GameObject.Find("Game Manager").GetComponent<NetPBInitLvl>())
             {
                 active = GameObject.Find("Game Manager").GetComponent<NetPBInitLvl>().IsLevelLoaded();
             }
@@ -122,12 +119,14 @@ public class PennyPincherAI : MonoBehaviour
             else if (!availableSwitches[i].GetComponent<VolumeTrigger>())
             {
                 Debug.LogError("Could not find Volume Trigger for: " + availableSwitches[i].name);
-            } else
+            }
+            else
             {
                 Debug.LogError("Control reached here somehow");
             }
 
         }
+        yield return new WaitForSecondsRealtime(0.5f);
 
     }
 

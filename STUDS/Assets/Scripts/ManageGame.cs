@@ -37,9 +37,7 @@ public class ManageGame : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //Debug.Log("Searching for : " + soundName);
         sa = GameObject.Find("SteamAchievements").GetComponent<SteamAchievements>();
-        Debug.Log("Steam Achievement object: " + sa);
     }
 
     // Update is called once per frame

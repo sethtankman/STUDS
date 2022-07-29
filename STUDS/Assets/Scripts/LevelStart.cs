@@ -56,8 +56,6 @@ public class LevelStart : MonoBehaviour
             }
 
         }
-        else if(pi.gameObject.GetComponent<CM_CharacterMovementController>())
-            pi.gameObject.GetComponent<CM_CharacterMovementController>().SetPlayerID(playerIDCount);
 
         playerIDCount++;
         /**if (!PlayerConfigs.Any(p => p.PlayerIndex == pi.playerIndex))

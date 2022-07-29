@@ -10,6 +10,7 @@ public class KnockBack : MonoBehaviour
     public AK.Wwise.Event KBSound;
     public bool slidethrough = false, reflective, directional;
     private Collider PaintColl;
+    public string owner;
     
 
     private void Start()
@@ -19,75 +20,77 @@ public class KnockBack : MonoBehaviour
         {
             PaintColl = gameObject.GetComponent<MeshCollider>();
         }
-        /*
-        if(!KBSound.Equals(""))
-        {
-            //Debug.Log("Searching for : " + KBSound);
-            GameObject sfx = GameObject.Find("SFX");
-            Transform trans = sfx.transform;
-        }
-        */
     }
 
     public void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Player")
+        if (other.CompareTag("Player"))
         {
-            
-            if(gameObject.GetComponentInParent<StrollerController>())
+            if (other.GetComponent<CharacterMovementController>())
             {
-                string otherColor = other.gameObject.GetComponent<CharacterMovementController>().GetColorName();
-                string myColor = gameObject.GetComponentInParent<StrollerController>().GetColor();
-                if(otherColor != null && myColor.Equals(otherColor))
+                if (gameObject.GetComponentInParent<StrollerController>())
+                {
+                    string otherColor = other.gameObject.GetComponent<CharacterMovementController>().GetColorName();
+                    string myColor = gameObject.GetComponentInParent<StrollerController>().GetColor();
+                    if (otherColor != null && myColor.Equals(otherColor))
+                    {
+                        return;
+                    }
+                }
+                Vector3 direction = Vector3.zero; //Temporarily set.
+                if (reflective)
+                {
+                    direction += (other.transform.position - transform.position).normalized;
+                }
+                if (directional)
+                {
+                    direction += directionVector.normalized;
+                }
+                Debug.Log("direction: " + direction.ToString() + " Force " + KBForce + " MakePlayerDrop " + makePlayerDrop);
+
+                other.gameObject.GetComponent<CharacterMovementController>().KnockBack(direction * KBForce, makePlayerDrop);
+                if (!KBSound.Equals("") && other.gameObject.GetComponent<CharacterMovementController>().isAI == false)
+                {
+                    KBSound.Post(gameObject);
+                }
+                if (slidethrough)
+                {
+                    StartCoroutine(ColliderToggle());
+                }
+            }
+            else if (other.GetComponent<NetworkCharacterMovementController>())
+            {
+                // Cancel hit if your own item hits you (network only)
+                if (owner.Equals(other.name))
                 {
                     return;
                 }
-            }
-            Vector3 direction = Vector3.zero; //Temporarily set.
-            if (reflective)
-            {
-                direction += (other.transform.position - transform.position).normalized;
-            }
-            if (directional)
-            {
-                direction += directionVector.normalized;
-            }
-            Debug.Log("direction: " + direction.ToString() + " Force " + KBForce + " MakePlayerDrop " + makePlayerDrop);
 
-            other.gameObject.GetComponent<CharacterMovementController>().KnockBack(direction * KBForce, makePlayerDrop);
-            if(!KBSound.Equals("") && other.gameObject.GetComponent<CharacterMovementController>().isAI == false)
-            {
-                KBSound.Post(gameObject);
-            }
-            if (slidethrough)
-            {
-                StartCoroutine(ColliderToggle());
-            }
 
-        } 
-        // This would be used if we were to make the stroller as reactive to knockback as the player, which we don't need to.
-        /* else if (other.tag == "Grabbable")
-        {
-            Vector3 direction = other.transform.position - transform.position;
-            direction = direction.normalized + directionVector;
-            other.gameObject.GetComponent<StrollerController>().KnockBack(direction * (kBForce), makePlayerDrop);
-        } */  
-    }
+                Vector3 direction = Vector3.zero; //Temporarily set.
+                if (reflective)
+                {
+                    direction += (other.transform.position - transform.position).normalized;
+                }
+                if (directional)
+                {
+                    direction += directionVector.normalized;
+                }
+                // Debug.Log("direction: " + direction.ToString() + " Force " + KBForce + " MakePlayerDrop " + makePlayerDrop);
 
-    public void OnCollisionEnter(Collision other)
-    {
-        // This would be used if we were to make the stroller as reactive to knockback as the player, which we don't need to.
-        /*
-        if(other.gameObject.tag == "Grabbable")
-        {
-            Vector3 direction = other.transform.position - transform.position;
-            direction = direction.normalized + directionVector;
-            other.gameObject.GetComponent<StrollerController>().KnockBack(direction * (kBForce), makePlayerDrop);
+                other.gameObject.GetComponent<NetworkCharacterMovementController>().KnockBack(direction * KBForce, makePlayerDrop);
+                if (!KBSound.Equals("") && other.gameObject.GetComponent<NetworkCharacterMovementController>().isAI == false)
+                {
+                    KBSound.Post(gameObject);
+                }
+                if (slidethrough)
+                {
+                    StartCoroutine(ColliderToggle());
+                }
+            }
         }
-        */
-
-        
     }
+
     IEnumerator ColliderToggle()
     {
         PaintColl.enabled = false;

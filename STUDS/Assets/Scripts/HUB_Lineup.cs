@@ -12,7 +12,7 @@ public class HUB_Lineup : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Player" && !PlayerList.Contains(other.gameObject))
+        if (other.CompareTag("Player") && !PlayerList.Contains(other.gameObject))
         {
             other.transform.position = Positions[NumJoined].position;
             other.transform.rotation = Positions[NumJoined].rotation;
