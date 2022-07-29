@@ -131,6 +131,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -155,6 +156,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!1 &6609329972677421396
 GameObject:
   m_ObjectHideFlags: 0
@@ -167,7 +169,6 @@ GameObject:
   - component: {fileID: 144226780615954701}
   - component: {fileID: 4979951932606240502}
   - component: {fileID: 5437061638322237544}
-  - component: {fileID: 6609329972677421392}
   - component: {fileID: 6609329972677421393}
   - component: {fileID: 6609329972677421394}
   - component: {fileID: 6609329972677421395}
@@ -218,6 +219,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -242,6 +244,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!65 &5437061638322237544
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -255,18 +258,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 45.895927, y: 161.68102, z: 62.588318}
   m_Center: {x: 0, y: 0, z: 1.8176384}
---- !u!114 &6609329972677421392
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6609329972677421396}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 05c2c06cf2a57ac4fb093982f3023b77, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!54 &6609329972677421393
 Rigidbody:
   m_ObjectHideFlags: 0

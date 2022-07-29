@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 1531434006302150564}
   - component: {fileID: 3649121126049069934}
   - component: {fileID: 2694803997967362024}
-  - component: {fileID: 3236310176230454083}
   - component: {fileID: 2752616306360193519}
   - component: {fileID: 3425400491533753644}
   - component: {fileID: 4429826832323241672}
@@ -61,6 +60,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -88,6 +88,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!65 &2694803997967362024
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -101,18 +102,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.19720182, y: 0.29092366, z: 0.19720179}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &3236310176230454083
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3000721321570638523}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 05c2c06cf2a57ac4fb093982f3023b77, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!54 &2752616306360193519
 Rigidbody:
   m_ObjectHideFlags: 0
