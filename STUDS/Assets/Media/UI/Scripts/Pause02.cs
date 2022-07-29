@@ -38,8 +38,8 @@ public class Pause02 : MonoBehaviour
 
     public bool oneCycle = false;
 
-    private float currentTime = 0f;
-    private float startingTime = 1000f;
+    //private float currentTime = 0f;
+    //private float startingTime = 1000f;
 
     private bool isOn = false;
     private bool isOnOptions = false;
