@@ -25,7 +25,7 @@ PrefabInstance:
     - target: {fileID: 3924637597532079162, guid: 712423f4143fbe64ba3d31c92fbf7f72,
         type: 3}
       propertyPath: m_Name
-      value: Hammer
+      value: NetHammer
       objectReference: {fileID: 0}
     - target: {fileID: 3924637597532079162, guid: 712423f4143fbe64ba3d31c92fbf7f72,
         type: 3}
@@ -146,7 +146,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 3
---- !u!114 &978184592400623700
+--- !u!114 &330675015208093936
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -155,13 +155,36 @@ MonoBehaviour:
   m_GameObject: {fileID: 5474897185545691202}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 722955d4dbfdca3458e7178917a26c98, type: 3}
+  m_Script: {fileID: 11500000, guid: 30ebf8552a40c59449e5ca17dc14b190, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   distance: 1.1
   height: 0.8
   additionalColliders: []
   rotation: {x: 0, y: 0, z: 0}
+--- !u!114 &4753835827991663395
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5474897185545691202}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f74aedd71d9a4f55b3ce499326d45fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  clientAuthority: 0
+  localPositionSensitivity: 0.01
+  localRotationSensitivity: 0.01
+  localScaleSensitivity: 0.01
+  compressRotation: 0
+  interpolateScale: 1
+  syncScale: 1
 --- !u!114 &7162148121226699326
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -176,3 +199,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isBeingHeld: 1
   name: Hammer
+--- !u!114 &8885523279119879616
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5474897185545691202}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 0
+  serverOnly: 0
+  visible: 0
+  m_AssetId: 
+  hasSpawned: 0

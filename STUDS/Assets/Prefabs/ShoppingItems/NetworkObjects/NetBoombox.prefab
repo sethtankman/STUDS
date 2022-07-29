@@ -82,9 +82,11 @@ GameObject:
   - component: {fileID: 1577480905056710499}
   - component: {fileID: 8807206154095763198}
   - component: {fileID: 4440268038484094153}
-  - component: {fileID: 1006276156252610960}
+  - component: {fileID: 923488778924360461}
+  - component: {fileID: 687119232499227343}
+  - component: {fileID: -2233648833076506029}
   m_Layer: 0
-  m_Name: Boombox
+  m_Name: NetBoombox
   m_TagString: ShoppingItem
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -214,7 +216,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   knockBack: {fileID: 4457504724506563704}
   knockBackCooldown: 1
---- !u!114 &1006276156252610960
+--- !u!114 &923488778924360461
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -223,10 +225,50 @@ MonoBehaviour:
   m_GameObject: {fileID: 7310380734523108174}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 722955d4dbfdca3458e7178917a26c98, type: 3}
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sceneId: 0
+  serverOnly: 0
+  visible: 0
+  m_AssetId: 
+  hasSpawned: 0
+--- !u!114 &687119232499227343
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7310380734523108174}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30ebf8552a40c59449e5ca17dc14b190, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   distance: 0.5
   height: 0.7
   additionalColliders: []
   rotation: {x: 0, y: 0, z: 0}
+--- !u!114 &-2233648833076506029
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7310380734523108174}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f74aedd71d9a4f55b3ce499326d45fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  clientAuthority: 0
+  localPositionSensitivity: 0.01
+  localRotationSensitivity: 0.01
+  localScaleSensitivity: 0.01
+  compressRotation: 0
+  interpolateScale: 1
+  syncScale: 1
