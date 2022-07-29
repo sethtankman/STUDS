@@ -143,11 +143,4 @@ public class DadButtonMngr : MonoBehaviour
         GameManager.GetComponent<ManagePlayerHub>().aiColors = AIColors;
         SceneManager.LoadScene(levelName);
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-
-    }
 }

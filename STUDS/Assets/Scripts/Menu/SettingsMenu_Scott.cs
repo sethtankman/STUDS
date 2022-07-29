@@ -22,7 +22,7 @@ public class SettingsMenu_Scott : MonoBehaviour
     public GameObject[] allOtherMenus;
     public GameObject menuPlayButton, optionsFirstButton, optionsCloseButton, quitFirstButton, creditsFirstButton,
         extrasFirstButton, feedbackFirstButton, videoFirstButton, videoCloseButton, soundFirstButton, soundCloseButton,
-        controlsFirstButton, controlsCloseButton, ReturnFirstButton, okayButton, noKickButton;
+        controlsFirstButton, controlsCloseButton, ReturnFirstButton, okayButton, noKickButton, onlineFirstButton;
 
     public AK.Wwise.Event PlayButtonSoundEvent;
 
@@ -34,6 +34,8 @@ public class SettingsMenu_Scott : MonoBehaviour
 
         resolutions = Screen.resolutions;
 
+        if (!resolutionDropdown)
+            return;
         resolutionDropdown.ClearOptions();
 
         List<string> options = new List<string>();
@@ -55,9 +57,17 @@ public class SettingsMenu_Scott : MonoBehaviour
         SetResolution(i - 1);
     }
 
-    private void Update()
+    /// <summary>
+    /// Because Pausing and unpausing requires a pauseV2 object, which is a persistent object across scenes.
+    /// This finds the game manager and adds it to each scene's pause button listeners.
+    /// </summary>
+    private void OnEnable()
     {
-
+        GameObject pv2 = GameObject.Find("GameManager");
+        if(pv2)
+        {
+            menuPlayButton.GetComponent<Button>().onClick.AddListener(pv2.GetComponent<PauseV2>().Pause);
+        }
     }
 
     public Dictionary<string, int> val = new Dictionary<string, int>();
@@ -123,6 +133,12 @@ public class SettingsMenu_Scott : MonoBehaviour
         EventSystem.current.SetSelectedGameObject(videoFirstButton);
     }
 
+    public void OpenOnlineMenu()
+    {
+        EventSystem.current.SetSelectedGameObject(null);
+        EventSystem.current.SetSelectedGameObject(onlineFirstButton);
+    }
+
     public void CloseVideoMenu()
     {
         EventSystem.current.SetSelectedGameObject(null);
@@ -157,6 +173,12 @@ public class SettingsMenu_Scott : MonoBehaviour
     {
         EventSystem.current.SetSelectedGameObject(null);
         EventSystem.current.SetSelectedGameObject(optionsFirstButton);
+    }
+
+    public void CloseOnlineMenu()
+    {
+        EventSystem.current.SetSelectedGameObject(null);
+        EventSystem.current.SetSelectedGameObject(menuPlayButton);
     }
 
     public void OpenCreditsMenu()
@@ -199,6 +221,7 @@ public class SettingsMenu_Scott : MonoBehaviour
         EventSystem.current.SetSelectedGameObject(null);
         EventSystem.current.SetSelectedGameObject(noKickButton);
     }
+
     public void PlayButtonSound()
     {
         GameObject Manager = GameObject.Find("Music Manager");

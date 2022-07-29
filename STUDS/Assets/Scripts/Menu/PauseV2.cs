@@ -44,9 +44,6 @@ public class PauseV2 : MonoBehaviour
 
     private float currentTime = 0f;
     private float startingTime = 1000f;
-
-    private bool isOn = false;
-    private bool isOnOptions = false;
     private bool lostPausePanels = false;
 
     private void OnLevelWasLoaded(int level)
@@ -63,7 +60,7 @@ public class PauseV2 : MonoBehaviour
     {
         currentTime = startingTime;
 
-        if(p4PH)
+        if(p4PH && ManagePlayerHub.Instance)
             ManagePlayerHub.Instance.player4PlaceHolder = p4PH;
     }
 

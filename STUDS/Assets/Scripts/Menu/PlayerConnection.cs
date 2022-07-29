@@ -39,13 +39,13 @@ public class PlayerConnection : MonoBehaviour
     public void SetPanelImage(int panelID, string colorName)
     {
         colorImages = new Dictionary<string, int>();
-        colorImages["Blue"] = 0;
-        colorImages["Purple"] = 1;
-        colorImages["Red"] = 2;
-        colorImages["Yellow"] = 3;
-        colorImages["Green"] = 4;
+        colorImages["blue"] = 0;
+        colorImages["purple"] = 1;
+        colorImages["red"] = 2;
+        colorImages["yellow"] = 3;
+        colorImages["green"] = 4;
         playerImages[panelID].color = Color.white;
-        // Debug.Log("This is my color: " + colorName);
+        Debug.Log("This is my color: " + colorName);
         playerImages[panelID].sprite = eugeneVarieties[colorImages[colorName]];
         textObjects[panelID].GetComponent<TextMeshProUGUI>().text = "PLAYER " + (panelID+1);
     }

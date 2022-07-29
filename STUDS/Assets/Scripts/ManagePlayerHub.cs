@@ -15,7 +15,6 @@ public class ManagePlayerHub : MonoBehaviour
 
     public PlayerConnection playerConnectionPanel;
 
-    private int count = 300;
     public int playerIDCount = 0, numAIToSpawnPB;
 
     public Material playerColor1;
@@ -67,7 +66,7 @@ public class ManagePlayerHub : MonoBehaviour
             player4PlaceHolder = GameObject.Find("P4PlaceHolder");
             if (!player4PlaceHolder)
             {
-                Debug.LogError("Couldn't find player 4 placeholder!");
+                Debug.Log("Couldn't find player 4 placeholder!");
             }
             else
             {
@@ -83,7 +82,7 @@ public class ManagePlayerHub : MonoBehaviour
                 player.GetComponent<CharacterMovementController>().SetAimAssist(true);
             }
         }
-        else if(SceneManager.GetActiveScene().name == "TheBlock_LevelSelect" && oldHub)
+        else if (SceneManager.GetActiveScene().name == "TheBlock_LevelSelect" && oldHub)
         {
             Destroy(this.gameObject);
         }
@@ -211,10 +210,18 @@ public class ManagePlayerHub : MonoBehaviour
             }
 
         }
-        else if (pi.gameObject.GetComponent<CM_CharacterMovementController>())
+        else
         {
-            pi.gameObject.GetComponent<CM_CharacterMovementController>().SetPlayerID(playerIDCount);
+            Debug.LogError("Non-CharacterMovementController Joined.");
         }
+        playerIDCount++;
+    }
+
+    public void NetworkPlayerJoin(GameObject player)
+    {
+        playerJoined = true;
+        players.Add(player);
+        DontDestroyOnLoad(player);
         playerIDCount++;
     }
 
@@ -246,22 +253,22 @@ public class ManagePlayerHub : MonoBehaviour
     {
         Destroy(players[i]);
         players[i] = null;
-        for (int j = i; j< 4; j++)
+        for (int j = i; j < 4; j++)
         {
             Debug.Log("j=" + j);
-            for(int index = 0; index < players.Count; index++)
+            for (int index = 0; index < players.Count; index++)
             {
                 Debug.Log("Index: " + index);
-                if(players[index])
+                if (players[index])
                     Debug.Log(players[index].name);
             }
-            if((j+1 == 4 || players[j+1] == null) && players[j] != null)
+            if ((j + 1 == 4 || players[j + 1] == null) && players[j] != null)
             {
                 Debug.Log("Destroying Player: " + j);
                 Destroy(players[j]);
                 players[j] = null;
             }
-            else if (j+1 != 4 || (players[j+1] != null && players[j] == null))
+            else if (j + 1 != 4 || (players[j + 1] != null && players[j] == null))
             {
                 Debug.Log("Creating player");
                 players[j] = PlayerInput.Instantiate(playerPrefab, j, players[j + 1].GetComponent<PlayerInput>().currentControlScheme, j, players[j + 1].GetComponent<PlayerInput>().devices.ToArray()).gameObject;
@@ -269,7 +276,7 @@ public class ManagePlayerHub : MonoBehaviour
                 players[j + 1] = null;
             }
         }
-        playerIDCount--; 
+        playerIDCount--;
     }
 
     public void DeletePlayers()

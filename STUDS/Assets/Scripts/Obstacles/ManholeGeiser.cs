@@ -18,7 +18,6 @@ public class ManholeGeiser : MonoBehaviour
     public ParticleSystem[] water;
     public ParticleSystem BuildUpWater;
     public GameObject cover;
-    public VirtualAudioSource virtualAudioSource;
     public AK.Wwise.Event manholeSound;
 
 
@@ -58,13 +57,6 @@ public class ManholeGeiser : MonoBehaviour
 
         if (delay < 0)
         {
-            if(up)
-            {
-                virtualAudioSource.enabled = false;
-            } else
-            {
-                virtualAudioSource.enabled = true;
-            }
             up = !up;
             delay = timer;
             BuildUpWater.Stop();
