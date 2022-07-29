@@ -11,51 +11,46 @@ public class SpeedUpSlowDown : MonoBehaviour
     private float originalSpeedNormal;
 
     private CharacterMovementController CMC;
+    private NetworkCharacterMovementController NCMC;
 
-
-
-
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-
-
-    }
     public void OnTriggerEnter(Collider other)
     {
-
-        if (other.tag == "Player")
-        {
-            //GETTERS           
-            CMC = other.GetComponent<CharacterMovementController>();
-            CMC.setMoveSpeed(CMC.getMoveSpeed() * SpeedAdjustment);
-            CMC.CanJump = false;
-            originalSpeedNormal = CMC.moveSpeedNormal;
-            originalSpeedGrab = CMC.moveSpeedGrab;
-            //SETTERS
-            //CMC.moveSpeedGrab = originalSpeedGrab * SpeedAdjustment;
-            //CMC.moveSpeedNormal = originalSpeedNormal * SpeedAdjustment;
-
-            
-
+        // CompareTag("x") is more efficient than tag == "x"
+        if (other.CompareTag("Player"))
+        {         
+            NCMC = other.GetComponent<NetworkCharacterMovementController>();
+            if (!NCMC)
+            {
+                CMC = other.GetComponent<CharacterMovementController>();
+                CMC.setMoveSpeed(CMC.getMoveSpeed() * SpeedAdjustment);
+                CMC.CanJump = false;
+                originalSpeedNormal = CMC.moveSpeedNormal;
+                originalSpeedGrab = CMC.moveSpeedGrab;
+            } else
+            {
+                NCMC.setMoveSpeed(NCMC.getMoveSpeed() * SpeedAdjustment);
+                NCMC.CanJump = false;
+                originalSpeedNormal = NCMC.moveSpeedNormal;
+                originalSpeedGrab = NCMC.moveSpeedGrab;
+            }
         }
-
     }
 
     public void OnTriggerExit(Collider other)
     {
-        if (other.tag == "Player")
+        if (other.CompareTag("Player"))
         {
-            CMC = other.GetComponent<CharacterMovementController>();
-            CMC.setMoveSpeed(originalSpeedNormal);
-            CMC.CanJump = true;
+            NCMC = other.GetComponent<NetworkCharacterMovementController>();
+            if (!NCMC)
+            {
+                CMC = other.GetComponent<CharacterMovementController>();
+                CMC.setMoveSpeed(originalSpeedNormal);
+                CMC.CanJump = true;
+            } else
+            {
+                NCMC.setMoveSpeed(originalSpeedNormal);
+                NCMC.CanJump = true;
+            }
         }
     }
 }

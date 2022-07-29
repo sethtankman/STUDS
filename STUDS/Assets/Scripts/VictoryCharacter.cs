@@ -11,34 +11,59 @@ public class VictoryCharacter : MonoBehaviour
     public Material color3;
     public Material color4;
     public Material color5;
-    private bool foundMatch, isPowerBill;
+    private bool foundMatch, isPowerBill, networkMode;
     // Start is called before the first frame update
     void Start()
     {
         players = new List<GameObject>();
         foundMatch = false;
         isPowerBill = (GameObject.Find("PBFinalText(Clone)") != null);
-        
+        if (ManagePlayerHub.Instance)
+        {
+            players = ManagePlayerHub.Instance.getPlayers();
+            networkMode = false;
+        }
+        else
+        {
+            players = NetGameManager.Instance.getPlayers();
+            networkMode = true;
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        players = ManagePlayerHub.Instance.getPlayers();
-        foreach (GameObject player in players)
+        if (networkMode)
         {
-            gameObject.GetComponent<CharacterMovementController>().enabled = true;
-            Debug.Log("Player Pos: " + player.GetComponent<CharacterMovementController>().GetFinishPosition());
-            if (player.GetComponent<CharacterMovementController>().GetFinishPosition() == posNumber)
+            foreach (GameObject player in players)
             {
-                SetColor(player.GetComponent<CharacterMovementController>().GetColorName());
-                if (foundMatch == false)
-                    TurnMini(player);
-                foundMatch = true;
+                gameObject.GetComponent<CharacterMovementController>().enabled = true;
+                Debug.Log("Player Pos: " + player.GetComponent<NetworkCharacterMovementController>().GetFinishPosition());
+                if (player.GetComponent<NetworkCharacterMovementController>().GetFinishPosition() == posNumber)
+                {
+                    SetColor(player.GetComponent<NetworkCharacterMovementController>().GetColorName());
+                    if (foundMatch == false)
+                        TurnMini(player);
+                    foundMatch = true;
+                }
+            }
+        } else
+        {
+            foreach (GameObject player in players)
+            {
+                gameObject.GetComponent<CharacterMovementController>().enabled = true;
+                Debug.Log("Player Pos: " + player.GetComponent<CharacterMovementController>().GetFinishPosition());
+                if (player.GetComponent<CharacterMovementController>().GetFinishPosition() == posNumber)
+                {
+                    SetColor(player.GetComponent<CharacterMovementController>().GetColorName());
+                    if (foundMatch == false)
+                        TurnMini(player);
+                    foundMatch = true;
 
+
+                }
 
             }
-
         }
         if (!foundMatch)
         {
@@ -48,10 +73,17 @@ public class VictoryCharacter : MonoBehaviour
 
     private void TurnMini(GameObject player)
     {
-        Debug.Log("Calling TurnMini " + isPowerBill + "  " + player.GetComponent<CharacterMovementController>().isMini);
-        if (isPowerBill && player.GetComponent<CharacterMovementController>().isMini)
+        //Debug.Log("Calling TurnMini " + isPowerBill + "  " + player.GetComponent<CharacterMovementController>().isMini);
+        if (player.GetComponent<NetworkCharacterMovementController>()) {
+            if (isPowerBill && player.GetComponent<NetworkCharacterMovementController>().isMini)
+            {
+                gameObject.GetComponent<NetworkCharacterMovementController>().SetToMini(true);
+                gameObject.GetComponent<NetworkCharacterMovementController>().enabled = false;
+            }
+        }
+        else if (isPowerBill && player.GetComponent<CharacterMovementController>().isMini)
         {
-            Debug.Log("Changing...");
+            //Debug.Log("Changing...");
             gameObject.GetComponent<CharacterMovementController>().SetToMini(true);
             gameObject.GetComponent<CharacterMovementController>().enabled = false;
         }

@@ -16,7 +16,7 @@ public class PlaceTracker : MonoBehaviour
 
     public void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "RacePoint" && Ready)
+        if (other.gameObject.CompareTag("RacePoint") && Ready)
         {
             print(PLRCol + " Point");
             if (ProgressPoints.Contains(other.gameObject))
@@ -45,7 +45,7 @@ public class PlaceTracker : MonoBehaviour
 
     public void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.tag == "RacePoint")
+        if (other.gameObject.CompareTag("RacePoint"))
         {
             Ready = false;
             timer = ExitTime;
@@ -67,7 +67,13 @@ public class PlaceTracker : MonoBehaviour
 
     private void Start()
     {
-            PLRCol = GetComponentInParent<CharacterMovementController>().GetColorName();
+        CharacterMovementController cmc = GetComponentInParent<CharacterMovementController>();
+        if(cmc)
+            PLRCol = cmc.GetColorName();
+        else
+        {
+            PLRCol = GetComponentInParent<NetworkCharacterMovementController>().GetColorName();
+        }
         timer = ExitTime;
     }
 

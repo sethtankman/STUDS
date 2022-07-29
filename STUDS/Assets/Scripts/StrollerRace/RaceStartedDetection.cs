@@ -12,20 +12,6 @@ public class RaceStartedDetection : MonoBehaviour
     
     public GameObject AI3;
 
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
-
     void OnTriggerEnter(Collider obj)
     {
         if (obj.tag.Equals("Player"))
