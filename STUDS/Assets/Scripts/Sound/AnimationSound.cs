@@ -12,7 +12,7 @@ public class AnimationSound : StateMachineBehaviour
         Transform mc = target.Find("MainCamera");
         Transform vrs = mc.Find("VirtualRunSound");
         virtualRunSound = vrs.gameObject;
-        virtualRunSound.GetComponent<VirtualAudioSource>().Play();
+        //virtualRunSound.GetComponent<VirtualAudioSource>().Play();
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
@@ -24,8 +24,8 @@ public class AnimationSound : StateMachineBehaviour
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        if (virtualRunSound)
-            virtualRunSound.GetComponent<VirtualAudioSource>().Stop();
+        //if (virtualRunSound)
+            //virtualRunSound.GetComponent<VirtualAudioSource>().Stop();
     }
 
     // OnStateMove is called right after Animator.OnAnimatorMove()

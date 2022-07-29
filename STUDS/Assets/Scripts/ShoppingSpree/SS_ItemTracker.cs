@@ -13,6 +13,7 @@ public class SS_ItemTracker : MonoBehaviour
     public GameObject myPaper;
     public Text listText;
     public SteamAchievements sa;
+    public bool isLocal = true;
     // Start is called before the first frame update
     void Start()
     {
@@ -47,13 +48,20 @@ public class SS_ItemTracker : MonoBehaviour
         {
             if (completedItemsCheck[i])
             {
-                shoppingItemImages[i].gameObject.GetComponent<ItemButton>().EnableCheckMark();
-                Debug.Log("Added complete");
+                if (isLocal)
+                {
+                    shoppingItemImages[i].gameObject.GetComponent<ItemButton>().EnableCheckMark();
+                    Debug.Log("Added complete");
+                }
+                //else
+                //{
+                    //Debug.Log("No shopping item images.  Intentional for non-local players.");
+                //}
             }
-            else
-            {
-                Debug.Log("Added missing");
-            }
+            //else
+            //{
+                //Debug.Log("Added missing");
+            //}
         }
         //listText.text = text;
 
