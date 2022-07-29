@@ -9,6 +9,7 @@ public class PLR_ParticleController : MonoBehaviour
     public ParticleSystem Dustcloud;
     public bool IsRunning = false;
     public CharacterMovementController CC;
+    public NetworkCharacterMovementController NCC;
 
     //For the exlclamation point
     public GameObject Emote;
@@ -25,14 +26,25 @@ public class PLR_ParticleController : MonoBehaviour
     {
         Emote.SetActive(inRange);
         Emote.transform.LookAt(PLRCam, Vector2.up);
-        if (CC.isMoving)
+        if (CC)
         {
-            TurnOnRunning();
-        }
-        else 
+            if (CC.isMoving)
+            {
+                TurnOnRunning();
+            }
+            else
+            {
+                TurnOffRunning();
+            }
+        } else
         {
-
-            TurnOffRunning();
+            if (NCC.isMoving)
+            {
+                TurnOnRunning();
+            } else
+            {
+                TurnOffRunning();
+            }
         }
 
     }
@@ -77,19 +89,10 @@ public class PLR_ParticleController : MonoBehaviour
             }
             else inRange = false;
         }
-        
-
-    
-
-
-        if (other.tag == "ShoppingItem")
+        if (other.CompareTag("ShoppingItem"))
         {
             inRange = true;
-            //Emote.SetActive(true);
-            
         }
-
-
     }
 
     public void OnTriggerExit(Collider other)
@@ -97,6 +100,4 @@ public class PLR_ParticleController : MonoBehaviour
         Emote.SetActive(false);
         inRange = false;
     }
-
-    
 }

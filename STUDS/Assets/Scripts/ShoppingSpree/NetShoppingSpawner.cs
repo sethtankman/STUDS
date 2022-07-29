@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Mirror;
 
-public class ShoppingItemSpawner : MonoBehaviour
+public class NetShoppingSpawner : NetworkBehaviour
 {
     public List<Transform> spawnLocations = new List<Transform>();
     public List<GameObject> items = new List<GameObject>();
@@ -11,13 +12,14 @@ public class ShoppingItemSpawner : MonoBehaviour
 
     private void Start()
     {
-        SpawnAllItems();
+        if (isServer)
+            SpawnAllItems();
     }
 
     private void SpawnAllItems()
     {
         locationMap = new int[spawnLocations.Count];
-        for(int i = 0; i< spawnLocations.Count; i++)
+        for (int i = 0; i < spawnLocations.Count; i++)
         {
             int itemNum = i % items.Count;
             locationMap[i] = itemNum;
@@ -30,6 +32,7 @@ public class ShoppingItemSpawner : MonoBehaviour
             locationMap[j] = locationMap[random];
             locationMap[random] = temp;
             GameObject aisle = Instantiate(items[isleAccessor[j]], spawnLocations[j].position, Quaternion.identity);
+            NetworkServer.Spawn(aisle);
         }
     }
 
@@ -41,6 +44,12 @@ public class ShoppingItemSpawner : MonoBehaviour
             picked = Random.Range(0, items.Count);
         }
         isleAccessor.Add(picked);
+
+    }
+
+    [ClientRpc]
+    private void RpcSpawnItems()
+    {
 
     }
 }

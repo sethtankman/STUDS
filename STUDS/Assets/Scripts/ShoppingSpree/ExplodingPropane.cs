@@ -12,7 +12,7 @@ public class ExplodingPropane : CombatThrow
         sa = GameObject.Find("SteamAchievements").GetComponent<SteamAchievements>();
     }
 
-    public new void EnableKnockBack() //Vector3 direction, bool dropStroller)
+    public new void EnableKnockBack()
     {
         if (knockBack)
         {
@@ -20,7 +20,7 @@ public class ExplodingPropane : CombatThrow
         }
         else
         {
-            Debug.Log("No knockback collider assigned to stroller controller");
+            Debug.LogError("No knockback collider assigned to stroller controller");
         }
     }
 
@@ -28,7 +28,7 @@ public class ExplodingPropane : CombatThrow
     {
         if (knockBack.activeInHierarchy)
         {
-            sa.UnlockAchievement("SS_PROPANE");
+            //sa.UnlockAchievement("SS_PROPANE");
             Instantiate(explosionEffect, transform.position, Quaternion.identity);
             Destroy(gameObject);
         }

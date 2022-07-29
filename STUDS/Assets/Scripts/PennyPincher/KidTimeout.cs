@@ -47,11 +47,22 @@ public class KidTimeout : MonoBehaviour
                 if (currTime > (timeoutTimer + 0.1))
                 {
                     currTime = 0;
-                    mini.GetComponent<CharacterMovementController>().CanMove = true;
-                    if (mini.GetComponent<CharacterMovementController>().isAI)
+                    if (mini.GetComponent<CharacterMovementController>())
                     {
-                        mini.GetComponent<NavMeshAgent>().Warp(backInPos[currIdx].transform.position);
-                        mini.GetComponent<PennyPincherAI>().CanMove = true;
+                        mini.GetComponent<CharacterMovementController>().CanMove = true;
+                        if (mini.GetComponent<CharacterMovementController>().isAI)
+                        {
+                            mini.GetComponent<NavMeshAgent>().Warp(backInPos[currIdx].transform.position);
+                            mini.GetComponent<PennyPincherAI>().CanMove = true;
+                        }
+                    } else
+                    {
+                        mini.GetComponent<NetworkCharacterMovementController>().CanMove = true;
+                        if (mini.GetComponent<NetworkCharacterMovementController>().isAI)
+                        {
+                            mini.GetComponent<NavMeshAgent>().Warp(backInPos[currIdx].transform.position);
+                            mini.GetComponent<NetPennyPincherAI>().CanMove = true;
+                        }
                     }
                     mini = null;
                     isTimeout = false;
@@ -85,10 +96,20 @@ public class KidTimeout : MonoBehaviour
         Debug.Log("Obj is: " + g);
         Vector3 newPos = g.transform.position;
         mini.transform.position = newPos;
-        mini.GetComponent<CharacterMovementController>().CanMove = false;
-        if (mini.GetComponent<CharacterMovementController>().isAI)
+        if (mini.GetComponent<CharacterMovementController>())
         {
-            mini.GetComponent<PennyPincherAI>().CanMove = false;
+            mini.GetComponent<CharacterMovementController>().CanMove = false;
+            if (mini.GetComponent<CharacterMovementController>().isAI)
+            {
+                mini.GetComponent<PennyPincherAI>().CanMove = false;
+            }
+        } else
+        {
+            mini.GetComponent<NetworkCharacterMovementController>().CanMove = false;
+            if (mini.GetComponent<NetworkCharacterMovementController>().isAI)
+            {
+                mini.GetComponent<NetPennyPincherAI>().CanMove = false;
+            }
         }
         this.mini = mini;
         isTimeout = true;

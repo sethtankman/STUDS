@@ -3,12 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.UI;
 
 /// <summary>
 /// The Level Initializer for the Power Bill Level
 /// </summary>
-public class PBInitializeLevel : MonoBehaviour
+public class NetPBInitLvl : MonoBehaviour
 {
     public Transform[] playerSpawns;
     public Material[] kidsMaterials;
@@ -31,10 +30,10 @@ public class PBInitializeLevel : MonoBehaviour
         GameObject.Find("Music Manager").GetComponent<Music_Manager>().PlayStopMusic("Menu", false);
         GameObject.Find("Music Manager").GetComponent<Music_Manager>().PlayStopMusic("Penny", true);
 
-        players = ManagePlayerHub.Instance.getPlayers(); 
-        numAI = ManagePlayerHub.Instance.numAIToSpawnPB;
+        players = NetGameManager.Instance.getPlayers();
+        numAI = NetGameManager.Instance.numAIToSpawnPB;
         aiInstantiated = new bool[numAI];
-        aiColors = ManagePlayerHub.Instance.aiColors;
+        aiColors = NetGameManager.Instance.aiColors;
         PlayerInputManager.instance.DisableJoining();
 
 
@@ -42,7 +41,7 @@ public class PBInitializeLevel : MonoBehaviour
             GameObject.Find("GameManager").GetComponent<PauseV2>().PauseMenuUI = pauseMenuUI;
         else
         {
-            Debug.Log("PB no pause menu UI?");
+            Debug.LogError("PB no pause menu UI?");
         }
     }
 
@@ -75,7 +74,7 @@ public class PBInitializeLevel : MonoBehaviour
                         Debug.Log("Instantiating...");
                         GameObject AI = Instantiate(AIPrefab, playerSpawns[i].position, playerSpawns[i].transform.rotation);
                         string aiColor = aiColors.Pop();
-                        AI.GetComponentInChildren<CharacterMovementController>(true).SetColorName(aiColor);
+                        AI.GetComponentInChildren<NetworkCharacterMovementController>(true).SetColorName(aiColor);
                         AI.GetComponentInChildren<SkinnedMeshRenderer>(true).material = kidsMaterials[GetColorIndex(aiColor)];
                     }
                     aiInstantiated[k] = true;

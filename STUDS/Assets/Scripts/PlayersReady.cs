@@ -8,57 +8,105 @@ public class PlayersReady : MonoBehaviour
     public GameObject gameManager;
     public List<GameObject> players;
     public AK.Wwise.Event EffectSound;
+    public GameObject NetworkManager;
     // Start is called before the first frame update
     void Start()
     {
         players = new List<GameObject>();
+        NetworkManager = GameObject.Find("NetworkManager");
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.tag.Equals("Player"))
+        if (other.CompareTag("Player"))
         {
-            other.gameObject.GetComponent<CharacterMovementController>().ReadyPlayer(false, null);
+            if (other.gameObject.GetComponent<CharacterMovementController>())
+            {
+                other.gameObject.GetComponent<CharacterMovementController>().ReadyPlayer(false, null);
+            }
+            else if (other.gameObject.GetComponent<NetworkCharacterMovementController>())
+            {
+                other.gameObject.GetComponent<NetworkCharacterMovementController>().ReadyPlayer(false, null);
+            }
         }
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag.Equals("Player"))
+        if (other.CompareTag("Player"))
         {
-            bool allReady = true;
-            other.gameObject.GetComponent<CharacterMovementController>().ReadyPlayer(true, gameObject.tag);
-
-            players = gameManager.GetComponent<ManagePlayerHub>().getPlayers();
-            foreach (GameObject player in players)
+            if (other.gameObject.GetComponent<CharacterMovementController>())
             {
-                if (player && !player.GetComponent<CharacterMovementController>().GetReadyPlayer(gameObject.tag))
+                bool allReady = true;
+                other.gameObject.GetComponent<CharacterMovementController>().ReadyPlayer(true, gameObject.tag);
+
+                players = gameManager.GetComponent<ManagePlayerHub>().getPlayers();
+                foreach (GameObject player in players)
                 {
-                    EffectSound.Post(gameObject);
-                    allReady = false;
+                    if (player && !player.GetComponent<CharacterMovementController>().GetReadyPlayer(gameObject.tag))
+                    {
+                        EffectSound.Post(gameObject);
+                        allReady = false;
+                    }
+                }
+                if (allReady)
+                {
+                    gameManager.GetComponent<ManagePlayerHub>().SaveState();
+                    if (gameObject.CompareTag("PennyPincher"))
+                    {
+                        SceneManager.LoadScene("PBDadRandomizer");
+                    }
+                    else if (gameObject.CompareTag("StrollerRace"))
+                    {
+                        SceneManager.LoadScene("TheBlock_Scott");
+                    }
+                    else if (gameObject.CompareTag("ShoppingSpree"))
+                    {
+                        SceneManager.LoadScene("Shopping_Spree-Scott");
+                    }
+                    else if (gameObject.CompareTag("Downtown"))
+                    {
+                        SceneManager.LoadScene("Downtown_prototype");
+                    }
+
                 }
             }
-            if (allReady)
+            else if (other.gameObject.GetComponent<NetworkCharacterMovementController>().isServer)
             {
-                gameManager.GetComponent<ManagePlayerHub>().SaveState();
-                if (gameObject.tag.Equals("PennyPincher"))
-                {
-                    SceneManager.LoadScene("PBDadRandomizer");
-                }
-                else if (gameObject.tag.Equals("StrollerRace"))
-                {
-                    SceneManager.LoadScene("TheBlock_Scott");
-                }
-                else if (gameObject.tag.Equals("ShoppingSpree"))
-                {
-                    SceneManager.LoadScene("Shopping_Spree-Scott");
-                }else if (gameObject.tag.Equals("Downtown"))
-                {
-                    SceneManager.LoadScene("Downtown_prototype");
-                }
+                bool allReady = true;
+                other.gameObject.GetComponent<NetworkCharacterMovementController>().ReadyPlayer(true, gameObject.tag);
 
+                players = gameManager.GetComponent<NetGameManager>().getPlayers();
+                foreach (GameObject player in players)
+                {
+                    if (player && !player.GetComponent<NetworkCharacterMovementController>().GetReadyPlayer(gameObject.tag))
+                    {
+                        EffectSound.Post(gameObject);
+                        allReady = false;
+                    }
+                }
+                if (allReady)
+                {
+                    gameManager.GetComponent<NetGameManager>().RpcSaveState();
+                    StudsNetworkManager netManager = NetworkManager.GetComponent<StudsNetworkManager>();
+                    if (gameObject.CompareTag("PennyPincher"))
+                    {
+                        netManager.ServerChangeScene("Net-PBDadRandom");
+                    }
+                    else if (gameObject.CompareTag("StrollerRace"))
+                    {
+                        netManager.ServerChangeScene("TheBlock_Scott");
+                    }
+                    else if (gameObject.CompareTag("ShoppingSpree"))
+                    {
+                        netManager.ServerChangeScene("Network_Shopping_Spree");
+                    }
+                    else if (gameObject.CompareTag("Downtown"))
+                    {
+                        netManager.ServerChangeScene("Downtown_prototype");
+                    }
+                }
             }
         }
-
     }
 }

@@ -4,22 +4,27 @@ using UnityEngine;
 
 public class ResetGame : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public void Reset()
     {
         GameObject gameManager = GameObject.Find("GameManager");
-        gameManager.GetComponent<ManagePlayerHub>().DeletePlayers();
-        Destroy(gameManager);
+        if (gameManager.GetComponent<ManagePlayerHub>())
+        {
+            gameManager.GetComponent<ManagePlayerHub>().DeletePlayers();
+            Destroy(gameManager);
+        } else if (gameManager.GetComponent<NetGameManager>())
+        {
+            bool isServer = gameManager.GetComponent<NetGameManager>().DeletePlayers();
+            Destroy(gameManager);
+            StudsNetworkManager netManager = GameObject.Find("NetworkManager").GetComponent<StudsNetworkManager>();
+            if (!netManager)
+                Debug.LogError("net manager not found.");
+            else
+            {
+                Debug.Log("Found the network manager");
+            }
+            netManager.StopClient();
+            if(isServer)
+                netManager.StopServer();
+        }
     }
 }

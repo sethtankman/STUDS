@@ -11,7 +11,7 @@ using UnityEngine.SceneManagement;
 public class Interaction : MonoBehaviour
 
 {
-    public PWRBill_Manager GameMaster;
+    public NetPWRBill_Manager GameMaster;
 
     public int PowerCharge = 1;
 
@@ -35,7 +35,7 @@ public class Interaction : MonoBehaviour
 
     private void Awake()
     {
-        GameMaster = GameObject.Find("Game Manager").GetComponent<PWRBill_Manager>();
+        GameMaster = GameObject.Find("Game Manager").GetComponent<NetPWRBill_Manager>();
 
     }
 
