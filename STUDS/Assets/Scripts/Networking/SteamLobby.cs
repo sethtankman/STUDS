@@ -70,6 +70,11 @@ public class SteamLobby : MonoBehaviour
             SteamMatchmaking.JoinLobby(NetworkMenuActions.instance.SelectedRoomId);
     }
 
+    public void SetLobbyUnavailable(CSteamID lobbyId)
+    {
+        SteamMatchmaking.SetLobbyJoinable(lobbyId, false);
+    }
+
     private void OnLobbyCreated(LobbyCreated_t callback)
     {
         if (callback.m_eResult != EResult.k_EResultOK)

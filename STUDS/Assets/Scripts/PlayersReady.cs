@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Steamworks;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -89,6 +90,8 @@ public class PlayersReady : MonoBehaviour
                 {
                     gameManager.GetComponent<NetGameManager>().RpcSaveState();
                     StudsNetworkManager netManager = NetworkManager.GetComponent<StudsNetworkManager>();
+                    // Close the lobby
+                    netManager.gameObject.GetComponent<SteamLobby>().SetLobbyUnavailable(SteamUser.GetSteamID());
                     if (gameObject.CompareTag("PennyPincher"))
                     {
                         netManager.ServerChangeScene("Net-PBDadRandom");

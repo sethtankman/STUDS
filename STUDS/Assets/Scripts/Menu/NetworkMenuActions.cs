@@ -72,7 +72,7 @@ public class NetworkMenuActions : MonoBehaviour
 
                 newLobbyListItem.transform.SetParent(ContentPanel.transform);
                 newLobbyListItem.transform.localScale = Vector3.one;
-                newLobbyListItem.transform.localPosition = new Vector3(0, topOfScrollArea - (i * 110));
+                //newLobbyListItem.transform.localPosition = new Vector3(0, topOfScrollArea - (i * 110));
 
                 listOfLobbyListItems.Add(newLobbyListItem);
                 //}
