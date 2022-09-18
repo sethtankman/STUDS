@@ -91,7 +91,7 @@ public class PlayersReady : MonoBehaviour
                     gameManager.GetComponent<NetGameManager>().RpcSaveState();
                     StudsNetworkManager netManager = NetworkManager.GetComponent<StudsNetworkManager>();
                     // Close the lobby
-                    //netManager.gameObject.GetComponent<SteamLobby>().SetLobbyUnavailable(SteamUser.GetSteamID());
+                    netManager.gameObject.GetComponent<SteamLobby>().SetLobbyUnavailable(SteamUser.GetSteamID());
                     if (gameObject.CompareTag("PennyPincher"))
                     {
                         netManager.ServerChangeScene("Net-PBDadRandom");
