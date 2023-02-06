@@ -134,40 +134,44 @@ public class CharacterMovementController : MonoBehaviour
             //Handle moving and rotating the object that has been grabbed
             if (hasGrabbed)
             {
-                float grabDistance = 1.3f;
-                float grabHeight = 0.7f;
-                //Quaternion grabRotation = Quaternion.; //Maybe we'll need this for the hammer in shopping spree
-                if(grabbedObject.GetComponent<GrabbableObjectController>())
+                if (grabbedObject)
                 {
-                    grabDistance = grabbedObject.GetComponent<GrabbableObjectController>().distance;
-                    grabHeight = grabbedObject.GetComponent<GrabbableObjectController>().height;
-                }
-                grabbedObject.transform.position = transform.position + (transform.forward * grabDistance) + (transform.up * grabHeight);
-                grabbedObject.transform.rotation = transform.rotation;
-                //grabbedObject.transform.rotation *= Quaternion.Euler(0, 90, 0);
-                //grabbedObject.transform.LookAt(transform.position);
+                    float grabDistance = 1.3f;
+                    float grabHeight = 0.7f;
+                    //Quaternion grabRotation = Quaternion.; //Maybe we'll need this for the hammer in shopping spree
+                    if(grabbedObject.GetComponent<GrabbableObjectController>())
+                    {
+                        grabDistance = grabbedObject.GetComponent<GrabbableObjectController>().distance;
+                        grabHeight = grabbedObject.GetComponent<GrabbableObjectController>().height;
+                    }
+                    grabbedObject.transform.position = transform.position + (transform.forward * grabDistance) + (transform.up * grabHeight);
+                    grabbedObject.transform.rotation = transform.rotation;
+                    //grabbedObject.transform.rotation *= Quaternion.Euler(0, 90, 0);
+                    //grabbedObject.transform.LookAt(transform.position);
 
-                //If player released "e" then let go
-                if (pickupPressed)
-                {
-                    GrabSound.Post(gameObject);
-                    //grabSound.Play();
-                    DropGrabbedItem();
-                    pickupPressed = false;
+                    //If player released "e" then let go
+                    if (pickupPressed)
+                    {
+                        GrabSound.Post(gameObject);
+                        //grabSound.Play();
+                        DropGrabbedItem();
+                        pickupPressed = false;
+                        animator.SetBool("isHoldingSomething", false);
+                    } else if (throwPressed && throwCoolDown <= 0)
+                    {
+                        StartCoroutine(performThrow());
+                        animator.SetBool("isHoldingSomething", false);
+                        throwCoolDown = 1;
+                    }
+                } else { // HasGrabbed is true but object is Null.  This happens when we pick up an object and it is destroyed without dropping it
+                    hasGrabbed = false;
                     animator.SetBool("isHoldingSomething", false);
-                }
-                else if (throwPressed && throwCoolDown <= 0)
-                {
-                    StartCoroutine(performThrow());
-                    animator.SetBool("isHoldingSomething", false);
-                    throwCoolDown = 1;
                 }
             }
             else
             {
                 HandleGrabObject();
             }
-
         }
         else
         {

@@ -56,7 +56,7 @@ public class NetShopTimer : NetworkBehaviour
         }
         sa.UnlockAchievement("SS_FINISH");
         StudsNetworkManager netManager = NetworkManager.GetComponent<StudsNetworkManager>();
-        netManager.ServerChangeScene("VictoryStands");
+        netManager.ServerChangeScene("NetVictoryStands");
     }
 
     void Showtime(float timeleft)
