@@ -98,7 +98,7 @@ public class CharacterMovementController : MonoBehaviour
         PlayerParticles = GetComponent<PLR_ParticleController>();
         CanJump = true;
         CanMove = true;
-        sa = GameObject.Find("SteamAchievements").GetComponent<SteamAchievements>();
+        sa = GameObject.Find("SteamScripts").GetComponent<SteamAchievements>();
     }
 
     // Update is called once per frame

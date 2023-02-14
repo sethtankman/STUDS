@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class SteamLobby : MonoBehaviour
+public class SteamLobby : NetworkBehaviour
 {
 
     private StudsNetworkManager netManager;
@@ -20,6 +20,9 @@ public class SteamLobby : MonoBehaviour
     public List<CSteamID> lobbyIDS = new List<CSteamID>();
     public bool fetchLobbies;
     public ulong current_lobbyID;
+
+    /// <summary>The one and only SteamLobby</summary>
+    public static SteamLobby singleton { get; private set; }
 
     struct LobbyMetaData
     {
@@ -41,9 +44,14 @@ public class SteamLobby : MonoBehaviour
         public LobbyMetaData[] m_Data;
     }
 
+    public void Awake()
+    {
+        if (!InitializeSingleton()) return;
+    }
+
     public void Start()
     {
-        netManager = GetComponent<StudsNetworkManager>();
+        netManager = GameObject.Find("NetworkManager").GetComponent<StudsNetworkManager>();
 
         if (!SteamManager.Initialized)
         {
@@ -58,10 +66,47 @@ public class SteamLobby : MonoBehaviour
         Callback_lobbyList = Callback<LobbyMatchList_t>.Create(OnGetLobbiesList);
     }
 
+    public void OnDisable()
+    {
+        Debug.Log("Can't disable SteamLobby, only destroy");
+        singleton = null;
+        Destroy(gameObject);
+    }
+
+    public bool InitializeSingleton()
+    {
+        if (singleton != null && singleton == this)
+            return true;
+
+        if (singleton != null)
+        {
+            Destroy(gameObject);
+
+            // Return false to not allow collision-destroyed second instance to continue.
+            return false;
+        }
+        Debug.Log("SteamLobby created singleton (DontDestroyOnLoad)");
+        singleton = this;
+        DontDestroyOnLoad(gameObject);
+
+        return true;
+    }
+
     public void HostLobby()
     {
         Debug.Log("Trying to host lobby");
-        SteamMatchmaking.CreateLobby(ELobbyType.k_ELobbyTypePublic, netManager.maxConnections);
+        netManager = GameObject.Find("NetworkManager").GetComponent<StudsNetworkManager>();
+        if(netManager)
+            SteamMatchmaking.CreateLobby(ELobbyType.k_ELobbyTypePublic, netManager.maxConnections);
+        else { Debug.LogError("Could not find NetworkManager");  }
+    }
+
+    /// <summary>
+    /// When we return to the main menu, stop being a host or client.
+    /// </summary>
+    public void HandleLeave()
+    {
+        netManager.StopHost();
     }
 
     public void JoinRoomAsClient()

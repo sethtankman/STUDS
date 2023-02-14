@@ -21,7 +21,6 @@ public class NetGameManager : NetworkBehaviour
 
     public PlayerConnection playerConnectionPanel;
 
-    private int count = 300;
     [SyncVar]
     public int playerIDCount = 0;
     public int numAIToSpawnPB;
@@ -149,17 +148,12 @@ public class NetGameManager : NetworkBehaviour
 
     private void OnLevelWasLoaded(int level)
     {
-        // TODO: Change this for network scenes once they are ready.
-        if (SceneManager.GetActiveScene().name == "TheBlock_LevelSelectOnlineMultiplayer" || SceneManager.GetActiveScene().name == "Shopping_Spree-Scott")
+        if (SceneManager.GetActiveScene().name == "TheBlock_LevelSelectOnlineMultiplayer" || SceneManager.GetActiveScene().name == "Network_Shopping_Spree")
         {
             foreach (GameObject player in players)
             {
                 player.GetComponent<NetworkCharacterMovementController>().SetAimAssist(true);
             }
-        }
-        else if (SceneManager.GetActiveScene().name == "TheBlock_LevelSelectOnlineMultiplayer" && oldHub)
-        {
-            Destroy(this.gameObject);
         }
         else
         {
@@ -213,8 +207,9 @@ public class NetGameManager : NetworkBehaviour
     public void AssignColor(GameObject playerObj, string color)
     {
         playerObj.GetComponentInChildren<SkinnedMeshRenderer>().material = colorMaterials[color];
-        playerObj.GetComponent<NetworkCharacterMovementController>().color = color;
-        playerConnectionPanel.SetPanelImage(playerIDCount, color);
+        NetworkCharacterMovementController netCMC = playerObj.GetComponent<NetworkCharacterMovementController>();
+        netCMC.color = color;
+        playerConnectionPanel.SetPanelImage(netCMC.getPlayerID(), color);
     }
 
 

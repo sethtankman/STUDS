@@ -9,7 +9,7 @@ public class ExplodingPropane : CombatThrow
 
     private void Start()
     {
-        sa = GameObject.Find("SteamAchievements").GetComponent<SteamAchievements>();
+        sa = GameObject.Find("SteamScripts").GetComponent<SteamAchievements>();
     }
 
     public new void EnableKnockBack()

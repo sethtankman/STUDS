@@ -20,7 +20,7 @@ public class ShoppingTimer : MonoBehaviour
     {
         racePositions = 1;
         noFinishPos = -1;
-        sa = GameObject.Find("SteamAchievements").GetComponent<SteamAchievements>();
+        sa = GameObject.Find("SteamScripts").GetComponent<SteamAchievements>();
     }
 
     void Update()

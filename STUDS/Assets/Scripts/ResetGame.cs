@@ -13,18 +13,7 @@ public class ResetGame : MonoBehaviour
             Destroy(gameManager);
         } else if (gameManager.GetComponent<NetGameManager>())
         {
-            bool isServer = gameManager.GetComponent<NetGameManager>().DeletePlayers();
-            Destroy(gameManager);
-            StudsNetworkManager netManager = GameObject.Find("NetworkManager").GetComponent<StudsNetworkManager>();
-            if (!netManager)
-                Debug.LogError("net manager not found.");
-            else
-            {
-                Debug.Log("Found the network manager");
-            }
-            netManager.StopClient();
-            if(isServer)
-                netManager.StopServer();
+            gameManager.GetComponent<NetGameManager>().DeletePlayers();
         }
     }
 }

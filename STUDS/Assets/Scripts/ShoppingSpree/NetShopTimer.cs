@@ -21,7 +21,7 @@ public class NetShopTimer : NetworkBehaviour
         racePositions = 1;
         noFinishPos = -1;
         NetworkManager = GameObject.Find("NetworkManager");
-        sa = GameObject.Find("SteamAchievements").GetComponent<SteamAchievements>();
+        sa = GameObject.Find("SteamScripts").GetComponent<SteamAchievements>();
     }
 
     void Update()

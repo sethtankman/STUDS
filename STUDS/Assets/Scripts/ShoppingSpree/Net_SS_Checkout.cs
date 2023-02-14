@@ -14,7 +14,7 @@ public class Net_SS_Checkout : NetworkBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        sa = GameObject.Find("SteamAchievements").GetComponent<SteamAchievements>();
+        sa = GameObject.Find("SteamScripts").GetComponent<SteamAchievements>();
     }
 
     void OnCollisionEnter(Collision collision)

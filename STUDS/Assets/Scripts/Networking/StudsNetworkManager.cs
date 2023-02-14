@@ -9,6 +9,12 @@ using Mirror;
 
 public class StudsNetworkManager : NetworkManager
 {
+    /// <summary>
+    /// Signals that this is the NetworkManager we want to keep 
+    /// when returning to the main menu and there is another Network Manager
+    /// </summary>
+    public bool isMyNetworkManager;
+
     #region Unity Callbacks
 
     public override void OnValidate()
@@ -22,7 +28,11 @@ public class StudsNetworkManager : NetworkManager
     /// </summary>
     public override void Awake()
     {
-        base.Awake();
+        if (singleton != null && singleton != this)
+        {
+            Destroy(this);
+        }
+        base.Awake(); // base.Awake calls Initialize Singleton
     }
 
     /// <summary>
@@ -210,12 +220,15 @@ public class StudsNetworkManager : NetworkManager
     public override void OnStartServer() {
         Debug.Log("Starting Server");
         ServerChangeScene("TheBlock_LevelSelectOnlineMultiplayer");
+        isMyNetworkManager = true;
     }
 
     /// <summary>
     /// This is invoked when the client is started.
     /// </summary>
-    public override void OnStartClient() { }
+    public override void OnStartClient() {
+        isMyNetworkManager = true;
+    }
 
     /// <summary>
     /// This is called when a host is stopped.

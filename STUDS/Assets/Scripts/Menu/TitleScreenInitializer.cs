@@ -41,7 +41,7 @@ public class TitleScreenInitializer : MonoBehaviour
 
 
         finalText = GameObject.Find("PBFinalText(Clone)");
-        sa = GameObject.Find("SteamAchievements").GetComponent<SteamAchievements>();
+        sa = GameObject.Find("SteamScripts").GetComponent<SteamAchievements>();
         if (finalText)
         {
             DetermineFinalText();

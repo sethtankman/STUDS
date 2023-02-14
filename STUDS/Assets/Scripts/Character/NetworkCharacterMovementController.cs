@@ -122,7 +122,7 @@ public class NetworkCharacterMovementController : NetworkBehaviour
         CanMove = true;
         if (!isAI)
         {
-            sa = GameObject.Find("SteamAchievements").GetComponent<SteamAchievements>();
+            sa = GameObject.Find("SteamScripts").GetComponent<SteamAchievements>();
             hub.NetworkPlayerJoin(this.gameObject); // This is unique to network characters.
         }
         if (!isServer)
