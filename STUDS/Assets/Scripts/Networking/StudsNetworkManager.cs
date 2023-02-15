@@ -14,6 +14,7 @@ public class StudsNetworkManager : NetworkManager
     /// when returning to the main menu and there is another Network Manager
     /// </summary>
     public bool isMyNetworkManager;
+    public static new StudsNetworkManager singleton { get; private set; }
 
     #region Unity Callbacks
 
@@ -28,11 +29,8 @@ public class StudsNetworkManager : NetworkManager
     /// </summary>
     public override void Awake()
     {
-        if (singleton != null && singleton != this)
-        {
-            Destroy(this);
-        }
         base.Awake(); // base.Awake calls Initialize Singleton
+        singleton = this;
     }
 
     /// <summary>

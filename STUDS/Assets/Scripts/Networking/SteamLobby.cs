@@ -49,6 +49,16 @@ public class SteamLobby : NetworkBehaviour
         if (!InitializeSingleton()) return;
     }
 
+    /// <summary>
+    /// Every time we enter the Main Menu, we need to start using the new Network Manager.
+    /// </summary>
+    /// <param name="level">number of the main menu is 1</param>
+    private void OnLevelWasLoaded(int level)
+    {
+        if(level == 1)
+             netManager = GameObject.Find("NetworkManager").GetComponent<StudsNetworkManager>();
+    }
+
     public void Start()
     {
         netManager = GameObject.Find("NetworkManager").GetComponent<StudsNetworkManager>();
@@ -107,6 +117,7 @@ public class SteamLobby : NetworkBehaviour
     public void HandleLeave()
     {
         netManager.StopHost();
+        //Destroy(netManager);
     }
 
     public void JoinRoomAsClient()
@@ -122,6 +133,7 @@ public class SteamLobby : NetworkBehaviour
 
     private void OnLobbyCreated(LobbyCreated_t callback)
     {
+        Debug.Log("OnLobbyCreated");
         if (callback.m_eResult != EResult.k_EResultOK)
         {
             Debug.LogError($"OnLobbyCreated abort: {callback.m_eResult}");

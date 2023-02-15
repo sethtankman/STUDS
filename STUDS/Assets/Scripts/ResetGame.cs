@@ -14,6 +14,7 @@ public class ResetGame : MonoBehaviour
         } else if (gameManager.GetComponent<NetGameManager>())
         {
             gameManager.GetComponent<NetGameManager>().DeletePlayers();
+            Destroy(GameObject.Find("SteamScripts"));
         }
     }
 }

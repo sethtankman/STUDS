@@ -122,6 +122,11 @@ public class NetGameManager : NetworkBehaviour
 
     }
 
+    private void OnDisable()
+    {
+        Debug.LogWarning("Who disabled me?");
+    }
+
     protected Callback<GameOverlayActivated_t> m_GameOverlayActivated;
 
         private void OnEnable()

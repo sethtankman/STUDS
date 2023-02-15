@@ -230,7 +230,7 @@ namespace Mirror
         // full server setup code, without spawning objects yet
         void SetupServer()
         {
-            // Debug.Log("NetworkManager SetupServer");
+            Debug.Log("NetworkManager SetupServer");
             InitializeSingleton();
 
             if (runInBackground)
@@ -655,6 +655,7 @@ namespace Mirror
 
         bool InitializeSingleton()
         {
+            Debug.Log("Calling Initialize Singleton");
             if (singleton != null && singleton == this)
                 return true;
 
@@ -663,6 +664,8 @@ namespace Mirror
                 if (singleton != null)
                 {
                     Debug.LogWarning("Multiple NetworkManagers detected in the scene. Only one NetworkManager can exist at a time. The duplicate NetworkManager will be destroyed.");
+                    //Debug.LogWarning($"Singleton name: {singleton.name}");
+                    //Debug.LogWarning($"This name: {this.name}");
                     if (singleton)
                     {
                         Destroy(singleton);
@@ -727,7 +730,8 @@ namespace Mirror
         // virtual so that inheriting classes' OnDestroy() can call base.OnDestroy() too
         public virtual void OnDestroy()
         {
-            //Debug.Log("NetworkManager destroyed");
+            Debug.Log("NetworkManager destroyed");
+            singleton = null;
         }
 
         /// <summary>The name of the current network scene.</summary>
