@@ -20,6 +20,7 @@ public class SteamLobby : NetworkBehaviour
     public List<CSteamID> lobbyIDS = new List<CSteamID>();
     public bool fetchLobbies;
     public ulong current_lobbyID;
+    public CSteamID joinedLobbyID;
 
     /// <summary>The one and only SteamLobby</summary>
     public static SteamLobby singleton { get; private set; }
@@ -117,13 +118,16 @@ public class SteamLobby : NetworkBehaviour
     public void HandleLeave()
     {
         netManager.StopHost();
-        //Destroy(netManager);
+        SteamMatchmaking.LeaveLobby(joinedLobbyID);
     }
 
     public void JoinRoomAsClient()
     {
         if (NetworkMenuActions.instance.SelectedRoomId.IsValid())
+        {
             SteamMatchmaking.JoinLobby(NetworkMenuActions.instance.SelectedRoomId);
+            joinedLobbyID = NetworkMenuActions.instance.SelectedRoomId;
+        }
     }
 
     public void SetLobbyUnavailable(CSteamID lobbyId)
@@ -142,6 +146,7 @@ public class SteamLobby : NetworkBehaviour
 
         netManager.StartHost();
 
+        joinedLobbyID = new CSteamID(callback.m_ulSteamIDLobby); // I added this to make leaving have the CSteamID it needs - Addison
         SteamMatchmaking.SetLobbyData(new CSteamID(callback.m_ulSteamIDLobby), hostAddressKey, SteamUser.GetSteamID().ToString());
         SteamMatchmaking.SetLobbyData(
             new CSteamID(callback.m_ulSteamIDLobby),
