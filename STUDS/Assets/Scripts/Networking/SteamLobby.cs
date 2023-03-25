@@ -205,8 +205,10 @@ public class SteamLobby : NetworkBehaviour
 
     public void GetLobbyList()
     {
-        if (lobbyIDS.Count > 0)
+        if (lobbyIDS.Count > 0) { 
             lobbyIDS.Clear();
+            NetworkMenuActions.instance.DestroyOldLobbyListItems();
+        }
 
         SteamMatchmaking.AddRequestLobbyListFilterSlotsAvailable(1);
         Debug.Log("Attempting to get lobby list");

@@ -10,7 +10,8 @@ public class SteamHandler : MonoBehaviour
     public void spawnLobbyHandler()
     {
         Debug.Log("Calling Spawn Lobby Handler");
-        myHandler = Instantiate(steamLobbyHandler).GetComponent<SteamLobby>();
+        if(!SteamLobby.singleton)
+            myHandler = Instantiate(steamLobbyHandler).GetComponent<SteamLobby>();
     }
 
     public void callGetLobbies()
