@@ -25,6 +25,12 @@ public class NetHUB_Lineup : NetworkBehaviour
         
     }
 
+    public void playerLeft(GameObject leaver)
+    {
+        PlayerList.Remove(leaver);
+        NumJoined--;
+    }
+
     [ClientRpc]
     private void MovePlayer(GameObject other, int _numJoined)
     {

@@ -7,19 +7,11 @@ using UnityEngine.SceneManagement;
 public class SceneSwitcher : MonoBehaviour
 {
     public string specificScene = "";
-    public GameObject lobbyHandler;
 
     public void CallHandleLeave()
     {
-        lobbyHandler = GameObject.Find("SteamLobbyHandler(Clone)");
-        if (lobbyHandler)
-        {
-            SteamLobby lobby = lobbyHandler.GetComponent<SteamLobby>();
-            lobby.HandleLeave();
-        } else
-        {
-            Debug.LogWarning("NetworkManager not located...");
-        }
+        Debug.Log("CallHandleLeave");
+        SteamLobby.singleton.HandleLeave();
     }
 
     public void LoadSpecificScene()

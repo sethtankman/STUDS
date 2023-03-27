@@ -130,9 +130,12 @@ public class SteamLobby : NetworkBehaviour
         }
     }
 
-    public void SetLobbyUnavailable(CSteamID lobbyId)
+    /// <summary>
+    /// Sets the joined Steam lobby to unavailable.
+    /// </summary>
+    public void SetLobbyUnavailable()
     {
-        SteamMatchmaking.SetLobbyJoinable(lobbyId, false);
+        SteamMatchmaking.SetLobbyJoinable(joinedLobbyID, false);
     }
 
     private void OnLobbyCreated(LobbyCreated_t callback)

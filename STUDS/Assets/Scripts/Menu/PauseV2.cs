@@ -95,7 +95,7 @@ public class PauseV2 : MonoBehaviour
         Cursor.visible = true;
         if(p4PH && p4PH.activeSelf)
             p4PHWasEnabled = true;
-        Debug.Log("GameIsPaused: " + gameisPaused + ", LostPausePanels: " + lostPausePanels);
+        Debug.Log($"GameIsPaused: {gameisPaused}, LostPausePanels: {lostPausePanels}");
         if (!gameisPaused)
         {
             if(p4PH) // Activates the player 4 placeholder image if it is set.

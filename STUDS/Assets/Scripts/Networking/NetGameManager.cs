@@ -98,7 +98,7 @@ public class NetGameManager : NetworkBehaviour
             };
     }
 
-    // Update is called once per frame
+    // Update is called once per frame.  Updates playersReady text, removes start text.
     void Update()
     {
         if (playerJoined && SceneManager.GetActiveScene().name.Equals("TheBlock_LevelSelectOnlineMultiplayer"))
@@ -122,6 +122,7 @@ public class NetGameManager : NetworkBehaviour
 
     }
 
+    // For debugging.
     private void OnDisable()
     {
         Debug.LogWarning("Who disabled me?");
@@ -129,7 +130,7 @@ public class NetGameManager : NetworkBehaviour
 
     protected Callback<GameOverlayActivated_t> m_GameOverlayActivated;
 
-        private void OnEnable()
+    private void OnEnable()
         {
             if (SteamManager.Initialized)
             {
@@ -137,20 +138,22 @@ public class NetGameManager : NetworkBehaviour
             }
         }
 
-        private void OnGameOverlayActivated(GameOverlayActivated_t pCallback)
+
+    private void OnGameOverlayActivated(GameOverlayActivated_t pCallback)
+    {
+        if (pCallback.m_bActive != 0)
         {
-            if (pCallback.m_bActive != 0)
-            {
-                Debug.Log("Steam Overlay has been activated");
+            Debug.Log("Steam Overlay has been activated");
 
-                GameObject.Find("GameManager").GetComponent<PauseV2>().Pause();
-            }
-            else
-            {
-                Debug.Log("Steam Overlay has been closed");
-            }
+            GameObject.Find("GameManager").GetComponent<PauseV2>().Pause();
         }
+        else
+        {
+            Debug.Log("Steam Overlay has been closed");
+        }
+    }
 
+    // Sets aim assist to true or false per level.
     private void OnLevelWasLoaded(int level)
     {
         if (SceneManager.GetActiveScene().name == "TheBlock_LevelSelectOnlineMultiplayer" || SceneManager.GetActiveScene().name == "Network_Shopping_Spree")
@@ -169,6 +172,16 @@ public class NetGameManager : NetworkBehaviour
         }
     }
 
+
+    /// <summary>
+    /// Currently I will assume that when a player leaves, their gameobject is destroyed.
+    /// This is how we will know which player left, which color to make available again,
+    /// and which ID to call KickPlayer with.
+    /// </summary>
+    public void HandleLeavePlayer(int id)
+    {
+        RemovePlayerAssignments(id);
+    }
 
     [ClientRpc]
     public void RpcSetPlayerVariables()
@@ -236,50 +249,20 @@ public class NetGameManager : NetworkBehaviour
         } 
     }
 
-    /// <summary>
-    /// This was causing issues when called from the GameManager Input System event,
-    /// so now we aren't using it.
-    /// </summary>
-    /// <param name="pi"></param>
-    public void HandlePlayerLeave(PlayerInput pi)
-    {
-        Debug.Log(pi.devices.ToString());
-        InputSystem.RemoveDevice(pi.devices[0]);
-        Debug.Log("A Player has left!");
-    }
-
     public List<GameObject> getPlayers()
     {
         return players;
     }
 
-    public void KickPlayer(int i)
+    /// <summary>
+    /// Adjusts player list and available colors when a player leaves.
+    /// </summary>
+    /// <param name="i">The index in the player list of the player to be kicked.</param>
+    public void RemovePlayerAssignments(int i)
     {
-        Destroy(players[i]);
-        players[i] = null;
-        for (int j = i; j < 4; j++)
-        {
-            Debug.Log("j=" + j);
-            for (int index = 0; index < players.Count; index++)
-            {
-                Debug.Log("Index: " + index);
-                if (players[index])
-                    Debug.Log(players[index].name);
-            }
-            if ((j + 1 == 4 || players[j + 1] == null) && players[j] != null)
-            {
-                Debug.Log("Destroying Player: " + j);
-                Destroy(players[j]);
-                players[j] = null;
-            }
-            else if (j + 1 != 4 || (players[j + 1] != null && players[j] == null))
-            {
-                Debug.Log("Creating player");
-                players[j] = PlayerInput.Instantiate(playerPrefab, j, players[j + 1].GetComponent<PlayerInput>().currentControlScheme, j, players[j + 1].GetComponent<PlayerInput>().devices.ToArray()).gameObject;
-                Destroy(players[j + 1]);
-                players[j + 1] = null;
-            }
-        }
+        Debug.Log($"Calling Remove Player Assignments {i}");
+        players.RemoveAt(i);
+        availableColors.Add(playerColors[i]);
         playerIDCount--;
     }
 

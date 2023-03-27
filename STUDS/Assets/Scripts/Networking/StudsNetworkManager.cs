@@ -163,6 +163,18 @@ public class StudsNetworkManager : NetworkManager
     /// <param name="conn">Connection from client.</param>
     public override void OnServerDisconnect(NetworkConnection conn)
     {
+        // NOTE: this assumes the only object assigned to the networkconnection is the player!
+        foreach(NetworkIdentity ni in conn.clientOwnedObjects)
+        {
+            int id = ni.gameObject.GetComponent<NetworkCharacterMovementController>().getPlayerID();
+            GameObject spawnPos = GameObject.Find("SpawnPos");
+            if (spawnPos)
+            {
+                spawnPos.GetComponent<NetHUB_Lineup>().playerLeft(ni.gameObject);
+            }
+            NetGameManager ngm = GameObject.Find("GameManager").GetComponent<NetGameManager>();
+            ngm.HandleLeavePlayer(id);
+        }
         base.OnServerDisconnect(conn);
     }
 
