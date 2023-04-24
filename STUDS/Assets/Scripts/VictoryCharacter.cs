@@ -11,22 +11,21 @@ public class VictoryCharacter : MonoBehaviour
     public Material color3;
     public Material color4;
     public Material color5;
-    private bool foundMatch, isPowerBill, networkMode;
+    private bool foundMatch, isPowerBill;
+    public bool networkMode;
     // Start is called before the first frame update
     void Start()
     {
         players = new List<GameObject>();
         foundMatch = false;
         isPowerBill = (GameObject.Find("PBFinalText(Clone)") != null);
-        if (ManagePlayerHub.Instance)
+        if (!networkMode)
         {
             players = ManagePlayerHub.Instance.getPlayers();
-            networkMode = false;
         }
         else
         {
             players = NetGameManager.Instance.getPlayers();
-            networkMode = true;
         }
     }
 
@@ -92,23 +91,23 @@ public class VictoryCharacter : MonoBehaviour
     private void SetColor(string colorName)
     {
         Debug.Log("Finished player should be: " + colorName);
-        if (colorName.Equals("Blue"))
+        if (colorName.Equals("blue"))
         {
             GetComponentInChildren<SkinnedMeshRenderer>().material = color1;
         }
-        else if (colorName.Equals("Green"))
+        else if (colorName.Equals("green"))
         {
             GetComponentInChildren<SkinnedMeshRenderer>().material = color2;
         }
-        else if (colorName.Equals("Red"))
+        else if (colorName.Equals("red"))
         {
             GetComponentInChildren<SkinnedMeshRenderer>().material = color3;
         }
-        else if (colorName.Equals("Yellow"))
+        else if (colorName.Equals("yellow"))
         {
             GetComponentInChildren<SkinnedMeshRenderer>().material = color4;
         }
-        else if (colorName.Equals("Purple"))
+        else if (colorName.Equals("purple"))
         {
             GetComponentInChildren<SkinnedMeshRenderer>().material = color5;
         }

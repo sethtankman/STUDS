@@ -267,7 +267,8 @@ public class CharacterMovementController : MonoBehaviour
         if (!gameObject.GetComponent<CharacterController>().isGrounded)
         {
             velocity.y += gravity * Time.deltaTime;
-            controller.Move(velocity * Time.deltaTime);
+            if(controller.enabled)
+                controller.Move(velocity * Time.deltaTime); 
         }
         else
         {

@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 1
   m_AmbientMode: 1
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 1358415416}
+  m_SkyboxMaterial: {fileID: 1431000477}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.04737168, g: 0.37704456, b: 0.9346759, a: 1}
+  m_IndirectSpecularColor: {r: 0.04773313, g: 0.37740427, b: 0.9350119, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -938,6 +938,7 @@ MonoBehaviour:
   color3: {fileID: 2100000, guid: 9173f83340c50ed4489d001759834012, type: 2}
   color4: {fileID: 2100000, guid: fc860b144e41a09488418a912d760a75, type: 2}
   color5: {fileID: 2100000, guid: 87a4d82006c08154f9f972679e026858, type: 2}
+  networkMode: 1
 --- !u!114 &481884473
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -953,19 +954,23 @@ MonoBehaviour:
   JumpSound:
     idInternal: 0
     valueGuidInternal: 
-    WwiseObjectReference: {fileID: 0}
+    WwiseObjectReference: {fileID: 11400000, guid: b01a9fae4e2937f499748cb2ac25c7ed,
+      type: 2}
   GrabSound:
     idInternal: 0
     valueGuidInternal: 
-    WwiseObjectReference: {fileID: 0}
+    WwiseObjectReference: {fileID: 11400000, guid: 0b3fd8f6a4a098e4fa2cbddd4c6208c5,
+      type: 2}
   ThrowSound:
     idInternal: 0
     valueGuidInternal: 
-    WwiseObjectReference: {fileID: 0}
+    WwiseObjectReference: {fileID: 11400000, guid: e5a1f0c9b6a37d64f84c453a073c18c6,
+      type: 2}
   RunSound:
     idInternal: 0
     valueGuidInternal: 
-    WwiseObjectReference: {fileID: 0}
+    WwiseObjectReference: {fileID: 11400000, guid: 4aef3822175cfb143b44258b0a6efb7f,
+      type: 2}
   sa: {fileID: 0}
   camPos: {fileID: 0}
   animator: {fileID: 481884475}
@@ -1219,7 +1224,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   clientAuthority: 0
-  animator: {fileID: 0}
+  animator: {fileID: 481884475}
 --- !u!114 &481884481
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1351,6 +1356,7 @@ MonoBehaviour:
   color3: {fileID: 2100000, guid: 9173f83340c50ed4489d001759834012, type: 2}
   color4: {fileID: 2100000, guid: fc860b144e41a09488418a912d760a75, type: 2}
   color5: {fileID: 2100000, guid: 87a4d82006c08154f9f972679e026858, type: 2}
+  networkMode: 1
 --- !u!114 &502909423
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1366,19 +1372,23 @@ MonoBehaviour:
   JumpSound:
     idInternal: 0
     valueGuidInternal: 
-    WwiseObjectReference: {fileID: 0}
+    WwiseObjectReference: {fileID: 11400000, guid: b01a9fae4e2937f499748cb2ac25c7ed,
+      type: 2}
   GrabSound:
     idInternal: 0
     valueGuidInternal: 
-    WwiseObjectReference: {fileID: 0}
+    WwiseObjectReference: {fileID: 11400000, guid: 0b3fd8f6a4a098e4fa2cbddd4c6208c5,
+      type: 2}
   ThrowSound:
     idInternal: 0
     valueGuidInternal: 
-    WwiseObjectReference: {fileID: 0}
+    WwiseObjectReference: {fileID: 11400000, guid: e5a1f0c9b6a37d64f84c453a073c18c6,
+      type: 2}
   RunSound:
     idInternal: 0
     valueGuidInternal: 
-    WwiseObjectReference: {fileID: 0}
+    WwiseObjectReference: {fileID: 11400000, guid: 4aef3822175cfb143b44258b0a6efb7f,
+      type: 2}
   sa: {fileID: 0}
   camPos: {fileID: 0}
   animator: {fileID: 502909425}
@@ -1632,7 +1642,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   clientAuthority: 0
-  animator: {fileID: 0}
+  animator: {fileID: 502909425}
 --- !u!114 &502909431
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3117,7 +3127,7 @@ Transform:
   m_Father: {fileID: 888350084}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!21 &1358415416
+--- !u!21 &1431000477
 Material:
   serializedVersion: 6
   m_ObjectHideFlags: 0
@@ -4591,6 +4601,11 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
+    - target: {fileID: 7629202031842378017, guid: eac7b817e41768047a6ea4c802362b33,
+        type: 3}
+      propertyPath: networkMode
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8390642302928833475, guid: eac7b817e41768047a6ea4c802362b33,
         type: 3}
       propertyPath: m_Mesh
@@ -4606,6 +4621,30 @@ PrefabInstance:
       propertyPath: binky
       value: 
       objectReference: {fileID: 1948051318}
+    - target: {fileID: 8390642304470514726, guid: eac7b817e41768047a6ea4c802362b33,
+        type: 3}
+      propertyPath: RunSound.WwiseObjectReference
+      value: 
+      objectReference: {fileID: 11400000, guid: 4aef3822175cfb143b44258b0a6efb7f,
+        type: 2}
+    - target: {fileID: 8390642304470514726, guid: eac7b817e41768047a6ea4c802362b33,
+        type: 3}
+      propertyPath: GrabSound.WwiseObjectReference
+      value: 
+      objectReference: {fileID: 11400000, guid: 0b3fd8f6a4a098e4fa2cbddd4c6208c5,
+        type: 2}
+    - target: {fileID: 8390642304470514726, guid: eac7b817e41768047a6ea4c802362b33,
+        type: 3}
+      propertyPath: JumpSound.WwiseObjectReference
+      value: 
+      objectReference: {fileID: 11400000, guid: b01a9fae4e2937f499748cb2ac25c7ed,
+        type: 2}
+    - target: {fileID: 8390642304470514726, guid: eac7b817e41768047a6ea4c802362b33,
+        type: 3}
+      propertyPath: ThrowSound.WwiseObjectReference
+      value: 
+      objectReference: {fileID: 11400000, guid: e5a1f0c9b6a37d64f84c453a073c18c6,
+        type: 2}
     - target: {fileID: 8390642304470514734, guid: eac7b817e41768047a6ea4c802362b33,
         type: 3}
       propertyPath: color2
@@ -4626,11 +4665,40 @@ PrefabInstance:
       propertyPath: color5
       value: 
       objectReference: {fileID: 2100000, guid: 87a4d82006c08154f9f972679e026858, type: 2}
+    - target: {fileID: 8390642304470514734, guid: eac7b817e41768047a6ea4c802362b33,
+        type: 3}
+      propertyPath: networkMode
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8390642304577947079, guid: eac7b817e41768047a6ea4c802362b33,
         type: 3}
       propertyPath: binky
       value: 
       objectReference: {fileID: 1156571087}
+    - target: {fileID: 8390642304577947079, guid: eac7b817e41768047a6ea4c802362b33,
+        type: 3}
+      propertyPath: RunSound.WwiseObjectReference
+      value: 
+      objectReference: {fileID: 11400000, guid: 4aef3822175cfb143b44258b0a6efb7f,
+        type: 2}
+    - target: {fileID: 8390642304577947079, guid: eac7b817e41768047a6ea4c802362b33,
+        type: 3}
+      propertyPath: GrabSound.WwiseObjectReference
+      value: 
+      objectReference: {fileID: 11400000, guid: 0b3fd8f6a4a098e4fa2cbddd4c6208c5,
+        type: 2}
+    - target: {fileID: 8390642304577947079, guid: eac7b817e41768047a6ea4c802362b33,
+        type: 3}
+      propertyPath: JumpSound.WwiseObjectReference
+      value: 
+      objectReference: {fileID: 11400000, guid: b01a9fae4e2937f499748cb2ac25c7ed,
+        type: 2}
+    - target: {fileID: 8390642304577947079, guid: eac7b817e41768047a6ea4c802362b33,
+        type: 3}
+      propertyPath: ThrowSound.WwiseObjectReference
+      value: 
+      objectReference: {fileID: 11400000, guid: e5a1f0c9b6a37d64f84c453a073c18c6,
+        type: 2}
     - target: {fileID: 8390642304577947087, guid: eac7b817e41768047a6ea4c802362b33,
         type: 3}
       propertyPath: color2
@@ -4651,11 +4719,40 @@ PrefabInstance:
       propertyPath: color5
       value: 
       objectReference: {fileID: 2100000, guid: 87a4d82006c08154f9f972679e026858, type: 2}
+    - target: {fileID: 8390642304577947087, guid: eac7b817e41768047a6ea4c802362b33,
+        type: 3}
+      propertyPath: networkMode
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8390642304685960588, guid: eac7b817e41768047a6ea4c802362b33,
         type: 3}
       propertyPath: binky
       value: 
       objectReference: {fileID: 113870168}
+    - target: {fileID: 8390642304685960588, guid: eac7b817e41768047a6ea4c802362b33,
+        type: 3}
+      propertyPath: RunSound.WwiseObjectReference
+      value: 
+      objectReference: {fileID: 11400000, guid: 4aef3822175cfb143b44258b0a6efb7f,
+        type: 2}
+    - target: {fileID: 8390642304685960588, guid: eac7b817e41768047a6ea4c802362b33,
+        type: 3}
+      propertyPath: GrabSound.WwiseObjectReference
+      value: 
+      objectReference: {fileID: 11400000, guid: 0b3fd8f6a4a098e4fa2cbddd4c6208c5,
+        type: 2}
+    - target: {fileID: 8390642304685960588, guid: eac7b817e41768047a6ea4c802362b33,
+        type: 3}
+      propertyPath: JumpSound.WwiseObjectReference
+      value: 
+      objectReference: {fileID: 11400000, guid: b01a9fae4e2937f499748cb2ac25c7ed,
+        type: 2}
+    - target: {fileID: 8390642304685960588, guid: eac7b817e41768047a6ea4c802362b33,
+        type: 3}
+      propertyPath: ThrowSound.WwiseObjectReference
+      value: 
+      objectReference: {fileID: 11400000, guid: e5a1f0c9b6a37d64f84c453a073c18c6,
+        type: 2}
     - target: {fileID: 8390642304685960596, guid: eac7b817e41768047a6ea4c802362b33,
         type: 3}
       propertyPath: color2
@@ -4680,6 +4777,11 @@ PrefabInstance:
         type: 3}
       propertyPath: posNumber
       value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8390642304685960596, guid: eac7b817e41768047a6ea4c802362b33,
+        type: 3}
+      propertyPath: networkMode
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9025160041373913109, guid: eac7b817e41768047a6ea4c802362b33,
         type: 3}
@@ -4837,7 +4939,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   clientAuthority: 0
-  animator: {fileID: 0}
+  animator: {fileID: 573090102301611846}
 --- !u!114 &573090102301611835
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4891,7 +4993,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   clientAuthority: 0
-  animator: {fileID: 0}
+  animator: {fileID: 573090102301611847}
 --- !u!114 &573090102301611838
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4945,7 +5047,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   clientAuthority: 0
-  animator: {fileID: 0}
+  animator: {fileID: 573090102301611848}
 --- !u!114 &573090102301611841
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4999,7 +5101,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   clientAuthority: 0
-  animator: {fileID: 0}
+  animator: {fileID: 573090102301611849}
 --- !u!114 &573090102301611844
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5038,3 +5140,27 @@ MonoBehaviour:
   visible: 0
   m_AssetId: eac7b817e41768047a6ea4c802362b33
   hasSpawned: 0
+--- !u!95 &573090102301611846 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 8390642304685960590, guid: eac7b817e41768047a6ea4c802362b33,
+    type: 3}
+  m_PrefabInstance: {fileID: 573090102301611822}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &573090102301611847 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 8390642304470514728, guid: eac7b817e41768047a6ea4c802362b33,
+    type: 3}
+  m_PrefabInstance: {fileID: 573090102301611822}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &573090102301611848 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 8390642304577947081, guid: eac7b817e41768047a6ea4c802362b33,
+    type: 3}
+  m_PrefabInstance: {fileID: 573090102301611822}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &573090102301611849 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 6967698089567061808, guid: eac7b817e41768047a6ea4c802362b33,
+    type: 3}
+  m_PrefabInstance: {fileID: 573090102301611822}
+  m_PrefabAsset: {fileID: 0}

@@ -9,7 +9,7 @@ public class Net_SS_Checkout : NetworkBehaviour
     public AK.Wwise.Event RegisterSound;
     public SteamAchievements sa;
 
-    public GameObject timerManager;
+    public NetShopTimer timerManager;
 
     // Start is called before the first frame update
     void Start()
@@ -36,23 +36,21 @@ public class Net_SS_Checkout : NetworkBehaviour
                     sa.UnlockAchievement("SS_CHECKOUT");
                 }
             }
-
-            bool allDone = true;
-            foreach (string item in itemlist)
-            {
-                if (!player.GetComponent<SS_ItemTracker>().isItemCompleted(item))
+            if (isServer) {
+                bool allDone = true;
+                foreach (string item in itemlist)
                 {
-                    allDone = false;
+                    if (!player.GetComponent<SS_ItemTracker>().isItemCompleted(item))
+                    {
+                        allDone = false;
+                    }
+                }
+                if (allDone && player.GetComponent<NetworkCharacterMovementController>() && player.GetComponent<NetworkCharacterMovementController>().GetFinishPosition() == 0)
+                {
+                    player.GetComponent<NetworkCharacterMovementController>().SetFinishPosition(timerManager.racePositions);
+                    timerManager.IncrementRacePositions();
                 }
             }
-
-            if (allDone && player.GetComponent<NetworkCharacterMovementController>() && player.GetComponent<NetworkCharacterMovementController>().GetFinishPosition() == 0)
-            {
-                player.GetComponent<NetworkCharacterMovementController>().CmdSetFinishPosition(timerManager.GetComponent<NetShopTimer>().racePositions);
-                if (player.GetComponent<NetworkCharacterMovementController>().isLocalPlayer) 
-                    timerManager.GetComponent<NetShopTimer>().racePositions++;
-            }
-
         }
     }
 

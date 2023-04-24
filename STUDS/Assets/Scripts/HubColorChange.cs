@@ -51,7 +51,7 @@ public class HubColorChange : MonoBehaviour
                 {
                     ParticleSound.Post(gameObject);
                     other.gameObject.GetComponentInChildren<SkinnedMeshRenderer>().material = playerColor;
-                    other.GetComponent<NetworkCharacterMovementController>().SetColorName(colorName.ToLower());
+                    other.GetComponent<NetworkCharacterMovementController>().SetColorName(colorName);
                 }
             }
         }

@@ -261,7 +261,8 @@ public class NetGameManager : NetworkBehaviour
     public void RemovePlayerAssignments(int i)
     {
         Debug.Log($"Calling Remove Player Assignments {i}");
-        players.RemoveAt(i);
+        if (i < players.Count)
+            players.RemoveAt(i);
         availableColors.Add(playerColors[i]);
         playerIDCount--;
     }

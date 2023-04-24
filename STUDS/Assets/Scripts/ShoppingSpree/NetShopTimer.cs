@@ -14,6 +14,7 @@ public class NetShopTimer : NetworkBehaviour
 
     [SyncVar]
     public int racePositions;
+    [SyncVar]
     public int noFinishPos;
 
     void Start()
@@ -43,16 +44,17 @@ public class NetShopTimer : NetworkBehaviour
     }
 
     void EndGame()
-    {
-
+    { 
         List<GameObject> players = NetGameManager.Instance.getPlayers();
         foreach (GameObject player in players)
         {
             if (player.GetComponent<NetworkCharacterMovementController>().GetFinishPosition() == 0)
             {
-                player.GetComponent<NetworkCharacterMovementController>().CmdSetFinishPosition(noFinishPos);
+                // TODO: Tally up number of items turned in
+                player.GetComponent<NetworkCharacterMovementController>().SetFinishPosition(noFinishPos);
                 noFinishPos--;
             }
+            Destroy(player.GetComponent<SS_ItemTracker>());
         }
         sa.UnlockAchievement("SS_FINISH");
         StudsNetworkManager netManager = NetworkManager.GetComponent<StudsNetworkManager>();
@@ -72,5 +74,13 @@ public class NetShopTimer : NetworkBehaviour
 
         TimerTXT.text = string.Format("{0:00}:{1:00}", min, sec);
 
+    }
+
+    /// <summary>
+    /// Increment race positions. Should only be performed by server.
+    /// </summary>
+    public void IncrementRacePositions()
+    {
+        racePositions++;
     }
 }

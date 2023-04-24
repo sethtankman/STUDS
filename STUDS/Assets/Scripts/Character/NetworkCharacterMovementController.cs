@@ -858,6 +858,29 @@ public class NetworkCharacterMovementController : NetworkBehaviour
         RpcEnableKnockBack(grabbedObject);
     }
 
+
+    [Command]
+    private void CmdAnimSetBool(string varName, bool tf)
+    {
+        animator.SetBool(varName, tf);
+        RpcAnimSetBool(varName, tf);
+    }
+
+
+    [Command]
+    private void CmdAnimSetTrigger(string varName)
+    {
+        animator.SetTrigger(varName);
+        RpcAnimSetTrigger(varName);
+    }
+
+
+    [Command]
+    public void CmdSetFinishPosition(int pos)
+    {
+        finishPosition = pos;
+    }
+
     [ClientRpc]
     private void RpcSetColor(string _color)
     {
@@ -917,12 +940,6 @@ public class NetworkCharacterMovementController : NetworkBehaviour
         LocalEnableKnockBack(grabbedObject);
     }
 
-    [Command]
-    private void CmdAnimSetBool(string varName, bool tf)
-    {
-        animator.SetBool(varName, tf);
-        RpcAnimSetBool(varName, tf);
-    }
 
     [ClientRpc]
     private void RpcAnimSetBool(string varName, bool tf)
@@ -930,12 +947,6 @@ public class NetworkCharacterMovementController : NetworkBehaviour
         animator.SetBool(varName, tf);
     }
 
-    [Command]
-    private void CmdAnimSetTrigger(string varName)
-    {
-        animator.SetTrigger(varName);
-        RpcAnimSetTrigger(varName);
-    }
 
     [ClientRpc]
     private void RpcAnimSetTrigger(string varName)
@@ -978,11 +989,11 @@ public class NetworkCharacterMovementController : NetworkBehaviour
     {
         return _color switch
         {
-            "Red" => 0,
-            "Blue" => 1,
-            "Purple" => 2,
-            "Yellow" => 3,
-            "Green" => 4,
+            "red" => 0,
+            "blue" => 1,
+            "purple" => 2,
+            "yellow" => 3,
+            "green" => 4,
             _ => -1,
         };
     }
@@ -1061,7 +1072,7 @@ public class NetworkCharacterMovementController : NetworkBehaviour
     public void SetColorName(string colorName)
     {
         Debug.Log("Setting character color: " + colorName);
-        color = colorName.ToLower();
+        color = colorName;
         //GameObject gameManager = GameObject.Find("GameManager");
         CmdChangePlayerColor(color);
         
@@ -1097,11 +1108,6 @@ public class NetworkCharacterMovementController : NetworkBehaviour
         return isReady && _selectedLevel == selectedLevel;
     }
 
-    [Command]
-    public void CmdSetFinishPosition(int pos)
-    {
-        finishPosition = pos;
-    }
 
     public int GetFinishPosition()
     {
@@ -1126,6 +1132,10 @@ public class NetworkCharacterMovementController : NetworkBehaviour
         return controller;
     }
 
+    /// <summary>
+    /// Should only be called on the server.
+    /// </summary>
+    /// <param name="pos">Number to set player's position to.</param>
     public void SetFinishPosition(int pos)
     {
         finishPosition = pos;
