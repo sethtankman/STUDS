@@ -32,6 +32,8 @@ public class NetPennyPincherAI : MonoBehaviour
     }
 
 
+
+
     // Update is called once per frame
     void Update()
     {
@@ -161,5 +163,10 @@ public class NetPennyPincherAI : MonoBehaviour
             active = false;
             StartCoroutine("FindNewTarget");
         }
+    }
+
+    public void SetActive(bool tf)
+    {
+        active = tf;
     }
 }

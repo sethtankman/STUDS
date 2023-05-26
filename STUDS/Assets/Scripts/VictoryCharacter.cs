@@ -27,11 +27,6 @@ public class VictoryCharacter : MonoBehaviour
         {
             players = NetGameManager.Instance.getPlayers();
         }
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
         if (networkMode)
         {
             foreach (GameObject player in players)
@@ -42,11 +37,14 @@ public class VictoryCharacter : MonoBehaviour
                 {
                     SetColor(player.GetComponent<NetworkCharacterMovementController>().GetColorName());
                     if (foundMatch == false)
+                    {
                         TurnMini(player);
+                    }
                     foundMatch = true;
                 }
             }
-        } else
+        }
+        else
         {
             foreach (GameObject player in players)
             {
@@ -58,10 +56,7 @@ public class VictoryCharacter : MonoBehaviour
                     if (foundMatch == false)
                         TurnMini(player);
                     foundMatch = true;
-
-
                 }
-
             }
         }
         if (!foundMatch)
@@ -70,14 +65,20 @@ public class VictoryCharacter : MonoBehaviour
         }
     }
 
+    // Update is called once per frame
+    void Update()
+    {
+        
+    }
+
     private void TurnMini(GameObject player)
     {
         //Debug.Log("Calling TurnMini " + isPowerBill + "  " + player.GetComponent<CharacterMovementController>().isMini);
         if (player.GetComponent<NetworkCharacterMovementController>()) {
             if (isPowerBill && player.GetComponent<NetworkCharacterMovementController>().isMini)
             {
-                gameObject.GetComponent<NetworkCharacterMovementController>().SetToMini(true);
-                gameObject.GetComponent<NetworkCharacterMovementController>().enabled = false;
+                gameObject.GetComponent<CharacterMovementController>().SetToMini(true);
+                gameObject.GetComponent<CharacterMovementController>().enabled = false;
             }
         }
         else if (isPowerBill && player.GetComponent<CharacterMovementController>().isMini)

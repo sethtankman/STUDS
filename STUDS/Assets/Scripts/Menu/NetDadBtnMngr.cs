@@ -21,7 +21,7 @@ public class NetDadBtnMngr : NetworkBehaviour
         if (isServer)
         {
             AIColors = new Stack<string>();
-            remainingColors = new List<string>() { "Blue", "Red", "Purple", "Green", "Yellow" };
+            remainingColors = new List<string>() { "blue", "red", "purple", "green", "yellow" };
             GameManager = GameObject.Find("GameManager");
             miniPlayers = new List<GameObject>();
             dadPlayers = new List<GameObject>();

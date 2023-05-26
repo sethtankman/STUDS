@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 2027247909187081182}
   - component: {fileID: 2027247909187081153}
   - component: {fileID: 2027247909187081152}
-  - component: {fileID: 7082193775138456949}
   - component: {fileID: 969093247886073066}
   - component: {fileID: 9033227469343286616}
   m_Layer: 5
@@ -125,7 +124,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 7082193775138456949}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: 
         m_MethodName: ToggleMini
         m_Mode: 1
@@ -137,36 +136,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &7082193775138456949
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2027247909187081154}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 890f6364006319f4ea55da01460f7b56, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  btnText: {fileID: 0}
-  btnImage: {fileID: 2027247909187081153}
-  kidMaterials: []
-  characterSprites:
-  - {fileID: 21300000, guid: 830e27c8dcee508449616da7644dc2b8, type: 3}
-  - {fileID: 21300000, guid: 2edb40533595da347a76f20f19e24eb6, type: 3}
-  - {fileID: 21300000, guid: c41fe0e4cbf9cf94abd6a81821f7f04d, type: 3}
-  - {fileID: 21300000, guid: 19150b4a8117e2a4994431d4fab07f45, type: 3}
-  - {fileID: 21300000, guid: 472c69c6a95903d408292255feb532d3, type: 3}
-  - {fileID: 21300000, guid: bdf8d7d69ac41ab4a9baa418a1c9f5bc, type: 3}
-  - {fileID: 21300000, guid: a8594310a3983b441a2d28e10fc0f7c4, type: 3}
-  - {fileID: 21300000, guid: 37c2b9ec4d9c3f54ebf4faf9d15338a5, type: 3}
-  - {fileID: 21300000, guid: cc3f7844d5ec6ad4bbd2df788c9e0874, type: 3}
-  - {fileID: 21300000, guid: 6f7d1d44094eff848af149f55c3e8c63, type: 3}
-  player: {fileID: 0}
-  aiImage: {fileID: 8203444835463664848}
-  manager: {fileID: 0}
-  color: 
 --- !u!114 &969093247886073066
 MonoBehaviour:
   m_ObjectHideFlags: 0

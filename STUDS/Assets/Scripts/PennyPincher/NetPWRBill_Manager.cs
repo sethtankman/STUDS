@@ -4,8 +4,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
+using Mirror;
 
-public class NetPWRBill_Manager : MonoBehaviour
+public class NetPWRBill_Manager : NetworkBehaviour
 {
     //Electricity variables
     public float Score;
@@ -24,15 +25,18 @@ public class NetPWRBill_Manager : MonoBehaviour
     private float Sprint = 10.0f;
 
     public GameObject PBGameEndText;
+    private StudsNetworkManager netManager;
 
     private int racePositions;
     private int noFinishPos;
+    private bool ended = false;
 
     // Start is called before the first frame update
     void Start()
     {
         racePositions = 1;
         noFinishPos = -1;
+        netManager = GameObject.Find("NetworkManager").GetComponent<StudsNetworkManager>();
         foreach (GameObject Electronic in GameObject.FindGameObjectsWithTag("RandomPick"))
         {
             Interactives.Add(Electronic.GetComponent<Interaction>());
@@ -73,7 +77,8 @@ public class NetPWRBill_Manager : MonoBehaviour
         }
         else
         {
-            EndGame();
+            if(!ended)
+                EndGame();
         }
 
     }
@@ -86,6 +91,7 @@ public class NetPWRBill_Manager : MonoBehaviour
 
     void EndGame()
     {
+        ended = true;
         GameObject EndText = Instantiate(PBGameEndText);
         DontDestroyOnLoad(EndText);
         EndText.GetComponent<TextMeshProUGUI>().text = Score.ToString();
@@ -96,26 +102,59 @@ public class NetPWRBill_Manager : MonoBehaviour
         {
             if (player.GetComponent<NetworkCharacterMovementController>().isAI)
             {
-                DontDestroyOnLoad(player.transform.parent.gameObject);
-                NetGameManager.Instance.AddPlayer(player);
-                Debug.Log("New AI added!");
+                player.GetComponent<NetPennyPincherAI>().SetActive(false);
+                DontDestroyOnLoad(player.gameObject);
+                //NetGameManager.Instance.AddPlayer(player);
+                //Debug.Log("New AI added!");
             }
         }
-        List<GameObject> players = NetGameManager.Instance.getPlayers();
-        foreach (GameObject player in players)
+        if (isServer)
         {
-            if (player.GetComponent<NetworkCharacterMovementController>().isMini)
+            List<GameObject> players = NetGameManager.Instance.getPlayers();
+            foreach (GameObject player in players) // TODO: Doesn't account for which side won!
             {
-                player.GetComponent<NetworkCharacterMovementController>().SetFinishPosition(noFinishPos);
-                noFinishPos--;
-            }else if (!player.GetComponent<NetworkCharacterMovementController>().isMini)
-            {
-                player.GetComponent<NetworkCharacterMovementController>().SetFinishPosition(racePositions);
-                racePositions++;
+                if (player.GetComponent<NetworkCharacterMovementController>())
+                {
+                    var controller = player.GetComponent<NetworkCharacterMovementController>();
+                    if (controller.finishPosition == 0)
+                    {
+                        if (controller.isMini)
+                        {
+                            controller.SetFinishPosition(noFinishPos);
+                            noFinishPos--;
+                        }
+                        else
+                        {
+                            controller.SetFinishPosition(racePositions);
+                            racePositions++;
+                        }
+                    }
+                }
+                else if (player.GetComponentInChildren<NetworkCharacterMovementController>()) {
+                    var controller = player.GetComponentInChildren<NetworkCharacterMovementController>();
+                    if (controller.finishPosition == 0)
+                    {
+                        if (controller.isMini)
+                        {
+                            controller.SetFinishPosition(noFinishPos);
+                            noFinishPos--;
+                            if (player.GetComponentInChildren<KidTimeout>())
+                                player.GetComponentInChildren<KidTimeout>().enabled = false;
+                        }
+                        else
+                        {
+                            controller.SetFinishPosition(racePositions);
+                            racePositions++;
+                        }
+                    }
+                } else
+                {
+                    Debug.LogError("No Network Character movement controller found in player!");
+                }
             }
         }
 
-        SceneManager.LoadScene("VictoryStands");
+        netManager.ServerChangeScene("NetVictoryStands");
     }
 
     void Showtime(float timeleft)

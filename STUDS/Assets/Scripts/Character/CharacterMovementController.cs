@@ -662,7 +662,13 @@ public class CharacterMovementController : MonoBehaviour
             isMini = true; //The Eugine will now act as a child.
             moveSpeed = moveSpeedKid;
             savedMaterial = gameObject.GetComponentInChildren<SkinnedMeshRenderer>().material;
-            gameObject.GetComponentInChildren<SkinnedMeshRenderer>().material = kidsMaterials[GetColorIndex(color)];
+            Debug.Log($"Color: {color}, Index: {GetColorIndex(color)}");
+            if(GetColorIndex(color) != -1)
+                gameObject.GetComponentInChildren<SkinnedMeshRenderer>().material = kidsMaterials[GetColorIndex(color)];
+            else
+            {
+                Debug.LogWarning($"Color not found: {color}");
+            }
         } else
         {
             transform.localScale = new Vector3(30, 30, 30); // size is 30, 30, 30
@@ -678,15 +684,15 @@ public class CharacterMovementController : MonoBehaviour
     {
         switch(_color)
         {
-            case "Red":
+            case "red":
                 return 0;
-            case "Blue":
+            case "blue":
                 return 1;
-            case "Purple":
+            case "purple":
                 return 2;
-            case "Yellow":
+            case "yellow":
                 return 3;
-            case "Green":
+            case "green":
                 return 4;
             default:
                 return -1;
