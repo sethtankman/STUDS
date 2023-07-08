@@ -14,30 +14,37 @@ public class NetDadBtnMngr : NetworkBehaviour
     public RectTransform[] buttonLocations;
     public string levelName;
     public int numAI, numPlayers;
+    private bool needsUpdate = true;
 
     // Start is called before the first frame update
     void Start()
     {
+        acceptButton.SetActive(false);
+        AIColors = new Stack<string>();
+        remainingColors = new List<string>() { "blue", "red", "purple", "green", "yellow" };
+        GameManager = GameObject.Find("GameManager");
+        miniPlayers = new List<GameObject>();
+        dadPlayers = new List<GameObject>();
+        //PlayerInputManager.instance.DisableJoining();  //Technically we shouldn't need this, because we should disable joining before level select.
+        allPlayers = GameObject.Find("GameManager").GetComponent<NetGameManager>().players;
+        allButtons = new GameObject[4];
+        int i = 0;
+
         if (isServer)
         {
-            AIColors = new Stack<string>();
-            remainingColors = new List<string>() { "blue", "red", "purple", "green", "yellow" };
-            GameManager = GameObject.Find("GameManager");
-            miniPlayers = new List<GameObject>();
-            dadPlayers = new List<GameObject>();
-            //PlayerInputManager.instance.DisableJoining();  //Technically we shouldn't need this, because we should disable joining before level select.
-            allPlayers = GameObject.Find("GameManager").GetComponent<NetGameManager>().players;
-            allButtons = new GameObject[4];
-            int i = 0;
+            acceptButton.SetActive(true);
             foreach (GameObject player in allPlayers)
             {
                 GameObject button = Instantiate(characterButton, buttonLocations[i].position, Quaternion.identity, gameObject.transform);
+                NetworkServer.Spawn(button);
                 button.GetComponent<RectTransform>().pivot = buttonLocations[i].pivot;
                 button.GetComponent<NetDadBtn>().SetSprite(player.GetComponent<NetworkCharacterMovementController>().GetColorName());
                 remainingColors.Remove(player.GetComponent<NetworkCharacterMovementController>().GetColorName());
                 button.GetComponent<NetDadBtn>().SetPlayer(player);
                 button.GetComponent<NetDadBtn>().manager = this;
                 allButtons[i] = button;
+
+
                 Debug.Log("Button added");
                 if (i > 0) // This sort of performs it backwards: add the player to the wrong list, then switch them.
                 {
@@ -52,6 +59,32 @@ public class NetDadBtnMngr : NetworkBehaviour
                 i++;
                 numPlayers = i;
             }
+            InvokeRepeating("RpcClientInitialize", 1.0f, 1.0f);
+        }
+    }
+
+    [ClientRpc]
+    public void RpcClientInitialize()
+    {
+        if (!isServer)
+        {
+            int i = 0;
+            foreach (NetDadBtn button in GetComponentsInChildren<NetDadBtn>())
+            {
+                if (i < allPlayers.Count)
+                {
+                    GameObject player = allPlayers[i];
+                    button.GetComponent<RectTransform>().pivot = buttonLocations[i].pivot;
+                    button.GetComponent<NetDadBtn>().SetSprite(player.GetComponent<NetworkCharacterMovementController>().GetColorName());
+                    remainingColors.Remove(player.GetComponent<NetworkCharacterMovementController>().GetColorName());
+                    button.GetComponent<NetDadBtn>().SetPlayer(player);
+                    button.GetComponent<NetDadBtn>().manager = this;
+                    allButtons[i] = button.gameObject;
+
+                    i++;
+                }
+            }
+            //needsUpdate = false;
         }
     }
 
@@ -82,15 +115,16 @@ public class NetDadBtnMngr : NetworkBehaviour
 
     public void AddAI()
     {
-        if (numPlayers + numAI < 4)
+        if (isServer && numPlayers + numAI < 4)
         {
             GameObject button = Instantiate(characterButton, buttonLocations[numPlayers + numAI].position, Quaternion.identity, gameObject.transform);
-            button.GetComponent<NetDadBtn>().SetSprite(remainingColors.ToArray()[0]);
+            NetworkServer.Spawn(button);
+            button.GetComponent<NetDadBtn>().RpcSetSprite(remainingColors.ToArray()[0]);
             button.GetComponent<NetDadBtn>().color = remainingColors.ToArray()[0];
             AIColors.Push(remainingColors.ToArray()[0]);
             remainingColors.Remove(remainingColors.ToArray()[0]);
-            button.GetComponent<NetDadBtn>().SetAI(true);
-            button.GetComponent<RectTransform>().pivot = buttonLocations[numPlayers + numAI].pivot;
+            button.GetComponent<NetDadBtn>().RpcSetAI(true);
+            button.GetComponent<NetDadBtn>().RpcSetPivot(buttonLocations[numPlayers + numAI].pivot);
             allButtons[numPlayers + numAI] = button;
             numAI++;
 
@@ -107,11 +141,11 @@ public class NetDadBtnMngr : NetworkBehaviour
 
     public void RemoveAI()
     {
-        if (numAI > 0)
+        if (isServer && numAI > 0)
         {
             remainingColors.Add(allButtons[numPlayers + numAI - 1].GetComponent<NetDadBtn>().color);
             AIColors.Pop();
-            Destroy(allButtons[numPlayers + numAI - 1]);
+            NetworkServer.Destroy(allButtons[numPlayers + numAI - 1]);
             allButtons[numPlayers + numAI - 1] = null;
             numAI--;
 
@@ -147,4 +181,13 @@ public class NetDadBtnMngr : NetworkBehaviour
         GameManager.GetComponent<NetGameManager>().aiColors = AIColors;
         GameObject.Find("NetworkManager").GetComponent<NetworkManager>().ServerChangeScene(levelName);
     }
+
+    /*
+    [Command(requiresAuthority = false)]
+    public void CmdRequestBtnInfo(NetDadBtn _button)
+    {
+        Debug.Log($"Requested button pivot: {_button.GetComponent<RectTransform>().pivot}, Color: {_button.player.GetComponent<NetworkCharacterMovementController>().GetColorName()}");
+        _button.RpcSetPivot(_button.GetComponent<RectTransform>().pivot);
+        _button.RpcSetSprite(_button.player.GetComponent<NetworkCharacterMovementController>().GetColorName());
+    } */
 }

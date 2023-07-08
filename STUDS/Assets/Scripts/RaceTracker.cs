@@ -56,27 +56,27 @@ public class RaceTracker : MonoBehaviour
 
     private Texture IconPicker(string Color)
     {
-        if (Color == "Blue")
+        if (Color == "blue")
         {
             return BlueIcon;
         }
-        if (Color == "Red")
+        if (Color == "red")
         {
             return RedIcon;
         }
-        if (Color == "Yellow")
+        if (Color == "yellow")
         {
             return YellowIcon;
         }
-        if (Color == "Purple")
+        if (Color == "purple")
         {
             return PinkIcon;
         }
-        if (Color == "Green")
+        if (Color == "green")
         {
             return GreenIcon;
         }
-        if (Color == "Orange")
+        if (Color == "orange")
         {
             return OrangeIcon;
         }

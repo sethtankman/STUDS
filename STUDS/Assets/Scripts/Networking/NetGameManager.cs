@@ -188,7 +188,6 @@ public class NetGameManager : NetworkBehaviour
     {
         if (isServer)
             return;
-        Debug.Log("RPC Called");
         foreach (GameObject playerObj in players)
         {   
             int playerID = playerObj.GetComponent<NetworkCharacterMovementController>().getPlayerID();

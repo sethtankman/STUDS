@@ -43,23 +43,23 @@ public class DadBtn : MonoBehaviour
     {
         switch (colorName)
         {
-            case "Blue":
+            case "blue":
                 btnImage.sprite = characterSprites[0];
                 imageIndex = 0;
                 break;
-            case "Green":
+            case "green":
                 btnImage.sprite = characterSprites[1];
                 imageIndex = 1;
                 break;
-            case "Red":
+            case "red":
                 btnImage.sprite = characterSprites[2];
                 imageIndex = 2;
                 break;
-            case "Purple":
+            case "purple":
                 btnImage.sprite = characterSprites[3];
                 imageIndex = 3;
                 break;
-            case "Yellow":
+            case "yellow":
                 btnImage.sprite = characterSprites[4];
                 imageIndex = 4;
                 break;

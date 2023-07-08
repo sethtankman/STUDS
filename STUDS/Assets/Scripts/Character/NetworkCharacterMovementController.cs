@@ -67,7 +67,8 @@ public class NetworkCharacterMovementController : NetworkBehaviour
     private bool hasGrabbed = false;
     public bool pickupPressed;
     public bool throwPressed = false;
-    private bool isReady;
+    [SyncVar]
+    private bool isReady = false;
     private bool drop;
 
     public bool isMini = false;

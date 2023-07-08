@@ -18,7 +18,14 @@ public class NetDadBtn : NetworkBehaviour
     private void Start()
     {
         manager = GameObject.Find("Panel").GetComponent<NetDadBtnMngr>();
+        if(!isServer)
+        {
+            transform.SetParent(manager.transform);
+            //manager.CmdRequestBtnInfo(this);  
+        }
     }
+
+
 
     public void RandomPlayer()
     {
@@ -35,6 +42,12 @@ public class NetDadBtn : NetworkBehaviour
         }
     }
 
+    [ClientRpc]
+    public void RpcSetSprite(string colorName)
+    {
+        SetSprite(colorName);
+        color = colorName;
+    }
 
     /// <summary>
     /// Sets the sprite to the one specified.
@@ -69,6 +82,7 @@ public class NetDadBtn : NetworkBehaviour
                 Debug.LogError("Unable to set sprite to specified color: " + colorName);
                 break;
         }
+        Debug.Log($"Image set to index {imageIndex}");
     }
 
     public void SetPlayer(GameObject refPlayer)
@@ -77,6 +91,7 @@ public class NetDadBtn : NetworkBehaviour
         // GetComponent<Button>().onClick.AddListener(ToggleMini);
     }
 
+    
     public void ToggleMini()
     {
         if (aiImage.activeSelf == false)
@@ -102,10 +117,23 @@ public class NetDadBtn : NetworkBehaviour
         }*/
     }
 
+    [ClientRpc]
+    public void RpcSetAI(bool setAI)
+    {
+        SetAI(setAI);
+    }
+
     public void SetAI(bool setAI)
     {
         aiImage.SetActive(setAI);
         btnImage.sprite = characterSprites[imageIndex + 5];
         imageIndex += 5;
+    }
+
+    [ClientRpc]
+    public void RpcSetPivot(Vector2 _pivot)
+    {
+        Debug.Log($"Pivot set to {_pivot}");
+        GetComponent<RectTransform>().pivot = _pivot;
     }
 }

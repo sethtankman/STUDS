@@ -89,15 +89,15 @@ public class PBInitializeLevel : MonoBehaviour
     {
         switch (_color)
         {
-            case "Red":
+            case "red":
                 return 0;
-            case "Blue":
+            case "blue":
                 return 1;
-            case "Purple":
+            case "purple":
                 return 2;
-            case "Yellow":
+            case "yellow":
                 return 3;
-            case "Green":
+            case "green":
                 return 4;
             default:
                 Debug.LogError("Invalid color name");

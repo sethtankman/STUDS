@@ -85,24 +85,24 @@ public class InitializeLevel : MonoBehaviour
     private void DetermineColor(string colorName, GameObject stroller)
     {
         Debug.Log(colorName);
-        if (colorName.Equals("Blue"))
+        if (colorName.Equals("blue"))
         {
             stroller.GetComponent<MeshRenderer>().material = strollerColor1;
         }
-        else if (colorName.Equals("Green"))
+        else if (colorName.Equals("green"))
         {
             stroller.GetComponent<MeshRenderer>().material = strollerColor2;
         }
-        else if (colorName.Equals("Red"))
+        else if (colorName.Equals("red"))
         {
             Debug.Log("Orange Stroller");
             stroller.GetComponent<MeshRenderer>().material = strollerColor3;
         }
-        else if (colorName.Equals("Yellow"))
+        else if (colorName.Equals("yellow"))
         {
             stroller.GetComponent<MeshRenderer>().material = strollerColor4;
         }
-        else if (colorName.Equals("Purple"))
+        else if (colorName.Equals("purple"))
         {
             stroller.GetComponent<MeshRenderer>().material = strollerColor5;
         }

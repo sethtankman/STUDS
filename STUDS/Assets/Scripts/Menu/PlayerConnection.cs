@@ -19,11 +19,11 @@ public class PlayerConnection : MonoBehaviour
     public void Start()
     {
         colorImages = new Dictionary<string, int>();
-        colorImages["Blue"] = 0;
-        colorImages["Purple"] = 1;
-        colorImages["Red"] = 2;
-        colorImages["Yellow"] = 3;
-        colorImages["Green"] = 4;
+        colorImages["blue"] = 0;
+        colorImages["purple"] = 1;
+        colorImages["red"] = 2;
+        colorImages["yellow"] = 3;
+        colorImages["green"] = 4;
         playerHub = GameObject.Find("GameManager").GetComponent<ManagePlayerHub>();
         int i = 0;
         foreach (GameObject player in playerHub.players)
