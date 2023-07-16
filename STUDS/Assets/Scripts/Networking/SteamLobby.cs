@@ -165,7 +165,6 @@ public class SteamLobby : NetworkBehaviour
     private void OnLobbyEntered(LobbyEnter_t callback)
     {
         current_lobbyID = callback.m_ulSteamIDLobby;
-        Debug.Log("OnLobbyEntered for lobby with id: " + current_lobbyID.ToString());
         if (NetworkServer.active) { return; }
 
         string hostAddress = SteamMatchmaking.GetLobbyData(

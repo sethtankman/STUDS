@@ -15,7 +15,7 @@ public class NetPWRBill_Manager : NetworkBehaviour
     public TextMeshProUGUI ItemsOnTXT;
 
     //List of objects to interact with
-    public List<Interaction> Interactives = new List<Interaction>();
+    public List<NetInteraction> Interactives = new List<NetInteraction>();
     public List<int> Validation = new List<int>();
     public int MaxObjectsOff;
 
@@ -39,7 +39,7 @@ public class NetPWRBill_Manager : NetworkBehaviour
         netManager = GameObject.Find("NetworkManager").GetComponent<StudsNetworkManager>();
         foreach (GameObject Electronic in GameObject.FindGameObjectsWithTag("RandomPick"))
         {
-            Interactives.Add(Electronic.GetComponent<Interaction>());
+            Interactives.Add(Electronic.GetComponent<NetInteraction>());
             if (Interactives.Contains(null))
             {
                 Interactives.Remove(null);

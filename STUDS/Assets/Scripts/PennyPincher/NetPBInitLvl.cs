@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using Mirror;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -7,7 +6,7 @@ using UnityEngine.InputSystem;
 /// <summary>
 /// The Level Initializer for the Power Bill Level
 /// </summary>
-public class NetPBInitLvl : MonoBehaviour
+public class NetPBInitLvl : NetworkBehaviour
 {
     public Transform[] playerSpawns;
     public Material[] kidsMaterials;
@@ -26,6 +25,7 @@ public class NetPBInitLvl : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Debug.Log("Reached start");
         loadingScreen.SetActive(true);
         GameObject.Find("Music Manager").GetComponent<Music_Manager>().PlayStopMusic("Menu", false);
         GameObject.Find("Music Manager").GetComponent<Music_Manager>().PlayStopMusic("Penny", true);

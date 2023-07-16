@@ -77,11 +77,11 @@ GameObject:
   - component: {fileID: 5265893579274741034}
   - component: {fileID: 406437671202242167}
   - component: {fileID: 7428982239099070671}
-  - component: {fileID: 6403045030480722751}
   - component: {fileID: 3626520299862966308}
   - component: {fileID: 4353781903396391267}
   - component: {fileID: -5134455852795293086}
   - component: {fileID: -9188321841964761987}
+  - component: {fileID: 9185419259450379523}
   m_Layer: 2
   m_Name: Rigged_Dad_Network
   m_TagString: Player
@@ -317,19 +317,6 @@ MonoBehaviour:
   m_DefaultActionMap: PlayerMovement
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 3450374694476005400}
---- !u!114 &6403045030480722751
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 932691824398563431}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5a6fa81f9f301a842b532280d6cd5a90, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  timeoutTimer: 5
 --- !u!114 &3626520299862966308
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -381,6 +368,7 @@ MonoBehaviour:
     valueGuidInternal: 
     WwiseObjectReference: {fileID: 11400000, guid: 4aef3822175cfb143b44258b0a6efb7f,
       type: 2}
+  sa: {fileID: 0}
   camPos: {fileID: 3450374694476005401}
   animator: {fileID: 406437671202242167}
   renderer: {fileID: 5994938408997206725}
@@ -403,12 +391,14 @@ MonoBehaviour:
   knockBackTime: 1
   timeUntilMoveEnabled: 0
   velocity: {x: 0, y: 0, z: 0}
+  grabbedObjectID: 0
   kidsMaterials:
   - {fileID: 2100000, guid: 3e7d13ea3349aab459a13c60e5ae2faf, type: 2}
   - {fileID: 2100000, guid: 1fe3a2e01ce124346b95ec883d2da808, type: 2}
   - {fileID: 2100000, guid: 41054a939b50d1d44816157ef864a864, type: 2}
   - {fileID: 2100000, guid: 3414f68c687e1f54a8722fe4ed16f329, type: 2}
   - {fileID: 2100000, guid: 5efd97ec0bdb6144498be4d2fc94f3b3, type: 2}
+  hasGrabbed: 0
   pickupPressed: 0
   throwPressed: 0
   isMini: 0
@@ -418,10 +408,12 @@ MonoBehaviour:
   movementEnabled: 1
   isMoving: 0
   isAI: 0
+  playerID: 0
   finishPosition: 0
   color: 
   hasAimAssist: 0
   CanJump: 0
+  CanMove: 0
 --- !u!114 &-5134455852795293086
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -459,6 +451,21 @@ MonoBehaviour:
   syncInterval: 0.2
   clientAuthority: 1
   animator: {fileID: 406437671202242167}
+--- !u!114 &9185419259450379523
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 932691824398563431}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb93f2bc2e8e16e4a88bc1f845f88f93, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  timeoutTimer: 5
 --- !u!1 &941638315054393277
 GameObject:
   m_ObjectHideFlags: 0

@@ -38,7 +38,7 @@ public class NetDadBtnMngr : NetworkBehaviour
                 GameObject button = Instantiate(characterButton, buttonLocations[i].position, Quaternion.identity, gameObject.transform);
                 NetworkServer.Spawn(button);
                 button.GetComponent<RectTransform>().pivot = buttonLocations[i].pivot;
-                button.GetComponent<NetDadBtn>().SetSprite(player.GetComponent<NetworkCharacterMovementController>().GetColorName());
+                button.GetComponent<NetDadBtn>().SetSprite(player.GetComponent<NetworkCharacterMovementController>().GetColorName(), false);
                 remainingColors.Remove(player.GetComponent<NetworkCharacterMovementController>().GetColorName());
                 button.GetComponent<NetDadBtn>().SetPlayer(player);
                 button.GetComponent<NetDadBtn>().manager = this;
@@ -51,7 +51,7 @@ public class NetDadBtnMngr : NetworkBehaviour
                     button.GetComponent<NetDadBtn>().ToggleMini();
                 }
                 else
-                {
+                { // first player is a dad.
                     Debug.Log("Adding: " + player);
                     miniPlayers.Add(player);
                     ToggleMini(player);
@@ -59,19 +59,38 @@ public class NetDadBtnMngr : NetworkBehaviour
                 i++;
                 numPlayers = i;
             }
-            InvokeRepeating("RpcClientInitialize", 1.0f, 1.0f);
+            InvokeRepeating("ClientInitialize", 1.0f, 1.0f);
         }
     }
 
-    [ClientRpc]
+    public void ClientInitialize()
+    {
+        if (needsUpdate)
+        {
+            foreach (NetDadBtn button in GetComponentsInChildren<NetDadBtn>())
+            {
+                //GameObject player = allPlayers[i];
+                button.RpcSetPivot(button.GetComponent<RectTransform>().pivot);
+                Debug.Log(button.color);
+                button.RpcSetSprite(button.color, button.imageIndex > 4);
+                button.GetComponent<NetDadBtn>().RpcSetPlayer(button.player);
+                //button.GetComponent<NetDadBtn>().manager = this;
+                //allButtons[i] = button.gameObject;
+
+                needsUpdate = false;
+            }
+        }
+    }
+
+    /*[ClientRpc] // this works, but the dad information isn't consistent across the network
     public void RpcClientInitialize()
     {
-        if (!isServer)
+        if (!isServer && needsUpdate)
         {
             int i = 0;
             foreach (NetDadBtn button in GetComponentsInChildren<NetDadBtn>())
             {
-                if (i < allPlayers.Count)
+                if (i < allPlayers.Count )
                 {
                     GameObject player = allPlayers[i];
                     button.GetComponent<RectTransform>().pivot = buttonLocations[i].pivot;
@@ -82,11 +101,11 @@ public class NetDadBtnMngr : NetworkBehaviour
                     allButtons[i] = button.gameObject;
 
                     i++;
+                    needsUpdate = false;
                 }
             }
-            //needsUpdate = false;
         }
-    }
+    }*/
 
     public void ToggleMini(GameObject selectedPlayer)
     {
@@ -103,13 +122,16 @@ public class NetDadBtnMngr : NetworkBehaviour
             dadPlayers.Remove(selectedPlayer);
         }
         // The number of dads cannot exceed the number of kids by more than one.
-        if (dadPlayers.Count > miniPlayers.Count + numAI + 1 || dadPlayers.Count == 0)
+        if (isServer)
         {
-            acceptButton.SetActive(false);
-        }
-        else
-        {
-            acceptButton.SetActive(true);
+            if (dadPlayers.Count > miniPlayers.Count + numAI + 1 || dadPlayers.Count == 0)
+            {
+                acceptButton.SetActive(false);
+            }
+            else
+            {
+                acceptButton.SetActive(true);
+            }
         }
     }
 
@@ -119,7 +141,7 @@ public class NetDadBtnMngr : NetworkBehaviour
         {
             GameObject button = Instantiate(characterButton, buttonLocations[numPlayers + numAI].position, Quaternion.identity, gameObject.transform);
             NetworkServer.Spawn(button);
-            button.GetComponent<NetDadBtn>().RpcSetSprite(remainingColors.ToArray()[0]);
+            button.GetComponent<NetDadBtn>().RpcSetSprite(remainingColors.ToArray()[0], false);
             button.GetComponent<NetDadBtn>().color = remainingColors.ToArray()[0];
             AIColors.Push(remainingColors.ToArray()[0]);
             remainingColors.Remove(remainingColors.ToArray()[0]);
@@ -165,12 +187,12 @@ public class NetDadBtnMngr : NetworkBehaviour
         foreach (GameObject player in miniPlayers)
         {
             Debug.Log("Mini: " + player);
-            player.GetComponent<NetworkCharacterMovementController>().SetToMini(true);
+            player.GetComponent<NetworkCharacterMovementController>().RpcSetToMini(true);
         }
         foreach (GameObject dad in dadPlayers)
         {
             Debug.Log("Dad: " + dad);
-            dad.GetComponent<NetworkCharacterMovementController>().SetToMini(false);
+            dad.GetComponent<NetworkCharacterMovementController>().RpcSetToMini(false);
         }
         LoadLevel();
     }

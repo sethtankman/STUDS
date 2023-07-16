@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -13,7 +12,7 @@ public class NetDadBtn : NetworkBehaviour
     public GameObject player, aiImage; //So the button can be connected to the player.
     public NetDadBtnMngr manager;
     public string color;
-    private int imageIndex;
+    public int imageIndex;
 
     private void Start()
     {
@@ -43,40 +42,55 @@ public class NetDadBtn : NetworkBehaviour
     }
 
     [ClientRpc]
-    public void RpcSetSprite(string colorName)
+    public void RpcToggleMini()
     {
-        SetSprite(colorName);
-        color = colorName;
+        ToggleMini();
+    }
+
+    [ClientRpc]
+    public void RpcSetSprite(string colorName, bool isKid)
+    {
+        SetSprite(colorName, isKid);
+    }
+
+    [ClientRpc]
+    public void RpcSetPlayer(GameObject player)
+    {
+        SetPlayer(player);
     }
 
     /// <summary>
-    /// Sets the sprite to the one specified.
+    /// Sets the sprite to the one specified.  
     /// </summary>
     /// <param name="colorNum"></param>
-    public void SetSprite(string colorName)
+    public void SetSprite(string colorName, bool isKid)
     {
         colorName = colorName.ToLower();
+        color = colorName;
+        // Sets the image index to the correct sprite if it is a kid.
+        int kidOffset = 0;
+        if(isKid) { kidOffset = 4; }
         switch (colorName)
         {
             case "blue":
-                btnImage.sprite = characterSprites[0];
-                imageIndex = 0;
+                btnImage.sprite = characterSprites[kidOffset];
+                imageIndex = kidOffset;
                 break;
             case "green":
-                btnImage.sprite = characterSprites[1];
-                imageIndex = 1;
+                btnImage.sprite = characterSprites[1 + kidOffset];
+                imageIndex = 1 + kidOffset;
                 break;
             case "red":
-                btnImage.sprite = characterSprites[2];
-                imageIndex = 2;
+                btnImage.sprite = characterSprites[2 + kidOffset];
+                imageIndex = 2 + kidOffset;
                 break;
             case "purple":
-                btnImage.sprite = characterSprites[3];
-                imageIndex = 3;
+                btnImage.sprite = characterSprites[3 + kidOffset];
+                imageIndex = 3 + kidOffset;
                 break;
             case "yellow":
-                btnImage.sprite = characterSprites[4];
-                imageIndex = 4;
+                btnImage.sprite = characterSprites[4 + kidOffset];
+                imageIndex = 4 + kidOffset;
                 break;
             default:
                 Debug.LogError("Unable to set sprite to specified color: " + colorName);
@@ -135,5 +149,9 @@ public class NetDadBtn : NetworkBehaviour
     {
         Debug.Log($"Pivot set to {_pivot}");
         GetComponent<RectTransform>().pivot = _pivot;
+        if (!manager)
+        {
+            manager = FindObjectOfType<NetDadBtnMngr>();
+        }
     }
 }

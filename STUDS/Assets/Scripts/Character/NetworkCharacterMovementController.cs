@@ -171,7 +171,7 @@ public class NetworkCharacterMovementController : NetworkBehaviour
                 pickupPressed = true;
                 if (electronicObject != null)
                 {
-                    electronicObject.GetComponent<Interaction>().ToggleVisual(isMini);
+                    electronicObject.GetComponent<NetInteraction>().ToggleVisual(isMini);
                 }
             }
             else
@@ -499,7 +499,7 @@ public class NetworkCharacterMovementController : NetworkBehaviour
             pickupPressed = true;
             if (electronicObject != null)
             {
-                electronicObject.GetComponent<Interaction>().ToggleVisual(isMini);
+                electronicObject.GetComponent<NetInteraction>().CmdToggleVisual(isMini);
             }
         }
         else
@@ -526,7 +526,7 @@ public class NetworkCharacterMovementController : NetworkBehaviour
         {
             if (electronicObject != null)
             {
-                electronicObject.GetComponent<Interaction>().ToggleVisual(isMini);
+                electronicObject.GetComponent<NetInteraction>().CmdToggleVisual(isMini);
                 PlayerParticles.inRange = false;
                 //PlayerParticles.DisableEmote();
             }
@@ -729,7 +729,7 @@ public class NetworkCharacterMovementController : NetworkBehaviour
                 {
                     sa.UnlockAchievement("PB_TIMEOUT");
                     Debug.Log("Calling timeout");
-                    collider.gameObject.GetComponent<KidTimeout>().Timeout(collider.gameObject);
+                    collider.gameObject.GetComponent<NetKidTimeout>().CmdTimeout(collider.gameObject);
                 }
             }
             else if (collider.CompareTag("ShoppingCart") && pickupPressed && !hasGrabbed)
@@ -953,6 +953,12 @@ public class NetworkCharacterMovementController : NetworkBehaviour
     private void RpcAnimSetTrigger(string varName)
     {
         animator.SetTrigger(varName);
+    }
+
+    [ClientRpc]
+    public void RpcSetToMini(bool setMini)
+    {
+        SetToMini(setMini);
     }
 
     /// <summary>

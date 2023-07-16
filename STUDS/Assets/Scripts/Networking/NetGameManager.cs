@@ -46,7 +46,7 @@ public class NetGameManager : NetworkBehaviour
         colorMaterials = new Dictionary<string, Material>();
         for (int i = 0; i < colorNames.Length; i++)
         {
-            Debug.Log($"Adding color: {colorNames[i]}");
+            //Debug.Log($"Adding color: {colorNames[i]}");
             colorMaterials[colorNames[i]] = materials[i];
         }
          
@@ -125,7 +125,7 @@ public class NetGameManager : NetworkBehaviour
     // For debugging.
     private void OnDisable()
     {
-        Debug.LogWarning("Who disabled me?");
+        //Debug.LogWarning("Who disabled me?");
     }
 
     protected Callback<GameOverlayActivated_t> m_GameOverlayActivated;
