@@ -2,10 +2,12 @@ using Mirror;
 using Steamworks;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class NetworkMenuActions : MonoBehaviour
 {
     public static NetworkMenuActions instance;
+    public Text logText;
     public StudsNetworkManager manager;
     public GameObject RoomButtonPrefab;
     public GameObject ContentPanel;
@@ -13,10 +15,26 @@ public class NetworkMenuActions : MonoBehaviour
     [SerializeField] private int topOfScrollArea = 1400;
 
     public List<GameObject> listOfLobbyListItems = new List<GameObject>();
+
     public void Start()
     {
         if (instance == null)
             instance = this;
+    }
+
+    public void OnEnable()
+    {
+        Application.logMessageReceived += LogCallback;
+    }
+
+    public void OnDisable()
+    {
+        Application.logMessageReceived -= LogCallback;
+    }
+
+    public void LogCallback(string logString, string stackTrace, LogType type)
+    {
+        logText.text = logString;
     }
 
     public void HostRoom()

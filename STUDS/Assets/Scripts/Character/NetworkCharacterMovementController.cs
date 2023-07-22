@@ -171,7 +171,7 @@ public class NetworkCharacterMovementController : NetworkBehaviour
                 pickupPressed = true;
                 if (electronicObject != null)
                 {
-                    electronicObject.GetComponent<NetInteraction>().ToggleVisual(isMini);
+                    electronicObject.GetComponent<NetInteraction>().CmdToggleVisual(isMini);
                 }
             }
             else
@@ -542,7 +542,6 @@ public class NetworkCharacterMovementController : NetworkBehaviour
         if (other.CompareTag("Electronics"))
         {
             electronicObject = other.transform.parent.gameObject;
-            Debug.Log("ElectronicObject Found");
         }
     }
 
@@ -568,7 +567,6 @@ public class NetworkCharacterMovementController : NetworkBehaviour
         if (other.CompareTag("Electronics"))
         {
             electronicObject = null;
-            Debug.Log("Electronic Object lost");
         }
     }
 

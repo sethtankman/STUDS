@@ -101,6 +101,7 @@ public class NetDadBtn : NetworkBehaviour
 
     public void SetPlayer(GameObject refPlayer)
     {
+        Debug.Log($"Setting player: {refPlayer}");
         player = refPlayer;
         // GetComponent<Button>().onClick.AddListener(ToggleMini);
     }

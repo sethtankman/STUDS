@@ -44,20 +44,18 @@ public class NetPWRBill_Manager : NetworkBehaviour
             {
                 Interactives.Remove(null);
             }
-            
+
         }
         NumItemsOn = Interactives.Count;
 
-        for (int j = 0; j < MaxObjectsOff; j++)
+        if (isServer)
         {
-            ValidatePicks();
-        }
+            for (int j = 0; j < MaxObjectsOff; j++)
+            {
+                ValidatePicks();
+            }
 
-        for (int i = 0; i < MaxObjectsOff; i++)
-        {
-            //int tmp = Random.Range(0, Interactives.Count);
-            Interactives[Validation[i]].ToggleVisualGM();
-            print(Interactives[Validation[i]].name);
+            //Invoke("SetInteractives", 4.0f);
         }
     }
 
@@ -83,10 +81,27 @@ public class NetPWRBill_Manager : NetworkBehaviour
 
     }
 
+    [ClientRpc]
+    public void RpcSetInteractives(List<int> _validation)
+    {
+        Validation = _validation;
+        Debug.Log(Validation.Count);
+        for (int i = 0; i < MaxObjectsOff; i++)
+        {
+            Debug.Log(Validation[i]);
+            Debug.Log(Interactives[Validation[i]]);
+            Interactives[Validation[i]].ToggleVisualGM();
+        }
+    }
+
+    private void SetInteractives()
+    {
+        RpcSetInteractives(Validation);
+    }
+
     public void AddScore(int toAdd)
     {
         Score += toAdd;
-
     }
 
     void EndGame()
@@ -172,6 +187,9 @@ public class NetPWRBill_Manager : NetworkBehaviour
 
     }
 
+    /// <summary>
+    /// Fills global variable Validation with distinct random integers used for determining which objects to be on or off
+    /// </summary>
     void ValidatePicks()
     {
         int picked = Random.Range(0, Interactives.Count);

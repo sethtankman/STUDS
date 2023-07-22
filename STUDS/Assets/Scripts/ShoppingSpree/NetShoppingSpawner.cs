@@ -46,10 +46,4 @@ public class NetShoppingSpawner : NetworkBehaviour
         isleAccessor.Add(picked);
 
     }
-
-    [ClientRpc]
-    private void RpcSpawnItems()
-    {
-
-    }
 }

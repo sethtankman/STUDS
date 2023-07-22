@@ -61,6 +61,10 @@ public class NetDadBtnMngr : NetworkBehaviour
             }
             InvokeRepeating("ClientInitialize", 1.0f, 1.0f);
         }
+        else
+        {
+            //NetworkClient.Ready();
+        }
     }
 
     public void ClientInitialize()
@@ -194,13 +198,15 @@ public class NetDadBtnMngr : NetworkBehaviour
             Debug.Log("Dad: " + dad);
             dad.GetComponent<NetworkCharacterMovementController>().RpcSetToMini(false);
         }
-        LoadLevel();
+
+        Invoke("LoadLevel", 0.5f); // Calling this after a delay so NetworkTransform has a chance to update scale before changing scenes.
     }
 
     private void LoadLevel()
     {
-        GameManager.GetComponent<NetGameManager>().numAIToSpawnPB = numAI;
-        GameManager.GetComponent<NetGameManager>().aiColors = AIColors;
+        NetGameManager mngr = GameManager.GetComponent<NetGameManager>();
+        mngr.numAIToSpawnPB = numAI;
+        mngr.aiColors = AIColors;
         GameObject.Find("NetworkManager").GetComponent<NetworkManager>().ServerChangeScene(levelName);
     }
 

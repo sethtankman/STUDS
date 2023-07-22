@@ -52,18 +52,26 @@ public class NetInteraction : NetworkBehaviour
     [Command(requiresAuthority = false)]
     public void CmdToggleVisual(bool isMini)
     {
+        Debug.Log("CmdToggleVisual");
         RpcToggleVisual(isMini);
     }
 
     [ClientRpc]
     public void RpcToggleVisual(bool isMini)
     {
+        Debug.Log("RpcToggleVisual");
         ToggleVisual(isMini);
+    }
+
+    [ClientRpc]
+    public void RpcToggleVisualGM()
+    {
+        ToggleVisualGM();
     }
 
     public void ToggleVisual(bool isMini)
     {
-        Debug.Log("ToggleVisual Called.");
+        Debug.Log($"ToggleVisual: {isMini}");
         if (isMini && !Object_active.activeSelf)
         {
             GameMaster.NumItemsOn += 1;
@@ -120,10 +128,11 @@ public class NetInteraction : NetworkBehaviour
         trigger.isSwitchActive = true;
         Object_active.SetActive(false);
         Object_inactive.SetActive(true);
-        PennyPincherAI[] allAI = FindObjectsOfType(typeof(PennyPincherAI)) as PennyPincherAI[];
+        // TODO: Uncomment this.
+        /* PennyPincherAI[] allAI = FindObjectsOfType(typeof(PennyPincherAI)) as PennyPincherAI[];
         foreach (PennyPincherAI AI in allAI)
         {
             AI.CheckUpdateTarget(gameObject, false);
-        }
+        } */
     }
 }

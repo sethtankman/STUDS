@@ -25,7 +25,6 @@ public class NetPBInitLvl : NetworkBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Debug.Log("Reached start");
         loadingScreen.SetActive(true);
         GameObject.Find("Music Manager").GetComponent<Music_Manager>().PlayStopMusic("Menu", false);
         GameObject.Find("Music Manager").GetComponent<Music_Manager>().PlayStopMusic("Penny", true);
