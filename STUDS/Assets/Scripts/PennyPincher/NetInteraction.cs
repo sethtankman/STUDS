@@ -35,7 +35,7 @@ public class NetInteraction : NetworkBehaviour
 
     public void Update()
     {
-        if (!interactPressed)
+        if (isServer && !interactPressed)
         {
             CashTimer += Time.deltaTime;
 
@@ -122,7 +122,10 @@ public class NetInteraction : NetworkBehaviour
 
     public void ToggleVisualGM()
     {
-        GameMaster.NumItemsOn -= 1;
+        if(isServer)
+        {
+            GameMaster.NumItemsOn -= 1;
+        }
         interactPressed = true;
         Debug.Log("Toggle: " + gameObject.name);
         trigger.isSwitchActive = true;

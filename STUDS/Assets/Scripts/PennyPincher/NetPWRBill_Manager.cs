@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
 using Mirror;
+using System;
 
 public class NetPWRBill_Manager : NetworkBehaviour
 {
@@ -55,7 +56,7 @@ public class NetPWRBill_Manager : NetworkBehaviour
                 ValidatePicks();
             }
 
-            //Invoke("SetInteractives", 4.0f);
+            Invoke("SetInteractives", 3.0f);
         }
     }
 
@@ -64,8 +65,8 @@ public class NetPWRBill_Manager : NetworkBehaviour
     {
         Mathf.RoundToInt(timer);
 
-        PowerTXT.text = "Power Bill: $" + (Score / 10) + "0";
-        ItemsOnTXT.text = "Appliances: " + (NumItemsOn + 1);
+        //PowerTXT.text = "Power Bill: $" + (Score / 10) + "0";
+        //ItemsOnTXT.text = "Appliances: " + (NumItemsOn + 1);
                
         timer -= Time.deltaTime;
 
@@ -84,19 +85,35 @@ public class NetPWRBill_Manager : NetworkBehaviour
     [ClientRpc]
     public void RpcSetInteractives(List<int> _validation)
     {
-        Validation = _validation;
-        Debug.Log(Validation.Count);
-        for (int i = 0; i < MaxObjectsOff; i++)
+        try
         {
-            Debug.Log(Validation[i]);
-            Debug.Log(Interactives[Validation[i]]);
-            Interactives[Validation[i]].ToggleVisualGM();
+            Validation = _validation;
+            Debug.Log(Validation.Count);
+            for (int i = 0; i < MaxObjectsOff; i++)
+            {
+                ItemsOnTXT.text = $"1 {i}";
+                ItemsOnTXT.text = $"2 {Validation[i]}";
+                ItemsOnTXT.text = $"3 {Interactives[Validation[i]]}";
+                Debug.Log(Validation[i]);
+                Debug.Log(Interactives[Validation[i]]);
+                Interactives[Validation[i]].ToggleVisualGM();
+            }
+        } catch (Exception e)
+        {
+            PowerTXT.text = e.Message;
         }
     }
 
     private void SetInteractives()
     {
         RpcSetInteractives(Validation);
+        /*Debug.Log(Validation.Count);
+        for (int i = 0; i < MaxObjectsOff; i++)
+        {
+            Debug.Log(Validation[i]);
+            Debug.Log(Interactives[Validation[i]]);
+            Interactives[Validation[i]].RpcToggleVisualGM();
+        }*/
     }
 
     public void AddScore(int toAdd)
@@ -192,10 +209,10 @@ public class NetPWRBill_Manager : NetworkBehaviour
     /// </summary>
     void ValidatePicks()
     {
-        int picked = Random.Range(0, Interactives.Count);
+        int picked = UnityEngine.Random.Range(0, Interactives.Count);
         while (Validation.Contains(picked))
         {
-            picked = Random.Range(0, Interactives.Count);
+            picked = UnityEngine.Random.Range(0, Interactives.Count);
         }
         Validation.Add(picked);
 
