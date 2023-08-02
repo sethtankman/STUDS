@@ -726,8 +726,7 @@ public class NetworkCharacterMovementController : NetworkBehaviour
                 if (pickupPressed && isMini == false)  // This is just making it so timeout doesn't work...
                 {
                     sa.UnlockAchievement("PB_TIMEOUT");
-                    Debug.Log("Calling timeout");
-                    collider.gameObject.GetComponent<NetKidTimeout>().CmdTimeout(collider.gameObject);
+                    CmdTimeout(collider.gameObject);
                 }
             }
             else if (collider.CompareTag("ShoppingCart") && pickupPressed && !hasGrabbed)
@@ -737,10 +736,14 @@ public class NetworkCharacterMovementController : NetworkBehaviour
                 GrabSound.Post(gameObject);
                 moveSpeed = moveSpeedGrab;
                 pickupPressed = false;
-
-
             }
         }
+    }
+
+    [Command]
+    private void CmdTimeout(GameObject gameObject)
+    {
+        gameObject.GetComponent<NetKidTimeout>().RpcTimeout(gameObject);
     }
 
     [Command]

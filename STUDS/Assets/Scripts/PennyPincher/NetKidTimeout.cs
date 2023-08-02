@@ -79,33 +79,24 @@ public class NetKidTimeout : NetworkBehaviour
         }
     }
 
-    [Command]
-    public void CmdTimeout(GameObject mini)
-    {
-        RpcTimeout(mini);
-    }
-
     [ClientRpc]
-    private void RpcTimeout(GameObject mini)
+    public void RpcTimeout(GameObject mini)
     {
-        Timeout(mini);
+        if(isLocalPlayer)
+            Timeout(mini);
     }
 
     public void Timeout(GameObject mini)
     {
-        Debug.Log("in timeout: " + mini.name);
         //GameObject pos = GameObject.Find("KidTimeoutOutside");
         int maxSize = timeoutPos.Length;
-        int randomidx = (int)Random.Range(0, maxSize);
+        int randomidx = Random.Range(0, maxSize);
         if (randomidx > maxSize - 1)
         {
             randomidx = maxSize - 1;
         }
         currIdx = randomidx;
-        Debug.Log("current index is: " + currIdx);
-        Debug.Log("size is: " + timeoutPos.Length);
         GameObject g = timeoutPos[currIdx];
-        Debug.Log("Obj is: " + g);
         Vector3 newPos = g.transform.position;
         mini.transform.position = newPos;
         if (mini.GetComponent<CharacterMovementController>())
