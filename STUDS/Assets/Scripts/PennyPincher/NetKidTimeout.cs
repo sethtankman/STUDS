@@ -80,10 +80,10 @@ public class NetKidTimeout : NetworkBehaviour
     }
 
     [ClientRpc]
-    public void RpcTimeout(GameObject mini)
+    public void RpcTimeout()
     {
-        if(isLocalPlayer)
-            Timeout(mini);
+        if(GetComponent<NetworkCharacterMovementController>().isAI || isLocalPlayer)
+            Timeout(gameObject);
     }
 
     public void Timeout(GameObject mini)
@@ -99,15 +99,7 @@ public class NetKidTimeout : NetworkBehaviour
         GameObject g = timeoutPos[currIdx];
         Vector3 newPos = g.transform.position;
         mini.transform.position = newPos;
-        if (mini.GetComponent<CharacterMovementController>())
-        {
-            mini.GetComponent<CharacterMovementController>().CanMove = false;
-            if (mini.GetComponent<CharacterMovementController>().isAI)
-            {
-                mini.GetComponent<PennyPincherAI>().CanMove = false;
-            }
-        }
-        else
+        if (mini.GetComponent<NetworkCharacterMovementController>())
         {
             mini.GetComponent<NetworkCharacterMovementController>().CanMove = false;
             if (mini.GetComponent<NetworkCharacterMovementController>().isAI)

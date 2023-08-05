@@ -43,9 +43,8 @@ public class NetPennyPincherAI : MonoBehaviour
             // Debug.Log("Distance: " + distance);
             if (distance < 1.9f)
             {
-                Debug.Log("Reached target: " + target.name);
                 hasTarget = false;
-                target.GetComponent<VolumeTrigger>().FlipSwitch();
+                target.GetComponent<NetVolumeTrigger>().FlipSwitch();
             } /*
             else if (Mathf.Abs(target.position.x - transform.position.x) < 0.1f
               && Mathf.Abs(target.position.z - transform.position.z) < 0.1f
@@ -78,7 +77,7 @@ public class NetPennyPincherAI : MonoBehaviour
         }
         else if (active && !hasTarget)
         {
-            Debug.Log("Active set to false in Update");
+            // Debug.Log("Active set to false in Update");
             active = false;
             previousTarget = target;
             StartCoroutine("FindNewTarget");
@@ -100,25 +99,25 @@ public class NetPennyPincherAI : MonoBehaviour
         {
             yield return new WaitForSecondsRealtime(0.5f);
             int i = Random.Range(0, availableSwitches.Count);
-            Debug.Log("I: " + i + " Count: " + availableSwitches.Count + " " + availableSwitches[i].name);
+            //Debug.Log("I: " + i + " Count: " + availableSwitches.Count + " " + availableSwitches[i].name);
             Transform selected = availableSwitches[i];
             if (selected != null && availableSwitches.Contains(selected)
-                && selected.GetComponent<VolumeTrigger>().isSwitchActive == true)
+                && selected.GetComponent<NetVolumeTrigger>().isSwitchActive == true)
             {
-                Debug.Log("Active set to true.");
+                //Debug.Log("Active set to true.");
                 active = true;
                 hasTarget = true;
                 target = selected;
-                selected.GetComponent<VolumeTrigger>().NotifyInteractionOfSwitchTargetted(true, this.gameObject);
+                selected.GetComponent<NetVolumeTrigger>().NotifyInteractionOfSwitchTargetted(true, this.gameObject);
                 break;
             }
             else if (selected != null && availableSwitches.Contains(selected)
-              && selected.GetComponent<VolumeTrigger>().isSwitchActive == false)
+              && selected.GetComponent<NetVolumeTrigger>().isSwitchActive == false)
             {
                 availableSwitches.Remove(selected);
-                Debug.Log("switch in availableSwitches was not actually available");
+                // Debug.Log("switch in availableSwitches was not actually available");
             }
-            else if (!availableSwitches[i].GetComponent<VolumeTrigger>())
+            else if (!availableSwitches[i].GetComponent<NetVolumeTrigger>())
             {
                 Debug.LogError("Could not find Volume Trigger for: " + availableSwitches[i].name);
             }
@@ -141,7 +140,7 @@ public class NetPennyPincherAI : MonoBehaviour
 
         if (flippedSwitch.transform == target)
         {
-            Debug.Log("Active set to false in CheckUpdateTarget");
+            // Debug.Log("Active set to false in CheckUpdateTarget");
             hasTarget = false;
             active = false;
             StartCoroutine("FindNewTarget");
@@ -159,7 +158,7 @@ public class NetPennyPincherAI : MonoBehaviour
 
         if (flippedSwitch.transform == target)
         {
-            Debug.Log("Active set to false in CheckUpdateTarget2");
+            // Debug.Log("Active set to false in CheckUpdateTarget2");
             active = false;
             StartCoroutine("FindNewTarget");
         }

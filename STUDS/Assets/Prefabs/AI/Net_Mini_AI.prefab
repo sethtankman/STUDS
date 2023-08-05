@@ -5685,11 +5685,11 @@ GameObject:
   - component: {fileID: 6291988747297435228}
   - component: {fileID: 7706618714284830093}
   - component: {fileID: 7754594249995589685}
-  - component: {fileID: 7229868859349125528}
   - component: {fileID: 2176407641289198530}
   - component: {fileID: 2669744544539981314}
   - component: {fileID: 1743835487019166283}
   - component: {fileID: 635663083221818428}
+  - component: {fileID: 4869448797595023595}
   m_Layer: 0
   m_Name: Net_Mini_AI
   m_TagString: Player
@@ -5924,19 +5924,6 @@ MonoBehaviour:
   m_DefaultActionMap: PlayerMovement
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
---- !u!114 &7229868859349125528
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7092746447029247226}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5a6fa81f9f301a842b532280d6cd5a90, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  timeoutTimer: 5
 --- !u!195 &2176407641289198530
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -6073,6 +6060,21 @@ MonoBehaviour:
   hasAimAssist: 0
   CanJump: 0
   CanMove: 0
+--- !u!114 &4869448797595023595
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7092746447029247226}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb93f2bc2e8e16e4a88bc1f845f88f93, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  timeoutTimer: 5
 --- !u!1 &7093881879293357083
 GameObject:
   m_ObjectHideFlags: 0

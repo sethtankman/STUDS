@@ -47,39 +47,43 @@ public class NetPBInitLvl : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
-        currentTime += Time.deltaTime;
+        if (isServer)
+        {
+            currentTime += Time.deltaTime;
 
-        if (currentTime > waitTime && !spawnedPlayers)
-        {
-            loadingScreen.SetActive(false);
-            spawnedPlayers = true;
-        }
-        else if (!spawnedPlayers)
-        {
-            // Debug.Log("Spawning player");
-            int i = 0;
-            foreach (GameObject player in players)
+            if (currentTime > waitTime && !spawnedPlayers)
             {
-                player.transform.forward = playerSpawns[i].transform.forward;
-                player.transform.position = playerSpawns[i].position;
-                i++;
+                loadingScreen.SetActive(false);
+                spawnedPlayers = true;
             }
-            for(int k = 0; k < numAI; k++)
+            else if (!spawnedPlayers)
             {
-                if (aiInstantiated[k] == false)
+                // Debug.Log("Spawning player");
+                int i = 0;
+                foreach (GameObject player in players)
                 {
-                    if (aiColors.Count != 0)
-                    {
-                        Debug.Log("Instantiating...");
-                        GameObject AI = Instantiate(AIPrefab, playerSpawns[i].position, playerSpawns[i].transform.rotation);
-                        string aiColor = aiColors.Pop();
-                        AI.GetComponentInChildren<NetworkCharacterMovementController>(true).SetColorName(aiColor);
-                        AI.GetComponentInChildren<SkinnedMeshRenderer>(true).material = kidsMaterials[GetColorIndex(aiColor)];
-                        NetGameManager.Instance.AddPlayer(AI);
-                    }
-                    aiInstantiated[k] = true;
+                    player.transform.forward = playerSpawns[i].transform.forward;
+                    player.transform.position = playerSpawns[i].position;
+                    i++;
                 }
-                i++;
+                for (int k = 0; k < numAI; k++)
+                {
+                    if (aiInstantiated[k] == false)
+                    {
+                        if (aiColors.Count != 0)
+                        {
+                            // Debug.Log("Instantiating...");
+                            GameObject AI = Instantiate(AIPrefab, playerSpawns[i].position, playerSpawns[i].transform.rotation);
+                            string aiColor = aiColors.Pop();
+                            AI.GetComponentInChildren<NetworkCharacterMovementController>(true).SetColorName(aiColor);
+                            AI.GetComponentInChildren<SkinnedMeshRenderer>(true).material = kidsMaterials[GetColorIndex(aiColor)];
+                            NetGameManager.Instance.AddPlayer(AI);
+                            NetworkServer.Spawn(AI);
+                        }
+                        aiInstantiated[k] = true;
+                    }
+                    i++;
+                }
             }
         }
     }
