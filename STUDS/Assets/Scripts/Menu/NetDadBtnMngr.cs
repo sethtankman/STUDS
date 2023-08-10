@@ -14,7 +14,6 @@ public class NetDadBtnMngr : NetworkBehaviour
     public RectTransform[] buttonLocations;
     public string levelName;
     public int numAI, numPlayers;
-    private bool needsUpdate = true;
 
     // Start is called before the first frame update
     void Start()
@@ -44,46 +43,30 @@ public class NetDadBtnMngr : NetworkBehaviour
                 button.GetComponent<NetDadBtn>().manager = this;
                 allButtons[i] = button;
 
-
-                Debug.Log("Button added");
                 if (i > 0) // This sort of performs it backwards: add the player to the wrong list, then switch them.
                 {
                     button.GetComponent<NetDadBtn>().ToggleMini();
                 }
                 else
                 { // first player is a dad.
-                    Debug.Log("Adding: " + player);
                     miniPlayers.Add(player);
                     ToggleMini(player);
                 }
                 i++;
                 numPlayers = i;
             }
-            InvokeRepeating("ClientInitialize", 1.0f, 1.0f);
-        }
-        else
-        {
-            //NetworkClient.Ready();
+            Invoke("ClientInitialize", 1.0f);
         }
     }
 
     public void ClientInitialize()
     {
-        if (needsUpdate)
-        {
             foreach (NetDadBtn button in GetComponentsInChildren<NetDadBtn>())
             {
-                //GameObject player = allPlayers[i];
                 button.RpcSetPivot(button.GetComponent<RectTransform>().pivot);
-                Debug.Log(button.color);
                 button.RpcSetSprite(button.color, button.imageIndex > 4);
-                button.GetComponent<NetDadBtn>().RpcSetPlayer(button.player);
-                //button.GetComponent<NetDadBtn>().manager = this;
-                //allButtons[i] = button.gameObject;
-
-                needsUpdate = false;
+                //button.GetComponent<NetDadBtn>().RpcSetPlayer(button.player);
             }
-        }
     }
 
     /*[ClientRpc] // this works, but the dad information isn't consistent across the network
@@ -115,13 +98,11 @@ public class NetDadBtnMngr : NetworkBehaviour
     {
         if (miniPlayers.Contains(selectedPlayer))
         {
-            Debug.Log("Removing: " + selectedPlayer);
             miniPlayers.Remove(selectedPlayer);
             dadPlayers.Add(selectedPlayer);
         }
         else
         {
-            Debug.Log("Adding1: " + selectedPlayer);
             miniPlayers.Add(selectedPlayer);
             dadPlayers.Remove(selectedPlayer);
         }

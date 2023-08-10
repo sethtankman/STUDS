@@ -69,7 +69,7 @@ public class NetDadBtn : NetworkBehaviour
         color = colorName;
         // Sets the image index to the correct sprite if it is a kid.
         int kidOffset = 0;
-        if(isKid) { kidOffset = 4; }
+        if(isKid) { kidOffset = 5; }
         switch (colorName)
         {
             case "blue":
@@ -148,7 +148,6 @@ public class NetDadBtn : NetworkBehaviour
     [ClientRpc]
     public void RpcSetPivot(Vector2 _pivot)
     {
-        Debug.Log($"Pivot set to {_pivot}");
         GetComponent<RectTransform>().pivot = _pivot;
         if (!manager)
         {
