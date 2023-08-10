@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using Mirror;
+using System;
 
 public class NetInteraction : NetworkBehaviour
 
@@ -43,8 +44,6 @@ public class NetInteraction : NetworkBehaviour
             {
                 CashTimer = 0f;
                 GameMaster.AddScore(PowerCharge);
-                //print(this.name);
-
             }
         }
     }
@@ -72,33 +71,41 @@ public class NetInteraction : NetworkBehaviour
     public void ToggleVisual(bool isMini)
     {
         Debug.Log($"ToggleVisual: {isMini}");
-        if (isMini && !Object_active.activeSelf)
+        try
         {
-            GameMaster.NumItemsOn += 1;
-            interactPressed = false;
-            trigger.isSwitchActive = false;
-            Object_active.SetActive(true);
-            Object_inactive.SetActive(false);
-            NotifyAvailableSwitchChange(true);
-            OnSound.Post(gameObject);
-        }
-        else if (!isMini && Object_active.activeSelf)
+            if (isMini && !Object_active.activeSelf)
+            {
+                if (isServer)
+                    GameMaster.NumItemsOn += 1;
+                interactPressed = false;
+                trigger.isSwitchActive = false;
+                Object_active.SetActive(true);
+                Object_inactive.SetActive(false);
+                NotifyAvailableSwitchChange(true);
+                OnSound.Post(gameObject);
+            }
+            else if (!isMini && Object_active.activeSelf)
+            {
+                if(isServer)
+                    GameMaster.NumItemsOn -= 1;
+                interactPressed = true;
+                trigger.isSwitchActive = true;
+                Object_active.SetActive(false);
+                Object_inactive.SetActive(true);
+                NotifyAvailableSwitchChange(false);
+                OffSound.Post(gameObject);
+            }
+            else if (isMini)
+            {
+                Debug.Log("Child trying to turn on object that is already on");
+            }
+            else
+            {
+                Debug.Log("Parent trying to turn off object that is already off");
+            }
+        } catch (Exception e)
         {
-            GameMaster.NumItemsOn -= 1;
-            interactPressed = true;
-            trigger.isSwitchActive = true;
-            Object_active.SetActive(false);
-            Object_inactive.SetActive(true);
-            NotifyAvailableSwitchChange(false);
-            OffSound.Post(gameObject);
-        }
-        else if (isMini)
-        {
-            Debug.Log("Child trying to turn on object that is already on");
-        }
-        else
-        {
-            Debug.Log("Parent trying to turn off object that is already off");
+            GameMaster.PowerTXT.text = e.Message;
         }
     }
 

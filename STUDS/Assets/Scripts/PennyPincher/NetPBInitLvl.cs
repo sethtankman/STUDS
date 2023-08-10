@@ -1,4 +1,5 @@
 ﻿using Mirror;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -17,6 +18,7 @@ public class NetPBInitLvl : NetworkBehaviour
     private bool[] aiInstantiated;
     private bool spawnedPlayers = false;
     private float waitTime = 5f;
+    [SyncVar]
     private float currentTime = 0;
     private int numAI;
     private List<GameObject> players;
@@ -50,22 +52,24 @@ public class NetPBInitLvl : NetworkBehaviour
         if (isServer)
         {
             currentTime += Time.deltaTime;
+        }
 
-            if (currentTime > waitTime && !spawnedPlayers)
+        if (currentTime > waitTime && !spawnedPlayers)
+        {
+            loadingScreen.SetActive(false);
+            spawnedPlayers = true;
+        }
+        else if (!spawnedPlayers)
+        {
+            int i = 0;
+            foreach (GameObject player in players)
             {
-                loadingScreen.SetActive(false);
-                spawnedPlayers = true;
+                player.transform.forward = playerSpawns[i].transform.forward;
+                player.transform.position = playerSpawns[i].position;
+                i++;
             }
-            else if (!spawnedPlayers)
-            {
-                // Debug.Log("Spawning player");
-                int i = 0;
-                foreach (GameObject player in players)
-                {
-                    player.transform.forward = playerSpawns[i].transform.forward;
-                    player.transform.position = playerSpawns[i].position;
-                    i++;
-                }
+            if (isServer)
+            { // spawn AI
                 for (int k = 0; k < numAI; k++)
                 {
                     if (aiInstantiated[k] == false)

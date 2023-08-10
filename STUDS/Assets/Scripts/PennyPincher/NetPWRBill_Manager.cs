@@ -10,8 +10,10 @@ using System;
 public class NetPWRBill_Manager : NetworkBehaviour
 {
     //Electricity variables
+    [SyncVar]
     public float Score;
     public TextMeshProUGUI PowerTXT;
+    [SyncVar]
     public int NumItemsOn;
     public TextMeshProUGUI ItemsOnTXT;
 
@@ -22,6 +24,7 @@ public class NetPWRBill_Manager : NetworkBehaviour
 
     //Timer for the end of the game
     public TextMeshProUGUI TimerTXT;
+    [SyncVar]
     public float timer;
     private float Sprint = 10.0f;
 
@@ -47,10 +50,10 @@ public class NetPWRBill_Manager : NetworkBehaviour
             }
 
         }
-        NumItemsOn = Interactives.Count;
-
         if (isServer)
         {
+            NumItemsOn = Interactives.Count;
+
             for (int j = 0; j < MaxObjectsOff; j++)
             {
                 ValidatePicks();
@@ -67,8 +70,9 @@ public class NetPWRBill_Manager : NetworkBehaviour
 
         PowerTXT.text = "Power Bill: $" + (Score / 10) + "0";
         ItemsOnTXT.text = "Appliances: " + (NumItemsOn + 1);
-               
-        timer -= Time.deltaTime;
+        
+        if(isServer)
+            timer -= Time.deltaTime;
 
         if (timer > 0.0f)
         {
@@ -82,7 +86,8 @@ public class NetPWRBill_Manager : NetworkBehaviour
 
     }
 
-    [ClientRpc]
+    /* // We call an rpc on each interactive instead
+     * [ClientRpc]
     public void RpcSetInteractives(List<int> _validation)
     {
         try
@@ -91,29 +96,21 @@ public class NetPWRBill_Manager : NetworkBehaviour
             Debug.Log(Validation.Count);
             for (int i = 0; i < MaxObjectsOff; i++)
             {
-                ItemsOnTXT.text = $"1 {i}";
-                ItemsOnTXT.text = $"2 {Validation[i]}";
-                ItemsOnTXT.text = $"3 {Interactives[Validation[i]]}";
-                Debug.Log(Validation[i]);
-                Debug.Log(Interactives[Validation[i]]);
                 Interactives[Validation[i]].ToggleVisualGM();
             }
         } catch (Exception e)
         {
-            PowerTXT.text = e.Message;
+            Debug.LogWarning(e.Message);
         }
-    }
+    } */
 
     private void SetInteractives()
     {
-        RpcSetInteractives(Validation);
-        /*Debug.Log(Validation.Count);
+        // RpcSetInteractives(Validation);
         for (int i = 0; i < MaxObjectsOff; i++)
         {
-            Debug.Log(Validation[i]);
-            Debug.Log(Interactives[Validation[i]]);
             Interactives[Validation[i]].RpcToggleVisualGM();
-        }*/
+        }
     }
 
     public void AddScore(int toAdd)
@@ -136,8 +133,6 @@ public class NetPWRBill_Manager : NetworkBehaviour
             {
                 player.GetComponent<NetPennyPincherAI>().SetActive(false);
                 DontDestroyOnLoad(player.gameObject);
-                //NetGameManager.Instance.AddPlayer(player);
-                //Debug.Log("New AI added!");
             }
         }
         if (isServer)
@@ -170,8 +165,8 @@ public class NetPWRBill_Manager : NetworkBehaviour
                         {
                             controller.SetFinishPosition(noFinishPos);
                             noFinishPos--;
-                            if (player.GetComponentInChildren<KidTimeout>())
-                                player.GetComponentInChildren<KidTimeout>().enabled = false;
+                            if (player.GetComponentInChildren<NetKidTimeout>())
+                                player.GetComponentInChildren<NetKidTimeout>().enabled = false;
                         }
                         else
                         {
