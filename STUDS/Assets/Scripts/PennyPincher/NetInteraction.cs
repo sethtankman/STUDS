@@ -28,7 +28,7 @@ public class NetInteraction : NetworkBehaviour
     public bool interactPressed = false;
 
 
-    private void Awake()
+    private void Start()
     {
         GameMaster = GameObject.Find("Game Manager").GetComponent<NetPWRBill_Manager>();
 
@@ -138,11 +138,13 @@ public class NetInteraction : NetworkBehaviour
         trigger.isSwitchActive = true;
         Object_active.SetActive(false);
         Object_inactive.SetActive(true);
-        // TODO: Uncomment this.
-        /* PennyPincherAI[] allAI = FindObjectsOfType(typeof(PennyPincherAI)) as PennyPincherAI[];
-        foreach (PennyPincherAI AI in allAI)
+        if (isServer)
         {
-            AI.CheckUpdateTarget(gameObject, false);
-        } */
+            NetPennyPincherAI[] allAI = FindObjectsOfType(typeof(NetPennyPincherAI)) as NetPennyPincherAI[];
+            foreach (NetPennyPincherAI AI in allAI)
+            {
+                AI.CheckUpdateTarget(trigger.gameObject, false);
+            }
+        }
     }
 }

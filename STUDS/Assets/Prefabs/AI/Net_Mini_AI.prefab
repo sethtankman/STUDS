@@ -5690,6 +5690,7 @@ GameObject:
   - component: {fileID: 1743835487019166283}
   - component: {fileID: 635663083221818428}
   - component: {fileID: 4869448797595023595}
+  - component: {fileID: 5395139220793653345}
   m_Layer: 0
   m_Name: Net_Mini_AI
   m_TagString: Player
@@ -6075,6 +6076,27 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   timeoutTimer: 5
+--- !u!114 &5395139220793653345
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7092746447029247226}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f74aedd71d9a4f55b3ce499326d45fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  clientAuthority: 0
+  localPositionSensitivity: 0.01
+  localRotationSensitivity: 0.01
+  localScaleSensitivity: 0.01
+  compressRotation: 0
+  interpolateScale: 1
+  syncScale: 1
 --- !u!1 &7093881879293357083
 GameObject:
   m_ObjectHideFlags: 0
@@ -6714,15 +6736,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c94078c36f26dc34faa735ae7457364d, type: 3}
---- !u!4 &910266213404228071 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: c94078c36f26dc34faa735ae7457364d,
-    type: 3}
-  m_PrefabInstance: {fileID: 804828428909075980}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &570333039889998685 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: c94078c36f26dc34faa735ae7457364d,
+    type: 3}
+  m_PrefabInstance: {fileID: 804828428909075980}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &910266213404228071 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: c94078c36f26dc34faa735ae7457364d,
     type: 3}
   m_PrefabInstance: {fileID: 804828428909075980}
   m_PrefabAsset: {fileID: 0}

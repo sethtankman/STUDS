@@ -5,7 +5,7 @@ using UnityEngine.AI;
 public class NetKidTimeout : NetworkBehaviour
 {
     public double timeoutTimer;
-    private double currTime;
+    [SerializeField] private double currTime;
     private bool isTimeout;
     GameObject mini;
 

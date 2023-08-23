@@ -212,6 +212,15 @@ public class NetGameManager : NetworkBehaviour
         }
     }
 
+    [ClientRpc]
+    public void RpcAddPlayer(uint playerID)
+    {
+        if (NetworkIdentity.spawned.ContainsKey(playerID))
+            AddPlayer(NetworkIdentity.spawned[playerID].gameObject);
+        else
+            Debug.LogError("NetwordIdentity of AI was not assigned.");
+    }
+
     public void ChangePlayerColor(int playerID, string colorName)
     {
         string oldColor = playerColors[playerID];

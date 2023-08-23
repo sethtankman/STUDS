@@ -962,6 +962,14 @@ public class NetworkCharacterMovementController : NetworkBehaviour
         SetToMini(setMini);
     }
 
+    [ClientRpc]
+    public void RpcSetColorName(string _color)
+    {
+        color = _color;
+        if(isServer)
+            hub.ChangePlayerColor(playerID, _color);
+    }
+
     /// <summary>
     /// Modifies character to kid size and binkiness for Penny Pincher level.
     /// </summary>
@@ -1078,8 +1086,7 @@ public class NetworkCharacterMovementController : NetworkBehaviour
     }
     
     public void SetColorName(string colorName)
-    {
-        Debug.Log("Setting character color: " + colorName);
+    { 
         color = colorName;
         //GameObject gameManager = GameObject.Find("GameManager");
         CmdChangePlayerColor(color);

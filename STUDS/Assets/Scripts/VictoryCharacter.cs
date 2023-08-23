@@ -32,7 +32,6 @@ public class VictoryCharacter : MonoBehaviour
             foreach (GameObject player in players)
             {
                 gameObject.GetComponent<CharacterMovementController>().enabled = true;
-                Debug.Log("Player Pos: " + player.GetComponent<NetworkCharacterMovementController>().GetFinishPosition());
                 if (player.GetComponent<NetworkCharacterMovementController>().GetFinishPosition() == posNumber)
                 {
                     SetColor(player.GetComponent<NetworkCharacterMovementController>().GetColorName());
@@ -41,6 +40,7 @@ public class VictoryCharacter : MonoBehaviour
                         TurnMini(player);
                     }
                     foundMatch = true;
+                    break;
                 }
             }
         }
@@ -49,7 +49,6 @@ public class VictoryCharacter : MonoBehaviour
             foreach (GameObject player in players)
             {
                 gameObject.GetComponent<CharacterMovementController>().enabled = true;
-                Debug.Log("Player Pos: " + player.GetComponent<CharacterMovementController>().GetFinishPosition());
                 if (player.GetComponent<CharacterMovementController>().GetFinishPosition() == posNumber)
                 {
                     SetColor(player.GetComponent<CharacterMovementController>().GetColorName());
@@ -65,12 +64,10 @@ public class VictoryCharacter : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
+    /// <summary>
+    /// Turns player mini if isMini is true
+    /// </summary>
+    /// <param name="player"></param>
     private void TurnMini(GameObject player)
     {
         //Debug.Log("Calling TurnMini " + isPowerBill + "  " + player.GetComponent<CharacterMovementController>().isMini);
@@ -83,7 +80,6 @@ public class VictoryCharacter : MonoBehaviour
         }
         else if (isPowerBill && player.GetComponent<CharacterMovementController>().isMini)
         {
-            //Debug.Log("Changing...");
             gameObject.GetComponent<CharacterMovementController>().SetToMini(true);
             gameObject.GetComponent<CharacterMovementController>().enabled = false;
         }

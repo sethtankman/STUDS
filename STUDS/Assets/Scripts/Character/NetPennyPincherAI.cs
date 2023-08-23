@@ -1,9 +1,10 @@
-﻿using System.Collections;
+﻿using Mirror;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class NetPennyPincherAI : MonoBehaviour
+public class NetPennyPincherAI : NetworkBehaviour
 {
     [SerializeField] private NetworkCharacterMovementController movementController;
     [SerializeField] private NavMeshAgent agent;
@@ -21,11 +22,14 @@ public class NetPennyPincherAI : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        GameObject[] set2 = GameObject.FindGameObjectsWithTag("Electronics");
-        availableSwitches = new List<Transform>();
-        for (int i = 0; i < set2.Length; i++)
+        if (isServer)
         {
-            availableSwitches.Add(set2[i].transform);
+            GameObject[] set2 = GameObject.FindGameObjectsWithTag("Electronics");
+            availableSwitches = new List<Transform>();
+            for (int i = 0; i < set2.Length; i++)
+            {
+                availableSwitches.Add(set2[i].transform);
+            }
         }
         target = null;
         CanMove = true;
@@ -37,10 +41,9 @@ public class NetPennyPincherAI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (active && hasTarget && CanMove)
+        if (isServer && active && hasTarget && CanMove)
         {
             float distance = Vector3.Distance(transform.position, target.position);
-            // Debug.Log("Distance: " + distance);
             if (distance < 1.9f)
             {
                 hasTarget = false;
@@ -55,7 +58,6 @@ public class NetPennyPincherAI : MonoBehaviour
             } */
             else
             {
-                // Debug.Log("MOVING");
                 Vector3 lookPos;
                 Quaternion targetRot;
 
@@ -75,14 +77,14 @@ public class NetPennyPincherAI : MonoBehaviour
                 GetComponent<NetworkCharacterMovementController>().Move(agent.desiredVelocity.normalized * speed);
             }
         }
-        else if (active && !hasTarget)
+        else if (isServer && active && !hasTarget)
         {
             // Debug.Log("Active set to false in Update");
             active = false;
             previousTarget = target;
             StartCoroutine("FindNewTarget");
         }
-        else if (!gameStarted)
+        else if (!gameStarted && GameObject.Find("Game Manager"))
         {
             if (GameObject.Find("Game Manager").GetComponent<NetPBInitLvl>())
             {
@@ -99,12 +101,10 @@ public class NetPennyPincherAI : MonoBehaviour
         {
             yield return new WaitForSecondsRealtime(0.5f);
             int i = Random.Range(0, availableSwitches.Count);
-            //Debug.Log("I: " + i + " Count: " + availableSwitches.Count + " " + availableSwitches[i].name);
             Transform selected = availableSwitches[i];
             if (selected != null && availableSwitches.Contains(selected)
                 && selected.GetComponent<NetVolumeTrigger>().isSwitchActive == true)
             {
-                //Debug.Log("Active set to true.");
                 active = true;
                 hasTarget = true;
                 target = selected;
@@ -115,7 +115,10 @@ public class NetPennyPincherAI : MonoBehaviour
               && selected.GetComponent<NetVolumeTrigger>().isSwitchActive == false)
             {
                 availableSwitches.Remove(selected);
-                // Debug.Log("switch in availableSwitches was not actually available");
+            }
+            else if(availableSwitches[i] == null)
+            {
+                break;
             }
             else if (!availableSwitches[i].GetComponent<NetVolumeTrigger>())
             {
@@ -140,7 +143,6 @@ public class NetPennyPincherAI : MonoBehaviour
 
         if (flippedSwitch.transform == target)
         {
-            // Debug.Log("Active set to false in CheckUpdateTarget");
             hasTarget = false;
             active = false;
             StartCoroutine("FindNewTarget");
@@ -158,7 +160,6 @@ public class NetPennyPincherAI : MonoBehaviour
 
         if (flippedSwitch.transform == target)
         {
-            // Debug.Log("Active set to false in CheckUpdateTarget2");
             active = false;
             StartCoroutine("FindNewTarget");
         }

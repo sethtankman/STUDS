@@ -76,13 +76,14 @@ public class NetPBInitLvl : NetworkBehaviour
                     {
                         if (aiColors.Count != 0)
                         {
-                            // Debug.Log("Instantiating...");
                             GameObject AI = Instantiate(AIPrefab, playerSpawns[i].position, playerSpawns[i].transform.rotation);
-                            string aiColor = aiColors.Pop();
-                            AI.GetComponentInChildren<NetworkCharacterMovementController>(true).SetColorName(aiColor);
-                            AI.GetComponentInChildren<SkinnedMeshRenderer>(true).material = kidsMaterials[GetColorIndex(aiColor)];
-                            NetGameManager.Instance.AddPlayer(AI);
                             NetworkServer.Spawn(AI);
+                            Debug.Log($"Calling the method with netID: {AI.GetComponent<NetworkIdentity>().netId}");
+                            NetGameManager.Instance.RpcAddPlayer(AI.GetComponent<NetworkIdentity>().netId);
+                            string aiColor = aiColors.Pop();
+
+                            AI.GetComponentInChildren<NetworkCharacterMovementController>(true).RpcSetColorName(aiColor);
+                            RpcSetKidMaterial(AI.GetComponent<NetworkIdentity>().netId, GetColorIndex(aiColor));
                         }
                         aiInstantiated[k] = true;
                     }
@@ -90,6 +91,14 @@ public class NetPBInitLvl : NetworkBehaviour
                 }
             }
         }
+    }
+
+    [ClientRpc]
+    private void RpcSetKidMaterial(uint netID, int v)
+    {
+        Debug.Log($"ID: {netID}, V: {v}");
+        if(NetworkIdentity.spawned.ContainsKey(netID))
+            NetworkIdentity.spawned[netID].gameObject.GetComponentInChildren<SkinnedMeshRenderer>(true).material = kidsMaterials[v];
     }
 
     private int GetColorIndex(string _color)
