@@ -71,6 +71,7 @@ public class NetworkCharacterMovementController : NetworkBehaviour
     private bool isReady = false;
     private bool drop;
 
+    [SyncVar]
     public bool isMini = false;
     public bool isJumping = false;
     public bool airborn;

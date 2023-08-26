@@ -16,7 +16,6 @@ public class VictoryCharacter : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        players = new List<GameObject>();
         foundMatch = false;
         isPowerBill = (GameObject.Find("PBFinalText(Clone)") != null);
         if (!networkMode)
@@ -31,14 +30,11 @@ public class VictoryCharacter : MonoBehaviour
         {
             foreach (GameObject player in players)
             {
-                gameObject.GetComponent<CharacterMovementController>().enabled = true;
+                GetComponent<CharacterMovementController>().enabled = true;
                 if (player.GetComponent<NetworkCharacterMovementController>().GetFinishPosition() == posNumber)
                 {
                     SetColor(player.GetComponent<NetworkCharacterMovementController>().GetColorName());
-                    if (foundMatch == false)
-                    {
-                        TurnMini(player);
-                    }
+                    TurnMini(player);
                     foundMatch = true;
                     break;
                 }

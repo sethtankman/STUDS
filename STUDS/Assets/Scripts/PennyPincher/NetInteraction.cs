@@ -51,14 +51,12 @@ public class NetInteraction : NetworkBehaviour
     [Command(requiresAuthority = false)]
     public void CmdToggleVisual(bool isMini)
     {
-        Debug.Log("CmdToggleVisual");
         RpcToggleVisual(isMini);
     }
 
     [ClientRpc]
     public void RpcToggleVisual(bool isMini)
     {
-        Debug.Log("RpcToggleVisual");
         ToggleVisual(isMini);
     }
 
@@ -70,7 +68,6 @@ public class NetInteraction : NetworkBehaviour
 
     public void ToggleVisual(bool isMini)
     {
-        Debug.Log($"ToggleVisual: {isMini}");
         try
         {
             if (isMini && !Object_active.activeSelf)

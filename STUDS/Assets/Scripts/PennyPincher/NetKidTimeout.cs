@@ -11,6 +11,7 @@ public class NetKidTimeout : NetworkBehaviour
 
     GameObject[] timeoutPos;
     GameObject[] backInPos;
+    public bool inPowerBill = true;
     int currIdx;
     // Start is called before the first frame update
     void Start()
@@ -29,52 +30,53 @@ public class NetKidTimeout : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
-        timeoutPos[0] = GameObject.Find("KidTimeoutOutside1");
-        timeoutPos[1] = GameObject.Find("KidTimeoutOutside2");
-        timeoutPos[2] = GameObject.Find("KidTimeoutOutside3");
-
-        backInPos[0] = GameObject.Find("KidTimeoutBackInside1");
-        backInPos[1] = GameObject.Find("KidTimeoutBackInside2");
-        backInPos[2] = GameObject.Find("KidTimeoutBackInside3");
-        if (isTimeout)
+        if (inPowerBill)
         {
-            if (currTime > timeoutTimer)
+            timeoutPos[0] = GameObject.Find("KidTimeoutOutside1");
+            timeoutPos[1] = GameObject.Find("KidTimeoutOutside2");
+            timeoutPos[2] = GameObject.Find("KidTimeoutOutside3");
+
+            backInPos[0] = GameObject.Find("KidTimeoutBackInside1");
+            backInPos[1] = GameObject.Find("KidTimeoutBackInside2");
+            backInPos[2] = GameObject.Find("KidTimeoutBackInside3");
+            if (isTimeout)
             {
-                //GameObject pos = GameObject.Find("KidTimeoutBackInside");
-                gameObject.transform.position = backInPos[currIdx].transform.position;
-                // We need to reset the navigation agent when we teleport it as well.
-                if (currTime > (timeoutTimer + 0.1))
+                if (currTime > timeoutTimer)
                 {
-                    currTime = 0;
-                    if (mini.GetComponent<CharacterMovementController>())
+                    //GameObject pos = GameObject.Find("KidTimeoutBackInside");
+                    gameObject.transform.position = backInPos[currIdx].transform.position;
+                    // We need to reset the navigation agent when we teleport it as well.
+                    if (currTime > (timeoutTimer + 0.1))
                     {
-                        mini.GetComponent<CharacterMovementController>().CanMove = true;
-                        if (mini.GetComponent<CharacterMovementController>().isAI)
+                        currTime = 0;
+                        if (mini.GetComponent<CharacterMovementController>())
                         {
-                            mini.GetComponent<NavMeshAgent>().Warp(backInPos[currIdx].transform.position);
-                            mini.GetComponent<PennyPincherAI>().CanMove = true;
+                            mini.GetComponent<CharacterMovementController>().CanMove = true;
+                            if (mini.GetComponent<CharacterMovementController>().isAI)
+                            {
+                                mini.GetComponent<NavMeshAgent>().Warp(backInPos[currIdx].transform.position);
+                                mini.GetComponent<PennyPincherAI>().CanMove = true;
+                            }
                         }
-                    }
-                    else
-                    {
-                        mini.GetComponent<NetworkCharacterMovementController>().CanMove = true;
-                        if (mini.GetComponent<NetworkCharacterMovementController>().isAI)
+                        else
                         {
-                            mini.GetComponent<NavMeshAgent>().Warp(backInPos[currIdx].transform.position);
-                            mini.GetComponent<NetPennyPincherAI>().CanMove = true;
+                            mini.GetComponent<NetworkCharacterMovementController>().CanMove = true;
+                            if (mini.GetComponent<NetworkCharacterMovementController>().isAI)
+                            {
+                                mini.GetComponent<NavMeshAgent>().Warp(backInPos[currIdx].transform.position);
+                                mini.GetComponent<NetPennyPincherAI>().CanMove = true;
+                            }
                         }
+                        mini = null;
+                        isTimeout = false;
                     }
-                    mini = null;
-                    isTimeout = false;
-                    Debug.Log("Back in");
+                    currTime += Time.deltaTime;
                 }
-                currTime += Time.deltaTime;
-            }
-            else
-            {
-                currTime += Time.deltaTime;
-                //GameObject pos = GameObject.Find("KidTimeoutOutside");
-                gameObject.transform.position = timeoutPos[currIdx].transform.position;
+                else
+                {
+                    currTime += Time.deltaTime;
+                    gameObject.transform.position = timeoutPos[currIdx].transform.position;
+                }
             }
         }
     }

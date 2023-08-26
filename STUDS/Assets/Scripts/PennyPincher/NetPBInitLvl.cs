@@ -61,35 +61,8 @@ public class NetPBInitLvl : NetworkBehaviour
         }
         else if (!spawnedPlayers)
         {
-            int i = 0;
-            foreach (GameObject player in players)
-            {
-                player.transform.forward = playerSpawns[i].transform.forward;
-                player.transform.position = playerSpawns[i].position;
-                i++;
-            }
-            if (isServer)
-            { // spawn AI
-                for (int k = 0; k < numAI; k++)
-                {
-                    if (aiInstantiated[k] == false)
-                    {
-                        if (aiColors.Count != 0)
-                        {
-                            GameObject AI = Instantiate(AIPrefab, playerSpawns[i].position, playerSpawns[i].transform.rotation);
-                            NetworkServer.Spawn(AI);
-                            Debug.Log($"Calling the method with netID: {AI.GetComponent<NetworkIdentity>().netId}");
-                            NetGameManager.Instance.RpcAddPlayer(AI.GetComponent<NetworkIdentity>().netId);
-                            string aiColor = aiColors.Pop();
-
-                            AI.GetComponentInChildren<NetworkCharacterMovementController>(true).RpcSetColorName(aiColor);
-                            RpcSetKidMaterial(AI.GetComponent<NetworkIdentity>().netId, GetColorIndex(aiColor));
-                        }
-                        aiInstantiated[k] = true;
-                    }
-                    i++;
-                }
-            }
+            //Invoke("SpawnPlayers", 0.5f); // TODO: Delay may not be necessary.
+            SpawnPlayers();
         }
     }
 
@@ -99,6 +72,41 @@ public class NetPBInitLvl : NetworkBehaviour
         Debug.Log($"ID: {netID}, V: {v}");
         if(NetworkIdentity.spawned.ContainsKey(netID))
             NetworkIdentity.spawned[netID].gameObject.GetComponentInChildren<SkinnedMeshRenderer>(true).material = kidsMaterials[v];
+    }
+
+    /// <summary>
+    /// Spawns AI.  Invoked after delay because Mirror.
+    /// </summary>
+    private void SpawnPlayers()
+    {
+        int i = 0;
+        foreach (GameObject player in players)
+        {
+            player.transform.forward = playerSpawns[i].transform.forward;
+            player.transform.position = playerSpawns[i].position;
+            i++;
+        }
+
+        if (isServer)
+        { // spawn AI
+            for (int k = 0; k < numAI; k++)
+            {
+                if (aiInstantiated[k] == false)
+                {
+                    if (aiColors.Count != 0)
+                    {
+                        GameObject AI = Instantiate(AIPrefab, playerSpawns[i].position, playerSpawns[i].transform.rotation);
+                        NetworkServer.Spawn(AI);
+                        string aiColor = aiColors.Pop();
+
+                        AI.GetComponent<NetworkCharacterMovementController>().RpcSetColorName(aiColor);
+                        RpcSetKidMaterial(AI.GetComponent<NetworkIdentity>().netId, GetColorIndex(aiColor));
+                    }
+                    aiInstantiated[k] = true;
+                }
+                i++;
+            }
+        }
     }
 
     private int GetColorIndex(string _color)

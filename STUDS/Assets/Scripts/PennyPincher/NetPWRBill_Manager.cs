@@ -78,31 +78,17 @@ public class NetPWRBill_Manager : NetworkBehaviour
         {
             Showtime(timer);
         }
-        else
-        {
-            if(!ended)
-                EndGame();
+        else if(!ended && isServer) { 
+            RpcEndGame();
         }
 
     }
 
-    /* // We call an rpc on each interactive instead
-     * [ClientRpc]
-    public void RpcSetInteractives(List<int> _validation)
+    [ClientRpc]
+    public void RpcEndGame()
     {
-        try
-        {
-            Validation = _validation;
-            Debug.Log(Validation.Count);
-            for (int i = 0; i < MaxObjectsOff; i++)
-            {
-                Interactives[Validation[i]].ToggleVisualGM();
-            }
-        } catch (Exception e)
-        {
-            Debug.LogWarning(e.Message);
-        }
-    } */
+        EndGame();
+    }
 
     private void SetInteractives()
     {
@@ -125,12 +111,11 @@ public class NetPWRBill_Manager : NetworkBehaviour
         DontDestroyOnLoad(EndText);
         EndText.GetComponent<TextMeshProUGUI>().text = Score.ToString();
 
-        GameObject[] allPlayers = GameObject.FindGameObjectsWithTag("Player");
-
-        foreach (GameObject player in allPlayers)
+        foreach (GameObject player in NetGameManager.Instance.getPlayers())
         {
             if (player.GetComponent<NetworkCharacterMovementController>().isAI)
             {
+                player.GetComponent<NetKidTimeout>().inPowerBill = false;
                 player.GetComponent<NetPennyPincherAI>().SetActive(false);
                 DontDestroyOnLoad(player.gameObject);
             }

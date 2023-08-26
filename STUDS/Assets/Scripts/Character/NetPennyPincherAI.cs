@@ -33,6 +33,7 @@ public class NetPennyPincherAI : NetworkBehaviour
         }
         target = null;
         CanMove = true;
+        FindObjectOfType<NetGameManager>().AddPlayer(gameObject);
     }
 
 
@@ -92,6 +93,11 @@ public class NetPennyPincherAI : NetworkBehaviour
             }
             gameStarted = active;
         }
+    }
+
+    private void OnDestroy()
+    {
+        Debug.Log("Who destroyed me?");
     }
 
     public IEnumerator FindNewTarget()

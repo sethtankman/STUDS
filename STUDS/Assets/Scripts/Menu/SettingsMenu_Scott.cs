@@ -75,8 +75,11 @@ public class SettingsMenu_Scott : MonoBehaviour
     public void SetResolution(int _resolutionIndex)
     {
         resolutionIndex = _resolutionIndex * numRefreshOptions;
-        Resolution resolution = resolutions[resolutionIndex];
-        Screen.SetResolution(resolution.width, resolution.height, Screen.fullScreen);
+        if (resolutions.Length > resolutionIndex)
+        {
+            Resolution resolution = resolutions[resolutionIndex];
+            Screen.SetResolution(resolution.width, resolution.height, Screen.fullScreen);
+        }
     }
 
     /*

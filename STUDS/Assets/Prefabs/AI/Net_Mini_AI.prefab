@@ -5691,6 +5691,7 @@ GameObject:
   - component: {fileID: 635663083221818428}
   - component: {fileID: 4869448797595023595}
   - component: {fileID: 5395139220793653345}
+  - component: {fileID: 4716562225593021233}
   m_Layer: 0
   m_Name: Net_Mini_AI
   m_TagString: Player
@@ -5959,6 +5960,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f4502cd4a30bce438d975d6d2b23b78, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   movementController: {fileID: 635663083221818428}
   agent: {fileID: 2176407641289198530}
   availableSwitches: []
@@ -6076,6 +6079,8 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   timeoutTimer: 5
+  currTime: 0
+  inPowerBill: 1
 --- !u!114 &5395139220793653345
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6097,6 +6102,22 @@ MonoBehaviour:
   compressRotation: 0
   interpolateScale: 1
   syncScale: 1
+--- !u!114 &4716562225593021233
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7092746447029247226}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f6f3bf89aa97405989c802ba270f815, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  clientAuthority: 0
+  animator: {fileID: 7706618714284830093}
 --- !u!1 &7093881879293357083
 GameObject:
   m_ObjectHideFlags: 0

@@ -26,7 +26,6 @@ public class NetGameManager : NetworkBehaviour
     public int numAIToSpawnPB;
 
     public Dictionary<string, Material> colorMaterials;
-    [SyncVar]
     public readonly SyncDictionary<int, string> playerColors = new SyncDictionary<int, string>();
 
     public Material[] materials;
@@ -215,6 +214,7 @@ public class NetGameManager : NetworkBehaviour
     [ClientRpc]
     public void RpcAddPlayer(uint playerID)
     {
+        Debug.Log("RPC Add Player");
         if (NetworkIdentity.spawned.ContainsKey(playerID))
             AddPlayer(NetworkIdentity.spawned[playerID].gameObject);
         else
@@ -291,6 +291,7 @@ public class NetGameManager : NetworkBehaviour
 
     public void AddPlayer(GameObject newPlayer)
     {
+        Debug.Log("Adding Player");
         players.Add(newPlayer);
     }
 }
