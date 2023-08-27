@@ -636,19 +636,14 @@ public class NetworkCharacterMovementController : NetworkBehaviour
         grabbedObject.transform.forward = forward;
         if (hasAimAssist)
         {
-            //Debug.Log("Resetting forward vector");
             forward = Vector3.Normalize(target.transform.position - transform.position);
         }
         Vector3 throwingForce = forward * throwForce * 2.3f;
         Vector3 movementAdjust = forward * direction.magnitude * moveSpeedGrab * 40;
         throwingForce += movementAdjust;
         throwingForce.y = 300f;
-        //Debug.Log("Threw with Vector force: " + throwingForce);
         CmdLetGo(grabbedObject.GetComponent<NetworkIdentity>().netId);
-        //Debug.Log("Velocity: " + direction.magnitude);
 
-        //CmdThrow(grabbedObject, throwingForce);
-        //grabbedObject.GetComponent<NetGrabbableObjectController>().ApplyForce(throwingForce);
         if (isServer)
         {
             RpcThrow(grabbedObject, throwingForce);
@@ -674,7 +669,6 @@ public class NetworkCharacterMovementController : NetworkBehaviour
 
         hasGrabbed = false;
         moveSpeed = moveSpeedNormal;
-        //CmdRemoveNetworkAuthority(grabbedObject.GetComponent<NetworkIdentity>());
         grabbedObject = null;
         grabbedObjectID = 0;
         animator.ResetTrigger("Throw");
@@ -709,7 +703,6 @@ public class NetworkCharacterMovementController : NetworkBehaviour
                     grabbedObject = collider.gameObject;
                     grabbedObjectID = collider.gameObject.GetComponent<NetworkIdentity>().netId;
                     Debug.Log(grabbedObjectID);
-                    //CmdAssignNetworkAuthority(grabbedObject.GetComponent<NetworkIdentity>(), this.GetComponent<NetworkIdentity>());
                     grabbedObject.GetComponent<NetGrabbableObjectController>().LocalPickupObject(name);
                     CmdPickupObject(grabbedObject);
                     moveSpeed = moveSpeedGrab;
@@ -721,10 +714,9 @@ public class NetworkCharacterMovementController : NetworkBehaviour
                     }
                 }
             }
-            else if (collider.CompareTag("Player") && collider.gameObject.GetComponent<NetworkCharacterMovementController>().isMini)
+            else if (collider.CompareTag("Player") && collider.GetComponent<NetworkCharacterMovementController>().isMini)
             {
-                // Debug.Log("Collided with child");
-                if (pickupPressed && isMini == false)  // This is just making it so timeout doesn't work...
+                if (pickupPressed && isMini == false)
                 {
                     sa.UnlockAchievement("PB_TIMEOUT");
                     CmdTimeout(collider.GetComponent<NetworkIdentity>().netId);

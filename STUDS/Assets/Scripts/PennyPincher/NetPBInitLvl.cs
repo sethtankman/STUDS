@@ -11,6 +11,8 @@ public class NetPBInitLvl : NetworkBehaviour
 {
     public Transform[] playerSpawns;
     public Material[] kidsMaterials;
+    public GameObject[] timeoutPos;
+    public GameObject[] backInPos;
     public GameObject playerPrefab, AIPrefab;
     public GameObject loadingScreen;
     public GameObject pauseMenuUI;
@@ -23,6 +25,12 @@ public class NetPBInitLvl : NetworkBehaviour
     private int numAI;
     private List<GameObject> players;
     private Stack<string> aiColors;
+
+    private void Awake()
+    {
+        NetPWRBill_Manager.backInPos = backInPos;
+        NetPWRBill_Manager.timeoutPos = timeoutPos;
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -84,6 +92,7 @@ public class NetPBInitLvl : NetworkBehaviour
         {
             player.transform.forward = playerSpawns[i].transform.forward;
             player.transform.position = playerSpawns[i].position;
+            player.GetComponent<NetKidTimeout>().Init();
             i++;
         }
 

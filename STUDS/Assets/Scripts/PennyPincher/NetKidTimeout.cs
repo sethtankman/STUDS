@@ -9,74 +9,66 @@ public class NetKidTimeout : NetworkBehaviour
     private bool isTimeout;
     GameObject mini;
 
-    GameObject[] timeoutPos;
-    GameObject[] backInPos;
-    public bool inPowerBill = true;
+    [SerializeField] GameObject[] timeoutPos;
+    [SerializeField] GameObject[] backInPos;
+    public bool inPowerBill = false;
     int currIdx;
-    // Start is called before the first frame update
-    void Start()
+    
+    /// <summary>
+    /// Called at the beginning of PowerBill to enable timeout capability and set timeout positions
+    /// </summary>
+    public void Init()
     {
-        timeoutPos = new GameObject[3];
-        timeoutPos[0] = GameObject.Find("KidTimeoutOutside1");
-        timeoutPos[1] = GameObject.Find("KidTimeoutOutside2");
-        timeoutPos[2] = GameObject.Find("KidTimeoutOutside3");
+        inPowerBill = true;
+        timeoutPos = NetPWRBill_Manager.timeoutPos;
+        backInPos = NetPWRBill_Manager.backInPos;
+    }
 
-        backInPos = new GameObject[3];
-        backInPos[0] = GameObject.Find("KidTimeoutBackInside1");
-        backInPos[1] = GameObject.Find("KidTimeoutBackInside2");
-        backInPos[2] = GameObject.Find("KidTimeoutBackInside3");
+    private void Start()
+    {
+        if (GetComponent<NetworkCharacterMovementController>().isAI)
+            Init();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (inPowerBill)
+        if (inPowerBill && isTimeout)
         {
-            timeoutPos[0] = GameObject.Find("KidTimeoutOutside1");
-            timeoutPos[1] = GameObject.Find("KidTimeoutOutside2");
-            timeoutPos[2] = GameObject.Find("KidTimeoutOutside3");
-
-            backInPos[0] = GameObject.Find("KidTimeoutBackInside1");
-            backInPos[1] = GameObject.Find("KidTimeoutBackInside2");
-            backInPos[2] = GameObject.Find("KidTimeoutBackInside3");
-            if (isTimeout)
+            if (currTime > timeoutTimer)
             {
-                if (currTime > timeoutTimer)
+                transform.position = backInPos[currIdx].transform.position;
+                // We need to reset the navigation agent when we teleport it as well.
+                if (currTime > (timeoutTimer + 0.1))
                 {
-                    //GameObject pos = GameObject.Find("KidTimeoutBackInside");
-                    gameObject.transform.position = backInPos[currIdx].transform.position;
-                    // We need to reset the navigation agent when we teleport it as well.
-                    if (currTime > (timeoutTimer + 0.1))
+                    currTime = 0;
+                    if (mini.GetComponent<CharacterMovementController>())
                     {
-                        currTime = 0;
-                        if (mini.GetComponent<CharacterMovementController>())
+                        mini.GetComponent<CharacterMovementController>().CanMove = true;
+                        if (mini.GetComponent<CharacterMovementController>().isAI)
                         {
-                            mini.GetComponent<CharacterMovementController>().CanMove = true;
-                            if (mini.GetComponent<CharacterMovementController>().isAI)
-                            {
-                                mini.GetComponent<NavMeshAgent>().Warp(backInPos[currIdx].transform.position);
-                                mini.GetComponent<PennyPincherAI>().CanMove = true;
-                            }
+                            mini.GetComponent<NavMeshAgent>().Warp(backInPos[currIdx].transform.position);
+                            mini.GetComponent<PennyPincherAI>().CanMove = true;
                         }
-                        else
-                        {
-                            mini.GetComponent<NetworkCharacterMovementController>().CanMove = true;
-                            if (mini.GetComponent<NetworkCharacterMovementController>().isAI)
-                            {
-                                mini.GetComponent<NavMeshAgent>().Warp(backInPos[currIdx].transform.position);
-                                mini.GetComponent<NetPennyPincherAI>().CanMove = true;
-                            }
-                        }
-                        mini = null;
-                        isTimeout = false;
                     }
-                    currTime += Time.deltaTime;
+                    else
+                    {
+                        mini.GetComponent<NetworkCharacterMovementController>().CanMove = true;
+                        if (mini.GetComponent<NetworkCharacterMovementController>().isAI)
+                        {
+                            mini.GetComponent<NavMeshAgent>().Warp(backInPos[currIdx].transform.position);
+                            mini.GetComponent<NetPennyPincherAI>().CanMove = true;
+                        }
+                    }
+                    mini = null;
+                    isTimeout = false;
                 }
-                else
-                {
-                    currTime += Time.deltaTime;
-                    gameObject.transform.position = timeoutPos[currIdx].transform.position;
-                }
+                currTime += Time.deltaTime;
+            }
+            else
+            {
+                currTime += Time.deltaTime;
+                transform.position = timeoutPos[currIdx].transform.position;
             }
         }
     }
@@ -84,20 +76,20 @@ public class NetKidTimeout : NetworkBehaviour
     [ClientRpc]
     public void RpcTimeout()
     {
-        if(GetComponent<NetworkCharacterMovementController>().isAI || isLocalPlayer)
+        if (GetComponent<NetworkCharacterMovementController>().isAI || isLocalPlayer)
             Timeout(gameObject);
     }
 
     public void Timeout(GameObject mini)
     {
-        //GameObject pos = GameObject.Find("KidTimeoutOutside");
-        int maxSize = timeoutPos.Length;
-        int randomidx = Random.Range(0, maxSize);
-        if (randomidx > maxSize - 1)
+        int randomidx = Random.Range(0, 3);
+        Debug.Log($"Random: {randomidx}");
+        if (randomidx > 2)
         {
-            randomidx = maxSize - 1;
+            randomidx = 2;
         }
         currIdx = randomidx;
+        Debug.Log(currIdx);
         GameObject g = timeoutPos[currIdx];
         Vector3 newPos = g.transform.position;
         mini.transform.position = newPos;

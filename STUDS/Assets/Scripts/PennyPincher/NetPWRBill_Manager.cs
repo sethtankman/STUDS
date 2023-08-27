@@ -9,6 +9,9 @@ using System;
 
 public class NetPWRBill_Manager : NetworkBehaviour
 {
+    public static GameObject[] timeoutPos;
+    public static GameObject[] backInPos;
+
     //Electricity variables
     [SyncVar]
     public float Score;
@@ -113,9 +116,9 @@ public class NetPWRBill_Manager : NetworkBehaviour
 
         foreach (GameObject player in NetGameManager.Instance.getPlayers())
         {
+            player.GetComponent<NetKidTimeout>().inPowerBill = false;
             if (player.GetComponent<NetworkCharacterMovementController>().isAI)
             {
-                player.GetComponent<NetKidTimeout>().inPowerBill = false;
                 player.GetComponent<NetPennyPincherAI>().SetActive(false);
                 DontDestroyOnLoad(player.gameObject);
             }
