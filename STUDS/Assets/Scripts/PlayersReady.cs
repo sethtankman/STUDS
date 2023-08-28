@@ -98,7 +98,7 @@ public class PlayersReady : MonoBehaviour
                     }
                     else if (gameObject.CompareTag("StrollerRace"))
                     {
-                        netManager.ServerChangeScene("TheBlock_Scott");
+                        netManager.ServerChangeScene("NetBlock");
                     }
                     else if (gameObject.CompareTag("ShoppingSpree"))
                     {

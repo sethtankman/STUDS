@@ -11,13 +11,13 @@ public class PlayerAssigner : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "Player")
+        if (other.CompareTag("Player"))
         {
             if (hasPLRLink == false)
             {
-                if (other.GetComponentInChildren<StrollerLocator>().HasLink() == false)
+                LocatorArrows = other.GetComponentInChildren<StrollerLocator>();
+                if (LocatorArrows && LocatorArrows.HasLink() == false)
                 {
-                    LocatorArrows = other.GetComponentInChildren<StrollerLocator>();
                     LocatorArrows.PassStrollerID(this.gameObject);
                     hasPLRLink = true;
                 }

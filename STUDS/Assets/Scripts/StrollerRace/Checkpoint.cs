@@ -23,10 +23,6 @@ public class Checkpoint : MonoBehaviour
     void Start()
     {
         display = false;
-        //Debug.Log("Searching for : " + soundName);
-        GameObject sfx = GameObject.Find("SFX");
-        Transform trans = sfx.transform;
-        Transform target = trans.Find(soundName);
     }
 
     // Update is called once per frame
@@ -34,7 +30,6 @@ public class Checkpoint : MonoBehaviour
     {
         if (display)
         {
-            Debug.Log("Text active");
             timeCount += Time.deltaTime;
             checkPointText.text = "Player " + playerID + " has passed checkpoint " + checkPointNum + "!";
             if(timeCount >= swapTime)

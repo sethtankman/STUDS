@@ -44,7 +44,7 @@ public class RaceTracker : MonoBehaviour
     {
         PT = PT.OrderByDescending(e => e.GetComponentInChildren<PlaceTracker>().Progress).ToList();
 
-        for(int i = 0; i <= Players.Count; i++)
+        for(int i = 0; i < Players.Count; i++)
         {
             string PlrColor = PT[i].GetComponentInChildren<PlaceTracker>().PLRCol;
 
