@@ -701,7 +701,7 @@ public class NetworkCharacterMovementController : NetworkBehaviour
                     animator.SetBool("isHoldingSomething", true);
                     GrabSound.Post(gameObject);
                     grabbedObject = collider.gameObject;
-                    grabbedObjectID = collider.gameObject.GetComponent<NetworkIdentity>().netId;
+                    grabbedObjectID = collider.GetComponent<NetworkIdentity>().netId;
                     Debug.Log(grabbedObjectID);
                     grabbedObject.GetComponent<NetGrabbableObjectController>().LocalPickupObject(name);
                     CmdPickupObject(grabbedObject);
