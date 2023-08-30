@@ -58,6 +58,7 @@ public class NetInitRace : NetworkBehaviour
                     GameObject stroller = Instantiate(strollerPrefab, playerSpawns[i].position + new Vector3(0, 0, 2f), Quaternion.identity);
                     DetermineColor(players[i].GetComponent<NetworkCharacterMovementController>().GetColorName(), stroller);
                     stroller.GetComponent<StrollerController>().SetID(players[i].GetComponent<NetworkCharacterMovementController>().getPlayerID());
+                    NetworkServer.Spawn(stroller);
                     spawnedPlayers = true;
                 }
             }

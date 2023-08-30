@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class Checkpoint : MonoBehaviour
+public class NetCheckpoint : MonoBehaviour
 {
     public int checkPointNum;
 
@@ -45,7 +45,7 @@ public class Checkpoint : MonoBehaviour
     {
         if (collider.CompareTag("Player"))
         {
-            CharacterMovementController player = collider.GetComponent<CharacterMovementController>();
+            NetworkCharacterMovementController player = collider.GetComponent<NetworkCharacterMovementController>();
             GameObject stroller = player.GetGrabbedObject();
             if ((player.getCheckpointCount() == checkPointNum - 1) && stroller != null)
             {
