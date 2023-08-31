@@ -19,7 +19,6 @@ public class VolumeTrigger : MonoBehaviour {
 
     public void FlipSwitch()
     {
-        Debug.Log("FlipSwitch Called");
         interact.ToggleVisual(true);
     }
 
@@ -30,7 +29,6 @@ public class VolumeTrigger : MonoBehaviour {
 
     private void OnTriggerEnter(Collider other)
     {
-        // Debug.Log(other.gameObject.name + " entered");
         if(Check(other))
             EnterEvent.Invoke();
     }
