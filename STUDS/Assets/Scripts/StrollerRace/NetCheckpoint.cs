@@ -46,21 +46,32 @@ public class NetCheckpoint : MonoBehaviour
         if (collider.CompareTag("Player"))
         {
             NetworkCharacterMovementController player = collider.GetComponent<NetworkCharacterMovementController>();
-            GameObject stroller = player.GetGrabbedObject();
-            if ((player.getCheckpointCount() == checkPointNum - 1) && stroller != null)
-            {
-                if((stroller.GetComponent<StrollerController>().StrollerID == player.getPlayerID()) || player.isAI)
+            if(player)
+            { // players will always have NetworkCharacterMovementController in Network mode
+                GameObject stroller = player.GetGrabbedObject();
+                if ((player.getCheckpointCount() == checkPointNum - 1) && stroller != null)
                 {
-                    player.SetCheckpointCount(checkPointNum);
-                    display = true;
-                    playerID = player.getPlayerID() + 1;
-                    if(player.isAI == false)
+                    if ((stroller.GetComponent<StrollerController>().StrollerID == player.getPlayerID()))
                     {
+                        player.SetCheckpointCount(checkPointNum);
+                        display = true;
+                        playerID = player.getPlayerID() + 1;
                         mySource.Post(gameObject);
                     }
-                }
 
+                }
+            } else
+            { // AI will not have Network CMC
+                CharacterMovementController AI = collider.GetComponent<CharacterMovementController>();
+                GameObject stroller = AI.GetGrabbedObject();
+                if ((AI.getCheckpointCount() == checkPointNum - 1) && stroller != null)
+                {
+                    AI.SetCheckpointCount(checkPointNum);
+                    display = true;
+                    playerID = AI.getPlayerID() + 1;
+                }
             }
+            
 
         }
     }
