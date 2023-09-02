@@ -47,7 +47,7 @@ public class VolumeTrigger : MonoBehaviour {
 
     private bool Check(Collider other)
     {
-        if (other.tag == TriggerTag)
+        if (other.CompareTag(TriggerTag))
             return true;
         else
             return false;

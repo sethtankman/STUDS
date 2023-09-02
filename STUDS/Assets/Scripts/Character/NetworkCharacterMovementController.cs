@@ -283,11 +283,6 @@ public class NetworkCharacterMovementController : NetworkBehaviour
         else // If not airborn
         {
             // Check if airborn
-            //if (Physics.Raycast(ray, 0.1f))
-            //{
-            //    Debug.Log("BeingKnockedBack: " + beingKnockedBack.ToString());
-            //    Debug.Log("Drop: " + drop.ToString());
-            //}
             if (Physics.Raycast(ray, out hit, 0.1f) == false || !hit.transform.CompareTag("Ground"))
             {
                 airborn = true;
@@ -302,7 +297,6 @@ public class NetworkCharacterMovementController : NetworkBehaviour
 
     private void FallDown(float cooldown)
     {
-        //Debug.Log("Fall Down!");
         animator.ResetTrigger("Jump");
         CmdAnimSetTrigger("FallDown");
         beingKnockedBack = false;
@@ -340,7 +334,6 @@ public class NetworkCharacterMovementController : NetworkBehaviour
             }
         }
         Gravity();
-        //Debug.Log("velocity y is: " + velocity.y);
     }
 
     private void Gravity()
@@ -489,7 +482,7 @@ public class NetworkCharacterMovementController : NetworkBehaviour
             GameObject gameManager = GameObject.Find("GameManager");
             gameManager.GetComponent<ManagePlayerHub>().DeletePlayers();
             Destroy(gameManager);
-            SceneManager.LoadScene("TheBlock_LevelSelect");
+            SceneManager.LoadScene("TheBlock_LevelSelect"); // TODO: Should this be changed or is this method even used?
         }
     }
 
@@ -605,7 +598,6 @@ public class NetworkCharacterMovementController : NetworkBehaviour
                 grabbedObject.GetComponent<Rigidbody>().useGravity = true;
             }
             CmdLetGo(grabbedObject.GetComponent<NetworkIdentity>().netId);
-            //CmdRemoveNetworkAuthority(grabbedObject.GetComponent<NetworkIdentity>());
             grabbedObject = null;
             grabbedObjectID = 0;
             hasGrabbed = false;
@@ -702,7 +694,6 @@ public class NetworkCharacterMovementController : NetworkBehaviour
                     GrabSound.Post(gameObject);
                     grabbedObject = collider.gameObject;
                     grabbedObjectID = collider.GetComponent<NetworkIdentity>().netId;
-                    Debug.Log(grabbedObjectID);
                     grabbedObject.GetComponent<NetGrabbableObjectController>().LocalPickupObject(name);
                     CmdPickupObject(grabbedObject);
                     moveSpeed = moveSpeedGrab;
@@ -786,16 +777,14 @@ public class NetworkCharacterMovementController : NetworkBehaviour
         }
         if (item.connectionToClient == null)
         {
-            Debug.Log("Connection to client is null");
+            Debug.LogError("Connection to client is null");
         }
-        Debug.Log("Has Authority: " + item.hasAuthority.ToString());
         if (item.connectionToClient != null && item.hasAuthority == false)
         {
             item.RemoveClientAuthority();
         }
         if (item.connectionToClient == null)
         {
-            Debug.Log("Authority being assigned");
             item.AssignClientAuthority(clientId.connectionToClient);
         }
     }
@@ -1060,7 +1049,6 @@ public class NetworkCharacterMovementController : NetworkBehaviour
 
     private void HookSetGrabbedObject(uint oldObj, uint objID)
     {
-        Debug.Log("HookSetGrabbedObject");
         grabbedObjectID = objID;
         if (objID != 0)
         {

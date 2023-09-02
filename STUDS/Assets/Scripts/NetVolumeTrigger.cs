@@ -21,7 +21,6 @@ public class NetVolumeTrigger : NetworkBehaviour
 
     public void FlipSwitch()
     {
-        Debug.Log("FlipSwitch Called");
         interact.CmdToggleVisual(true);
     }
 
@@ -32,7 +31,6 @@ public class NetVolumeTrigger : NetworkBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        // Debug.Log(other.gameObject.name + " entered");
         if (Check(other))
             EnterEvent.Invoke();
     }
