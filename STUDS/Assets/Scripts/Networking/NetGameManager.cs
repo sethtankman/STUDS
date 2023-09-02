@@ -45,7 +45,6 @@ public class NetGameManager : NetworkBehaviour
         colorMaterials = new Dictionary<string, Material>();
         for (int i = 0; i < colorNames.Length; i++)
         {
-            //Debug.Log($"Adding color: {colorNames[i]}");
             colorMaterials[colorNames[i]] = materials[i];
         }
          

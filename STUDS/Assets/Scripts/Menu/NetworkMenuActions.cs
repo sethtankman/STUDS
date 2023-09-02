@@ -12,7 +12,6 @@ public class NetworkMenuActions : MonoBehaviour
     public GameObject RoomButtonPrefab;
     public GameObject ContentPanel;
     public CSteamID SelectedRoomId;
-    [SerializeField] private int topOfScrollArea = 1400;
 
     public List<GameObject> listOfLobbyListItems = new List<GameObject>();
 
@@ -90,7 +89,6 @@ public class NetworkMenuActions : MonoBehaviour
 
                 newLobbyListItem.transform.SetParent(ContentPanel.transform);
                 newLobbyListItem.transform.localScale = Vector3.one;
-                //newLobbyListItem.transform.localPosition = new Vector3(0, topOfScrollArea - (i * 110));
 
                 listOfLobbyListItems.Add(newLobbyListItem);
                 //}

@@ -104,7 +104,6 @@ public class CharacterMovementController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //Debug.Log("Player: " + playerID + " has object: " + hasGrabbed);
         if (movementEnabled && !isAI)
             Move();
         else
@@ -245,6 +244,9 @@ public class CharacterMovementController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Handles Jumping and gravity
+    /// </summary>
     public void Jump()
     {
         //GameObject menu = GameObject.Find("GameManager");
@@ -460,7 +462,6 @@ public class CharacterMovementController : MonoBehaviour
         if (other.CompareTag("Electronics"))
         {
             electronicObject = other.transform.parent.gameObject;
-            //Debug.Log("Assign to variable");
         }
     }
 
@@ -514,34 +515,7 @@ public class CharacterMovementController : MonoBehaviour
         aimAssist.SetActive(toggle);
     }
 
-    /*
-    public void Blink(bool _isBlinking)
-    {
-        isBlinking = _isBlinking;
-        if (isBlinking)
-        {
-            //Debug.Log("Blink...Start!");
-            StartCoroutine(BlinkC());
-        }
-        else
-        {
-            //Debug.Log("Blink...Stop.");
-            StopCoroutine(BlinkC());
-            renderer.material.SetColor("_Color", Color.white);
-        }
-    }
-
-    private IEnumerator BlinkC()
-    {
-        while (isBlinking)
-        {
-            renderer.material.SetColor("_Color", Color.red);
-            yield return new WaitForSeconds(0.5f);
-            renderer.material.SetColor("_Color", Color.white);
-            yield return new WaitForSeconds(0.5f);
-        }
-    }
-    */
+    
     private IEnumerator performThrow()
     {
 
@@ -560,9 +534,7 @@ public class CharacterMovementController : MonoBehaviour
         Vector3 movementAdjust = forward * direction.magnitude * moveSpeedGrab * 40;
         throwingForce += movementAdjust;
         throwingForce.y = 300f;
-        //Debug.Log("Threw with Vector force: " + throwingForce);
         grabbedObject.GetComponent<GrabbableObjectController>().LetGo();
-        //Debug.Log("Velocity: " + direction.magnitude);
         grabbedObject.GetComponent<Rigidbody>().AddForce(throwingForce);
 
         if (grabbedObject.GetComponent<CombatThrow>())
@@ -580,13 +552,6 @@ public class CharacterMovementController : MonoBehaviour
         animator.ResetTrigger("Throw");
     }
 
-    /*
-    private IEnumerator runSound()
-    {
-        runSound.Play();
-    }
-    */
-
     private void HandleGrabObject()
     {
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, 1);
@@ -597,14 +562,6 @@ public class CharacterMovementController : MonoBehaviour
                 if (collider.CompareTag("ShoppingItem"))
                 {
                     collider.gameObject.GetComponent<ShoppingItem>().SetPlayer(this.gameObject);
-                }
-                if (hasGrabbed)
-                {
-                    //GrabText.text = "";
-                }
-                else
-                {
-                    //GrabText.text = "Press e to grab this object";
                 }
 
                 if (pickupPressed && !hasGrabbed)
@@ -625,7 +582,6 @@ public class CharacterMovementController : MonoBehaviour
             }
             else if (collider.CompareTag("Player") && collider.gameObject.GetComponent<CharacterMovementController>().isMini)
             {
-                // Debug.Log("Collided with child");
                 if (pickupPressed && isMini == false)  // This is just making it so timeout doesn't work...
                 {
                     sa.UnlockAchievement("PB_TIMEOUT");

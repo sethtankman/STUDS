@@ -14,7 +14,7 @@ public class RaceStartedDetection : MonoBehaviour
 
     void OnTriggerEnter(Collider obj)
     {
-        if (obj.tag.Equals("Player"))
+        if (obj.CompareTag("Player"))
         {
             AI1.GetComponent<PlayerAI>().StartAI();
             AI2.GetComponent<PlayerAI>().StartAI();

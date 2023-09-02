@@ -139,7 +139,6 @@ public class NetworkCharacterMovementController : NetworkBehaviour
         {
             return;
         }
-        //Debug.Log("Player: " + playerID + " has object: " + hasGrabbed);
         if (movementEnabled && !isAI)
             Move();
         else
