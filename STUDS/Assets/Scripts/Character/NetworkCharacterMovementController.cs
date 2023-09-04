@@ -135,10 +135,11 @@ public class NetworkCharacterMovementController : NetworkBehaviour
     void Update()
     {
         // We don't update other player's actions on our end unless they tell us to.
-        if (!isLocalPlayer)
+        if (!isLocalPlayer && !(isAI && isServer))
         {
             return;
         }
+
         if (movementEnabled && !isAI)
             Move();
         else
@@ -157,8 +158,6 @@ public class NetworkCharacterMovementController : NetworkBehaviour
         {
             PlaySteps();
         }
-
-
         Jump();
 
         CollisionDetection();
@@ -304,6 +303,9 @@ public class NetworkCharacterMovementController : NetworkBehaviour
         drop = false;
     }
 
+    /// <summary>
+    /// Handles Jump input, animations, jump sounds, physics, calls Gravity
+    /// </summary>
     public void Jump()
     {
         if (Input.GetKey(KeyCode.Space) || Input.GetButton("Jump"))
@@ -335,6 +337,9 @@ public class NetworkCharacterMovementController : NetworkBehaviour
         Gravity();
     }
 
+    /// <summary>
+    /// simulates gravity 
+    /// </summary>
     private void Gravity()
     {
         // Gravity
@@ -610,7 +615,10 @@ public class NetworkCharacterMovementController : NetworkBehaviour
     /// <param name="toggle"></param>
     public void SetAimAssist(bool toggle)
     {
-        aimAssist.SetActive(toggle);
+        if (aimAssist)
+            aimAssist.SetActive(toggle);
+        else
+            Debug.Log($"Aim Assist not found on {name}");
     }
 
     /// <summary>
@@ -653,7 +661,7 @@ public class NetworkCharacterMovementController : NetworkBehaviour
             }
         }
 
-        if (grabbedObject.GetComponent<StrollerController>())
+        if (grabbedObject.GetComponent<StrollerController>() && !isAI)
         {
             sa.UnlockAchievement("SR_STROLLER");
         }

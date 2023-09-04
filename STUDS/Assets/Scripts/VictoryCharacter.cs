@@ -66,7 +66,6 @@ public class VictoryCharacter : MonoBehaviour
     /// <param name="player"></param>
     private void TurnMini(GameObject player)
     {
-        //Debug.Log("Calling TurnMini " + isPowerBill + "  " + player.GetComponent<CharacterMovementController>().isMini);
         if (player.GetComponent<NetworkCharacterMovementController>()) {
             if (isPowerBill && player.GetComponent<NetworkCharacterMovementController>().isMini)
             {
@@ -83,7 +82,6 @@ public class VictoryCharacter : MonoBehaviour
 
     private void SetColor(string colorName)
     {
-        Debug.Log("Finished player should be: " + colorName);
         if (colorName.Equals("blue"))
         {
             GetComponentInChildren<SkinnedMeshRenderer>().material = color1;
