@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class VictoryCharacter : MonoBehaviour
 {
-    List<GameObject> players;
+    public List<GameObject> players;
     public int posNumber;
     public Material color1;
     public Material color2;

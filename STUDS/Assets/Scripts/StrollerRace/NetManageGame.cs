@@ -83,7 +83,7 @@ public class NetManageGame : NetworkBehaviour
                         noFinishPositions--;
                     }
                 }
-                SceneManager.LoadScene("VictoryStands");
+                SceneManager.LoadScene("NetVictoryStands");
             }
         }
         else

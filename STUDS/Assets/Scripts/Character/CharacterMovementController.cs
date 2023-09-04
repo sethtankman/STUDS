@@ -512,7 +512,10 @@ public class CharacterMovementController : MonoBehaviour
     /// <param name="toggle"></param>
     public void SetAimAssist(bool toggle)
     {
-        aimAssist.SetActive(toggle);
+        if (aimAssist)
+            aimAssist.SetActive(toggle);
+        else
+            Debug.Log($"No aim assist on {name}");
     }
 
     
