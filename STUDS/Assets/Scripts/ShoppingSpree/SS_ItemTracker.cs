@@ -53,18 +53,8 @@ public class SS_ItemTracker : MonoBehaviour
                     shoppingItemImages[i].gameObject.GetComponent<ItemButton>().EnableCheckMark();
                     Debug.Log("Added complete");
                 }
-                //else
-                //{
-                    //Debug.Log("No shopping item images.  Intentional for non-local players.");
-                //}
             }
-            //else
-            //{
-                //Debug.Log("Added missing");
-            //}
         }
-        //listText.text = text;
-
     }
 
     public bool isItemCompleted(string item)

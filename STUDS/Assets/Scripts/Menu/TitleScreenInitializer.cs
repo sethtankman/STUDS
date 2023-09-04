@@ -19,8 +19,7 @@ public class TitleScreenInitializer : MonoBehaviour
         GameObject.Find("Music Manager").GetComponent<Music_Manager>().PlayStopMusic("Stroller", false);
         GameObject.Find("Music Manager").GetComponent<Music_Manager>().PlayStopMusic("Penny", false);
         GameObject.Find("Music Manager").GetComponent<Music_Manager>().PlayStopMusic("Menu", true);
-        try
-        {
+        if(ManagePlayerHub.Instance) { 
             var players = ManagePlayerHub.Instance.getPlayers();
             foreach (GameObject player in players)
             {
@@ -33,9 +32,13 @@ public class TitleScreenInitializer : MonoBehaviour
                 //Going to set them to inactive here and will delete them in my script after I have extracted their race positions
                 player.SetActive(false);
             }
-        } catch (NullReferenceException)
+        } else if(NetGameManager.Instance)
         {
-            Debug.Log("Players not found in ManagePlayerHub");
+            var players = NetGameManager.Instance.getPlayers();
+            foreach (GameObject player in players)
+            {
+                player.SetActive(false);
+            }
         }
 
 

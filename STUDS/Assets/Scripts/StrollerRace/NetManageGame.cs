@@ -12,6 +12,8 @@ public class NetManageGame : NetworkBehaviour
 
     public GameObject[] checkpoints;
 
+    public StudsNetworkManager netManager;
+
     public TextMeshProUGUI FinishText;
     public TextMeshProUGUI FinishTimer;
 
@@ -38,6 +40,7 @@ public class NetManageGame : NetworkBehaviour
     void Start()
     {
         sa = GameObject.Find("SteamScripts").GetComponent<SteamAchievements>();
+        netManager = GameObject.Find("NetworkManager").GetComponent<StudsNetworkManager>();
     }
 
     // Update is called once per frame
@@ -83,7 +86,7 @@ public class NetManageGame : NetworkBehaviour
                         noFinishPositions--;
                     }
                 }
-                SceneManager.LoadScene("NetVictoryStands");
+                netManager.ServerChangeScene("NetVictoryStands");
             }
         }
         else

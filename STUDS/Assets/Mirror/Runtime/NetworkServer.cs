@@ -864,7 +864,7 @@ namespace Mirror
 
             identity.OnStartServer();
 
-            Debug.Log("SpawnObject instance ID " + identity.netId + " asset ID " + identity.assetId);
+            // Debug.Log("SpawnObject instance ID " + identity.netId + " asset ID " + identity.assetId);
 
             RebuildObservers(identity, true);
         }

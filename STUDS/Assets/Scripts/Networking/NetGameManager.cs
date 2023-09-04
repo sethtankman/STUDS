@@ -242,7 +242,6 @@ public class NetGameManager : NetworkBehaviour
     {
         playerJoined = true;
         players.Add(player);
-        Debug.Log($"Added player{playerIDCount}");
         DontDestroyOnLoad(player);
         if (isServer)
         {
