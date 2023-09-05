@@ -3,9 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Runtime.InteropServices.ComTypes;
-//using System.Runtime.Remoting.Messaging;
 using System.Threading;
-//using System.Runtime.Hosting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
@@ -14,11 +12,13 @@ using UnityEngine.UI;
 
 public class PauseV2 : MonoBehaviour
 {
+    public static bool canPause = true;
+    public static bool gameisPaused = false;
+
     public GameObject PauseMenuUI;
     public GameObject OptionsMenu;
     public GameObject firstButton;
     public GameObject[] allOtherMenus;
-    public static bool gameisPaused = false;
     public GameObject p4PH;
     public bool p4PHWasEnabled;
 
@@ -51,7 +51,7 @@ public class PauseV2 : MonoBehaviour
         lostPausePanels = true;
         p4PH = GameObject.Find("Player4PlaceHolder");
         if (p4PH == false)
-            Debug.Log("PauseV2 Couln't find Player 4 PlaceHolder");
+            Debug.Log("PauseV2 Couldn't find Player 4 PlaceHolder");
         gameisPaused = false;
     }
 
@@ -91,6 +91,8 @@ public class PauseV2 : MonoBehaviour
 
     public void Pause()
     {
+        if (canPause == false)
+            return;
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
         if(p4PH && p4PH.activeSelf)

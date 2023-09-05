@@ -18,6 +18,7 @@ public class NetDadBtnMngr : NetworkBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        PauseV2.canPause = false;
         acceptButton.SetActive(false);
         AIColors = new Stack<string>();
         remainingColors = new List<string>() { "blue", "red", "purple", "green", "yellow" };
@@ -190,13 +191,4 @@ public class NetDadBtnMngr : NetworkBehaviour
         mngr.aiColors = AIColors;
         GameObject.Find("NetworkManager").GetComponent<NetworkManager>().ServerChangeScene(levelName);
     }
-
-    /*
-    [Command(requiresAuthority = false)]
-    public void CmdRequestBtnInfo(NetDadBtn _button)
-    {
-        Debug.Log($"Requested button pivot: {_button.GetComponent<RectTransform>().pivot}, Color: {_button.player.GetComponent<NetworkCharacterMovementController>().GetColorName()}");
-        _button.RpcSetPivot(_button.GetComponent<RectTransform>().pivot);
-        _button.RpcSetSprite(_button.player.GetComponent<NetworkCharacterMovementController>().GetColorName());
-    } */
 }

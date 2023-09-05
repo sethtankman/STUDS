@@ -66,6 +66,7 @@ public class NetPBInitLvl : NetworkBehaviour
         {
             loadingScreen.SetActive(false);
             spawnedPlayers = true;
+            PauseV2.canPause = true;
         }
         else if (!spawnedPlayers)
         {
