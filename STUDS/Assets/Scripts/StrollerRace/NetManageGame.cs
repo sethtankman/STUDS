@@ -35,6 +35,7 @@ public class NetManageGame : NetworkBehaviour
 
     private int positions = 1;
     private int noFinishPositions = -1;
+    private bool endSequenceCalled = false;
 
     // Start is called before the first frame update
     void Start()
@@ -49,7 +50,7 @@ public class NetManageGame : NetworkBehaviour
         if (display)
         {
             timeCount += Time.deltaTime;
-            FinishText.text = "Player " + playerID + " has finished the race!";
+            FinishText.text = $"Player {playerID} has finished the race!";
             playerFinish = true;
             if (timeCount >= swapTime)
             {
@@ -66,8 +67,9 @@ public class NetManageGame : NetworkBehaviour
         {
             timer += Time.deltaTime;
             FinishTimer.text = "A player has finished the race! The race will end in " + (int)(endTimer - timer) + " seconds!";
-            if(timer >= endTimer)
+            if(timer >= endTimer && endSequenceCalled == false)
             {
+                endSequenceCalled = true;
                 GameObject[] allPlayers = GameObject.FindGameObjectsWithTag("Player");
                 foreach (GameObject player in allPlayers)
                 {

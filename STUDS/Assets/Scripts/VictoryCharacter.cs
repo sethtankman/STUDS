@@ -18,7 +18,6 @@ public class VictoryCharacter : MonoBehaviour
     {
         foundMatch = false;
         isPowerBill = (GameObject.Find("PBFinalText(Clone)") != null);
-        Debug.Log($"I'm in networked mode: {networkMode}");
         if (!networkMode)
         {
             players = ManagePlayerHub.Instance.getPlayers();
@@ -83,6 +82,7 @@ public class VictoryCharacter : MonoBehaviour
 
     private void SetColor(string colorName)
     {
+        colorName = colorName.ToLower();
         if (colorName.Equals("blue"))
         {
             GetComponentInChildren<SkinnedMeshRenderer>().material = color1;

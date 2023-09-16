@@ -51,13 +51,16 @@ public class SteamLobby : NetworkBehaviour
     }
 
     /// <summary>
-    /// Every time we enter the Main Menu, we need to start using the new Network Manager.
+    /// Every time we enter the Main Menu, we need to start using the new Network Manager.  
+    /// Players also need to individually leave the lobby on steam's server once they leave the lobby.
     /// </summary>
     /// <param name="level">number of the main menu is 1</param>
     private void OnLevelWasLoaded(int level)
     {
         if(level == 1)
              netManager = GameObject.Find("NetworkManager").GetComponent<StudsNetworkManager>();
+        if(level != 8)
+            SteamMatchmaking.LeaveLobby(joinedLobbyID);
     }
 
     public void Start()
@@ -125,8 +128,9 @@ public class SteamLobby : NetworkBehaviour
     {
         if (NetworkMenuActions.instance.SelectedRoomId.IsValid())
         {
-            SteamMatchmaking.JoinLobby(NetworkMenuActions.instance.SelectedRoomId);
+            //SteamMatchmaking.JoinLobby(NetworkMenuActions.instance.SelectedRoomId);
             joinedLobbyID = NetworkMenuActions.instance.SelectedRoomId;
+
         }
     }
 
@@ -135,7 +139,10 @@ public class SteamLobby : NetworkBehaviour
     /// </summary>
     public void SetLobbyUnavailable()
     {
+        SteamMatchmaking.SetLobbyData(SteamMatchmaking.GetLobbyOwner(joinedLobbyID), "name", "closed");
+        SteamMatchmaking.LeaveLobby(joinedLobbyID);
         SteamMatchmaking.SetLobbyJoinable(joinedLobbyID, false);
+        Debug.Log($"Lobby ID set to {SteamMatchmaking.GetLobbyOwner(joinedLobbyID)}");
     }
 
     private void OnLobbyCreated(LobbyCreated_t callback)
@@ -154,7 +161,7 @@ public class SteamLobby : NetworkBehaviour
         SteamMatchmaking.SetLobbyData(
             new CSteamID(callback.m_ulSteamIDLobby),
             "name",
-            $"{SteamFriends.GetPersonaName().ToString()}'s lobby");
+            $"{SteamFriends.GetPersonaName()}'s lobby");
     }
 
     private void OnGameLobbyJoin(GameLobbyJoinRequested_t callback)
@@ -197,6 +204,7 @@ public class SteamLobby : NetworkBehaviour
             SteamMatchmaking.RequestLobbyData(lobbyID);
 
         }
+
 
     }
 
