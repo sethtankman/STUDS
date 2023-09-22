@@ -11,13 +11,13 @@ GameObject:
   - component: {fileID: 2517341252548608001}
   - component: {fileID: 1531434006302150564}
   - component: {fileID: 3649121126049069934}
-  - component: {fileID: 2694803997967362024}
+  - component: {fileID: 7268600315007039493}
   - component: {fileID: 3236310176230454080}
-  - component: {fileID: 2752616306360193519}
-  - component: {fileID: 8953681010114937567}
+  - component: {fileID: 5938061365935969806}
   - component: {fileID: 5022193150579350869}
   - component: {fileID: 4798199163258258181}
   - component: {fileID: 2329916792597023476}
+  - component: {fileID: 995210322991104760}
   m_Layer: 0
   m_Name: NetPropaneExplode
   m_TagString: Grabbable
@@ -92,7 +92,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &2694803997967362024
+--- !u!65 &7268600315007039493
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -119,7 +119,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isBeingHeld: 0
   name: Propane
---- !u!54 &2752616306360193519
+--- !u!54 &5938061365935969806
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -134,24 +134,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 3
---- !u!114 &8953681010114937567
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3000721321570638523}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4aefec375ad5c834588d2e815a4362ac, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  knockBack: {fileID: 4190459552753404649}
-  knockBackCooldown: 1
-  explosionEffect: {fileID: 2398608829508964987, guid: 7cdb33f284450a6458f750669d6125ff,
-    type: 3}
-  sa: {fileID: 0}
+  m_CollisionDetection: 0
 --- !u!114 &5022193150579350869
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -208,6 +191,25 @@ MonoBehaviour:
   compressRotation: 0
   interpolateScale: 1
   syncScale: 1
+--- !u!114 &995210322991104760
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3000721321570638523}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: febcad1c3db3ddc4fa4d397e3c26f13e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  knockBack: {fileID: 4190459552753404649}
+  knockBackCooldown: 1
+  explosionEffect: {fileID: 2398608829508964987, guid: 7cdb33f284450a6458f750669d6125ff,
+    type: 3}
+  sa: {fileID: 0}
 --- !u!1 &4190459552753404649
 GameObject:
   m_ObjectHideFlags: 0
@@ -262,6 +264,7 @@ MonoBehaviour:
   slidethrough: 0
   reflective: 1
   directional: 1
+  owner: 
 --- !u!65 &2326493226936067099
 BoxCollider:
   m_ObjectHideFlags: 0

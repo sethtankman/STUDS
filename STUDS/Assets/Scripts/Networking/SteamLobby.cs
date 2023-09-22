@@ -59,8 +59,6 @@ public class SteamLobby : NetworkBehaviour
     {
         if(level == 1)
              netManager = GameObject.Find("NetworkManager").GetComponent<StudsNetworkManager>();
-        if(level != 8)
-            SteamMatchmaking.LeaveLobby(joinedLobbyID);
     }
 
     public void Start()
@@ -128,7 +126,7 @@ public class SteamLobby : NetworkBehaviour
     {
         if (NetworkMenuActions.instance.SelectedRoomId.IsValid())
         {
-            //SteamMatchmaking.JoinLobby(NetworkMenuActions.instance.SelectedRoomId);
+            SteamMatchmaking.JoinLobby(NetworkMenuActions.instance.SelectedRoomId);
             joinedLobbyID = NetworkMenuActions.instance.SelectedRoomId;
 
         }
@@ -137,13 +135,11 @@ public class SteamLobby : NetworkBehaviour
     /// <summary>
     /// Sets the joined Steam lobby to unavailable.
     /// </summary>
-    public void SetLobbyUnavailable()
+    public void SetLobbyClosed()
     {
-        SteamMatchmaking.SetLobbyData(SteamMatchmaking.GetLobbyOwner(joinedLobbyID), "name", "closed");
-        SteamMatchmaking.LeaveLobby(joinedLobbyID);
-        SteamMatchmaking.SetLobbyJoinable(joinedLobbyID, false);
-        Debug.Log($"Lobby ID set to {SteamMatchmaking.GetLobbyOwner(joinedLobbyID)}");
+        SteamMatchmaking.SetLobbyData(joinedLobbyID, "isClosed", "t");
     }
+
 
     private void OnLobbyCreated(LobbyCreated_t callback)
     {
@@ -157,11 +153,12 @@ public class SteamLobby : NetworkBehaviour
         netManager.StartHost();
 
         joinedLobbyID = new CSteamID(callback.m_ulSteamIDLobby); // I added this to make leaving have the CSteamID it needs - Addison
-        SteamMatchmaking.SetLobbyData(new CSteamID(callback.m_ulSteamIDLobby), hostAddressKey, SteamUser.GetSteamID().ToString());
+        SteamMatchmaking.SetLobbyData(joinedLobbyID, hostAddressKey, SteamUser.GetSteamID().ToString());
         SteamMatchmaking.SetLobbyData(
-            new CSteamID(callback.m_ulSteamIDLobby),
+            joinedLobbyID,
             "name",
             $"{SteamFriends.GetPersonaName()}'s lobby");
+        bool result = SteamMatchmaking.SetLobbyData(joinedLobbyID, "isClosed", "f");
     }
 
     private void OnGameLobbyJoin(GameLobbyJoinRequested_t callback)
@@ -175,8 +172,18 @@ public class SteamLobby : NetworkBehaviour
         if (NetworkServer.active) { return; }
 
         string hostAddress = SteamMatchmaking.GetLobbyData(
-            new CSteamID(callback.m_ulSteamIDLobby),
+            new CSteamID(current_lobbyID),
             hostAddressKey);
+        string isClosed = SteamMatchmaking.GetLobbyData(
+            new CSteamID(current_lobbyID),
+            "isClosed");
+        if(isClosed == "t")
+        {
+            HandleLeave();
+            GetLobbyList();
+            return;
+        }
+
 
         netManager.networkAddress = hostAddress;
         netManager.StartClient();

@@ -50,8 +50,9 @@ public class NetworkMenuActions : MonoBehaviour
             if (lobbyIDS[i].m_SteamID == result.m_ulSteamIDLobby)
             {
                 string roomName = SteamMatchmaking.GetLobbyData((CSteamID)lobbyIDS[i].m_SteamID, "name");
+                bool isClosed = SteamMatchmaking.GetLobbyData((CSteamID)lobbyIDS[i].m_SteamID, "isClosed") == "t";
                 Debug.Log($"Lobby {i} :: {roomName} number of players: {SteamMatchmaking.GetNumLobbyMembers((CSteamID)lobbyIDS[i].m_SteamID).ToString()} max players: {SteamMatchmaking.GetLobbyMemberLimit((CSteamID)lobbyIDS[i].m_SteamID).ToString()}");
-                if (roomName == null || roomName.Length == 0)
+                if (roomName == null || roomName.Length == 0 || isClosed)
                     continue;
                 /*if (didPlayerSearchForLobbies)
                 {

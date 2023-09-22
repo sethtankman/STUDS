@@ -35,7 +35,6 @@ public class Net_SS_Initialize : NetworkBehaviour
         GameObject.Find("Music Manager").GetComponent<Music_Manager>().PlayStopMusic("Shopping", true);
         PlayerInputManager.instance.DisableJoining();
         players = NetGameManager.Instance.getPlayers();
-        //RpcGiveTrackers();
         for (int i = 0; i < players.Count; i++)
         {
             players[i].AddComponent<SS_ItemTracker>();
@@ -71,7 +70,6 @@ public class Net_SS_Initialize : NetworkBehaviour
             Destroy(startCam);
             if (startText)
                 startText.text = "";
-            Debug.Log("Loading in players");
             for (int i = 0; i < players.Count; i++)
             {
                 spawnedPlayers = true;
@@ -80,7 +78,6 @@ public class Net_SS_Initialize : NetworkBehaviour
         }
         else if (!spawnedPlayers)
         {
-            Debug.Log("Spawning player");
             for (int i = 0; i < players.Count; i++)
             {
                 //Vector3 flagPos = GameObject.Find("Proto_Flag_01").transform.position;
