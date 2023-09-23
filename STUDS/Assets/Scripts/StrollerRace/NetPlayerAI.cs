@@ -11,8 +11,11 @@ public class NetPlayerAI : NetworkBehaviour
     private List<Transform> pathNodes;
 
     private int index;
+    private int stuckTimer;
 
     public GameObject stroller;
+
+    [SerializeField] private Vector3 prevPosition;
 
     public bool start;
 
@@ -23,17 +26,26 @@ public class NetPlayerAI : NetworkBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        stuckTimer = 500;
         pathNodes = path.GetComponent<Path_AI>().getPath();
         GetComponent<NetworkCharacterMovementController>().SetGrabbedObject(stroller);
         GetComponent<NetworkCharacterMovementController>().SetPlayerID(ID);
         index = 0;
+        prevPosition = transform.position;
     }
 
     // Update is called once per frame
     void Update()
     {
+        stuckTimer--;
         SelectCurrentNode();
-
+        if(stuckTimer < 0)
+        {
+            if ((transform.position - prevPosition).magnitude < 0.1f && index > 1)
+                index--;
+            prevPosition = transform.position;
+            stuckTimer = 500;
+        }
 
     }
 
@@ -58,7 +70,7 @@ public class NetPlayerAI : NetworkBehaviour
             {
                 transform.LookAt(new Vector3(pathNodes[index].position.x, transform.position.y, pathNodes[index].position.z));
                 GetComponent<NetworkCharacterMovementController>().Move(transform.forward);
-                if (pathNodes[index].tag.Equals("JumpTime"))
+                if (pathNodes[index].CompareTag("JumpTime"))
                 {
                     GetComponent<NetworkCharacterMovementController>().isJumping = true;
                 }

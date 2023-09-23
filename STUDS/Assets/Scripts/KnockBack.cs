@@ -76,7 +76,7 @@ public class KnockBack : MonoBehaviour
                 {
                     direction += directionVector.normalized;
                 }
-                // Debug.Log("direction: " + direction.ToString() + " Force " + KBForce + " MakePlayerDrop " + makePlayerDrop);
+                Debug.Log("direction: " + direction.ToString() + " Force " + KBForce + " MakePlayerDrop " + makePlayerDrop);
 
                 other.gameObject.GetComponent<NetworkCharacterMovementController>().KnockBack(direction * KBForce, makePlayerDrop);
                 if (!KBSound.Equals("") && other.gameObject.GetComponent<NetworkCharacterMovementController>().isAI == false)

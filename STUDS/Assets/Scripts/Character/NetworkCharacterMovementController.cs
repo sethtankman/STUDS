@@ -142,7 +142,7 @@ public class NetworkCharacterMovementController : NetworkBehaviour
 
         if (movementEnabled && !isAI)
             Move();
-        else
+        else if(!movementEnabled)
         {
             timeUntilMoveEnabled -= Time.deltaTime;
             if (timeUntilMoveEnabled < 0)
@@ -165,7 +165,7 @@ public class NetworkCharacterMovementController : NetworkBehaviour
         if (knockBackCounter <= 0)
         {
             //Grab input
-            if ((Input.GetKeyDown(KeyCode.E) || Input.GetButtonDown("Grab")))
+            if (!isAI && (Input.GetKeyDown(KeyCode.E) || Input.GetButtonDown("Grab")))
             {
                 pickupPressed = true;
                 if (electronicObject != null)
@@ -178,7 +178,7 @@ public class NetworkCharacterMovementController : NetworkBehaviour
                 pickupPressed = false;
             }
             // Throw input
-            if (Input.GetKeyDown(KeyCode.Q) || Input.GetButtonDown("Throw"))
+            if (!isAI && (Input.GetKeyDown(KeyCode.Q) || Input.GetButtonDown("Throw")))
             {
                 throwPressed = true;
             }
@@ -308,13 +308,13 @@ public class NetworkCharacterMovementController : NetworkBehaviour
     /// </summary>
     public void Jump()
     {
-        if (Input.GetKey(KeyCode.Space) || Input.GetButton("Jump"))
+        if (!isAI && (Input.GetKey(KeyCode.Space) || Input.GetButton("Jump")))
         {
             isJumping = true;
             animator.ResetTrigger("Land");
             animator.SetTrigger("Jump");
         }
-        else
+        else if(!isAI)
         {
             isJumping = false;
         }
@@ -352,7 +352,7 @@ public class NetworkCharacterMovementController : NetworkBehaviour
         {
             velocity.y += gravity * Time.deltaTime;
             controller.Move(velocity * Time.deltaTime);
-            velocity.y = 0;
+            //velocity.y = 0; // TODO: What does this do? Removing it doesn't seem to have broken anything.
         }
     }
 
@@ -381,14 +381,14 @@ public class NetworkCharacterMovementController : NetworkBehaviour
                 transform.rotation = Quaternion.Euler(0f, angle, 0f);
 
                 Vector3 moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
-                controller.Move((moveDir.normalized * moveSpeed) * Time.deltaTime);
+                controller.Move(moveDir.normalized * moveSpeed * Time.deltaTime);
 
             }
             else
             {
                 animator.SetBool("isRunning", false);
                 isMoving = false;
-                if (airborn == false)
+                if (airborn == false) // TODO: is this stopping us from receiving collisions when we don't have input?
                 {
                     velocity.x = 0;
                     velocity.z = 0;

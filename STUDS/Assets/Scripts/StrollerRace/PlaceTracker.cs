@@ -18,7 +18,6 @@ public class PlaceTracker : MonoBehaviour
     {
         if (other.gameObject.CompareTag("RacePoint") && Ready)
         {
-            print(PLRCol + " Point");
             if (ProgressPoints.Contains(other.gameObject))
             {
                 if (Progress > 0)
