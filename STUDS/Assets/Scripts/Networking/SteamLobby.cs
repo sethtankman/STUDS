@@ -10,6 +10,7 @@ public class SteamLobby : NetworkBehaviour
 
     private StudsNetworkManager netManager;
     private const string hostAddressKey = "HostAddress";
+    private int refreshTimer;
 
     protected Callback<LobbyCreated_t> LobbyCreated;
     protected Callback<GameLobbyJoinRequested_t> GameLobbyJoinRequested;
@@ -64,6 +65,7 @@ public class SteamLobby : NetworkBehaviour
     public void Start()
     {
         netManager = GameObject.Find("NetworkManager").GetComponent<StudsNetworkManager>();
+        refreshTimer = 1000;
 
         if (!SteamManager.Initialized)
         {
@@ -76,6 +78,19 @@ public class SteamLobby : NetworkBehaviour
         LobbyEntered = Callback<LobbyEnter_t>.Create(OnLobbyEntered);
         LobbyListRequested = Callback<LobbyDataUpdate_t>.Create(OnGetLobbyInfo);
         Callback_lobbyList = Callback<LobbyMatchList_t>.Create(OnGetLobbiesList);
+    }
+
+    public void Update()
+    {
+        if(fetchLobbies)
+        {
+            refreshTimer--;
+            if(refreshTimer < 0)
+            {
+                refreshTimer = 1000;
+                GetLobbyList();
+            }
+        }
     }
 
     public void OnDisable()
