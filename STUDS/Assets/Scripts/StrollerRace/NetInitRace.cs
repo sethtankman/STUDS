@@ -52,14 +52,16 @@ public class NetInitRace : NetworkBehaviour
         {
             Destroy(startCam);
             startText.text = "";
-            if (players != null)
+            if (isServer && players != null)
             {
                 for (int i = 0; i < players.Count; i++)
                 {
                     GameObject stroller = Instantiate(strollerPrefab, playerSpawns[i].position + new Vector3(0, 0, 2f), Quaternion.identity);
-                    DetermineColor(players[i].GetComponent<NetworkCharacterMovementController>().GetColorName(), stroller);
-                    stroller.GetComponent<StrollerController>().SetID(players[i].GetComponent<NetworkCharacterMovementController>().getPlayerID());
-                    NetworkServer.Spawn(stroller);
+                    NetworkServer.Spawn(stroller); 
+                    RpcDetermineColor(players[i].GetComponent<NetworkCharacterMovementController>().GetColorName(), 
+                        stroller.GetComponent<NetworkIdentity>().netId, 
+                        players[i].GetComponent<NetworkCharacterMovementController>().getPlayerID());
+                    
                     spawnedPlayers = true;
                 }
             }
@@ -102,5 +104,17 @@ public class NetInitRace : NetworkBehaviour
             stroller.GetComponent<MeshRenderer>().material = strollerColor5;
         }
         stroller.GetComponent<StrollerController>().SetColor(colorName);
+    }
+
+    [ClientRpc]
+    public void RpcDetermineColor(string colorName, uint strollerID, int playerID)
+    {
+        if (NetworkIdentity.spawned.ContainsKey(strollerID) == false)
+        {
+            Debug.LogError("Stroller ID not found");
+            return;
+        }
+        NetworkIdentity.spawned[strollerID].GetComponent<StrollerController>().SetID(playerID);
+        DetermineColor(colorName, NetworkIdentity.spawned[strollerID].gameObject);
     }
 }
