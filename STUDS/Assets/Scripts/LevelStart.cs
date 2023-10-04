@@ -34,7 +34,6 @@ public class LevelStart : MonoBehaviour
             Destroy(startCam);
             startText.text = "";
         }
-        //Debug.Log("Player Joined: " + pi.playerIndex);
         if (pi.gameObject.GetComponent<CharacterMovementController>())
         {
             pi.gameObject.GetComponent<CharacterMovementController>().SetPlayerID(playerIDCount);

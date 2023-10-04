@@ -61,8 +61,6 @@ public class NetInitRace : NetworkBehaviour
                     RpcDetermineColor(players[i].GetComponent<NetworkCharacterMovementController>().GetColorName(), 
                         stroller.GetComponent<NetworkIdentity>().netId, 
                         players[i].GetComponent<NetworkCharacterMovementController>().getPlayerID());
-                    
-                    spawnedPlayers = true;
                 }
             }
         }
@@ -114,6 +112,8 @@ public class NetInitRace : NetworkBehaviour
             Debug.LogError("Stroller ID not found");
             return;
         }
+
+        spawnedPlayers = true;
         NetworkIdentity.spawned[strollerID].GetComponent<StrollerController>().SetID(playerID);
         DetermineColor(colorName, NetworkIdentity.spawned[strollerID].gameObject);
     }
