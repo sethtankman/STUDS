@@ -101,22 +101,22 @@ public class NetManageGame : NetworkBehaviour
     {
         if (collider.CompareTag("Player"))
         {
-            if(collider.GetComponent<NetworkCharacterMovementController>().getCheckpointCount() == checkpoints.Length && collider.GetComponent<NetworkCharacterMovementController>().GetHasGrabbed())
+            if(collider.GetComponent<NetworkCharacterMovementController>().isAI || collider.GetComponent<NetworkCharacterMovementController>().getCheckpointCount() == checkpoints.Length && collider.GetComponent<NetworkCharacterMovementController>().GetHasGrabbed())
             {
                 if(collider.GetComponent<NetworkCharacterMovementController>().GetFinishPosition() == 0)
                 {
-                    display = true;
-                    if (SceneManager.GetActiveScene().name.Equals("TheBlock_Scott"))
-                        sa.UnlockAchievement("SR_COMPLETE");
-                    else
-                        sa.UnlockAchievement("SR_DOWNTOWN");
+                    if (!collider.GetComponent<NetworkCharacterMovementController>().isAI)
+                    {
+                        display = true;
+                        if (SceneManager.GetActiveScene().name.Equals("TheBlock_Scott"))
+                            sa.UnlockAchievement("SR_COMPLETE");
+                        else
+                            sa.UnlockAchievement("SR_DOWNTOWN");
+                        mySource.Post(gameObject);
+                    }
                     playerID = collider.GetComponent<NetworkCharacterMovementController>().getPlayerID() + 1;
                     collider.GetComponent<NetworkCharacterMovementController>().SetFinishPosition(positions);
                     positions++;
-                    if (collider.GetComponent<NetworkCharacterMovementController>().isAI == false)
-                    {
-                        mySource.Post(gameObject);
-                    }
                 }
 
             }

@@ -16,25 +16,15 @@ public class NetPlaceTracker : MonoBehaviour
 
     public void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("RacePoint") && Ready)
+        if (other.CompareTag("RacePoint") && Ready)
         {
-            if (ProgressPoints.Contains(other.gameObject))
-            {
-                if (Progress > 0)
-                {
-                    Progress -= 1;
-                    ProgressPoints.Remove(other.gameObject);
-                }
-                else Progress = 0;
-            }
-            else
+            if (!ProgressPoints.Contains(other.gameObject))
             {
                 Progress += 1;
                 ProgressPoints.Add(other.gameObject);
-                
             }
         }
-        if(other.gameObject.name == "RaceReset")
+        if(other.name == "RaceReset")
         {
             PLRCol = GetComponentInParent<NetworkCharacterMovementController>().GetColorName();
             ProgressPoints.Clear();
@@ -44,17 +34,18 @@ public class NetPlaceTracker : MonoBehaviour
 
     public void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.CompareTag("RacePoint"))
+        if (other.CompareTag("RacePoint"))
         {
             Ready = false;
             timer = ExitTime;
         }
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
+
         if (Ready == false && timer > 0.0f)
-        {            
+        {
             timer -= Time.deltaTime;
         }
 

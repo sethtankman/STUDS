@@ -82,6 +82,7 @@ GameObject:
   - component: {fileID: -5134455852795293086}
   - component: {fileID: -9188321841964761987}
   - component: {fileID: 9185419259450379523}
+  - component: {fileID: 4892440669647128620}
   m_Layer: 2
   m_Name: Rigged_Dad_Network
   m_TagString: Player
@@ -108,7 +109,6 @@ Transform:
   - {fileID: 5060634770275224096}
   - {fileID: 724134910024195063}
   - {fileID: 2178233895639008280}
-  - {fileID: 1643305692474451190}
   - {fileID: 2228732152906615309}
   - {fileID: 2627149978728693115}
   m_Father: {fileID: 0}
@@ -470,6 +470,24 @@ MonoBehaviour:
   timeoutPos: []
   backInPos: []
   inPowerBill: 0
+--- !u!114 &4892440669647128620
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 932691824398563431}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 782360ef2cba03b41a2ab1dd6999c3a6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ProgressPoints: []
+  Progress: 0
+  PLRCol: 
+  ExitTime: 0.5
+  timer: 0
+  Ready: 1
 --- !u!1 &941638315054393277
 GameObject:
   m_ObjectHideFlags: 0
@@ -868,69 +886,6 @@ Transform:
   m_Father: {fileID: 5897133988603670622}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &3036638410415599429
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1643305692474451190}
-  - component: {fileID: 6152304110825326057}
-  - component: {fileID: 572702063382931026}
-  m_Layer: 2
-  m_Name: RaceTracker
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1643305692474451190
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3036638410415599429}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 556835471894749917}
-  m_RootOrder: 8
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!135 &6152304110825326057
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3036638410415599429}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.03
-  m_Center: {x: 0, y: 0.03, z: 0}
---- !u!114 &572702063382931026
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3036638410415599429}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 782360ef2cba03b41a2ab1dd6999c3a6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ProgressPoints: []
-  Progress: 0
-  PLRCol: 
-  ExitTime: 0.5
-  timer: 0
-  Ready: 1
 --- !u!1 &3057230205462136630
 GameObject:
   m_ObjectHideFlags: 0
@@ -6359,7 +6314,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 556835471894749917}
-  m_RootOrder: 9
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &6816586555158975581
 MonoBehaviour:
@@ -6847,7 +6802,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 48260d428f5639f4dbce2fcd0283dbb8,
         type: 3}
       propertyPath: m_RootOrder
-      value: 10
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 48260d428f5639f4dbce2fcd0283dbb8,
         type: 3}
