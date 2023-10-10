@@ -23,7 +23,6 @@ public class NetworkCharacterMovementController : NetworkBehaviour
 
     public Transform camPos;
     public Animator animator;
-    public Renderer renderer;
     public CameraShake cameraShake;
     public NetGameManager hub;
 
@@ -55,7 +54,7 @@ public class NetworkCharacterMovementController : NetworkBehaviour
 
     float turnSmoothVelocity;
 
-    private GameObject grabbedObject;
+    public GameObject grabbedObject;
     [SyncVar(hook = nameof(HookSetGrabbedObject))]
     public uint grabbedObjectID = 0;
     private GameObject electronicObject;
@@ -971,8 +970,8 @@ public class NetworkCharacterMovementController : NetworkBehaviour
             SetBinky(true); //Activate the binky!!!!
             isMini = true; //The Eugine will now act as a child.
             moveSpeed = moveSpeedKid;
-            savedMaterial = gameObject.GetComponentInChildren<SkinnedMeshRenderer>().material;
-            gameObject.GetComponentInChildren<SkinnedMeshRenderer>().material = kidsMaterials[GetColorIndex(color)];
+            savedMaterial = GetComponentInChildren<SkinnedMeshRenderer>().material;
+            GetComponentInChildren<SkinnedMeshRenderer>().material = kidsMaterials[GetColorIndex(color)];
         }
         else
         {

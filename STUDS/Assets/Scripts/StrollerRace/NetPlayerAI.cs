@@ -10,8 +10,8 @@ public class NetPlayerAI : NetworkBehaviour
 
     private List<Transform> pathNodes;
 
-    private int index;
-    private int stuckTimer;
+    [SerializeField] private int index, stuckTimer;
+    private int stuckModifier = -1;
 
     public GameObject stroller;
 
@@ -34,19 +34,27 @@ public class NetPlayerAI : NetworkBehaviour
         prevPosition = transform.position;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        stuckTimer--;
         SelectCurrentNode();
-        if(stuckTimer < 0)
-        {
-            if ((transform.position - prevPosition).magnitude < 0.1f && index > 1)
-                index--;
-            prevPosition = transform.position;
-            stuckTimer = 500;
-        }
+    }
 
+    void FixedUpdate()
+    {
+        if (start)
+        {
+            stuckTimer--;
+            if (stuckTimer < 0)
+            {
+                if ((new Vector3(transform.position.x, transform.position.z) - new Vector3(prevPosition.x, prevPosition.z)).magnitude < 0.1f && index > 1)
+                {
+                    index += stuckModifier;
+                    stuckModifier *= -1;
+                }
+                prevPosition = transform.position;
+                stuckTimer = 500;
+            }
+        }
     }
 
     private void SelectCurrentNode()
