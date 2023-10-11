@@ -46,7 +46,6 @@ public class InitializeLevel : MonoBehaviour
     {
 
         currentTime += Time.deltaTime;
-        Debug.Log("curr time is: " + currentTime);
         if (currentTime > waitTime && !spawnedPlayers)
         {
             Destroy(startCam);
@@ -90,7 +89,6 @@ public class InitializeLevel : MonoBehaviour
         }
         else if (colorName.Equals("red"))
         {
-            Debug.Log("Orange Stroller");
             stroller.GetComponent<MeshRenderer>().material = strollerColor3;
         }
         else if (colorName.Equals("yellow"))

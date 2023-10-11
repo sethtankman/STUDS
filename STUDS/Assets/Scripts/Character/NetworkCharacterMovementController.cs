@@ -551,7 +551,6 @@ public class NetworkCharacterMovementController : NetworkBehaviour
         if (other.CompareTag("Electronics"))
         {
             electronicObject = other.transform.parent.gameObject;
-            //Debug.Log("Assign to variable");
         }
     }
 
