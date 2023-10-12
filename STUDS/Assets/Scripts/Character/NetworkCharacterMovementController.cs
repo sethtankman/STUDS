@@ -133,7 +133,7 @@ public class NetworkCharacterMovementController : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
-        // We don't update other player's actions on our end unless they tell us to.
+        // only local players and AI on the server can control their own movements.
         if (!isLocalPlayer && !(isAI && isServer))
         {
             return;
@@ -268,13 +268,16 @@ public class NetworkCharacterMovementController : NetworkBehaviour
                 velocity.z = 0;
                 airborn = false;
             } // Normal landings
-            else if (Physics.Raycast(ray, 0.1f))
+            else if (Physics.Raycast(ray, out hit, 0.1f))
             {
-                animator.ResetTrigger("Jump");
-                animator.SetTrigger("Land");
-                velocity.x = 0;
-                velocity.z = 0;
-                airborn = false;
+                if(!hit.collider.isTrigger)
+                {
+                    animator.ResetTrigger("Jump");
+                    animator.SetTrigger("Land");
+                    velocity.x = 0;
+                    velocity.z = 0;
+                    airborn = false;
+                }
             }
         }
         else // If not airborn
@@ -342,16 +345,14 @@ public class NetworkCharacterMovementController : NetworkBehaviour
     private void Gravity()
     {
         // Gravity
-        if (!gameObject.GetComponent<CharacterController>().isGrounded)
+        if (airborn)
         {
             velocity.y += gravity * Time.deltaTime;
             controller.Move(velocity * Time.deltaTime);
         }
         else // Gravity while grounded.
         {
-            velocity.y += gravity * Time.deltaTime;
             controller.Move(velocity * Time.deltaTime);
-            //velocity.y = 0; // TODO: What does this do? Removing it doesn't seem to have broken anything.
         }
     }
 
@@ -426,7 +427,6 @@ public class NetworkCharacterMovementController : NetworkBehaviour
         if (isMoving && !airborn && stepSoundCooldown < 0)
         {
             RunSound.Post(gameObject);
-            //runSound.Play();
             stepSoundCooldown = timeBetween;
         }
         else
@@ -573,7 +573,7 @@ public class NetworkCharacterMovementController : NetworkBehaviour
     /// <param name="_drop">If the player should drop the object when hit</param>
     public void KnockBack(Vector3 direction, bool _drop)
     {
-        Debug.Log("KBCalled with: " + direction.ToString());
+        Debug.Log($"KBCalled on {name} with: {direction}");
         knockBackCounter = knockBackTime;
         beingKnockedBack = true;
         drop = _drop;
