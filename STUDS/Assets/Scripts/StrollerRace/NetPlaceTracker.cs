@@ -66,9 +66,4 @@ public class NetPlaceTracker : MonoBehaviour
         Ready = true;
 
     }
-
-
-
-
-
 }

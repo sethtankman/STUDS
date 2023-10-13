@@ -21,8 +21,8 @@ public class NetRaceTracker : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        foreach(GameObject PT in GameObject.FindGameObjectsWithTag("Player")){
-            Players.Add(PT);
+        foreach(GameObject obj in GameObject.FindGameObjectsWithTag("Player")){
+            Players.Add(obj);
         }
         if(Players.Count < 4)
         {
