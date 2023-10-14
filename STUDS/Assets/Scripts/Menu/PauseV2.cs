@@ -42,8 +42,6 @@ public class PauseV2 : MonoBehaviour
 
     public bool oneCycle = false;
 
-    private float currentTime = 0f;
-    private float startingTime = 1000f;
     private bool lostPausePanels = false;
 
     private void OnLevelWasLoaded(int level)
@@ -58,15 +56,8 @@ public class PauseV2 : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        currentTime = startingTime;
-
         if(p4PH && ManagePlayerHub.Instance)
             ManagePlayerHub.Instance.player4PlaceHolder = p4PH;
-    }
-
-    void Update()
-    {
-        currentTime -= 1 * Time.deltaTime;
     }
     
     void Awake()
@@ -92,7 +83,10 @@ public class PauseV2 : MonoBehaviour
     public void Pause()
     {
         if (canPause == false)
+        {
+            Debug.Log("CanPause is false");
             return;
+        }
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
         if(p4PH && p4PH.activeSelf)
@@ -197,52 +191,6 @@ public class PauseV2 : MonoBehaviour
 
         menutracker++;
     }
-    /*
-    void Go()
-    {
-
-        if (menutracker == 0)
-        {
-            PauseMenuUI.SetActive(false);
-            gameisPaused = false;
-            Time.timeScale = 1f;
-        }
-        else if (menutracker == 1)
-        {
-            if (!isOnOptions)
-            {
-                OptionsMenuUI.SetActive(true);
-                PauseMenuUI.SetActive(false);
-                isOnOptions = true;
-            }
-            else
-            {
-                OptionsMenuUI.SetActive(false);
-                PauseMenuUI.SetActive(true);
-                isOnOptions = false;
-            }
-        }
-        else if (menutracker == 2)
-        {
-            if (!isOn)
-            {
-                CreditsMenu.SetActive(true);
-                PauseMenuUI.SetActive(false);
-                isOn = true;
-            }
-            else
-            {
-                CreditsMenu.SetActive(false);
-                PauseMenuUI.SetActive(true);
-                isOn = false;
-            }
-        }
-        else if (menutracker == 3)
-        {
-            Application.Quit();
-
-        }
-    }*/
 
     void ScrollUp()
     {

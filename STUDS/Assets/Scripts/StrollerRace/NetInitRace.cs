@@ -28,7 +28,7 @@ public class NetInitRace : NetworkBehaviour
 
     public GameObject strollerPrefab;
     public GameObject pauseMenuUI;
-    public GameObject startCam;
+    public GameObject loadingCam;
 
     public TextMeshProUGUI startText;
     // Start is called before the first frame update
@@ -50,7 +50,6 @@ public class NetInitRace : NetworkBehaviour
         currentTime += Time.deltaTime;
         if (currentTime > waitTime && !spawnedPlayers)
         {
-            Destroy(startCam);
             startText.text = "";
             if (isServer && players != null)
             {
@@ -112,9 +111,10 @@ public class NetInitRace : NetworkBehaviour
             Debug.LogError("Stroller ID not found");
             return;
         }
-
+        Destroy(loadingCam);
         spawnedPlayers = true;
         NetworkIdentity.spawned[strollerID].GetComponent<StrollerController>().SetID(playerID);
         DetermineColor(colorName, NetworkIdentity.spawned[strollerID].gameObject);
+        PauseV2.canPause = true;
     }
 }

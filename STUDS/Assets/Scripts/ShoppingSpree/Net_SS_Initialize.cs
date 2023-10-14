@@ -31,6 +31,7 @@ public class Net_SS_Initialize : NetworkBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        PauseV2.canPause = false;
         GameObject.Find("Music Manager").GetComponent<Music_Manager>().PlayStopMusic("Menu", false);
         GameObject.Find("Music Manager").GetComponent<Music_Manager>().PlayStopMusic("Shopping", true);
         PlayerInputManager.instance.DisableJoining();
@@ -75,6 +76,7 @@ public class Net_SS_Initialize : NetworkBehaviour
                 spawnedPlayers = true;
             }
             GameObject.Find("Row1").GetComponent<NetRandomPicker>().RandomDeactivate();
+            PauseV2.canPause = true;
         }
         else if (!spawnedPlayers)
         {

@@ -14,11 +14,6 @@ public class NetTimerEvents : NetworkBehaviour {
     private bool _timing;
     [SerializeField] private float time;
 
-    public void SetCanPause(bool tf)
-    {
-        PauseV2.canPause = tf;
-    }
-
     [ClientRpc]
     public void RpcStartTimer()
     {
