@@ -69,8 +69,6 @@ public class NetInitRace : NetworkBehaviour
             {
                 for (int i = 0; i < players.Count; i++)
                 {
-                    //Vector3 flagPos = GameObject.Find("Proto_Flag_01").transform.position;
-                    //players[i].transform.LookAt(new Vector3(transform.position.x, transform.position.y, transform.position.z));
                     players[i].transform.forward = new Vector3(0, 0, 1);
                     players[i].transform.position = playerSpawns[i].position;
                 }

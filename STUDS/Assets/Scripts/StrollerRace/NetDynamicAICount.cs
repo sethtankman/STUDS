@@ -11,6 +11,11 @@ public class NetDynamicAICount : NetworkBehaviour
     // Start is called before the first frame update
     void Awake()
     {
+        FillWithAI();
+    }
+
+    public void FillWithAI()
+    {
         PlayerCount = 0;
         foreach (GameObject Player in GameObject.FindGameObjectsWithTag("Player"))
         {

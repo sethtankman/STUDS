@@ -57,11 +57,6 @@ public class LevelStart : MonoBehaviour
         }
 
         playerIDCount++;
-        /**if (!PlayerConfigs.Any(p => p.PlayerIndex == pi.playerIndex))
-        {
-            pi.transform.SetParent(transform);
-            PlayerConfigs.Add(new PlayerConfiguration(pi));
-        }**/
 
     }
 

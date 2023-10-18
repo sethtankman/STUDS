@@ -44,8 +44,13 @@ public class NetRaceTracker : MonoBehaviour
     {
         PT = PT.OrderByDescending(e => e.GetComponentInChildren<NetPlaceTracker>().Progress).ToList();
 
-        for(int i = 0; i < Players.Count; i++)
+        for(int i = 0; i < Players.Count; i++) 
         {
+            if (i >= 4)
+            {
+                GetComponent<NetDynamicAICount>().FillWithAI();
+                break;
+            }
             string PlrColor = PT[i].GetComponentInChildren<NetPlaceTracker>().PLRCol;
 
             Positions[i].texture = IconPicker(PlrColor);
