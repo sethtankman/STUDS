@@ -214,8 +214,8 @@ public class NetGameManager : NetworkBehaviour
     public void RpcAddPlayer(uint playerID)
     {
         Debug.Log("RPC Add Player");
-        if (NetworkIdentity.spawned.ContainsKey(playerID))
-            AddPlayer(NetworkIdentity.spawned[playerID].gameObject);
+        if (NetworkClient.spawned.ContainsKey(playerID))
+            AddPlayer(NetworkClient.spawned[playerID].gameObject);
         else
             Debug.LogError("NetwordIdentity of AI was not assigned.");
     }

@@ -732,16 +732,16 @@ public class NetworkCharacterMovementController : NetworkBehaviour
     [Command]
     private void CmdTimeout(uint kidID)
     {
-        NetworkIdentity.spawned[kidID].GetComponent<NetKidTimeout>().RpcTimeout();
+        NetworkServer.spawned[kidID].GetComponent<NetKidTimeout>().RpcTimeout();
     }
 
     [Command]
     public void CmdDestroyObject(uint objID)
     {
-        if (NetworkIdentity.spawned.ContainsKey(objID))
+        if (NetworkServer.spawned.ContainsKey(objID))
         {
-            Debug.Log($"Destroying {NetworkIdentity.spawned[objID].name}");
-            NetworkServer.Destroy(NetworkIdentity.spawned[objID].gameObject);
+            Debug.Log($"Destroying {NetworkServer.spawned[objID].name}");
+            NetworkServer.Destroy(NetworkServer.spawned[objID].gameObject);
         }
         else
             Debug.LogError($"Object ID: <{objID}> not found");
@@ -768,7 +768,7 @@ public class NetworkCharacterMovementController : NetworkBehaviour
     [Command]
     private void CmdPickupFromCart(uint cartId)
     {
-        uint objId = NetworkIdentity.spawned[cartId].GetComponent<NetCart>().GiveObject(transform);
+        uint objId = NetworkServer.spawned[cartId].GetComponent<NetCart>().GiveObject(transform);
         if (objId != 0)
             RpcPickupFromCart(objId);
     }
@@ -816,9 +816,9 @@ public class NetworkCharacterMovementController : NetworkBehaviour
     [Command]
     private void CmdLetGo(uint objID)
     {
-        if (NetworkIdentity.spawned[objID])
+        if (NetworkServer.spawned[objID])
         {
-            NetworkIdentity.spawned[objID].GetComponent<NetGrabbableObjectController>().LocalLetGo();
+            NetworkServer.spawned[objID].GetComponent<NetGrabbableObjectController>().LocalLetGo();
             RpcLetGo(objID);
         } else
         {
@@ -879,7 +879,7 @@ public class NetworkCharacterMovementController : NetworkBehaviour
     [ClientRpc]
     private void RpcPickupFromCart(uint netId)
     {
-        GameObject takenObject = NetworkIdentity.spawned[netId].gameObject;
+        GameObject takenObject = NetworkClient.spawned[netId].gameObject;
         animator.SetBool("isHoldingSomething", true);
         grabbedObject = takenObject;
         grabbedObjectID = netId;
@@ -901,14 +901,14 @@ public class NetworkCharacterMovementController : NetworkBehaviour
         if (isServer || isLocalPlayer)
             return;
         Debug.Log("RpcPickupObject: " + objID);
-        NetworkIdentity.spawned[objID].gameObject.GetComponent<NetGrabbableObjectController>().LocalPickupObject(name);
+        NetworkClient.spawned[objID].gameObject.GetComponent<NetGrabbableObjectController>().LocalPickupObject(name);
     }
 
     [ClientRpc]
     private void RpcLetGo(uint objID)
     {
-        if (NetworkIdentity.spawned.ContainsKey(objID))
-            NetworkIdentity.spawned[objID].GetComponent<NetGrabbableObjectController>().LocalLetGo();
+        if (NetworkClient.spawned.ContainsKey(objID))
+            NetworkClient.spawned[objID].GetComponent<NetGrabbableObjectController>().LocalLetGo();
         else
         {
             Debug.LogError($"Network Identity <{objID}> not found.");
@@ -1058,7 +1058,7 @@ public class NetworkCharacterMovementController : NetworkBehaviour
         if (objID != 0)
         {
             animator.SetBool("isHoldingSomething", true);
-            grabbedObject = NetworkIdentity.spawned[objID].gameObject;
+            grabbedObject = NetworkClient.spawned[objID].gameObject;
             grabbedObject.GetComponent<NetGrabbableObjectController>().LocalPickupObject(name);
             moveSpeed = moveSpeedGrab;
             hasGrabbed = true;

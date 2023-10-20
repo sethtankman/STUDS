@@ -104,15 +104,15 @@ public class NetInitRace : NetworkBehaviour
     [ClientRpc]
     public void RpcDetermineColor(string colorName, uint strollerID, int playerID)
     {
-        if (NetworkIdentity.spawned.ContainsKey(strollerID) == false)
+        if (NetworkClient.spawned.ContainsKey(strollerID) == false)
         {
             Debug.LogError("Stroller ID not found");
             return;
         }
         Destroy(loadingCam);
         spawnedPlayers = true;
-        NetworkIdentity.spawned[strollerID].GetComponent<StrollerController>().SetID(playerID);
-        DetermineColor(colorName, NetworkIdentity.spawned[strollerID].gameObject);
+        NetworkClient.spawned[strollerID].GetComponent<StrollerController>().SetID(playerID);
+        DetermineColor(colorName, NetworkClient.spawned[strollerID].gameObject);
         PauseV2.canPause = true;
     }
 }
