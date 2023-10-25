@@ -57,7 +57,7 @@ public class NetworkCharacterMovementController : NetworkBehaviour
     public GameObject grabbedObject;
     [SyncVar(hook = nameof(HookSetGrabbedObject))]
     public uint grabbedObjectID = 0;
-    private GameObject electronicObject;
+    private NetInteraction electronicObject;
 
     private Material savedMaterial;
     public Material[] kidsMaterials;
@@ -169,7 +169,7 @@ public class NetworkCharacterMovementController : NetworkBehaviour
                 pickupPressed = true;
                 if (electronicObject != null)
                 {
-                    electronicObject.GetComponent<NetInteraction>().CmdToggleVisual(isMini);
+                    electronicObject.CmdToggleVisual(isMini);
                 }
             }
             else
@@ -496,7 +496,7 @@ public class NetworkCharacterMovementController : NetworkBehaviour
             pickupPressed = true;
             if (electronicObject != null)
             {
-                electronicObject.GetComponent<NetInteraction>().CmdToggleVisual(isMini);
+                electronicObject.CmdToggleVisual(isMini);
             }
         }
         else
@@ -523,7 +523,7 @@ public class NetworkCharacterMovementController : NetworkBehaviour
         {
             if (electronicObject != null)
             {
-                electronicObject.GetComponent<NetInteraction>().CmdToggleVisual(isMini);
+                electronicObject.CmdToggleVisual(isMini);
                 PlayerParticles.inRange = false;
                 //PlayerParticles.DisableEmote();
             }
@@ -538,7 +538,7 @@ public class NetworkCharacterMovementController : NetworkBehaviour
     {
         if (other.CompareTag("Electronics"))
         {
-            electronicObject = other.transform.parent.gameObject;
+            electronicObject = other.GetComponent<NetVolumeTrigger>().interact;
         }
     }
 
@@ -550,7 +550,7 @@ public class NetworkCharacterMovementController : NetworkBehaviour
     {
         if (other.CompareTag("Electronics"))
         {
-            electronicObject = other.transform.parent.gameObject;
+            electronicObject = other.GetComponent<NetVolumeTrigger>().interact;
         }
     }
 
@@ -688,26 +688,39 @@ public class NetworkCharacterMovementController : NetworkBehaviour
         {
             if (collider.CompareTag("Grabbable") || collider.CompareTag("ShoppingItem"))
             {
-                if (collider.CompareTag("ShoppingItem"))
+                if(collider.isTrigger && pickupPressed && !hasGrabbed)
                 {
-                    collider.gameObject.GetComponent<ShoppingItem>().SetPlayer(this.gameObject);
-                }
+                    CmdPickupFromCart(collider.GetComponent<NetworkIdentity>().netId);
 
-                if (pickupPressed && !hasGrabbed)
-                {
-                    animator.SetBool("isHoldingSomething", true);
                     GrabSound.Post(gameObject);
-                    grabbedObject = collider.gameObject;
-                    grabbedObjectID = collider.GetComponent<NetworkIdentity>().netId;
-                    grabbedObject.GetComponent<NetGrabbableObjectController>().LocalPickupObject(name);
-                    CmdPickupObject(grabbedObject);
                     moveSpeed = moveSpeedGrab;
-                    hasGrabbed = true;
                     pickupPressed = false;
-                    if (grabbedObject.name.StartsWith("Grabpoint")) // Designed to only use Grabpoint as the name of the Utility Cart Grabbing point.
+
+                }
+                else
+                {
+                    if (collider.CompareTag("ShoppingItem"))
                     {
-                        grabbedObject.GetComponent<Rigidbody>().useGravity = false;
+                        collider.gameObject.GetComponent<ShoppingItem>().SetPlayer(this.gameObject);
                     }
+
+                    if (pickupPressed && !hasGrabbed)
+                    {
+                        animator.SetBool("isHoldingSomething", true);
+                        GrabSound.Post(gameObject);
+                        grabbedObject = collider.gameObject;
+                        grabbedObjectID = collider.GetComponent<NetworkIdentity>().netId;
+                        grabbedObject.GetComponent<NetGrabbableObjectController>().LocalPickupObject(name);
+                        CmdPickupObject(grabbedObject);
+                        moveSpeed = moveSpeedGrab;
+                        hasGrabbed = true;
+                        pickupPressed = false;
+                        if (grabbedObject.name.StartsWith("Grabpoint")) // Designed to only use Grabpoint as the name of the Utility Cart Grabbing point.
+                        {
+                            grabbedObject.GetComponent<Rigidbody>().useGravity = false;
+                        }
+                    }
+
                 }
             }
             else if (collider.CompareTag("Player") && collider.GetComponent<NetworkCharacterMovementController>().isMini)
@@ -718,13 +731,8 @@ public class NetworkCharacterMovementController : NetworkBehaviour
                     CmdTimeout(collider.GetComponent<NetworkIdentity>().netId);
                 }
             }
-            else if (collider.CompareTag("ShoppingCart") && pickupPressed && !hasGrabbed)
+            else if (collider.CompareTag("ShoppingCart"))
             {
-                CmdPickupFromCart(collider.GetComponent<NetworkIdentity>().netId);
-                
-                GrabSound.Post(gameObject);
-                moveSpeed = moveSpeedGrab;
-                pickupPressed = false;
             }
         }
     }
