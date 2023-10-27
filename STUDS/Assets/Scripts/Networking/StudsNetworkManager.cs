@@ -158,7 +158,8 @@ public class StudsNetworkManager : NetworkManager
 
     /// <summary>
     /// Called on the server when a client disconnects.
-    /// <para>This is called on the Server when a Client disconnects from the Server. Use an override to decide what should happen when a disconnection is detected.</para>
+    /// <para>This is called on the Server when a Client disconnects from the Server. Use an override to decide what should happen 
+    /// when a disconnection is detected.</para>
     /// </summary>
     /// <param name="conn">Connection from client.</param>
     public override void OnServerDisconnect(NetworkConnection conn)
@@ -172,8 +173,7 @@ public class StudsNetworkManager : NetworkManager
             {
                 spawnPos.GetComponent<NetHUB_Lineup>().playerLeft(ni.gameObject);
             }
-            NetGameManager ngm = GameObject.Find("GameManager").GetComponent<NetGameManager>();
-            ngm.HandleLeavePlayer(id);
+            NetGameManager.Instance.HandleLeavePlayer(id);
         }
         base.OnServerDisconnect(conn);
     }
@@ -199,6 +199,7 @@ public class StudsNetworkManager : NetworkManager
     /// <param name="conn">Connection to the server.</param>
     public override void OnClientDisconnect(NetworkConnection conn)
     {
+        Destroy(NetGameManager.Instance.gameObject);
         base.OnClientDisconnect(conn);
     }
 

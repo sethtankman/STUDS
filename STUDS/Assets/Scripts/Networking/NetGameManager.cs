@@ -269,7 +269,12 @@ public class NetGameManager : NetworkBehaviour
         Debug.Log($"Calling Remove Player Assignments {i}");
         if (i < players.Count)
             players.RemoveAt(i);
-        availableColors.Add(playerColors[i]);
+        if(playerColors.ContainsKey(i))
+            availableColors.Add(playerColors[i]);
+        else
+        {
+            Debug.LogWarning($"PlayerColors does not contain object at index {i}");
+        }
         playerIDCount--;
     }
 
