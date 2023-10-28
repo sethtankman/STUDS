@@ -1,12 +1,11 @@
 using UnityEngine;
 
-namespace Mirror.Examples.Additive
+namespace Mirror.Examples.AdditiveScenes
 {
     public class RandomColor : NetworkBehaviour
     {
         public override void OnStartServer()
         {
-            base.OnStartServer();
             color = Random.ColorHSV(0f, 1f, 1f, 1f, 0.5f, 1f);
         }
 

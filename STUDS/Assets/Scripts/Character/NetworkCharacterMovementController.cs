@@ -792,7 +792,7 @@ public class NetworkCharacterMovementController : NetworkBehaviour
         {
             Debug.LogError("Connection to client is null");
         }
-        if (item.connectionToClient != null && item.hasAuthority == false)
+        if (item.connectionToClient != null && item.isOwned == false)
         {
             item.RemoveClientAuthority();
         }

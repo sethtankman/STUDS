@@ -120,9 +120,9 @@ public class StudsNetworkManager : NetworkManager
     /// <para>Scene changes can cause player objects to be destroyed. The default implementation of OnClientSceneChanged in the NetworkManager is to add a player object for the connection if no player object exists.</para>
     /// </summary>
     /// <param name="conn">The network connection that the scene change message arrived on.</param>
-    public override void OnClientSceneChanged(NetworkConnection conn)
+    public override void OnClientSceneChanged()
     {
-        base.OnClientSceneChanged(conn);
+        base.OnClientSceneChanged();
     }
 
     #endregion
@@ -134,14 +134,14 @@ public class StudsNetworkManager : NetworkManager
     /// <para>Unity calls this on the Server when a Client connects to the Server. Use an override to tell the NetworkManager what to do when a client connects to the server.</para>
     /// </summary>
     /// <param name="conn">Connection from client.</param>
-    public override void OnServerConnect(NetworkConnection conn) { }
+    public override void OnServerConnect(NetworkConnectionToClient conn) { }
 
     /// <summary>
     /// Called on the server when a client is ready.
     /// <para>The default implementation of this function calls NetworkServer.SetClientReady() to continue the network setup process.</para>
     /// </summary>
     /// <param name="conn">Connection from client.</param>
-    public override void OnServerReady(NetworkConnection conn)
+    public override void OnServerReady(NetworkConnectionToClient conn)
     {
         base.OnServerReady(conn);
     }
@@ -151,7 +151,7 @@ public class StudsNetworkManager : NetworkManager
     /// <para>The default implementation for this function creates a new player object from the playerPrefab.</para>
     /// </summary>
     /// <param name="conn">Connection from client.</param>
-    public override void OnServerAddPlayer(NetworkConnection conn)
+    public override void OnServerAddPlayer(NetworkConnectionToClient conn)
     {
         base.OnServerAddPlayer(conn);
     }
@@ -162,10 +162,10 @@ public class StudsNetworkManager : NetworkManager
     /// when a disconnection is detected.</para>
     /// </summary>
     /// <param name="conn">Connection from client.</param>
-    public override void OnServerDisconnect(NetworkConnection conn)
+    public override void OnServerDisconnect(NetworkConnectionToClient conn)
     {
         // NOTE: this assumes the only object assigned to the networkconnection is the player!
-        foreach(NetworkIdentity ni in conn.clientOwnedObjects)
+        foreach(NetworkIdentity ni in conn.owned)
         {
             int id = ni.gameObject.GetComponent<NetworkCharacterMovementController>().getPlayerID();
             GameObject spawnPos = GameObject.Find("SpawnPos");
@@ -187,9 +187,9 @@ public class StudsNetworkManager : NetworkManager
     /// <para>The default implementation of this function sets the client as ready and adds a player. Override the function to dictate what happens when the client connects.</para>
     /// </summary>
     /// <param name="conn">Connection to the server.</param>
-    public override void OnClientConnect(NetworkConnection conn)
+    public override void OnClientConnect()
     {
-        base.OnClientConnect(conn);
+        base.OnClientConnect();
     }
 
     /// <summary>
@@ -197,10 +197,10 @@ public class StudsNetworkManager : NetworkManager
     /// <para>This is called on the client when it disconnects from the server. Override this function to decide what happens when the client disconnects.</para>
     /// </summary>
     /// <param name="conn">Connection to the server.</param>
-    public override void OnClientDisconnect(NetworkConnection conn)
+    public override void OnClientDisconnect()
     {
         Destroy(NetGameManager.Instance.gameObject);
-        base.OnClientDisconnect(conn);
+        base.OnClientDisconnect();
     }
 
     /// <summary>
@@ -208,7 +208,7 @@ public class StudsNetworkManager : NetworkManager
     /// <para>This is commonly used when switching scenes.</para>
     /// </summary>
     /// <param name="conn">Connection to the server.</param>
-    public override void OnClientNotReady(NetworkConnection conn) { }
+    public override void OnClientNotReady() { }
 
     #endregion
 

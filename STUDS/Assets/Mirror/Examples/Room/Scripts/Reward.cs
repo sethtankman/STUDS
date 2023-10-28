@@ -8,8 +8,10 @@ namespace Mirror.Examples.NetworkRoom
         public bool available = true;
         public RandomColor randomColor;
 
-        void OnValidate()
+        protected override void OnValidate()
         {
+            base.OnValidate();
+
             if (randomColor == null)
                 randomColor = GetComponent<RandomColor>();
         }
@@ -18,13 +20,12 @@ namespace Mirror.Examples.NetworkRoom
         void OnTriggerEnter(Collider other)
         {
             if (other.gameObject.CompareTag("Player"))
-            {
                 ClaimPrize(other.gameObject);
-            }
         }
 
         // This is called from PlayerController.CmdClaimPrize which is invoked by PlayerController.OnControllerColliderHit
         // This only runs on the server
+        [ServerCallback]
         public void ClaimPrize(GameObject player)
         {
             if (available)
@@ -38,7 +39,7 @@ namespace Mirror.Examples.NetworkRoom
                 // calculate the points from the color ... lighter scores higher as the average approaches 255
                 // UnityEngine.Color RGB values are float fractions of 255
                 uint points = (uint)(((color.r) + (color.g) + (color.b)) / 3);
-                // Debug.LogFormat(LogType.Log, "Scored {0} points R:{1} G:{2} B:{3}", points, color.r, color.g, color.b);
+                //Debug.Log($"Scored {points} points R:{color.r} G:{color.g} B:{color.b}");
 
                 // award the points via SyncVar on the PlayerController
                 player.GetComponent<PlayerScore>().score += points;

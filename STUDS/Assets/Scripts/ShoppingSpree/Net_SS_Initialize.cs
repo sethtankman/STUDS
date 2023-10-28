@@ -39,7 +39,7 @@ public class Net_SS_Initialize : NetworkBehaviour
         for (int i = 0; i < players.Count; i++)
         {
             players[i].AddComponent<SS_ItemTracker>();
-            if (players[i].GetComponent<NetworkIdentity>().hasAuthority)
+            if (players[i].GetComponent<NetworkIdentity>().isOwned)
             {
                 localPlayer = players[i];
             }

@@ -123,18 +123,19 @@ public class NetGameManager : NetworkBehaviour
     // For debugging.
     private void OnDisable()
     {
-        //Debug.LogWarning("Who disabled me?");
+        Debug.LogWarning("Who disabled me?");
     }
 
     protected Callback<GameOverlayActivated_t> m_GameOverlayActivated;
 
     private void OnEnable()
+    {
+        Debug.Log("Who enabled me?");
+        if (SteamManager.Initialized)
         {
-            if (SteamManager.Initialized)
-            {
-                m_GameOverlayActivated = Callback<GameOverlayActivated_t>.Create(OnGameOverlayActivated);
-            }
+            m_GameOverlayActivated = Callback<GameOverlayActivated_t>.Create(OnGameOverlayActivated);
         }
+    }
 
 
     private void OnGameOverlayActivated(GameOverlayActivated_t pCallback)
