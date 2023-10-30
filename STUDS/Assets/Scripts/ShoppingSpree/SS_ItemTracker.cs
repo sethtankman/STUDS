@@ -43,7 +43,6 @@ public class SS_ItemTracker : MonoBehaviour
             //listText.text = "You have successfully gathered all the items!";
             sa.UnlockAchievement("SS_FINISH");
         }
-        //string text = "SHOPPING LIST:\n";
         for (int i = 0; i < itemList.Length; i++)
         {
             if (completedItemsCheck[i])
@@ -51,7 +50,6 @@ public class SS_ItemTracker : MonoBehaviour
                 if (isLocal)
                 {
                     shoppingItemImages[i].gameObject.GetComponent<ItemButton>().EnableCheckMark();
-                    Debug.Log("Added complete");
                 }
             }
         }

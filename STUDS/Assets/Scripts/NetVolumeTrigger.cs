@@ -17,7 +17,9 @@ public class NetVolumeTrigger : NetworkBehaviour
 
     public bool hideGizmo = false;
     public bool isSwitchActive = false;
+    public bool needsToBeInitialized = false;
     public NetInteraction interact;
+    public GameObject initObj;
 
     public void FlipSwitch()
     {
@@ -47,9 +49,18 @@ public class NetVolumeTrigger : NetworkBehaviour
             StayEvent.Invoke();
     }
 
+    private void Start()
+    {
+        if (needsToBeInitialized)
+            if (initObj)
+                initObj.SetActive(false);
+            else
+                Debug.LogError("InitObj needs to be set");
+    }
+
     private bool Check(Collider other)
     {
-        if (other.tag == TriggerTag)
+        if (other.CompareTag(TriggerTag))
             return true;
         else
             return false;

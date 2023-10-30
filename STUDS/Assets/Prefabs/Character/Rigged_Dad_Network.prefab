@@ -79,10 +79,10 @@ GameObject:
   - component: {fileID: 7428982239099070671}
   - component: {fileID: 3626520299862966308}
   - component: {fileID: 4353781903396391267}
-  - component: {fileID: -5134455852795293086}
   - component: {fileID: -9188321841964761987}
   - component: {fileID: 9185419259450379523}
   - component: {fileID: 4892440669647128620}
+  - component: {fileID: 8955492226436653854}
   m_Layer: 2
   m_Name: Rigged_Dad_Network
   m_TagString: Player
@@ -330,9 +330,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sceneId: 0
+  _assetId: 1129141473
   serverOnly: 0
   visible: 0
-  m_AssetId: 
   hasSpawned: 0
 --- !u!114 &4353781903396391267
 MonoBehaviour:
@@ -346,6 +346,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f623bd99ef520a347804f4033bbbeda7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   JumpSound:
@@ -371,7 +372,6 @@ MonoBehaviour:
   sa: {fileID: 0}
   camPos: {fileID: 3450374694476005401}
   animator: {fileID: 406437671202242167}
-  renderer: {fileID: 5994938408997206725}
   cameraShake: {fileID: 781154080254920008}
   hub: {fileID: 0}
   playerCamera: {fileID: 3450374694476005406}
@@ -391,6 +391,7 @@ MonoBehaviour:
   knockBackTime: 1
   timeUntilMoveEnabled: 0
   velocity: {x: 0, y: 0, z: 0}
+  grabbedObject: {fileID: 0}
   grabbedObjectID: 0
   kidsMaterials:
   - {fileID: 2100000, guid: 3e7d13ea3349aab459a13c60e5ae2faf, type: 2}
@@ -414,27 +415,6 @@ MonoBehaviour:
   hasAimAssist: 0
   CanJump: 0
   CanMove: 0
---- !u!114 &-5134455852795293086
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 932691824398563431}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2f74aedd71d9a4f55b3ce499326d45fb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.2
-  clientAuthority: 1
-  localPositionSensitivity: 0.01
-  localRotationSensitivity: 0.01
-  localScaleSensitivity: 0.01
-  compressRotation: 0
-  interpolateScale: 1
-  syncScale: 1
 --- !u!114 &-9188321841964761987
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -447,6 +427,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f6f3bf89aa97405989c802ba270f815, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.2
   clientAuthority: 1
@@ -463,6 +444,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb93f2bc2e8e16e4a88bc1f845f88f93, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   timeoutTimer: 5
@@ -488,6 +470,40 @@ MonoBehaviour:
   ExitTime: 0.5
   timer: 0
   Ready: 1
+--- !u!114 &8955492226436653854
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 932691824398563431}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a553cb17010b2403e8523b558bffbc14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 1
+  syncMode: 0
+  syncInterval: 0
+  target: {fileID: 556835471894749917}
+  clientAuthority: 0
+  syncPosition: 1
+  syncRotation: 1
+  syncScale: 0
+  interpolatePosition: 1
+  interpolateRotation: 1
+  interpolateScale: 1
+  coordinateSpace: 0
+  sendIntervalMultiplier: 1
+  timelineOffset: 0
+  showGizmos: 0
+  showOverlay: 0
+  overlayColor: {r: 0, g: 0, b: 0, a: 0.5}
+  onlySyncOnChange: 1
+  bufferResetMultiplier: 3
+  positionSensitivity: 0.01
+  rotationSensitivity: 0.01
+  scaleSensitivity: 0.01
 --- !u!1 &941638315054393277
 GameObject:
   m_ObjectHideFlags: 0
