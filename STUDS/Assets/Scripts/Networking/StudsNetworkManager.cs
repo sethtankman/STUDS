@@ -229,9 +229,8 @@ public class StudsNetworkManager : NetworkManager
     /// <para>StartServer has multiple signatures, but they all cause this hook to be called.</para>
     /// </summary>
     public override void OnStartServer() {
-        Debug.Log("Starting Server");
-        ServerChangeScene("TheBlock_LevelSelectOnlineMultiplayer");
         isMyNetworkManager = true;
+        base.OnStartServer();
     }
 
     /// <summary>
@@ -239,6 +238,7 @@ public class StudsNetworkManager : NetworkManager
     /// </summary>
     public override void OnStartClient() {
         isMyNetworkManager = true;
+        base.OnStartClient();
     }
 
     /// <summary>
