@@ -23,6 +23,7 @@ public class NetworkCharacterMovementController : NetworkBehaviour
 
     public Transform camPos;
     public Animator animator;
+    public NetworkAnimator netAnim;
     public CameraShake cameraShake;
     public NetGameManager hub;
 
@@ -263,7 +264,7 @@ public class NetworkCharacterMovementController : NetworkBehaviour
                 && drop && hit.transform.CompareTag("Ground"))
             {
                 FallDown(1.5f);
-                animator.SetTrigger("Land");
+                netAnim.SetTrigger("Land");
                 velocity.x = 0;
                 velocity.z = 0;
                 airborn = false;
@@ -272,8 +273,8 @@ public class NetworkCharacterMovementController : NetworkBehaviour
             {
                 if(!hit.collider.isTrigger)
                 {
-                    animator.ResetTrigger("Jump");
-                    animator.SetTrigger("Land");
+                    netAnim.ResetTrigger("Jump");
+                    netAnim.SetTrigger("Land");
                     velocity.x = 0;
                     velocity.z = 0;
                     airborn = false;
@@ -290,15 +291,23 @@ public class NetworkCharacterMovementController : NetworkBehaviour
             else if (Physics.Raycast(ray, 0.1f) && beingKnockedBack && drop)
             {
                 FallDown(1.3f);
-                animator.ResetTrigger("Land");
+                netAnim.ResetTrigger("Land");
             }
         }
     }
 
+    /// <summary>
+    /// Handles animations, dropping bools, movementbools for falling down.
+    /// </summary>
+    /// <param name="cooldown"></param>
     private void FallDown(float cooldown)
     {
-        animator.ResetTrigger("Jump");
-        CmdAnimSetTrigger("FallDown");
+        // FallDown is only called if they are the local player or they are a server AI.
+        netAnim.ResetTrigger("Jump");
+        if (isLocalPlayer)
+            CmdAnimSetTrigger("FallDown");
+        else if (isAI) 
+            netAnim.SetTrigger("FallDown"); 
         beingKnockedBack = false;
         movementEnabled = false;
         timeUntilMoveEnabled = cooldown;
@@ -313,8 +322,8 @@ public class NetworkCharacterMovementController : NetworkBehaviour
         if (!isAI && (Input.GetKey(KeyCode.Space) || Input.GetButton("Jump")))
         {
             isJumping = true;
-            animator.ResetTrigger("Land");
-            animator.SetTrigger("Jump");
+            netAnim.ResetTrigger("Land");
+            netAnim.SetTrigger("Jump");
         }
         else if(!isAI)
         {
@@ -460,8 +469,8 @@ public class NetworkCharacterMovementController : NetworkBehaviour
         if (context.ReadValueAsButton())
         {
             isJumping = true;
-            animator.ResetTrigger("Land");
-            animator.SetTrigger("Jump");
+            netAnim.ResetTrigger("Land");
+            netAnim.SetTrigger("Jump");
         }
         else
         {
@@ -625,8 +634,8 @@ public class NetworkCharacterMovementController : NetworkBehaviour
     /// <returns></returns>
     private IEnumerator performThrow()
     {
-        animator.ResetTrigger("Land");
-        animator.SetTrigger("Throw");
+        netAnim.ResetTrigger("Land");
+        netAnim.SetTrigger("Throw");
         yield return new WaitForSeconds(0.0f);
         ThrowSound.Post(gameObject);
         Vector3 forward = transform.forward;
@@ -668,7 +677,7 @@ public class NetworkCharacterMovementController : NetworkBehaviour
         moveSpeed = moveSpeedNormal;
         grabbedObject = null;
         grabbedObjectID = 0;
-        animator.ResetTrigger("Throw");
+        netAnim.ResetTrigger("Throw");
     }
 
 
@@ -856,18 +865,18 @@ public class NetworkCharacterMovementController : NetworkBehaviour
     }
 
 
-    [Command]
+    /*[Command] //TODO: Delete this if nothing's broken with animations
     private void CmdAnimSetBool(string varName, bool tf)
     {
         animator.SetBool(varName, tf);
         RpcAnimSetBool(varName, tf);
-    }
+    }*/
 
 
     [Command]
     private void CmdAnimSetTrigger(string varName)
     {
-        animator.SetTrigger(varName);
+        netAnim.SetTrigger(varName);
         RpcAnimSetTrigger(varName);
     }
 
@@ -948,7 +957,7 @@ public class NetworkCharacterMovementController : NetworkBehaviour
     [ClientRpc]
     private void RpcAnimSetTrigger(string varName)
     {
-        animator.SetTrigger(varName);
+        netAnim.SetTrigger(varName);
     }
 
     [ClientRpc]

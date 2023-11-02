@@ -1,8 +1,7 @@
-using Mirror;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class NetVolumeTrigger : NetworkBehaviour
+public class NetVolumeTrigger : MonoBehaviour
 {
 
     [Header("Trigger Settings")]
