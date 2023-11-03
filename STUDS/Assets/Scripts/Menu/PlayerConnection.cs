@@ -45,7 +45,7 @@ public class PlayerConnection : MonoBehaviour
         colorImages["yellow"] = 3;
         colorImages["green"] = 4;
         playerImages[panelID].color = Color.white;
-        Debug.Log("This is my color: " + colorName);
+        //Debug.Log("This is my color: " + colorName);
         playerImages[panelID].sprite = eugeneVarieties[colorImages[colorName]];
         textObjects[panelID].GetComponent<TextMeshProUGUI>().text = "PLAYER " + (panelID+1);
     }

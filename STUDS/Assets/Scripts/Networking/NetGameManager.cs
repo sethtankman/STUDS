@@ -123,14 +123,14 @@ public class NetGameManager : NetworkBehaviour
     // For debugging.
     private void OnDisable()
     {
-        Debug.LogWarning("Who disabled me?");
+        //Debug.LogWarning("Who disabled me?");
     }
 
     protected Callback<GameOverlayActivated_t> m_GameOverlayActivated;
 
     private void OnEnable()
     {
-        Debug.Log("Who enabled me?");
+        //Debug.Log("Who enabled me?");
         if (SteamManager.Initialized)
         {
             m_GameOverlayActivated = Callback<GameOverlayActivated_t>.Create(OnGameOverlayActivated);
@@ -225,7 +225,7 @@ public class NetGameManager : NetworkBehaviour
     {
         string oldColor = playerColors[playerID];
         availableColors.Add(oldColor);
-        Debug.Log($"Attempting to remove: {colorName}");
+        //Debug.Log($"Attempting to remove: {colorName}");
         availableColors.Remove(colorName);
         playerColors[playerID] = colorName;
     }

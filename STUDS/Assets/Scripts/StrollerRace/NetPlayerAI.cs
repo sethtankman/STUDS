@@ -36,7 +36,8 @@ public class NetPlayerAI : NetworkBehaviour
 
     private void Update()
     {
-        SelectCurrentNode();
+        if(isServer)
+            SelectCurrentNode();
     }
 
     void FixedUpdate()

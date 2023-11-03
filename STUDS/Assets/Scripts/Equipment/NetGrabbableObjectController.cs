@@ -26,7 +26,7 @@ public class NetGrabbableObjectController : NetworkBehaviour
     public void LocalPickupObject(string _holderName)
     {
         holderTransform = GameObject.Find(_holderName).transform;
-        Debug.Log("Local Pickup Object");
+        //Debug.Log("Local Pickup Object");
         gameObject.GetComponent<Rigidbody>().isKinematic = true;
         gameObject.GetComponent<Rigidbody>().useGravity = false;
         GetComponent<Collider>().enabled = false;

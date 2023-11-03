@@ -104,10 +104,6 @@ public class NetworkCharacterMovementController : NetworkBehaviour
         if (!isLocalPlayer)
         {
             Destroy(GetComponent<Rigidbody>()); // This was causing characters to fly off over network.
-            if (!isServer && !isAI)
-            {
-                CmdGetColorInfo();
-            }
         }
     }
 
@@ -127,7 +123,7 @@ public class NetworkCharacterMovementController : NetworkBehaviour
             sa = GameObject.Find("SteamScripts").GetComponent<SteamAchievements>();
             hub.NetworkPlayerJoin(this.gameObject); // This is unique to network characters.
         }
-        if (!isServer)
+        if (isLocalPlayer)
             CmdRequestPlayerVariables();
     }
 
@@ -608,7 +604,8 @@ public class NetworkCharacterMovementController : NetworkBehaviour
             {
                 grabbedObject.GetComponent<Rigidbody>().useGravity = true;
             }
-            CmdLetGo(grabbedObject.GetComponent<NetworkIdentity>().netId);
+            if(isLocalPlayer)
+                CmdLetGo(grabbedObject.GetComponent<NetworkIdentity>().netId);
             grabbedObject = null;
             grabbedObjectID = 0;
             hasGrabbed = false;
@@ -777,12 +774,6 @@ public class NetworkCharacterMovementController : NetworkBehaviour
     }
 
     [Command]
-    private void CmdGetColorInfo()
-    {
-        RpcSetColor(color);
-    }
-
-    [Command]
     private void CmdPickupFromCart(uint cartId)
     {
         uint objId = NetworkServer.spawned[cartId].GetComponent<NetCart>().GiveObject(transform);
@@ -821,7 +812,7 @@ public class NetworkCharacterMovementController : NetworkBehaviour
     [Command]
     private void CmdPickupObject(GameObject obj)
     {
-        Debug.Log("CmdPickupObject: " + obj.name);
+        //Debug.Log("CmdPickupObject: " + obj.name);
         hasGrabbed = true;
         grabbedObjectID = obj.GetComponent<NetworkIdentity>().netId;
         obj.GetComponent<NetGrabbableObjectController>().LocalPickupObject(name);
@@ -859,8 +850,6 @@ public class NetworkCharacterMovementController : NetworkBehaviour
     [Command]
     private void CmdEnableKnockBack(GameObject grabbedObject)
     {
-        Debug.Log("CommandEnableKnockBack");
-        //LocalEnableKnockBack(grabbedObject);
         RpcEnableKnockBack(grabbedObject);
     }
 
@@ -885,12 +874,6 @@ public class NetworkCharacterMovementController : NetworkBehaviour
     public void CmdSetFinishPosition(int pos)
     {
         finishPosition = pos;
-    }
-
-    [ClientRpc]
-    private void RpcSetColor(string _color)
-    {
-        color = _color;
     }
 
     [ClientRpc]
@@ -1091,9 +1074,8 @@ public class NetworkCharacterMovementController : NetworkBehaviour
     public void SetColorName(string colorName)
     { 
         color = colorName;
-        //GameObject gameManager = GameObject.Find("GameManager");
-        CmdChangePlayerColor(color);
-        
+        if(isLocalPlayer)
+            CmdChangePlayerColor(color);
     }
 
     public string GetColorName()
