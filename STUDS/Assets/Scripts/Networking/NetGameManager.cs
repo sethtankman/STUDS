@@ -235,7 +235,10 @@ public class NetGameManager : NetworkBehaviour
         playerObj.GetComponentInChildren<SkinnedMeshRenderer>().material = colorMaterials[color];
         NetworkCharacterMovementController netCMC = playerObj.GetComponent<NetworkCharacterMovementController>();
         netCMC.color = color;
-        playerConnectionPanel.SetPanelImage(netCMC.getPlayerID(), color);
+        if (playerConnectionPanel)
+            playerConnectionPanel.SetPanelImage(netCMC.getPlayerID(), color);
+        else
+            Debug.Log("Player connection panel missing.");
     }
 
 
