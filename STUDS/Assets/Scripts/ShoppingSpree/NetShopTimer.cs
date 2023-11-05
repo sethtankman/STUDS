@@ -9,9 +9,10 @@ public class NetShopTimer : NetworkBehaviour
     public SteamAchievements sa;
     public TextMeshProUGUI TimerTXT;
     public GameObject NetworkManager;
-    public float timer;
     private float Sprint = 10.0f;
 
+    [SyncVar]
+    public float timer;
     [SyncVar]
     public int racePositions;
     [SyncVar]
@@ -27,10 +28,13 @@ public class NetShopTimer : NetworkBehaviour
 
     void Update()
     {
-        Mathf.RoundToInt(timer);
+        if (isServer)
+        {
 
-        timer -= Time.deltaTime;
+            Mathf.RoundToInt(timer);
 
+            timer -= Time.deltaTime;
+        }
         if (timer > 0.0f)
         {
             Showtime(timer);
@@ -40,7 +44,6 @@ public class NetShopTimer : NetworkBehaviour
             if (isServer)
                 EndGame();
         }
-
     }
 
     void EndGame()
