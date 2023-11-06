@@ -70,8 +70,7 @@ public class NetPBInitLvl : NetworkBehaviour
         }
         else if (!spawnedPlayers)
         {
-            //Invoke("SpawnPlayers", 0.5f); // TODO: Delay may not be necessary.
-            SpawnPlayers();
+            Invoke("SpawnPlayers", 0.5f); 
         }
     }
 
@@ -80,7 +79,7 @@ public class NetPBInitLvl : NetworkBehaviour
     {
         Debug.Log($"ID: {netID}, V: {v}");
         if(NetworkClient.spawned.ContainsKey(netID))
-            NetworkClient.spawned[netID].gameObject.GetComponentInChildren<SkinnedMeshRenderer>(true).material = kidsMaterials[v];
+            NetworkClient.spawned[netID].GetComponentInChildren<SkinnedMeshRenderer>(true).material = kidsMaterials[v];
     }
 
     /// <summary>

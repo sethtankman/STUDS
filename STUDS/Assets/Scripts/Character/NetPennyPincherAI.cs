@@ -11,7 +11,7 @@ public class NetPennyPincherAI : NetworkBehaviour
     public List<Transform> availableSwitches;
     [SerializeField] private bool hasTarget = false, active = false;
     private bool gameStarted = false;
-    [SerializeField] private Transform target, previousTarget;
+    [SerializeField] private Transform target;
 
     public float turnSpeed = 1;
 
@@ -82,7 +82,6 @@ public class NetPennyPincherAI : NetworkBehaviour
         {
             // Debug.Log("Active set to false in Update");
             active = false;
-            previousTarget = target;
             StartCoroutine("FindNewTarget");
         }
         else if (!gameStarted && GameObject.Find("Game Manager"))
@@ -93,11 +92,6 @@ public class NetPennyPincherAI : NetworkBehaviour
             }
             gameStarted = active;
         }
-    }
-
-    private void OnDestroy()
-    {
-        Debug.Log("Who destroyed me?");
     }
 
     public IEnumerator FindNewTarget()
