@@ -707,7 +707,7 @@ public class NetworkCharacterMovementController : NetworkBehaviour
                 {
                     if (collider.CompareTag("ShoppingItem"))
                     {
-                        collider.gameObject.GetComponent<ShoppingItem>().SetPlayer(this.gameObject);
+                        collider.GetComponent<ShoppingItem>().SetPlayer(this.gameObject);
                     }
 
                     if (pickupPressed && !hasGrabbed)

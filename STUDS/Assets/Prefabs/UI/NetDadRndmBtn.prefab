@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 2027247909187081152}
   - component: {fileID: 9033227469343286616}
   - component: {fileID: 969093247886073066}
-  - component: {fileID: -6924692095972614947}
+  - component: {fileID: 7900726920783645783}
   m_Layer: 5
   m_Name: NetDadRndmBtn
   m_TagString: Untagged
@@ -149,6 +149,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ab510c6b11888247bf4d81616569010, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   btnText: {fileID: 0}
@@ -169,6 +170,7 @@ MonoBehaviour:
   aiImage: {fileID: 8203444835463664848}
   manager: {fileID: 0}
   color: 
+  imageIndex: 0
 --- !u!114 &969093247886073066
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -182,11 +184,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sceneId: 0
+  _assetId: 2962684166
   serverOnly: 0
   visible: 0
-  m_AssetId: 
   hasSpawned: 0
---- !u!114 &-6924692095972614947
+--- !u!114 &7900726920783645783
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -195,18 +197,32 @@ MonoBehaviour:
   m_GameObject: {fileID: 2027247909187081154}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2f74aedd71d9a4f55b3ce499326d45fb, type: 3}
+  m_Script: {fileID: 11500000, guid: 8ff3ba0becae47b8b9381191598957c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
-  syncInterval: 0.1
+  syncInterval: 0
+  target: {fileID: 2027247909187081155}
   clientAuthority: 0
-  localPositionSensitivity: 0.01
-  localRotationSensitivity: 0.01
-  localScaleSensitivity: 0.01
-  compressRotation: 0
-  interpolateScale: 1
+  syncPosition: 1
+  syncRotation: 1
   syncScale: 1
+  interpolatePosition: 0
+  interpolateRotation: 0
+  interpolateScale: 0
+  coordinateSpace: 0
+  sendIntervalMultiplier: 1
+  timelineOffset: 0
+  showGizmos: 0
+  showOverlay: 0
+  overlayColor: {r: 0, g: 0, b: 0, a: 0.5}
+  onlySyncOnChange: 1
+  onlySyncOnChangeCorrectionMultiplier: 2
+  rotationSensitivity: 0.01
+  compressRotation: 0
+  positionPrecision: 0.01
+  scalePrecision: 0.01
 --- !u!1 &2847166240579783747
 GameObject:
   m_ObjectHideFlags: 0

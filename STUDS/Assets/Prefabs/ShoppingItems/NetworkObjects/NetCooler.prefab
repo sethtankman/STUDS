@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 1497929418321200445}
   - component: {fileID: 8743868335854333479}
   - component: {fileID: 4926634106116804471}
-  - component: {fileID: 7802027040320381841}
+  - component: {fileID: 5825401176407534447}
   m_Layer: 0
   m_Name: NetCooler
   m_TagString: ShoppingItem
@@ -160,9 +160,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sceneId: 0
+  _assetId: 1036191455
   serverOnly: 0
   visible: 0
-  m_AssetId: 
   hasSpawned: 0
 --- !u!114 &4926634106116804471
 MonoBehaviour:
@@ -176,13 +176,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30ebf8552a40c59449e5ca17dc14b190, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
   distance: 0.7
   height: 0.8
   additionalColliders: []
   rotation: {x: 0, y: 0, z: 0}
---- !u!114 &7802027040320381841
+--- !u!114 &5825401176407534447
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -191,18 +192,31 @@ MonoBehaviour:
   m_GameObject: {fileID: 2834774175446282880}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2f74aedd71d9a4f55b3ce499326d45fb, type: 3}
+  m_Script: {fileID: 11500000, guid: a553cb17010b2403e8523b558bffbc14, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
   syncMode: 0
-  syncInterval: 0.1
+  syncInterval: 0
+  target: {fileID: 3178684523082508346}
   clientAuthority: 0
-  localPositionSensitivity: 0.01
-  localRotationSensitivity: 0.01
-  localScaleSensitivity: 0.01
-  compressRotation: 0
+  syncPosition: 1
+  syncRotation: 1
+  syncScale: 0
+  interpolatePosition: 1
+  interpolateRotation: 1
   interpolateScale: 1
-  syncScale: 1
+  coordinateSpace: 0
+  sendIntervalMultiplier: 1
+  timelineOffset: 0
+  showGizmos: 0
+  showOverlay: 0
+  overlayColor: {r: 0, g: 0, b: 0, a: 0.5}
+  onlySyncOnChange: 1
+  bufferResetMultiplier: 3
+  positionSensitivity: 0.01
+  rotationSensitivity: 0.01
+  scaleSensitivity: 0.01
 --- !u!1 &4868327694493085661
 GameObject:
   m_ObjectHideFlags: 0
@@ -257,6 +271,7 @@ MonoBehaviour:
   slidethrough: 0
   reflective: 0
   directional: 0
+  owner: 
 --- !u!65 &6488117633427664896
 BoxCollider:
   m_ObjectHideFlags: 0
