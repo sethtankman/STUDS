@@ -9,6 +9,7 @@ public class NetGrabbableObjectController : NetworkBehaviour
     public List<Collider> additionalColliders;
     public Vector3 rotation;
     private Transform holderTransform = null;
+    [SerializeField] private GameObject localGO;
 
     /// <summary>
     /// Movement is server-authoritative, so we update throwable positions in the update method
@@ -23,10 +24,10 @@ public class NetGrabbableObjectController : NetworkBehaviour
         }
     }
 
-    public void LocalPickupObject(string _holderName)
+    public GameObject LocalPickupObject(Transform _holderTransform)
     {
-        holderTransform = GameObject.Find(_holderName).transform;
-        //Debug.Log("Local Pickup Object");
+        holderTransform = _holderTransform;
+        Debug.Log("Local Pickup Object");
         gameObject.GetComponent<Rigidbody>().isKinematic = true;
         gameObject.GetComponent<Rigidbody>().useGravity = false;
         GetComponent<Collider>().enabled = false;
@@ -38,6 +39,16 @@ public class NetGrabbableObjectController : NetworkBehaviour
         {
             GetComponent<ShoppingItem>().isBeingHeld = true;
         }
+
+        // Make networked version of object invisible (because it always lags) and spawn a local version instead.
+        if (localGO)
+        {
+            GetComponent<MeshRenderer>().enabled = false;
+            GameObject offlineCopy = Instantiate(localGO, transform.position, transform.rotation);
+            offlineCopy.GetComponent<LocalGrabbableObjectController>().networkedGO = gameObject;
+            return offlineCopy;
+        }
+        return null;
     }
 
     public void LocalLetGo()
@@ -54,6 +65,8 @@ public class NetGrabbableObjectController : NetworkBehaviour
         {
             GetComponent<ShoppingItem>().isBeingHeld = false;
         }
+        if (localGO)
+            GetComponent<MeshRenderer>().enabled = true;
     }
 
 }

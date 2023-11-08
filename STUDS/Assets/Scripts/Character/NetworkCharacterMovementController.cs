@@ -1,13 +1,8 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityEngine.InputSystem;
-using UnityEngine.UI;
 using static UnityEngine.InputSystem.InputAction;
 using UnityEngine.SceneManagement;
 using Mirror;
-using System;
 
 public class NetworkCharacterMovementController : NetworkBehaviour
 {
@@ -56,7 +51,7 @@ public class NetworkCharacterMovementController : NetworkBehaviour
     float turnSmoothVelocity;
 
     public GameObject grabbedObject;
-    [SyncVar(hook = nameof(HookSetGrabbedObject))]
+    //[SyncVar(hook = nameof(HookSetGrabbedObject))]
     public uint grabbedObjectID = 0;
     private NetInteraction electronicObject;
 
@@ -133,6 +128,19 @@ public class NetworkCharacterMovementController : NetworkBehaviour
         // only local players and AI on the server can control their own movements.
         if (!isLocalPlayer && !(isAI && isServer))
         {
+            if (grabbedObject)
+            {
+                // Defaults
+                float grabDistance = 1.3f;
+                float grabHeight = 0.7f;
+                if (grabbedObject.GetComponent<LocalGrabbableObjectController>())
+                {
+                    grabDistance = grabbedObject.GetComponent<LocalGrabbableObjectController>().distance;
+                    grabHeight = grabbedObject.GetComponent<LocalGrabbableObjectController>().height;
+                }
+                grabbedObject.transform.position = transform.position + (transform.forward * grabDistance) + (transform.up * grabHeight);
+                grabbedObject.transform.rotation = transform.rotation;
+            }
             return;
         }
 
@@ -197,6 +205,10 @@ public class NetworkCharacterMovementController : NetworkBehaviour
                     {
                         grabDistance = grabbedObject.GetComponent<NetGrabbableObjectController>().distance;
                         grabHeight = grabbedObject.GetComponent<NetGrabbableObjectController>().height;
+                    } else if(grabbedObject.GetComponent<LocalGrabbableObjectController>())
+                    {
+                        grabDistance = grabbedObject.GetComponent<LocalGrabbableObjectController>().distance;
+                        grabHeight = grabbedObject.GetComponent<LocalGrabbableObjectController>().height;
                     }
                     grabbedObject.transform.position = transform.position + (transform.forward * grabDistance) + (transform.up * grabHeight);
                     grabbedObject.transform.rotation = transform.rotation;
@@ -605,7 +617,10 @@ public class NetworkCharacterMovementController : NetworkBehaviour
                 grabbedObject.GetComponent<Rigidbody>().useGravity = true;
             }
             if(isLocalPlayer)
-                CmdLetGo(grabbedObject.GetComponent<NetworkIdentity>().netId);
+            {
+                grabbedObject.GetComponent<LocalGrabbableObjectController>().LocalLetGo();
+                CmdLetGo(grabbedObject.GetComponent<LocalGrabbableObjectController>().networkedGO.GetComponent<NetworkIdentity>().netId);
+            }
             grabbedObject = null;
             grabbedObjectID = 0;
             hasGrabbed = false;
@@ -645,11 +660,14 @@ public class NetworkCharacterMovementController : NetworkBehaviour
         Vector3 movementAdjust = forward * direction.magnitude * moveSpeedGrab * 40;
         throwingForce += movementAdjust;
         throwingForce.y = 300f;
+        GameObject netGrabbedObject = grabbedObject.GetComponent<LocalGrabbableObjectController>().networkedGO;
+        grabbedObject.GetComponent<LocalGrabbableObjectController>().LocalLetGo();
+        grabbedObject = netGrabbedObject;
         CmdLetGo(grabbedObject.GetComponent<NetworkIdentity>().netId);
 
         if (isServer)
         {
-            RpcThrow(grabbedObject, throwingForce);
+            grabbedObject.GetComponent<Rigidbody>().AddForce(throwingForce);
             if (grabbedObject.GetComponent<CombatThrow>())
             {
                 RpcEnableKnockBack(grabbedObject);
@@ -657,7 +675,6 @@ public class NetworkCharacterMovementController : NetworkBehaviour
         }
         else
         {
-            //grabbedObject.GetComponent<Rigidbody>().AddForce(throwingForce);
             CmdThrow(grabbedObject, throwingForce, grabbedObject.transform.position);
             if (grabbedObject.GetComponent<CombatThrow>())
             {
@@ -714,10 +731,11 @@ public class NetworkCharacterMovementController : NetworkBehaviour
                     {
                         animator.SetBool("isHoldingSomething", true);
                         GrabSound.Post(gameObject);
-                        grabbedObject = collider.gameObject;
+                        grabbedObject = collider.GetComponent<NetGrabbableObjectController>().LocalPickupObject(transform);
+                        if (!grabbedObject)
+                            grabbedObject = collider.gameObject;
                         grabbedObjectID = collider.GetComponent<NetworkIdentity>().netId;
-                        grabbedObject.GetComponent<NetGrabbableObjectController>().LocalPickupObject(name);
-                        CmdPickupObject(grabbedObject);
+                        CmdPickupObject(grabbedObjectID);
                         moveSpeed = moveSpeedGrab;
                         hasGrabbed = true;
                         pickupPressed = false;
@@ -810,15 +828,14 @@ public class NetworkCharacterMovementController : NetworkBehaviour
     }
 
     [Command]
-    private void CmdPickupObject(GameObject obj)
+    private void CmdPickupObject(uint objID)
     {
         //Debug.Log("CmdPickupObject: " + obj.name);
         hasGrabbed = true;
-        grabbedObjectID = obj.GetComponent<NetworkIdentity>().netId;
-        obj.GetComponent<NetGrabbableObjectController>().LocalPickupObject(name);
+        //NetworkServer.spawned[objID].GetComponent<NetGrabbableObjectController>().LocalPickupObject(name);
         RpcPickupObject(grabbedObjectID);
-        if (obj.GetComponent<ShoppingItem>())
-            obj.GetComponent<ShoppingItem>().SetPlayer(gameObject);
+        if (NetworkServer.spawned[objID].GetComponent<ShoppingItem>())
+            NetworkServer.spawned[objID].GetComponent<ShoppingItem>().SetPlayer(gameObject);
     }
 
     [Command]
@@ -826,7 +843,7 @@ public class NetworkCharacterMovementController : NetworkBehaviour
     {
         if (NetworkServer.spawned[objID])
         {
-            NetworkServer.spawned[objID].GetComponent<NetGrabbableObjectController>().LocalLetGo();
+            //NetworkServer.spawned[objID].GetComponent<NetGrabbableObjectController>().LocalLetGo();
             RpcLetGo(objID);
         } else
         {
@@ -837,14 +854,8 @@ public class NetworkCharacterMovementController : NetworkBehaviour
     [Command]
     private void CmdThrow(GameObject obj, Vector3 throwingForce, Vector3 itemPosition)
     {
-        /*NetworkIdentity netId = obj.GetComponent<NetworkIdentity>();
-        if(netId)
-        {
-            netId.RemoveClientAuthority();
-        } */
         obj.transform.position = itemPosition;
         obj.GetComponent<Rigidbody>().AddForce(throwingForce);
-        //RpcThrow(obj, throwingForce);
     }
 
     [Command]
@@ -881,19 +892,11 @@ public class NetworkCharacterMovementController : NetworkBehaviour
     {
         GameObject takenObject = NetworkClient.spawned[netId].gameObject;
         animator.SetBool("isHoldingSomething", true);
-        grabbedObject = takenObject;
+        grabbedObject = takenObject.GetComponent<NetGrabbableObjectController>().LocalPickupObject(transform);
         grabbedObjectID = netId;
         takenObject.GetComponent<ShoppingItem>().SetPlayer(this.gameObject);
-        takenObject.GetComponent<NetGrabbableObjectController>().LocalPickupObject(name);
         hasGrabbed = true;
-    }
-
-    [ClientRpc]
-    private void RpcRemoveNetworkAuthority(NetworkIdentity item)
-    {
-        Debug.Log("Entered removal");
-        item.RemoveClientAuthority();
-    }
+    } 
 
     [ClientRpc]
     private void RpcPickupObject(uint objID)
@@ -901,12 +904,14 @@ public class NetworkCharacterMovementController : NetworkBehaviour
         if (isServer || isLocalPlayer)
             return;
         Debug.Log("RpcPickupObject: " + objID);
-        NetworkClient.spawned[objID].gameObject.GetComponent<NetGrabbableObjectController>().LocalPickupObject(name);
+        grabbedObject = NetworkClient.spawned[objID].GetComponent<NetGrabbableObjectController>().LocalPickupObject(transform);
     }
 
     [ClientRpc]
     private void RpcLetGo(uint objID)
     {
+        if (isLocalPlayer)
+            return;
         if (NetworkClient.spawned.ContainsKey(objID))
             NetworkClient.spawned[objID].GetComponent<NetGrabbableObjectController>().LocalLetGo();
         else
@@ -1052,6 +1057,8 @@ public class NetworkCharacterMovementController : NetworkBehaviour
         pickupPressed = false;
     }
 
+    // TODO: Remove this and hook if everything is working fine with picking up stuff.
+    /* 
     private void HookSetGrabbedObject(uint oldObj, uint objID)
     {
         grabbedObjectID = objID;
@@ -1064,7 +1071,7 @@ public class NetworkCharacterMovementController : NetworkBehaviour
             hasGrabbed = true;
             pickupPressed = false;
         }
-    }
+    }*/
 
     public GameObject GetGrabbedObject()
     {
