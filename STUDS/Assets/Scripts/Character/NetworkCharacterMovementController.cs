@@ -619,8 +619,10 @@ public class NetworkCharacterMovementController : NetworkBehaviour
             }
             if(isLocalPlayer)
             {
+                GameObject networkedGO = grabbedObject.GetComponent<LocalGrabbableObjectController>().networkedGO;
                 grabbedObject.GetComponent<LocalGrabbableObjectController>().LocalLetGo();
-                CmdLetGo(grabbedObject.GetComponent<LocalGrabbableObjectController>().networkedGO.GetComponent<NetworkIdentity>().netId);
+                grabbedObject = networkedGO;
+                CmdLetGo(grabbedObject.GetComponent<NetworkIdentity>().netId);
             }
             grabbedObject = null;
             grabbedObjectID = 0;
@@ -661,9 +663,10 @@ public class NetworkCharacterMovementController : NetworkBehaviour
         Vector3 movementAdjust = forward * direction.magnitude * moveSpeedGrab * 40;
         throwingForce += movementAdjust;
         throwingForce.y = 300f;
-        GameObject netGrabbedObject = grabbedObject.GetComponent<LocalGrabbableObjectController>().networkedGO;
+        GameObject networkedObj = grabbedObject.GetComponent<LocalGrabbableObjectController>().networkedGO;
+        Vector3 localPos = grabbedObject.transform.position;
         grabbedObject.GetComponent<LocalGrabbableObjectController>().LocalLetGo();
-        grabbedObject = netGrabbedObject;
+        grabbedObject = networkedObj;
         CmdLetGo(grabbedObject.GetComponent<NetworkIdentity>().netId);
 
         if (isServer)
@@ -671,15 +674,15 @@ public class NetworkCharacterMovementController : NetworkBehaviour
             grabbedObject.GetComponent<Rigidbody>().AddForce(throwingForce);
             if (grabbedObject.GetComponent<CombatThrow>())
             {
-                RpcEnableKnockBack(grabbedObject);
+                RpcEnableKnockBack(grabbedObject.GetComponent<NetworkIdentity>().netId);
             }
         }
         else
         {
-            CmdThrow(grabbedObject, throwingForce, grabbedObject.transform.position);
+            CmdThrow(grabbedObject.GetComponent<NetworkIdentity>().netId, throwingForce, localPos);
             if (grabbedObject.GetComponent<CombatThrow>())
             {
-                CmdEnableKnockBack(grabbedObject);
+                CmdEnableKnockBack(grabbedObject.GetComponent<NetworkIdentity>().netId);
             }
         }
 
@@ -854,16 +857,19 @@ public class NetworkCharacterMovementController : NetworkBehaviour
     }
 
     [Command]
-    private void CmdThrow(GameObject obj, Vector3 throwingForce, Vector3 itemPosition)
+    private void CmdThrow(uint objID, Vector3 throwingForce, Vector3 itemPosition)
     {
-        obj.transform.position = itemPosition;
-        obj.GetComponent<Rigidbody>().AddForce(throwingForce);
+        Debug.Log("Command Throw");
+        NetworkServer.spawned[objID].GetComponent<Rigidbody>().isKinematic = false;
+        NetworkServer.spawned[objID].GetComponent<Rigidbody>().useGravity = true;
+        NetworkServer.spawned[objID].transform.position = itemPosition;
+        NetworkServer.spawned[objID].GetComponent<Rigidbody>().AddForce(throwingForce);
     }
 
     [Command]
-    private void CmdEnableKnockBack(GameObject grabbedObject)
+    private void CmdEnableKnockBack(uint grabbedObjectID)
     {
-        RpcEnableKnockBack(grabbedObject);
+        RpcEnableKnockBack(grabbedObjectID);
     }
 
 
@@ -931,9 +937,9 @@ public class NetworkCharacterMovementController : NetworkBehaviour
     }
 
     [ClientRpc]
-    private void RpcEnableKnockBack(GameObject grabbedObject)
+    private void RpcEnableKnockBack(uint grabbedObjectID)
     {
-        LocalEnableKnockBack(grabbedObject);
+        LocalEnableKnockBack(NetworkClient.spawned[grabbedObjectID].gameObject);
     }
 
 

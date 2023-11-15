@@ -78,16 +78,4 @@ public class NetGrabbableObjectController : NetworkBehaviour
         }
     }
 
-    [Command]
-    public void CmdLetGo()
-    {
-        RpcLetGo();
-    }
-
-    [ClientRpc]
-    private void RpcLetGo()
-    {
-        LocalLetGo();
-    }
-
 }

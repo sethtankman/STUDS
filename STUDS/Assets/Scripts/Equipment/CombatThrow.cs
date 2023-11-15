@@ -36,7 +36,6 @@ public class CombatThrow : MonoBehaviour
     {
         yield return new WaitForSeconds(0.1f);
         knockBack.SetActive(true);
-        Debug.Log("SetActive!");
         yield return new WaitForSeconds(knockBackCooldown); //Knockback enabled for 1.5 seconds when thrown.
         knockBack.GetComponent<KnockBack>().owner = "";
         knockBack.SetActive(false);
