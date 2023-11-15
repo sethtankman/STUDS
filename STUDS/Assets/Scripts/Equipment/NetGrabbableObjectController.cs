@@ -9,7 +9,8 @@ public class NetGrabbableObjectController : NetworkBehaviour
     public List<Collider> additionalColliders;
     public Vector3 rotation;
     private Transform holderTransform = null;
-    [SerializeField] private GameObject localGO;
+    [SerializeField] private GameObject localPrefab;
+    private GameObject localGO;
 
     /// <summary>
     /// Movement is server-authoritative, so we update throwable positions in the update method
@@ -24,6 +25,11 @@ public class NetGrabbableObjectController : NetworkBehaviour
         }
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="_holderTransform">The transform of the holder of this object.</param>
+    /// <returns>A reference to the offline copy instantiated on this client.</returns>
     public GameObject LocalPickupObject(Transform _holderTransform)
     {
         holderTransform = _holderTransform;
@@ -41,11 +47,12 @@ public class NetGrabbableObjectController : NetworkBehaviour
         }
 
         // Make networked version of object invisible (because it always lags) and spawn a local version instead.
-        if (localGO)
+        if (localPrefab)
         {
             GetComponent<MeshRenderer>().enabled = false;
-            GameObject offlineCopy = Instantiate(localGO, transform.position, transform.rotation);
+            GameObject offlineCopy = Instantiate(localPrefab, transform.position, transform.rotation);
             offlineCopy.GetComponent<LocalGrabbableObjectController>().networkedGO = gameObject;
+            localGO = offlineCopy;
             return offlineCopy;
         }
         return null;
@@ -65,8 +72,22 @@ public class NetGrabbableObjectController : NetworkBehaviour
         {
             GetComponent<ShoppingItem>().isBeingHeld = false;
         }
-        if (localGO)
+        if (localGO) {
             GetComponent<MeshRenderer>().enabled = true;
+            Destroy(localGO);
+        }
+    }
+
+    [Command]
+    public void CmdLetGo()
+    {
+        RpcLetGo();
+    }
+
+    [ClientRpc]
+    private void RpcLetGo()
+    {
+        LocalLetGo();
     }
 
 }

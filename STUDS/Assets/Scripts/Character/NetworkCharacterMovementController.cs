@@ -126,6 +126,7 @@ public class NetworkCharacterMovementController : NetworkBehaviour
     void Update()
     {
         // only local players and AI on the server can control their own movements.
+        // So if you are not the local player or you are not an AI on the server, only move the held item.
         if (!isLocalPlayer && !(isAI && isServer))
         {
             if (grabbedObject)
@@ -731,11 +732,12 @@ public class NetworkCharacterMovementController : NetworkBehaviour
                     {
                         animator.SetBool("isHoldingSomething", true);
                         GrabSound.Post(gameObject);
-                        grabbedObject = collider.GetComponent<NetGrabbableObjectController>().LocalPickupObject(transform);
-                        if (!grabbedObject)
-                            grabbedObject = collider.gameObject;
                         grabbedObjectID = collider.GetComponent<NetworkIdentity>().netId;
                         CmdPickupObject(grabbedObjectID);
+                        if(!isServer)
+                            grabbedObject = collider.GetComponent<NetGrabbableObjectController>().LocalPickupObject(transform);
+                        if (!grabbedObject)
+                            grabbedObject = collider.gameObject;
                         moveSpeed = moveSpeedGrab;
                         hasGrabbed = true;
                         pickupPressed = false;
@@ -832,7 +834,7 @@ public class NetworkCharacterMovementController : NetworkBehaviour
     {
         //Debug.Log("CmdPickupObject: " + obj.name);
         hasGrabbed = true;
-        //NetworkServer.spawned[objID].GetComponent<NetGrabbableObjectController>().LocalPickupObject(name);
+        grabbedObject = NetworkServer.spawned[objID].GetComponent<NetGrabbableObjectController>().LocalPickupObject(transform);
         RpcPickupObject(grabbedObjectID);
         if (NetworkServer.spawned[objID].GetComponent<ShoppingItem>())
             NetworkServer.spawned[objID].GetComponent<ShoppingItem>().SetPlayer(gameObject);
@@ -901,7 +903,7 @@ public class NetworkCharacterMovementController : NetworkBehaviour
     [ClientRpc]
     private void RpcPickupObject(uint objID)
     {
-        if (isServer || isLocalPlayer)
+        if (isServer || isLocalPlayer) // todo: was isServer || isLocalPlayer
             return;
         Debug.Log("RpcPickupObject: " + objID);
         grabbedObject = NetworkClient.spawned[objID].GetComponent<NetGrabbableObjectController>().LocalPickupObject(transform);
