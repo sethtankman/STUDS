@@ -50,7 +50,10 @@ public class NetGrabbableObjectController : NetworkBehaviour
         if (localPrefab)
         {
             GameObject offlineCopy = Instantiate(localPrefab, transform.position, transform.rotation);
-            GetComponentInChildren<MeshRenderer>().enabled = false;
+            foreach (MeshRenderer rend in GetComponentsInChildren<MeshRenderer>())
+            {
+                rend.enabled = false;
+            }
             offlineCopy.GetComponentInChildren<LocalGrabbableObjectController>().networkedGO = gameObject;
 
             if(GetComponent<NetCart>()) { 
@@ -59,6 +62,7 @@ public class NetGrabbableObjectController : NetworkBehaviour
                 foreach (GameObject obj in GetComponent<NetCart>().cartItems)
                 {
                     isActiveArr[i] = obj.activeSelf;
+                    ++i;
                 }
                 offlineCopy.GetComponentInChildren<LocalCart>().LocalSetActiveItems(isActiveArr);
             }
@@ -82,8 +86,12 @@ public class NetGrabbableObjectController : NetworkBehaviour
         {
             GetComponent<ShoppingItem>().isBeingHeld = false;
         }
-        if (localGO) {
-            GetComponentInChildren<MeshRenderer>().enabled = true;
+        if (localGO)
+        {
+            foreach (MeshRenderer rend in GetComponentsInChildren<MeshRenderer>())
+            {
+                rend.enabled = true;
+            }
             Destroy(localGO);
         }
     }
