@@ -619,8 +619,8 @@ public class NetworkCharacterMovementController : NetworkBehaviour
             }
             if(isLocalPlayer)
             {
-                GameObject networkedGO = grabbedObject.GetComponent<LocalGrabbableObjectController>().networkedGO;
-                grabbedObject.GetComponent<LocalGrabbableObjectController>().LocalLetGo();
+                GameObject networkedGO = grabbedObject.GetComponentInChildren<LocalGrabbableObjectController>().networkedGO;
+                grabbedObject.GetComponentInChildren<LocalGrabbableObjectController>().LocalLetGo();
                 grabbedObject = networkedGO;
                 CmdLetGo(grabbedObject.GetComponent<NetworkIdentity>().netId);
             }
@@ -663,9 +663,9 @@ public class NetworkCharacterMovementController : NetworkBehaviour
         Vector3 movementAdjust = forward * direction.magnitude * moveSpeedGrab * 40;
         throwingForce += movementAdjust;
         throwingForce.y = 300f;
-        GameObject networkedObj = grabbedObject.GetComponent<LocalGrabbableObjectController>().networkedGO;
+        GameObject networkedObj = grabbedObject.GetComponentInChildren<LocalGrabbableObjectController>().networkedGO;
         Vector3 localPos = grabbedObject.transform.position;
-        grabbedObject.GetComponent<LocalGrabbableObjectController>().LocalLetGo();
+        grabbedObject.GetComponentInChildren<LocalGrabbableObjectController>().LocalLetGo();
         grabbedObject = networkedObj;
         CmdLetGo(grabbedObject.GetComponent<NetworkIdentity>().netId);
 

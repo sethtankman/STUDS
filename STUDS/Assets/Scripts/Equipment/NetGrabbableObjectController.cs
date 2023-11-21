@@ -49,9 +49,19 @@ public class NetGrabbableObjectController : NetworkBehaviour
         // Make networked version of object invisible (because it always lags) and spawn a local version instead.
         if (localPrefab)
         {
-            GetComponent<MeshRenderer>().enabled = false;
             GameObject offlineCopy = Instantiate(localPrefab, transform.position, transform.rotation);
-            offlineCopy.GetComponent<LocalGrabbableObjectController>().networkedGO = gameObject;
+            GetComponentInChildren<MeshRenderer>().enabled = false;
+            offlineCopy.GetComponentInChildren<LocalGrabbableObjectController>().networkedGO = gameObject;
+
+            if(GetComponent<NetCart>()) { 
+                bool[] isActiveArr = new bool[8];
+                int i = 0;
+                foreach (GameObject obj in GetComponent<NetCart>().cartItems)
+                {
+                    isActiveArr[i] = obj.activeSelf;
+                }
+                offlineCopy.GetComponentInChildren<LocalCart>().LocalSetActiveItems(isActiveArr);
+            }
             localGO = offlineCopy;
             return offlineCopy;
         }
@@ -73,7 +83,7 @@ public class NetGrabbableObjectController : NetworkBehaviour
             GetComponent<ShoppingItem>().isBeingHeld = false;
         }
         if (localGO) {
-            GetComponent<MeshRenderer>().enabled = true;
+            GetComponentInChildren<MeshRenderer>().enabled = true;
             Destroy(localGO);
         }
     }
