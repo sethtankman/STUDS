@@ -66,6 +66,10 @@ public class NetGrabbableObjectController : NetworkBehaviour
                 }
                 offlineCopy.GetComponentInChildren<LocalCart>().LocalSetActiveItems(isActiveArr);
             }
+            if (GetComponent<StrollerController>())
+            {
+                offlineCopy.GetComponent<StrollerController>().StrollerID = GetComponent<StrollerController>().StrollerID;
+            }
             localGO = offlineCopy;
             return offlineCopy;
         }
@@ -86,6 +90,7 @@ public class NetGrabbableObjectController : NetworkBehaviour
         {
             GetComponent<ShoppingItem>().isBeingHeld = false;
         }
+        
         if (localGO)
         {
             foreach (MeshRenderer rend in GetComponentsInChildren<MeshRenderer>())
