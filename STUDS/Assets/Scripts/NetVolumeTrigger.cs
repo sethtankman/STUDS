@@ -48,15 +48,6 @@ public class NetVolumeTrigger : MonoBehaviour
             StayEvent.Invoke();
     }
 
-    private void Start()
-    {
-        if (needsToBeInitialized)
-            if (initObj)
-                initObj.SetActive(false);
-            else
-                Debug.LogError("InitObj needs to be set");
-    }
-
     private bool Check(Collider other)
     {
         if (other.CompareTag(TriggerTag))
