@@ -28,8 +28,8 @@ public class NetManageGame : NetworkBehaviour
     public AK.Wwise.Event mySource;
 
     private float timeCount;
-    private bool display;
-    private int playerID;
+    [SyncVar] private bool display;
+    [SyncVar] private int playerID;
     private float timer;
     private bool playerFinish = false;
 
@@ -99,26 +99,30 @@ public class NetManageGame : NetworkBehaviour
 
     void OnTriggerEnter(Collider collider)
     {
-        if (collider.CompareTag("Player"))
+        if (isServer && collider.CompareTag("Player"))
         {
-            if(collider.GetComponent<NetworkCharacterMovementController>().isAI || collider.GetComponent<NetworkCharacterMovementController>().getCheckpointCount() == checkpoints.Length && collider.GetComponent<NetworkCharacterMovementController>().GetHasGrabbed())
+            NetworkCharacterMovementController netCMC = collider.GetComponent<NetworkCharacterMovementController>();
+            if(netCMC.isAI 
+                || netCMC.getCheckpointCount() == checkpoints.Length 
+                && netCMC.GetHasGrabbed() 
+                && netCMC.GetFinishPosition() == 0)
             {
-                if(collider.GetComponent<NetworkCharacterMovementController>().GetFinishPosition() == 0)
+                
+                if (!collider.GetComponent<NetworkCharacterMovementController>().isAI)
                 {
-                    if (!collider.GetComponent<NetworkCharacterMovementController>().isAI)
-                    {
-                        display = true;
-                        if (SceneManager.GetActiveScene().name.Equals("TheBlock_Scott"))
-                            sa.UnlockAchievement("SR_COMPLETE");
-                        else
-                            sa.UnlockAchievement("SR_DOWNTOWN");
-                        mySource.Post(gameObject);
-                    }
-                    playerID = collider.GetComponent<NetworkCharacterMovementController>().getPlayerID() + 1;
-                    collider.GetComponent<NetworkCharacterMovementController>().SetFinishPosition(positions);
-                    positions++;
+                    display = true;
+                    if (SceneManager.GetActiveScene().name.Equals("TheBlock_Scott"))
+                        sa.UnlockAchievement("SR_COMPLETE");
+                    else
+                        sa.UnlockAchievement("SR_DOWNTOWN");
+                    mySource.Post(gameObject);
                 }
-
+                playerID = collider.GetComponent<NetworkCharacterMovementController>().getPlayerID() + 1;
+                collider.GetComponent<NetworkCharacterMovementController>().SetFinishPosition(positions);
+                positions++;
+            } else
+            {
+                Debug.LogWarning($"Player {collider.name} failed finish checks! AI: {netCMC.isAI}, allCheckpoints: {netCMC.getCheckpointCount() == checkpoints.Length}, HasGrabbed: {netCMC.GetHasGrabbed()}, FinishPos: {netCMC.GetFinishPosition() == 0}");
             }
         }
     }

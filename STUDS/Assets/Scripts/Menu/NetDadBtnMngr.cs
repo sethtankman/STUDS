@@ -125,7 +125,7 @@ public class NetDadBtnMngr : NetworkBehaviour
     {
         if (isServer && numPlayers + numAI < 4)
         {
-            GameObject button = Instantiate(characterButton, buttonLocations[numPlayers + numAI].position, Quaternion.identity, gameObject.transform);
+            GameObject button = Instantiate(characterButton, buttonLocations[numPlayers + numAI].position, Quaternion.identity, transform);
             NetworkServer.Spawn(button);
             button.GetComponent<NetDadBtn>().RpcSetSprite(remainingColors.ToArray()[0], false);
             button.GetComponent<NetDadBtn>().color = remainingColors.ToArray()[0];

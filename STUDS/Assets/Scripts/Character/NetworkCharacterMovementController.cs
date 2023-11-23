@@ -51,7 +51,6 @@ public class NetworkCharacterMovementController : NetworkBehaviour
     float turnSmoothVelocity;
 
     public GameObject grabbedObject;
-    //[SyncVar(hook = nameof(HookSetGrabbedObject))]
     public uint grabbedObjectID = 0;
     private NetInteraction electronicObject;
 
@@ -912,6 +911,7 @@ public class NetworkCharacterMovementController : NetworkBehaviour
         if (isServer || isLocalPlayer) // todo: was isServer || isLocalPlayer
             return;
         Debug.Log("RpcPickupObject: " + objID);
+        hasGrabbed = true;
         grabbedObject = NetworkClient.spawned[objID].GetComponent<NetGrabbableObjectController>().LocalPickupObject(transform);
     }
 

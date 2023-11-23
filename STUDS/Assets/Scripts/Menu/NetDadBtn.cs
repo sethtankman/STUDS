@@ -17,7 +17,7 @@ public class NetDadBtn : NetworkBehaviour
     private void Start()
     {
         manager = GameObject.Find("Panel").GetComponent<NetDadBtnMngr>();
-        if(!isServer)
+        if (!isServer)
         {
             transform.SetParent(manager.transform);
             //manager.CmdRequestBtnInfo(this);  
@@ -149,6 +149,11 @@ public class NetDadBtn : NetworkBehaviour
     public void RpcSetPivot(Vector2 _pivot)
     {
         GetComponent<RectTransform>().pivot = _pivot;
+
+        // For some reason updating Mirror requires this now.
+        GetComponent<RectTransform>().localScale = new Vector3(1, 1, 1);
+        GetComponent<RectTransform>().localPosition = new Vector3(0, 68, 0);
+
         if (!manager)
         {
             manager = FindObjectOfType<NetDadBtnMngr>();
