@@ -69,6 +69,7 @@ public class NetGrabbableObjectController : NetworkBehaviour
             if (GetComponent<StrollerController>())
             {
                 offlineCopy.GetComponent<StrollerController>().StrollerID = GetComponent<StrollerController>().StrollerID;
+                offlineCopy.GetComponent<StrollerController>().DetermineColor(GetComponent<StrollerController>().GetColor());
             }
             localGO = offlineCopy;
             return offlineCopy;

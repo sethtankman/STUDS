@@ -5,6 +5,9 @@ using UnityEngine.SceneManagement;
 using Mirror;
 using TMPro;
 
+/// <summary>
+/// The game manager for the racing levels.
+/// </summary>
 public class NetManageGame : NetworkBehaviour
 {
 

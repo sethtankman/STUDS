@@ -11,7 +11,13 @@ public class StrollerController : MonoBehaviour
     public int StrollerID;
     private string strollerColor;
 
-    
+    public Material strollerColor1;
+    public Material strollerColor2;
+    public Material strollerColor3;
+    public Material strollerColor4;
+    public Material strollerColor5;
+
+
     // Start is called before the first frame update
     void Start()
     {        
@@ -31,5 +37,30 @@ public class StrollerController : MonoBehaviour
     public string GetColor()
     {
         return strollerColor;
+    }
+
+    public void DetermineColor(string colorName)
+    {
+        if (colorName.Equals("blue"))
+        {
+            GetComponent<MeshRenderer>().material = strollerColor1;
+        }
+        else if (colorName.Equals("green"))
+        {
+            GetComponent<MeshRenderer>().material = strollerColor2;
+        }
+        else if (colorName.Equals("red"))
+        {
+            GetComponent<MeshRenderer>().material = strollerColor3;
+        }
+        else if (colorName.Equals("yellow"))
+        {
+            GetComponent<MeshRenderer>().material = strollerColor4;
+        }
+        else if (colorName.Equals("purple"))
+        {
+            GetComponent<MeshRenderer>().material = strollerColor5;
+        }
+        SetColor(colorName);
     }
 }

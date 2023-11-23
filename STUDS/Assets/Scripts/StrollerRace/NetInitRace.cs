@@ -76,31 +76,6 @@ public class NetInitRace : NetworkBehaviour
         }
     }
 
-    private void DetermineColor(string colorName, GameObject stroller)
-    {
-        if (colorName.Equals("blue"))
-        {
-            stroller.GetComponent<MeshRenderer>().material = strollerColor1;
-        }
-        else if (colorName.Equals("green"))
-        {
-            stroller.GetComponent<MeshRenderer>().material = strollerColor2;
-        }
-        else if (colorName.Equals("red"))
-        {
-            stroller.GetComponent<MeshRenderer>().material = strollerColor3;
-        }
-        else if (colorName.Equals("yellow"))
-        {
-            stroller.GetComponent<MeshRenderer>().material = strollerColor4;
-        }
-        else if (colorName.Equals("purple"))
-        {
-            stroller.GetComponent<MeshRenderer>().material = strollerColor5;
-        }
-        stroller.GetComponent<StrollerController>().SetColor(colorName);
-    }
-
     [ClientRpc]
     public void RpcDetermineColor(string colorName, uint strollerID, int playerID)
     {
@@ -112,7 +87,7 @@ public class NetInitRace : NetworkBehaviour
         Destroy(loadingCam);
         spawnedPlayers = true;
         NetworkClient.spawned[strollerID].GetComponent<StrollerController>().SetID(playerID);
-        DetermineColor(colorName, NetworkClient.spawned[strollerID].gameObject);
+        NetworkClient.spawned[strollerID].GetComponent<StrollerController>().DetermineColor(colorName);
         PauseV2.canPause = true;
     }
 }

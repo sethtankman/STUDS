@@ -319,6 +319,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 0}
   StrollerID: 0
+  strollerColor1: {fileID: 2100000, guid: cb0e7e8b5fd3a14438c1946fc4cc8bc4, type: 2}
+  strollerColor2: {fileID: 2100000, guid: ccda9207d1ac40e42abd40ef8a155aaf, type: 2}
+  strollerColor3: {fileID: 2100000, guid: def88209bfbcf8a44afaf469a12eaaa2, type: 2}
+  strollerColor4: {fileID: 2100000, guid: 6b6591bdb5c865d42bcf04267beef506, type: 2}
+  strollerColor5: {fileID: 2100000, guid: 3c92703548e08cc4da4a8ce511f5a2ef, type: 2}
 --- !u!114 &3873278656711197067
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -401,7 +406,8 @@ MonoBehaviour:
   syncInterval: 0.1
   distance: 1.1
   height: 0.7
-  additionalColliders: []
+  additionalColliders:
+  - {fileID: 3258396304582757061}
   rotation: {x: 0, y: 0, z: 0}
   localPrefab: {fileID: 782865013803658397, guid: 75b009ba7ca2f91499b28d2258400976,
     type: 3}
