@@ -24,41 +24,13 @@ public class StrollerLocator : MonoBehaviour
     {
         if (StrollerTarget && Linked == true)
         {
-            if (active)
-            {
-                Arrow.SetActive(true);
-            }
-            else
-            {
-                Arrow.SetActive(false);
-            }
-            //active = true;
             Arrow.transform.LookAt(StrollerTarget.transform);
         }
-
-        if (StrollerTarget == null)
-        {
-            Arrow.SetActive(false);
-            //active = false;
-
-        }
-    }
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject == StrollerTarget && active == true)
-        {
-            active = false;
-           // Arrow.SetActive(false);
-        }
     }
 
-    private void OnTriggerExit(Collider other)
+    public void SetActive(bool tf)
     {
-        if (other.gameObject == StrollerTarget && active == false)
-        {
-            active = true;
-            //Arrow.SetActive(true);
-        }
+        Arrow.SetActive(tf);
     }
 
 
@@ -66,11 +38,13 @@ public class StrollerLocator : MonoBehaviour
     {
         StrollerTarget = Stroller;
         Linked = true;
+        Arrow.SetActive(true);
     }
 
     public void ResetArrow()
     {
         StrollerTarget = null;
+        Arrow.SetActive(false);
     }
 
     public bool HasLink()

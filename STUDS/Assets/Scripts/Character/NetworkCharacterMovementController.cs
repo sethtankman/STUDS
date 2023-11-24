@@ -621,7 +621,9 @@ public class NetworkCharacterMovementController : NetworkBehaviour
                 GameObject networkedGO = grabbedObject.GetComponentInChildren<LocalGrabbableObjectController>().networkedGO;
                 grabbedObject.GetComponentInChildren<LocalGrabbableObjectController>().LocalLetGo();
                 grabbedObject = networkedGO;
-                CmdLetGo(grabbedObject.GetComponent<NetworkIdentity>().netId);
+                if(grabbedObject.GetComponent<StrollerController>())
+                    GetComponentInChildren<StrollerLocator>().SetActive(true);
+                CmdLetGo(grabbedObject.GetComponent<NetworkIdentity>().netId); 
             }
             grabbedObject = null;
             grabbedObjectID = 0;
@@ -666,6 +668,8 @@ public class NetworkCharacterMovementController : NetworkBehaviour
         Vector3 localPos = grabbedObject.transform.position;
         grabbedObject.GetComponentInChildren<LocalGrabbableObjectController>().LocalLetGo();
         grabbedObject = networkedObj;
+        if(grabbedObject.GetComponent<StrollerController>())
+            GetComponentInChildren<StrollerLocator>().SetActive(true);
         CmdLetGo(grabbedObject.GetComponent<NetworkIdentity>().netId);
 
         if (isServer)
@@ -736,8 +740,12 @@ public class NetworkCharacterMovementController : NetworkBehaviour
                         GrabSound.Post(gameObject);
                         grabbedObjectID = collider.GetComponent<NetworkIdentity>().netId;
                         CmdPickupObject(grabbedObjectID);
-                        if(!isServer)
+                        if (!isServer)
+                        {
                             grabbedObject = collider.GetComponent<NetGrabbableObjectController>().LocalPickupObject(transform);
+                            if (collider.GetComponent<StrollerController>())
+                                GetComponentInChildren<StrollerLocator>().SetActive(false);
+                        }
                         if (!grabbedObject)
                             grabbedObject = collider.gameObject;
                         moveSpeed = moveSpeedGrab;
@@ -840,6 +848,8 @@ public class NetworkCharacterMovementController : NetworkBehaviour
         RpcPickupObject(grabbedObjectID);
         if (NetworkServer.spawned[objID].GetComponent<ShoppingItem>())
             NetworkServer.spawned[objID].GetComponent<ShoppingItem>().SetPlayer(gameObject);
+        if(NetworkServer.spawned[objID].GetComponent<StrollerController>())
+            GetComponentInChildren<StrollerLocator>().SetActive(false);
     }
 
     [Command]
@@ -908,11 +918,13 @@ public class NetworkCharacterMovementController : NetworkBehaviour
     [ClientRpc]
     private void RpcPickupObject(uint objID)
     {
-        if (isServer || isLocalPlayer) // todo: was isServer || isLocalPlayer
+        if (isServer || isLocalPlayer)
             return;
         Debug.Log("RpcPickupObject: " + objID);
         hasGrabbed = true;
         grabbedObject = NetworkClient.spawned[objID].GetComponent<NetGrabbableObjectController>().LocalPickupObject(transform);
+        if (NetworkClient.spawned[objID].GetComponent<StrollerController>())
+            GetComponentInChildren<StrollerLocator>().SetActive(false);
     }
 
     [ClientRpc]
@@ -921,7 +933,11 @@ public class NetworkCharacterMovementController : NetworkBehaviour
         if (isLocalPlayer)
             return;
         if (NetworkClient.spawned.ContainsKey(objID))
-            NetworkClient.spawned[objID].GetComponent<NetGrabbableObjectController>().LocalLetGo();
+        {
+            GameObject releasedObj = NetworkClient.spawned[objID].GetComponent<NetGrabbableObjectController>().LocalLetGo();
+            if(releasedObj.GetComponent<StrollerController>())
+                GetComponentInChildren<StrollerLocator>().SetActive(true);
+        } 
         else
         {
             Debug.LogError($"Network Identity <{objID}> not found.");

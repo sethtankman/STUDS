@@ -77,7 +77,7 @@ public class NetGrabbableObjectController : NetworkBehaviour
         return null;
     }
 
-    public void LocalLetGo()
+    public GameObject LocalLetGo()
     {
         holderTransform = null;
         gameObject.GetComponent<Rigidbody>().isKinematic = false;
@@ -100,6 +100,8 @@ public class NetGrabbableObjectController : NetworkBehaviour
             }
             Destroy(localGO);
         }
+         
+        return gameObject;
     }
 
 }
