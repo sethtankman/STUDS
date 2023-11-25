@@ -45,6 +45,8 @@ public class NetPBInitLvl : NetworkBehaviour
         aiColors = NetGameManager.Instance.aiColors;
         PlayerInputManager.instance.DisableJoining();
 
+        foreach(GameObject player in players)
+            player.GetComponent<NetworkCharacterMovementController>().SetAimAssist(true);
 
         if (pauseMenuUI)
             GameObject.Find("GameManager").GetComponent<PauseV2>().PauseMenuUI = pauseMenuUI;

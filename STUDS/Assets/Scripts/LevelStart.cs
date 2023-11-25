@@ -25,6 +25,8 @@ public class LevelStart : MonoBehaviour
     {
         if (pauseMenuUI)
             GameObject.Find("GameManager").GetComponent<PauseV2>().PauseMenuUI = pauseMenuUI;
+        foreach(GameObject player in NetGameManager.Instance.getPlayers())
+            player.GetComponent<NetworkCharacterMovementController>().SetAimAssist(false);
     }
 
     public void HandleGameStart(PlayerInput pi)

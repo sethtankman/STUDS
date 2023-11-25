@@ -120,12 +120,6 @@ public class NetGameManager : NetworkBehaviour
 
     }
 
-    // For debugging.
-    private void OnDisable()
-    {
-        //Debug.LogWarning("Who disabled me?");
-    }
-
     protected Callback<GameOverlayActivated_t> m_GameOverlayActivated;
 
     private void OnEnable()
@@ -151,26 +145,6 @@ public class NetGameManager : NetworkBehaviour
             Debug.Log("Steam Overlay has been closed");
         }
     }
-
-    // Sets aim assist to true or false per level.
-    private void OnLevelWasLoaded(int level)
-    {
-        if (SceneManager.GetActiveScene().name == "TheBlock_LevelSelectOnlineMultiplayer" || SceneManager.GetActiveScene().name == "Network_Shopping_Spree")
-        {
-            foreach (GameObject player in players)
-            {
-                player.GetComponent<NetworkCharacterMovementController>().SetAimAssist(true);
-            }
-        }
-        else
-        {
-            foreach (GameObject player in players)
-            {
-                player.GetComponent<NetworkCharacterMovementController>().SetAimAssist(false);
-            }
-        }
-    }
-
 
     /// <summary>
     /// Currently I will assume that when a player leaves, their gameobject is destroyed.
@@ -290,7 +264,10 @@ public class NetGameManager : NetworkBehaviour
     {
         foreach (GameObject player in players)
         {
-            Destroy(player);
+            if (player.GetComponent<NetworkCharacterMovementController>().isAI)
+                Destroy(player.transform.parent.gameObject);
+            else
+                Destroy(player);
         }
         players = new List<GameObject>();
         return isServer;
