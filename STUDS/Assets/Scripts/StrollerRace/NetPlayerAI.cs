@@ -4,9 +4,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 
-/// <summary>
-/// Net Player AI for racing levels only.
-/// </summary>
 public class NetPlayerAI : NetworkBehaviour
 {
     public GameObject path;

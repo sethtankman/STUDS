@@ -23,11 +23,8 @@ public class PlayerAI : MonoBehaviour
     void Start()
     {
         pathNodes = path.GetComponent<Path_AI>().getPath();
-        if (GetComponent<CharacterMovementController>())
-        {
-            GetComponent<CharacterMovementController>().SetGrabbedObject(stroller);
-            GetComponent<CharacterMovementController>().SetPlayerID(ID);
-        }
+        GetComponent<CharacterMovementController>().SetGrabbedObject(stroller);
+        GetComponent<CharacterMovementController>().SetPlayerID(ID);
         index = 0;
     }
 
