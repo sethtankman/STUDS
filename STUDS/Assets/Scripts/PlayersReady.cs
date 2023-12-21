@@ -113,7 +113,7 @@ public class PlayersReady : MonoBehaviour
                         netManager.ServerChangeScene("NetDowntown");
                     } else if (gameObject.CompareTag("Dodgeball"))
                     {
-                        netManager.ServerChangeScene("Dodgeball");
+                        netManager.ServerChangeScene("NetDodgeball");
                     }
                 }
             }
