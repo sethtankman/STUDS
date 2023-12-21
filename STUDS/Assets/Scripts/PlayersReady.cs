@@ -69,6 +69,10 @@ public class PlayersReady : MonoBehaviour
                     {
                         SceneManager.LoadScene("Downtown_prototype");
                     }
+                    else if (gameObject.CompareTag("Dodgeball"))
+                    {
+                        SceneManager.LoadScene("Dodgeball");
+                    }
 
                 }
             }
