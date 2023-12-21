@@ -107,6 +107,9 @@ public class PlayersReady : MonoBehaviour
                     else if (gameObject.CompareTag("Downtown"))
                     {
                         netManager.ServerChangeScene("NetDowntown");
+                    } else if (gameObject.CompareTag("Dodgeball"))
+                    {
+                        netManager.ServerChangeScene("Dodgeball");
                     }
                 }
             }
