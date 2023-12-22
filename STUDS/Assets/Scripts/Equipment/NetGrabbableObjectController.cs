@@ -94,14 +94,26 @@ public class NetGrabbableObjectController : NetworkBehaviour
         
         if (localGO)
         {
-            foreach (MeshRenderer rend in GetComponentsInChildren<MeshRenderer>())
+            GameObject lerpGO = Instantiate(localGO, localGO.transform.position, localGO.transform.rotation);
+            //stop rendering the localGO
+            foreach (MeshRenderer rend in localGO.GetComponentsInChildren<MeshRenderer>())
             {
-                rend.enabled = true;
+                rend.enabled = false;
             }
-            Destroy(localGO);
+            //Create a new localGO
+            lerpGO.GetComponent<LocalGrabbableObjectController>().SetLocalT(localGO.transform);
+            lerpGO.GetComponent<LocalGrabbableObjectController>().SetLerp(true);
         }
          
         return gameObject;
     }
 
+    public void RenderNetworkedGO()
+    {
+        foreach (MeshRenderer rend in GetComponentsInChildren<MeshRenderer>())
+        {
+            rend.enabled = true;
+        }
+        Destroy(localGO);
+    }
 }
