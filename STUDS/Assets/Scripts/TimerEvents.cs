@@ -32,6 +32,12 @@ public class TimerEvents : MonoBehaviour {
     {
         _timing = false;
     }
+
+    public void ResetTimer()
+    {
+        _timing = false;
+        time = 0f;
+    }
 	
 	// Update is called once per frame
 	void Update ()

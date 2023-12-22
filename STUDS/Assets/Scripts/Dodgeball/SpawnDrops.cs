@@ -26,7 +26,7 @@ public class SpawnDrops : MonoBehaviour {
             Spawn(NumToSpawn);
     }
 
-    void Spawn(int num)
+    public void Spawn(int num)
     {
         items = new GameObject[num];
         int numTrack = 0;
