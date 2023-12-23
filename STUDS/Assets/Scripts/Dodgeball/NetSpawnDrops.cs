@@ -3,7 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class NetSpawnDrops : NetworkBehaviour {
+public class NetSpawnDrops : NetworkBehaviour
+{
 
     public int NumToSpawn = 3;
     public bool SpawnOnStart = true;
@@ -12,7 +13,7 @@ public class NetSpawnDrops : NetworkBehaviour {
     [Tooltip("Each drop will be randomized.")]
     public bool _RandomizeAll;
     GameObject[] items;
-    
+
 
     // For the object to show up in Editor if need be.
     void OnDrawGizmos()
@@ -23,7 +24,7 @@ public class NetSpawnDrops : NetworkBehaviour {
 
     private void Start()
     {
-        if(isServer && SpawnOnStart)
+        if (isServer && SpawnOnStart)
             Spawn(NumToSpawn);
     }
 
@@ -80,7 +81,7 @@ public class NetSpawnDrops : NetworkBehaviour {
         }
 
         if (lifetimeOfDrops <= 0)
-            Destroy(this.gameObject);
+            NetworkServer.Destroy(this.gameObject);
         else
             StartCoroutine(CountdownForRemoval());
     }
@@ -90,11 +91,10 @@ public class NetSpawnDrops : NetworkBehaviour {
     protected virtual IEnumerator CountdownForRemoval()
     {
         yield return new WaitForSeconds(lifetimeOfDrops);
-
         foreach (GameObject i in items)
-            Destroy(i);
+            NetworkServer.Destroy(i);
 
-        Destroy(this.gameObject);
+        NetworkServer.Destroy(this.gameObject);
     }
 
 }

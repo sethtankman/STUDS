@@ -720,7 +720,6 @@ public class NetworkCharacterMovementController : NetworkBehaviour
             {
                 if(collider.isTrigger && pickupPressed && !hasGrabbed)
                 {
-                    CmdPickupFromCart(collider.GetComponent<NetworkIdentity>().netId);
 
                     GrabSound.Post(gameObject);
                     moveSpeed = moveSpeedGrab;
@@ -769,6 +768,10 @@ public class NetworkCharacterMovementController : NetworkBehaviour
             }
             else if (collider.CompareTag("ShoppingCart"))
             {
+                CmdPickupFromCart(collider.GetComponent<NetworkIdentity>().netId);
+                GrabSound.Post(gameObject);
+                moveSpeed = moveSpeedGrab;
+                pickupPressed = false;
             }
         }
     }
