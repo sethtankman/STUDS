@@ -11,8 +11,6 @@ GameObject:
   - component: {fileID: 4566896733077531079}
   - component: {fileID: 4566896733077531076}
   - component: {fileID: 4566896733077531078}
-  - component: {fileID: 4566896733077531081}
-  - component: {fileID: 4566896733077531080}
   - component: {fileID: 4566896733077531083}
   - component: {fileID: 4566896733077531082}
   - component: {fileID: 4566896733077531085}
@@ -57,6 +55,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 4566896733077531078}
+        m_TargetAssemblyTypeName: 
         m_MethodName: HandleGameStart
         m_Mode: 0
         m_Arguments:
@@ -105,57 +104,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startCam: {fileID: 0}
+  pauseMenuUI: {fileID: 0}
   startText: {fileID: 0}
   playerColor1: {fileID: 2100000, guid: 2a137063db3863a4395d2d95ba1571dc, type: 2}
   playerColor2: {fileID: 2100000, guid: c73fa43aa9f23484080b0b3db09f939b, type: 2}
   playerColor3: {fileID: 2100000, guid: 6046493c437a2eb41b3744161aa7e452, type: 2}
   playerColor4: {fileID: 2100000, guid: 6046493c437a2eb41b3744161aa7e452, type: 2}
---- !u!114 &4566896733077531081
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4566896733077531077}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 718c64faa74c73b49b9c890fa99e8703, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  PauseMenuUI: {fileID: 0}
-  ResumeText: {fileID: 0}
-  MenuText: {fileID: 0}
-  OptionsText: {fileID: 0}
-  QuitText: {fileID: 0}
-  newFontsize01: 40
-  newFontsize02: 52
-  oneCycle: 0
---- !u!114 &4566896733077531080
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4566896733077531077}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2970e99bff52cc346bddc0ecee194542, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  PauseMenuUI: {fileID: 0}
-  OptionsMenuUI: {fileID: 0}
-  CreditsMenu: {fileID: 0}
-  theImage: {fileID: 0}
-  theImage01: {fileID: 0}
-  theImage02: {fileID: 0}
-  theImage03: {fileID: 0}
-  ResumeText: {fileID: 0}
-  MenuText: {fileID: 0}
-  OptionsText: {fileID: 0}
-  QuitText: {fileID: 0}
-  newFontsize01: 0
-  newFontsize02: 0
-  oneCycle: 0
 --- !u!114 &4566896733077531083
 MonoBehaviour:
   m_ObjectHideFlags: 0
