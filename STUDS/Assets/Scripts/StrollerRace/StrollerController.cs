@@ -9,7 +9,7 @@ public class StrollerController : MonoBehaviour
     public GameObject player;
 
     public int StrollerID;
-    private string strollerColor;
+    public string strollerColor;
 
     public Material strollerColor1;
     public Material strollerColor2;

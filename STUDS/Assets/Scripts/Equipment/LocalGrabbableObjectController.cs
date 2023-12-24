@@ -26,7 +26,7 @@ public class LocalGrabbableObjectController : MonoBehaviour
             float t = (float)((DateTime.Now - start).TotalMilliseconds / 500);
             Vector3 localProjection = offset + networkedGO.transform.position; 
             transform.position = Vector3.Lerp(localProjection, networkedGO.transform.position, t);
-            Debug.Log($"t = {t}, Position = {transform.position - localProjection}");
+            // Debug.Log($"t = {t}, Position = {transform.position - localProjection}");
             transform.rotation = Quaternion.Lerp(localT.rotation, networkedGO.transform.rotation, t);
             if (t > 1.0f)
             {
