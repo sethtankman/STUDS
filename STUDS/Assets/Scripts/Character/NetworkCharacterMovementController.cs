@@ -848,7 +848,7 @@ public class NetworkCharacterMovementController : NetworkBehaviour
         //Debug.Log("CmdPickupObject: " + obj.name);
         hasGrabbed = true;
         grabbedObject = NetworkServer.spawned[objID].GetComponent<NetGrabbableObjectController>().LocalPickupObject(transform);
-        RpcPickupObject(grabbedObjectID);
+        RpcPickupObject(objID);
         if (NetworkServer.spawned[objID].GetComponent<ShoppingItem>())
             NetworkServer.spawned[objID].GetComponent<ShoppingItem>().SetPlayer(gameObject);
         if(NetworkServer.spawned[objID].GetComponent<StrollerController>())
