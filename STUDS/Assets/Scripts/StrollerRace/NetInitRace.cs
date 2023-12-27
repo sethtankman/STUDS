@@ -60,6 +60,7 @@ public class NetInitRace : NetworkBehaviour
                     RpcDetermineColor(players[i].GetComponent<NetworkCharacterMovementController>().GetColorName(), 
                         stroller.GetComponent<NetworkIdentity>().netId, 
                         players[i].GetComponent<NetworkCharacterMovementController>().getPlayerID());
+                    players[i].GetComponent<NetworkCharacterMovementController>().inStrollerRace = true;
                 }
             }
         }

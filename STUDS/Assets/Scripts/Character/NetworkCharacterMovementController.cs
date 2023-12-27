@@ -60,6 +60,7 @@ public class NetworkCharacterMovementController : NetworkBehaviour
     [SerializeField]
     private bool hasGrabbed = false;
     public bool pickupPressed;
+    public bool inStrollerRace = false;
     public bool throwPressed = false;
     [SyncVar]
     private bool isReady = false;
@@ -621,7 +622,7 @@ public class NetworkCharacterMovementController : NetworkBehaviour
                 GameObject networkedGO = grabbedObject.GetComponentInChildren<LocalGrabbableObjectController>().networkedGO;
                 grabbedObject.GetComponentInChildren<LocalGrabbableObjectController>().LocalLetGo();
                 grabbedObject = networkedGO;
-                if(grabbedObject.GetComponent<StrollerController>())
+                if(inStrollerRace && grabbedObject.GetComponent<StrollerController>())
                     GetComponentInChildren<StrollerLocator>().SetActive(true);
                 CmdLetGo(grabbedObject.GetComponent<NetworkIdentity>().netId); 
             }
@@ -668,7 +669,7 @@ public class NetworkCharacterMovementController : NetworkBehaviour
         Vector3 localPos = grabbedObject.transform.position;
         grabbedObject.GetComponentInChildren<LocalGrabbableObjectController>().LocalLetGo();
         grabbedObject = networkedObj;
-        if(grabbedObject.GetComponent<StrollerController>())
+        if(inStrollerRace && grabbedObject.GetComponent<StrollerController>())
             GetComponentInChildren<StrollerLocator>().SetActive(true);
         CmdLetGo(grabbedObject.GetComponent<NetworkIdentity>().netId);
 
@@ -938,7 +939,7 @@ public class NetworkCharacterMovementController : NetworkBehaviour
         if (NetworkClient.spawned.ContainsKey(objID))
         {
             GameObject releasedObj = NetworkClient.spawned[objID].GetComponent<NetGrabbableObjectController>().LocalLetGo();
-            if(releasedObj.GetComponent<StrollerController>())
+            if(inStrollerRace && releasedObj.GetComponent<StrollerController>())
                 GetComponentInChildren<StrollerLocator>().SetActive(true);
         } 
         else

@@ -13,7 +13,7 @@ public class PlayerAssigner : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            if (hasPLRLink == false)
+            if (other.GetComponent<NetworkCharacterMovementController>().inStrollerRace && hasPLRLink == false)
             {
                 LocatorArrows = other.GetComponentInChildren<StrollerLocator>();
                 if (LocatorArrows && LocatorArrows.HasLink() == false)

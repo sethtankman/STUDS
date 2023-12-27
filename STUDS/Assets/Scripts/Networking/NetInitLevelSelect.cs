@@ -29,6 +29,7 @@ public class NetInitLevelSelect : MonoBehaviour
                     player.SetActive(true);
                     player.GetComponentInChildren<StrollerLocator>().SetActive(false);
                 }
+                player.GetComponent<NetworkCharacterMovementController>().inStrollerRace = false;
                 ++i;
             }
             i = 0;
