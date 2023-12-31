@@ -7,6 +7,9 @@ public class GrabbableObjectController : MonoBehaviour
     public float distance, height;
     public List<Collider> additionalColliders;
     public Vector3 rotation;
+    public GameObject throwableArrowMedium;
+    public GameObject throwableArrowHeavy;
+    public bool isDodgeball = false;
 
     public void PickupObject()
     {
@@ -21,6 +24,19 @@ public class GrabbableObjectController : MonoBehaviour
         {
             GetComponent<ShoppingItem>().isBeingHeld = true;
         }
+        
+        if (isDodgeball)
+        {
+            if (gameObject.layer == 10)
+            {
+                throwableArrowMedium.SetActive(true);
+            }
+            if (gameObject.layer == 11)
+            {
+                throwableArrowHeavy.SetActive(true);
+            }
+        }
+
     }
 
     public void LetGo()
@@ -36,5 +52,17 @@ public class GrabbableObjectController : MonoBehaviour
         {
             GetComponent<ShoppingItem>().isBeingHeld = false;
         }
+        
+        if (isDodgeball)
+        {
+            if (gameObject.layer == 10)
+            {
+                throwableArrowMedium.SetActive(false);
+            }
+            if (gameObject.layer == 11)
+            {
+                throwableArrowHeavy.SetActive(false);
+            }
+        }        
     }
 }
