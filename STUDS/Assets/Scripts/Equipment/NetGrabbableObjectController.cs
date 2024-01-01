@@ -65,8 +65,7 @@ public class NetGrabbableObjectController : NetworkBehaviour
                     ++i;
                 }
                 offlineCopy.GetComponentInChildren<LocalCart>().LocalSetActiveItems(isActiveArr);
-            }
-            if (GetComponent<StrollerController>())
+            } else if (GetComponent<StrollerController>()) // The else if is necessary since shopping carts also have StrollerControllers.
             {
                 offlineCopy.GetComponent<StrollerController>().StrollerID = GetComponent<StrollerController>().StrollerID;
                 offlineCopy.GetComponent<StrollerController>().DetermineColor(GetComponent<StrollerController>().GetColor());
@@ -101,8 +100,8 @@ public class NetGrabbableObjectController : NetworkBehaviour
                 rend.enabled = false;
             }
             //Create a new localGO
-            lerpGO.GetComponent<LocalGrabbableObjectController>().SetLocalT(localGO.transform);
-            lerpGO.GetComponent<LocalGrabbableObjectController>().SetLerp(true);
+            lerpGO.GetComponentInChildren<LocalGrabbableObjectController>().SetLocalT(localGO.transform);
+            lerpGO.GetComponentInChildren<LocalGrabbableObjectController>().SetLerp(true);
         }
          
         return gameObject;
