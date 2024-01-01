@@ -721,11 +721,11 @@ public class NetworkCharacterMovementController : NetworkBehaviour
             {
                 if(collider.isTrigger && pickupPressed && !hasGrabbed)
                 {
-
-                    GrabSound.Post(gameObject);
+                    // TODO: Changed to take fix dodgeball pickup.  If picking up isn't broken anywhere in the game, simply remove and modify if/else.
+                    /*GrabSound.Post(gameObject);
                     moveSpeed = moveSpeedGrab;
                     pickupPressed = false;
-
+                    */
                 }
                 else
                 {
