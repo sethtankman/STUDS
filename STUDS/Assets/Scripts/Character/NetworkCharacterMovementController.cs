@@ -591,18 +591,10 @@ public class NetworkCharacterMovementController : NetworkBehaviour
     /// <param name="_drop">If the player should drop the object when hit</param>
     public void KnockBack(Vector3 direction, bool _drop)
     {
-        Debug.Log($"KBCalled on {name} with: {direction}");
-        knockBackCounter = knockBackTime;
-        beingKnockedBack = true;
-        drop = _drop;
-        if (_drop)
+        if (isServer) // This makes it so only the server can say when a player is hit by a knockback
         {
-            DropGrabbedItem();
-            if (cameraShake)
-                StartCoroutine(cameraShake.Shake(0.15f, 0.4f));
+            RpcKnockBack(direction, _drop);
         }
-        velocity = direction;
-
     }
 
     /// <summary>
@@ -906,6 +898,31 @@ public class NetworkCharacterMovementController : NetworkBehaviour
     public void CmdSetFinishPosition(int pos)
     {
         finishPosition = pos;
+    }
+
+    /// <summary>
+    /// Called on all clients after knockback happens on the server.
+    /// Only servers and local players have authority over their objects.
+    /// </summary>
+    /// <param name="direction"></param>
+    /// <param name="_drop"></param>
+    [ClientRpc]
+    private void RpcKnockBack(Vector3 direction, bool _drop)
+    {
+        if (isServer || isLocalPlayer)
+        {
+            Debug.Log($"KBCalled on {name} with: {direction}");
+            knockBackCounter = knockBackTime;
+            beingKnockedBack = true;
+            drop = _drop;
+            if (_drop)
+            {
+                DropGrabbedItem();
+                if (cameraShake)
+                    StartCoroutine(cameraShake.Shake(0.15f, 0.4f));
+            }
+            velocity = direction;
+        }
     }
 
     [ClientRpc]
