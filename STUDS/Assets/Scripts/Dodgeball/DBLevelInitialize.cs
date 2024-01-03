@@ -35,7 +35,12 @@ public class DBLevelInitialize : MonoBehaviour
     {
         GameObject.Find("Music Manager").GetComponent<Music_Manager>().PlayStopMusic("Menu", false);
         GameObject.Find("Music Manager").GetComponent<Music_Manager>().PlayStopMusic("Stroller", true);
-        players = ManagePlayerHub.Instance.getPlayers();
+        if (ManagePlayerHub.Instance)
+            players = ManagePlayerHub.Instance.getPlayers();
+        else if (NetGameManager.Instance)
+            players = NetGameManager.Instance.getPlayers();
+        else
+            Debug.LogWarning("Manage Player Hub not found!");
         PlayerInputManager.instance.DisableJoining();
         if(pauseMenuUI)
             GameObject.Find("GameManager").GetComponent<PauseV2>().PauseMenuUI = pauseMenuUI;
