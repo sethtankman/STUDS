@@ -9,6 +9,7 @@ public class GrabbableObjectController : MonoBehaviour
     public Vector3 rotation;
     public GameObject throwableArrowMedium;
     public GameObject throwableArrowHeavy;
+    public GameObject throwableArrowLight;
     public bool isDodgeball = false;
 
     public void PickupObject()
@@ -34,6 +35,10 @@ public class GrabbableObjectController : MonoBehaviour
             if (gameObject.layer == 11)
             {
                 throwableArrowHeavy.SetActive(true);
+            }
+            if (gameObject.layer == 12)
+            {
+                throwableArrowLight.SetActive(true);
             }
         }
 
@@ -62,6 +67,10 @@ public class GrabbableObjectController : MonoBehaviour
             if (gameObject.layer == 11)
             {
                 throwableArrowHeavy.SetActive(false);
+            }
+            if (gameObject.layer == 12)
+            {
+                throwableArrowLight.SetActive(false);
             }
         }        
     }
