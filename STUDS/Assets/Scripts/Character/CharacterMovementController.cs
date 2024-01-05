@@ -532,6 +532,8 @@ public class CharacterMovementController : MonoBehaviour
         {
             //Debug.Log("Resetting forward vector");
             forward = Vector3.Normalize(target.transform.position - transform.position);
+            if (grabbedObject.GetComponent<GrabbableObjectController>().isDodgeball)
+                grabbedObject.GetComponent<GrabbableObjectController>().SetHoming(true);
         }
         Vector3 throwingForce = forward * throwForce * 2.3f;
         Vector3 movementAdjust = forward * direction.magnitude * moveSpeedGrab * 40;

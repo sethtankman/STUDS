@@ -11,6 +11,15 @@ public class GrabbableObjectController : MonoBehaviour
     public GameObject throwableArrowHeavy;
     public GameObject throwableArrowLight;
     public bool isDodgeball = false;
+    private bool homing = false;
+
+    private void Update()
+    {
+        if (homing)
+        {
+            //GetComponent<Rigidbody>().velocity 
+        }
+    }
 
     public void PickupObject()
     {
@@ -73,5 +82,10 @@ public class GrabbableObjectController : MonoBehaviour
                 throwableArrowLight.SetActive(false);
             }
         }        
+    }
+
+    public void SetHoming(bool tf)
+    {
+        homing = tf;
     }
 }
