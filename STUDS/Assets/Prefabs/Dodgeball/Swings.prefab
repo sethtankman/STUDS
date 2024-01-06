@@ -131,6 +131,8 @@ GameObject:
   - component: {fileID: 596364748532348819}
   - component: {fileID: 748648000677403781}
   - component: {fileID: 6671684970251613900}
+  - component: {fileID: 4357808913857501488}
+  - component: {fileID: 1272089758136393109}
   m_Layer: 0
   m_Name: Swing02
   m_TagString: Untagged
@@ -211,7 +213,7 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 724931740225828352}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: b38516775a5641845a8bb6c9bdcf7bd5, type: 2}
   m_CullingMode: 0
@@ -222,6 +224,34 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &4357808913857501488
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 724931740225828352}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea6a30cb62c258d41a5a16663cd7232a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timeToDelay: 0.4
+  animatedObject: {fileID: 0}
+--- !u!64 &1272089758136393109
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 724931740225828352}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -1118864527174374103, guid: 095db38e755d6bf48b9a78388f5d4280, type: 3}
 --- !u!1 &1624596932205818836
 GameObject:
   m_ObjectHideFlags: 0
@@ -582,6 +612,7 @@ GameObject:
   - component: {fileID: 8874698575885058190}
   - component: {fileID: 1965181183687283084}
   - component: {fileID: 1536194982108846205}
+  - component: {fileID: 3234894931073251501}
   m_Layer: 0
   m_Name: Swing01
   m_TagString: Untagged
@@ -687,6 +718,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   timeToDelay: 1
   animatedObject: {fileID: 4611619496953422992}
+--- !u!64 &3234894931073251501
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4611619496953422992}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 74772737209783551, guid: 095db38e755d6bf48b9a78388f5d4280, type: 3}
 --- !u!1 &4935554254705305328
 GameObject:
   m_ObjectHideFlags: 0
