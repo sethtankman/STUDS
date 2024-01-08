@@ -10,14 +10,33 @@ public class GrabbableObjectController : MonoBehaviour
     public GameObject throwableArrowMedium;
     public GameObject throwableArrowHeavy;
     public GameObject throwableArrowLight;
+    public GameObject target;
     public bool isDodgeball = false;
-    private bool homing = false;
+    private bool homing = false, dirMagCaptured = false;
+    private float ogDirMag = 0;
 
     private void Update()
     {
         if (homing)
         {
-            //GetComponent<Rigidbody>().velocity 
+            if (!dirMagCaptured && GetComponent<Rigidbody>().velocity.magnitude > 1.0f)
+            {
+                ogDirMag = new Vector2(GetComponent<Rigidbody>().velocity.x, GetComponent<Rigidbody>().velocity.z).magnitude;
+                dirMagCaptured = true;
+            }
+            Vector3 newDir = target.transform.position - transform.position;
+            newDir = newDir.normalized * ogDirMag;
+            Debug.Log($"Homing! OG: {ogDirMag}, newDir: {newDir}");
+            GetComponent<Rigidbody>().velocity = new Vector3(newDir.x, GetComponent<Rigidbody>().velocity.y, newDir.z);
+        }
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Ground"))
+        {
+            homing = false;
+            dirMagCaptured = false;
         }
     }
 
@@ -84,8 +103,9 @@ public class GrabbableObjectController : MonoBehaviour
         }        
     }
 
-    public void SetHoming(bool tf)
+    public void SetHoming(bool tf, GameObject _target)
     {
         homing = tf;
+        target = _target;
     }
 }

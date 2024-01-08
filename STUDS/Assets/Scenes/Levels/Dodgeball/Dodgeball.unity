@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 776730979}
-  m_IndirectSpecularColor: {r: 0.22418097, g: 0.62828076, b: 0.87369883, a: 1}
+  m_IndirectSpecularColor: {r: 0.047634125, g: 0.37732342, b: 0.934799, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -13719,7 +13719,8 @@ PrefabInstance:
       propertyPath: AiOBJ.Array.data[2]
       value: 
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 4566896733077531078, guid: 2c74d89f4637cfc4dae059f1100bce42, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 2c74d89f4637cfc4dae059f1100bce42, type: 3}
 --- !u!4 &363563711 stripped
 Transform:
@@ -14238,6 +14239,80 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 372025486}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1001 &374592605
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 556835471894749917, guid: 753e681864132214fb0d23e1a26532b0,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 556835471894749917, guid: 753e681864132214fb0d23e1a26532b0,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 6.309928
+      objectReference: {fileID: 0}
+    - target: {fileID: 556835471894749917, guid: 753e681864132214fb0d23e1a26532b0,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.14999998
+      objectReference: {fileID: 0}
+    - target: {fileID: 556835471894749917, guid: 753e681864132214fb0d23e1a26532b0,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 11.22
+      objectReference: {fileID: 0}
+    - target: {fileID: 556835471894749917, guid: 753e681864132214fb0d23e1a26532b0,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 556835471894749917, guid: 753e681864132214fb0d23e1a26532b0,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 556835471894749917, guid: 753e681864132214fb0d23e1a26532b0,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 556835471894749917, guid: 753e681864132214fb0d23e1a26532b0,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 556835471894749917, guid: 753e681864132214fb0d23e1a26532b0,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 556835471894749917, guid: 753e681864132214fb0d23e1a26532b0,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 556835471894749917, guid: 753e681864132214fb0d23e1a26532b0,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 932691824398563431, guid: 753e681864132214fb0d23e1a26532b0,
+        type: 3}
+      propertyPath: m_Name
+      value: Rigged_Dad
+      objectReference: {fileID: 0}
+    - target: {fileID: 7703250766489200880, guid: 753e681864132214fb0d23e1a26532b0,
+        type: 3}
+      propertyPath: isAI
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 753e681864132214fb0d23e1a26532b0, type: 3}
 --- !u!1001 &377170832
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -18788,6 +18863,7 @@ MonoBehaviour:
   throwableArrowMedium: {fileID: 0}
   throwableArrowHeavy: {fileID: 0}
   throwableArrowLight: {fileID: 0}
+  target: {fileID: 0}
   isDodgeball: 0
 --- !u!114 &503212419
 MonoBehaviour:
@@ -20111,6 +20187,7 @@ MonoBehaviour:
   throwableArrowMedium: {fileID: 0}
   throwableArrowHeavy: {fileID: 0}
   throwableArrowLight: {fileID: 0}
+  target: {fileID: 0}
   isDodgeball: 0
 --- !u!114 &546044190
 MonoBehaviour:
@@ -20479,7 +20556,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &565685252
 GameObject:
@@ -33620,6 +33697,7 @@ MonoBehaviour:
   throwableArrowMedium: {fileID: 0}
   throwableArrowHeavy: {fileID: 0}
   throwableArrowLight: {fileID: 0}
+  target: {fileID: 0}
   isDodgeball: 0
 --- !u!114 &929716044
 MonoBehaviour:
@@ -62651,7 +62729,7 @@ Transform:
   - {fileID: 343919325}
   - {fileID: 658143028}
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1492461018
 GameObject:
@@ -70970,6 +71048,7 @@ MonoBehaviour:
   throwableArrowMedium: {fileID: 0}
   throwableArrowHeavy: {fileID: 0}
   throwableArrowLight: {fileID: 0}
+  target: {fileID: 0}
   isDodgeball: 0
 --- !u!114 &1733193383
 MonoBehaviour:

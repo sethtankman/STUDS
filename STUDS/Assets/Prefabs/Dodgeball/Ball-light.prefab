@@ -57,16 +57,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e6c75dba9b09664d866479b179f9726, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  directionVector: {x: 0, y: 0, z: 0}
-  KBForce: 0
+  directionVector: {x: 0, y: 1, z: 0}
+  KBForce: 10
   makePlayerDrop: 1
   KBSound:
     idInternal: 0
     valueGuidInternal: 
     WwiseObjectReference: {fileID: 0}
   slidethrough: 0
-  reflective: 0
-  directional: 0
+  reflective: 1
+  directional: 1
   owner: 
 --- !u!1 &6245996945508181891
 GameObject:
@@ -204,6 +204,7 @@ MonoBehaviour:
   throwableArrowMedium: {fileID: 5116922509735194768}
   throwableArrowHeavy: {fileID: 6178212170320384047}
   throwableArrowLight: {fileID: 4359076499494338180}
+  target: {fileID: 0}
   isDodgeball: 1
 --- !u!54 &6245996945508181893
 Rigidbody:
