@@ -12,8 +12,21 @@ public class GrabbableObjectController : MonoBehaviour
     public GameObject throwableArrowLight;
     public GameObject target;
     public bool isDodgeball = false;
+    public bool isDropped = true;
+    public Material PickedUpMaterial;
+    public Material DroppedMaterial;
+    public MeshRenderer dodgeballRenderer;
     private bool homing = false, dirMagCaptured = false;
     private float ogDirMag = 0;
+    public float materialLerpDuration = 1.5f;
+
+    public void Start()
+    {
+        if (isDodgeball)
+        {
+            dodgeballRenderer.material = DroppedMaterial;
+        }
+    }
 
     private void Update()
     {
@@ -28,6 +41,12 @@ public class GrabbableObjectController : MonoBehaviour
             newDir = newDir.normalized * ogDirMag;
             Debug.Log($"Homing! OG: {ogDirMag}, newDir: {newDir}");
             GetComponent<Rigidbody>().velocity = new Vector3(newDir.x, GetComponent<Rigidbody>().velocity.y, newDir.z);
+        }
+
+        if (isDodgeball && isDropped)
+        {
+            float lerp = Mathf.PingPong(Time.time, materialLerpDuration) / materialLerpDuration;
+            dodgeballRenderer.material.Lerp(DroppedMaterial, PickedUpMaterial, lerp);
         }
     }
 
@@ -56,6 +75,9 @@ public class GrabbableObjectController : MonoBehaviour
         
         if (isDodgeball)
         {
+            dodgeballRenderer.material = PickedUpMaterial;
+            isDropped = false;
+
             if (gameObject.layer == 10)
             {
                 throwableArrowMedium.SetActive(true);
@@ -88,6 +110,9 @@ public class GrabbableObjectController : MonoBehaviour
         
         if (isDodgeball)
         {
+            dodgeballRenderer.material = DroppedMaterial;
+            isDropped = true;
+
             if (gameObject.layer == 10)
             {
                 throwableArrowMedium.SetActive(false);
