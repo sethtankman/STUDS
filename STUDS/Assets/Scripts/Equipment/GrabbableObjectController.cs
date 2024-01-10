@@ -24,6 +24,7 @@ public class GrabbableObjectController : MonoBehaviour
     {
         if (isDodgeball)
         {
+            //set dodgeball material without highlight outline
             dodgeballRenderer.material = DroppedMaterial;
         }
     }
@@ -45,8 +46,8 @@ public class GrabbableObjectController : MonoBehaviour
 
         if (isDodgeball && isDropped)
         {
-            float lerp = Mathf.PingPong(Time.time, materialLerpDuration) / materialLerpDuration;
-            dodgeballRenderer.material.Lerp(DroppedMaterial, PickedUpMaterial, lerp);
+            //lerp between highlight outline and non-outlined materials
+            BallMaterialLerp();
         }
     }
 
@@ -75,21 +76,8 @@ public class GrabbableObjectController : MonoBehaviour
         
         if (isDodgeball)
         {
-            dodgeballRenderer.material = PickedUpMaterial;
-            isDropped = false;
-
-            if (gameObject.layer == 10)
-            {
-                throwableArrowMedium.SetActive(true);
-            }
-            if (gameObject.layer == 11)
-            {
-                throwableArrowHeavy.SetActive(true);
-            }
-            if (gameObject.layer == 12)
-            {
-                throwableArrowLight.SetActive(true);
-            }
+            //set material and throw line preview
+            PickUpDodgeball();
         }
 
     }
@@ -110,21 +98,8 @@ public class GrabbableObjectController : MonoBehaviour
         
         if (isDodgeball)
         {
-            dodgeballRenderer.material = DroppedMaterial;
-            isDropped = true;
-
-            if (gameObject.layer == 10)
-            {
-                throwableArrowMedium.SetActive(false);
-            }
-            if (gameObject.layer == 11)
-            {
-                throwableArrowHeavy.SetActive(false);
-            }
-            if (gameObject.layer == 12)
-            {
-                throwableArrowLight.SetActive(false);
-            }
+            //set material and throw line preview
+            DropDodgeball();
         }        
     }
 
@@ -132,5 +107,49 @@ public class GrabbableObjectController : MonoBehaviour
     {
         homing = tf;
         target = _target;
+    }
+
+    public void BallMaterialLerp()
+    {
+        float lerp = Mathf.PingPong(Time.time, materialLerpDuration) / materialLerpDuration;
+        dodgeballRenderer.material.Lerp(PickedUpMaterial, DroppedMaterial, lerp);
+    }
+
+    public void PickUpDodgeball()
+    {
+        dodgeballRenderer.material = PickedUpMaterial;
+        isDropped = false;
+
+        if (gameObject.layer == 10)
+        {
+            throwableArrowMedium.SetActive(true);
+        }
+        if (gameObject.layer == 11)
+        {
+            throwableArrowHeavy.SetActive(true);
+        }
+        if (gameObject.layer == 12)
+        {
+            throwableArrowLight.SetActive(true);
+        }
+    }
+
+    public void DropDodgeball()
+    {
+        dodgeballRenderer.material = DroppedMaterial;
+        isDropped = true;
+
+        if (gameObject.layer == 10)
+        {
+            throwableArrowMedium.SetActive(false);
+        }
+        if (gameObject.layer == 11)
+        {
+            throwableArrowHeavy.SetActive(false);
+        }
+        if (gameObject.layer == 12)
+        {
+            throwableArrowLight.SetActive(false);
+        }
     }
 }
