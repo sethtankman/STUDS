@@ -11,6 +11,8 @@ public class KnockBack : MonoBehaviour
     public bool slidethrough = false, reflective, directional;
     private Collider PaintColl;
     public string owner;
+
+    public GameObject KnockBackFX;
     
 
     private void Start()
@@ -49,6 +51,7 @@ public class KnockBack : MonoBehaviour
                 Debug.Log("direction: " + direction.ToString() + " Force " + KBForce + " MakePlayerDrop " + makePlayerDrop);
 
                 other.gameObject.GetComponent<CharacterMovementController>().KnockBack(direction * KBForce, makePlayerDrop);
+                Instantiate(KnockBackFX, other.transform.position, Quaternion.identity);
                 if (!KBSound.Equals("") && other.gameObject.GetComponent<CharacterMovementController>().isAI == false)
                 {
                     KBSound.Post(gameObject);
