@@ -575,7 +575,7 @@ public class CharacterMovementController : MonoBehaviour
                     GrabSound.Post(gameObject);
                     //grabSound.Play();
                     grabbedObject = collider.gameObject;
-                    grabbedObject.GetComponent<GrabbableObjectController>().PickupObject();
+                    grabbedObject.GetComponent<GrabbableObjectController>().PickupObject(color);
                     moveSpeed = moveSpeedGrab;
                     hasGrabbed = true;
                     pickupPressed = false;
@@ -600,7 +600,7 @@ public class CharacterMovementController : MonoBehaviour
                 if (givenObject)
                 {
                     GameObject takenObject = Instantiate(givenObject, gameObject.transform.position + (transform.forward * 1.3f) + (transform.up * 0.7f), Quaternion.identity);
-                    takenObject.GetComponent<GrabbableObjectController>().PickupObject();
+                    takenObject.GetComponent<GrabbableObjectController>().PickupObject(color);
                     grabbedObject = takenObject;
                     takenObject.GetComponent<ShoppingItem>().SetPlayer(this.gameObject);
                     animator.SetBool("isHoldingSomething", true);

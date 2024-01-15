@@ -30,11 +30,20 @@ public class KnockBack : MonoBehaviour
         {
             if (other.GetComponent<CharacterMovementController>())
             {
-                if (gameObject.GetComponentInParent<StrollerController>())
+                if (GetComponentInParent<StrollerController>())
                 {
-                    string otherColor = other.gameObject.GetComponent<CharacterMovementController>().GetColorName();
+                    string otherColor = other.GetComponent<CharacterMovementController>().GetColorName();
                     string myColor = gameObject.GetComponentInParent<StrollerController>().GetColor();
                     if (otherColor != null && myColor.Equals(otherColor))
+                    {
+                        return;
+                    }
+                }
+                else if (GetComponentInParent<GrabbableObjectController>())
+                {
+                    GetComponentInParent<GrabbableObjectController>().SetHoming(false, null);
+                    Debug.Log($"1: {GetComponentInParent<GrabbableObjectController>().throwerColor}, 2: {other.GetComponent<CharacterMovementController>().GetColorName()}");
+                    if (GetComponentInParent<GrabbableObjectController>().throwerColor == other.GetComponent<CharacterMovementController>().GetColorName())
                     {
                         return;
                     }
@@ -46,12 +55,17 @@ public class KnockBack : MonoBehaviour
                 }
                 if (directional)
                 {
+                    directionVector = directionVector.normalized;
+                    direction.x *= 1 - directionVector.x;
+                    direction.y *= 1 - directionVector.y;
+                    direction.z *= 1 - directionVector.z;
                     direction += directionVector.normalized;
                 }
                 Debug.Log("direction: " + direction.ToString() + " Force " + KBForce + " MakePlayerDrop " + makePlayerDrop);
 
-                other.gameObject.GetComponent<CharacterMovementController>().KnockBack(direction * KBForce, makePlayerDrop);
-                Instantiate(KnockBackFX, other.transform.position, Quaternion.identity);
+                other.GetComponent<CharacterMovementController>().KnockBack(direction * KBForce, makePlayerDrop);
+                if(KnockBackFX)
+                    Instantiate(KnockBackFX, other.transform.position, Quaternion.identity);
                 if (!KBSound.Equals("") && other.gameObject.GetComponent<CharacterMovementController>().isAI == false)
                 {
                     KBSound.Post(gameObject);

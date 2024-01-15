@@ -14,7 +14,7 @@ public class DBLevelInitialize : MonoBehaviour
     public GameObject playerPrefab;
 
     private bool spawnedPlayers = false;
-    public float waitTime = 5f;
+    public float waitTime = 5.0f;
     private float currentTime = 0;
 
     //public Material strollerColor1;

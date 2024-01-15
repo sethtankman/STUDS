@@ -18,6 +18,7 @@ public class GrabbableObjectController : MonoBehaviour
     public MeshRenderer dodgeballRenderer;
     private bool homing = false, dirMagCaptured = false;
     private float ogDirMag = 0;
+    public string throwerColor = "";
     public float materialLerpDuration = 1.5f;
 
     public void Start()
@@ -40,7 +41,7 @@ public class GrabbableObjectController : MonoBehaviour
             }
             Vector3 newDir = target.transform.position - transform.position;
             newDir = newDir.normalized * ogDirMag;
-            Debug.Log($"Homing! OG: {ogDirMag}, newDir: {newDir}");
+            // Debug.Log($"Homing! OG: {ogDirMag}, newDir: {newDir}");
             GetComponent<Rigidbody>().velocity = new Vector3(newDir.x, GetComponent<Rigidbody>().velocity.y, newDir.z);
         }
 
@@ -57,14 +58,18 @@ public class GrabbableObjectController : MonoBehaviour
         {
             homing = false;
             dirMagCaptured = false;
+            throwerColor = "";
+            GetComponent<CombatThrow>().knockBack.GetComponent<KnockBack>().owner = "";
+            GetComponent<CombatThrow>().knockBack.SetActive(false);
         }
     }
 
-    public void PickupObject()
+    public void PickupObject(string _color)
     {
         gameObject.GetComponent<Rigidbody>().isKinematic = true;
         gameObject.GetComponent<Rigidbody>().useGravity = false;
         GetComponent<Collider>().enabled = false;
+        throwerColor = _color;
         foreach (Collider collider in additionalColliders)
         {
             collider.enabled = false;
