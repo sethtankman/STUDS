@@ -66,6 +66,8 @@ public class KnockBack : MonoBehaviour
                 other.GetComponent<CharacterMovementController>().KnockBack(direction * KBForce, makePlayerDrop);
                 if(KnockBackFX)
                     Instantiate(KnockBackFX, other.transform.position, Quaternion.identity);
+                if (GetComponent<HitScore>())
+                    GetComponent<HitScore>().RecordHit(GetComponentInParent<GrabbableObjectController>().throwerColor);
                 if (!KBSound.Equals("") && other.gameObject.GetComponent<CharacterMovementController>().isAI == false)
                 {
                     KBSound.Post(gameObject);

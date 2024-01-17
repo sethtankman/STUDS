@@ -124,7 +124,6 @@ public class NetGameManager : NetworkBehaviour
 
     private void OnEnable()
     {
-        //Debug.Log("Who enabled me?");
         if (SteamManager.Initialized)
         {
             m_GameOverlayActivated = Callback<GameOverlayActivated_t>.Create(OnGameOverlayActivated);
