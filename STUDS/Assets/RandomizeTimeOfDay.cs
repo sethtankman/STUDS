@@ -71,8 +71,8 @@ public class RandomizeTimeOfDay : MonoBehaviour
             DisableDebug();
 
             RandomSky = Random.Range(1, 4);
-            RandomRain = Random.Range(1, 3);
-            RandomFog = Random.Range(1, 3);
+            RandomRain = Random.Range(0, 2);
+            RandomFog = Random.Range(0, 2);
 
             //day
             if (RandomSky == 1)
@@ -106,11 +106,11 @@ public class RandomizeTimeOfDay : MonoBehaviour
 
     void SetWeather()
     {
-        if (RandomFog == 2)
+        if (RandomFog == 1)
         {
             Fog.SetActive(true);
         }
-        if (RandomRain == 2)
+        if (RandomRain == 1)
         {
             Rain.SetActive(true);
         }
