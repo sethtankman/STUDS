@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1683057779215399449}
   - component: {fileID: 1683057779215399454}
   m_Layer: 0
-  m_Name: Particle System
+  m_Name: Top Particles
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -26,7 +26,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1683057779215399452}
   m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 20, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1683057780551290613}
@@ -41,7 +41,7 @@ ParticleSystem:
   m_GameObject: {fileID: 1683057779215399452}
   serializedVersion: 7
   lengthInSec: 5
-  simulationSpeed: 1
+  simulationSpeed: 0.3
   stopAction: 0
   cullingMode: 0
   ringBufferMode: 0
@@ -285,7 +285,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 3
       scalar: 50
-      minScalar: 30
+      minScalar: 50
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -600,9 +600,9 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     randomizeRotationDirection: 0
-    maxNumParticles: 1000
+    maxNumParticles: 5000
     size3D: 0
-    rotation3D: 0
+    rotation3D: 1
     gravityModifier:
       serializedVersion: 2
       minMaxState: 0
@@ -742,7 +742,7 @@ ParticleSystem:
     m_TextureColorAffectsParticles: 1
     m_TextureAlphaAffectsParticles: 1
     m_TextureBilinearFiltering: 0
-    randomDirectionAmount: 0
+    randomDirectionAmount: 1
     sphericalDirectionAmount: 0
     randomPositionAmount: 0
     radius:
@@ -4799,7 +4799,7 @@ ParticleSystemRenderer:
   m_FreeformStretching: 0
   m_RotateWithStretchDirection: 1
   m_VertexStreams: 00010304
-  m_Mesh: {fileID: 0}
+  m_Mesh: {fileID: 4300016, guid: e83dabdd8814e2243a3581266264de31, type: 3}
   m_Mesh1: {fileID: 0}
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
