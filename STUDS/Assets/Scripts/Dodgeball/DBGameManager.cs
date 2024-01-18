@@ -11,6 +11,11 @@ public class DBGameManager : MonoBehaviour
     private void Start()
     {
         Instance = this;
+
+        foreach (GameObject player in ManagePlayerHub.Instance.getPlayers())
+        {
+            scores[player.GetComponent<CharacterMovementController>().color] = 0;
+        }
     }
 
     public void AddPoints(string owner, int pointValue)
@@ -18,6 +23,6 @@ public class DBGameManager : MonoBehaviour
         if (!scores.ContainsKey(owner))
             scores.Add(owner, 0);
         scores[owner] += pointValue;
-        scorePanel.UpdateScores();
+        scorePanel.UpdateScores(owner);
     }
 }
