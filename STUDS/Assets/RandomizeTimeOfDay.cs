@@ -71,8 +71,8 @@ public class RandomizeTimeOfDay : MonoBehaviour
             DisableDebug();
 
             RandomSky = Random.Range(1, 4);
-            RandomRain = Random.Range(0, 2);
-            RandomFog = Random.Range(0, 2);
+            RandomRain = Random.Range(0, 3); //33% chance of rain
+            RandomFog = Random.Range(0, 4); //25% chance of fog
 
             //day
             if (RandomSky == 1)
