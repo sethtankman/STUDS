@@ -14,6 +14,7 @@ public class DB_UI : MonoBehaviour
         foreach (GameObject player in ManagePlayerHub.Instance.players)
         {
             scoreOrder.Add(i, player.GetComponent<CharacterMovementController>().color);
+            Scores[i].text = $"{i+1}  {scoreOrder[i]}: 0";
             i++;
         }
     }
@@ -45,7 +46,7 @@ public class DB_UI : MonoBehaviour
         i = 0;
         while (i < DBGameManager.Instance.scores.Count)
         {
-            Scores[i].text = $"{scoreOrder[i]}: {DBGameManager.Instance.scores[scoreOrder[i]]}";
+            Scores[i].text = $"{i+1}  {scoreOrder[i]}: {DBGameManager.Instance.scores[scoreOrder[i]]}";
             i++;
         }
     }
