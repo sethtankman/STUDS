@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class DB_UI : MonoBehaviour
 {
     [SerializeField] private Text[] Scores = new Text[4];
+    [SerializeField] private Texture[] Textures = new Texture[5];
     private Dictionary<int, string> scoreOrder = new Dictionary<int, string>();
 
     private void Start()
@@ -14,7 +15,8 @@ public class DB_UI : MonoBehaviour
         foreach (GameObject player in ManagePlayerHub.Instance.players)
         {
             scoreOrder.Add(i, player.GetComponent<CharacterMovementController>().color);
-            Scores[i].text = $"{i+1}  {scoreOrder[i]}: 0";
+            Scores[i].text = $"{i+1}   0";
+            SetSpriteColor(scoreOrder[i], i);
             i++;
         }
     }
@@ -46,8 +48,32 @@ public class DB_UI : MonoBehaviour
         i = 0;
         while (i < DBGameManager.Instance.scores.Count)
         {
-            Scores[i].text = $"{i+1}  {scoreOrder[i]}: {DBGameManager.Instance.scores[scoreOrder[i]]}";
+            Scores[i].text = $"{i+1}   {DBGameManager.Instance.scores[scoreOrder[i]]}";
+            SetSpriteColor(scoreOrder[i], i);
             i++;
         }
+    }
+
+    private void SetSpriteColor(string _color, int _i)
+    {
+        switch (_color)
+        {
+            case "red":
+                Scores[_i].GetComponentInParent<RawImage>().texture = Textures[0];
+                break;
+            case "yellow":
+                Scores[_i].GetComponentInParent<RawImage>().texture = Textures[1];
+                break;
+            case "green":
+                Scores[_i].GetComponentInParent<RawImage>().texture = Textures[2];
+                break;
+            case "blue":
+                Scores[_i].GetComponentInParent<RawImage>().texture = Textures[3];
+                break;
+            case "purple":
+                Scores[_i].GetComponentInParent<RawImage>().texture = Textures[4];
+                break;
+        }
+ 
     }
 }
