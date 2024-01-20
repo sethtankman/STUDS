@@ -137,7 +137,6 @@ public class CharacterMovementController : MonoBehaviour
                 {
                     float grabDistance = 1.3f;
                     float grabHeight = 0.7f;
-                    //Quaternion grabRotation = Quaternion.; //Maybe we'll need this for the hammer in shopping spree
                     if(grabbedObject.GetComponent<GrabbableObjectController>())
                     {
                         grabDistance = grabbedObject.GetComponent<GrabbableObjectController>().distance;
@@ -145,8 +144,6 @@ public class CharacterMovementController : MonoBehaviour
                     }
                     grabbedObject.transform.position = transform.position + (transform.forward * grabDistance) + (transform.up * grabHeight);
                     grabbedObject.transform.rotation = transform.rotation;
-                    //grabbedObject.transform.rotation *= Quaternion.Euler(0, 90, 0);
-                    //grabbedObject.transform.LookAt(transform.position);
 
                     //If player released "e" then let go
                     if (pickupPressed)
@@ -179,7 +176,12 @@ public class CharacterMovementController : MonoBehaviour
             {
                 grabbedObject.transform.position = transform.position + (transform.forward * 1.3f) + (transform.up * 0.7f); // Added transform.up because stroller is in the ground with new dad model.
                 grabbedObject.transform.rotation = transform.rotation;
-                //grabbedObject.transform.rotation *= Quaternion.Euler(0, 90, 0);
+                if (throwPressed && throwCoolDown <= 0)
+                {
+                    StartCoroutine(performThrow());
+                    animator.SetBool("isHoldingSomething", false);
+                    throwCoolDown = 1;
+                }
             }
         }
 
