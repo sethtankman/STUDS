@@ -184,6 +184,12 @@ public class GrabbableObjectController : MonoBehaviour
     {
         isDeleteBallTimerStarted = true;
         DeleteBallTimer += Time.deltaTime;
+
+        if (DeleteBallTimer >= 27)
+        {
+            materialLerpDuration = 0.25f;
+        }
+
         if (DeleteBallTimer >= 30)
         {
             Instantiate(DeleteBallFX, gameObject.transform.position, Quaternion.identity);
@@ -195,6 +201,7 @@ public class GrabbableObjectController : MonoBehaviour
 
     public void ResetDeleteBallTimer()
     {
+        materialLerpDuration = 1.5f;
         isDeleteBallTimerStarted = false;
         DeleteBallTimer = 0;
     }
