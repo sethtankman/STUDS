@@ -217,17 +217,20 @@ MonoBehaviour:
   height: 0.8
   additionalColliders: []
   rotation: {x: 0, y: 0, z: 0}
+  target: {fileID: 0}
   throwableArrowMedium: {fileID: 4618041283555863022}
   throwableArrowHeavy: {fileID: 6562687197647466845}
   throwableArrowLight: {fileID: 0}
-  target: {fileID: 0}
   isDodgeball: 1
   isDropped: 1
   PickedUpMaterial: {fileID: 2100000, guid: 4f128a0a21273644ebc5f55e3d53043c, type: 2}
   DroppedMaterial: {fileID: 2100000, guid: b53c9d1d211dde64b9bb70832806ca14, type: 2}
   dodgeballRenderer: {fileID: 6245996945508178041}
-  throwerColor: 
   materialLerpDuration: 1
+  isDeleteBallTimerStarted: 0
+  DeleteBallTimer: 0
+  DeleteBallFX: {fileID: 100000, guid: a381ded06c204a54e909a18e574f7436, type: 3}
+  throwerColor: 
 --- !u!54 &6245996945508181893
 Rigidbody:
   m_ObjectHideFlags: 0

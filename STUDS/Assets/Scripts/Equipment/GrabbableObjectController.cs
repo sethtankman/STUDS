@@ -7,19 +7,31 @@ public class GrabbableObjectController : MonoBehaviour
     public float distance, height;
     public List<Collider> additionalColliders;
     public Vector3 rotation;
+    public GameObject target;
+
+    [Header("Dodgeball Aimer Prefabs")]
     public GameObject throwableArrowMedium;
     public GameObject throwableArrowHeavy;
     public GameObject throwableArrowLight;
-    public GameObject target;
+
+    [Header("Dodgeball Picked Up")]
     public bool isDodgeball = false;
     public bool isDropped = true;
     public Material PickedUpMaterial;
     public Material DroppedMaterial;
     public MeshRenderer dodgeballRenderer;
+    public float materialLerpDuration = 1.5f;
+
+    [Header("Dodgeball Clean-Up")]
+    public bool isDeleteBallTimerStarted;
+    public float DeleteBallTimer;
+    public GameObject DeleteBallFX;
+
+    [Header("Homing")]
     private bool homing = false, dirMagCaptured = false;
     private float ogDirMag = 0;
     public string throwerColor = "";
-    public float materialLerpDuration = 1.5f;
+    
 
     public void Start()
     {
@@ -27,6 +39,8 @@ public class GrabbableObjectController : MonoBehaviour
         {
             //set dodgeball material without highlight outline
             dodgeballRenderer.material = DroppedMaterial;
+            isDeleteBallTimerStarted = false;
+            DeleteBallTimer = 0;
         }
     }
 
@@ -43,6 +57,11 @@ public class GrabbableObjectController : MonoBehaviour
             newDir = newDir.normalized * ogDirMag;
             // Debug.Log($"Homing! OG: {ogDirMag}, newDir: {newDir}");
             GetComponent<Rigidbody>().velocity = new Vector3(newDir.x, GetComponent<Rigidbody>().velocity.y, newDir.z);
+        }
+
+        if (isDodgeball && isDeleteBallTimerStarted)
+        {
+            StartDeleteBallTimer();
         }
 
         if (isDodgeball && isDropped)
@@ -78,7 +97,7 @@ public class GrabbableObjectController : MonoBehaviour
         {
             GetComponent<ShoppingItem>().isBeingHeld = true;
         }
-        
+
         if (isDodgeball)
         {
             //set material and throw line preview
@@ -100,12 +119,12 @@ public class GrabbableObjectController : MonoBehaviour
         {
             GetComponent<ShoppingItem>().isBeingHeld = false;
         }
-        
+
         if (isDodgeball)
         {
             //set material and throw line preview
             DropDodgeball();
-        }        
+        }
     }
 
     public void SetHoming(bool tf, GameObject _target)
@@ -124,6 +143,8 @@ public class GrabbableObjectController : MonoBehaviour
     {
         dodgeballRenderer.material = PickedUpMaterial;
         isDropped = false;
+        ResetDeleteBallTimer();
+
 
         if (gameObject.layer == 10)
         {
@@ -143,6 +164,7 @@ public class GrabbableObjectController : MonoBehaviour
     {
         dodgeballRenderer.material = DroppedMaterial;
         isDropped = true;
+        isDeleteBallTimerStarted = true;
 
         if (gameObject.layer == 10)
         {
@@ -156,5 +178,24 @@ public class GrabbableObjectController : MonoBehaviour
         {
             throwableArrowLight.SetActive(false);
         }
+    }
+
+    public void StartDeleteBallTimer()
+    {
+        isDeleteBallTimerStarted = true;
+        DeleteBallTimer += Time.deltaTime;
+        if (DeleteBallTimer >= 30)
+        {
+            Instantiate(DeleteBallFX, gameObject.transform.position, Quaternion.identity);
+            gameObject.SetActive(false);
+            Destroy(gameObject, 1);
+        }
+
+    }
+
+    public void ResetDeleteBallTimer()
+    {
+        isDeleteBallTimerStarted = false;
+        DeleteBallTimer = 0;
     }
 }
