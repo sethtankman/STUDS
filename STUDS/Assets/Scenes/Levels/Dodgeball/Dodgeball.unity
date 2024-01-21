@@ -12931,81 +12931,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 372025486}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!1001 &377175358
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 1417629884}
-    m_Modifications:
-    - target: {fileID: 6067612536254253380, guid: ee38ba5e4637b2f42b6c12598562f1bb,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 6067612536254253380, guid: ee38ba5e4637b2f42b6c12598562f1bb,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 5.018
-      objectReference: {fileID: 0}
-    - target: {fileID: 6067612536254253380, guid: ee38ba5e4637b2f42b6c12598562f1bb,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 2.121
-      objectReference: {fileID: 0}
-    - target: {fileID: 6067612536254253380, guid: ee38ba5e4637b2f42b6c12598562f1bb,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -29.477
-      objectReference: {fileID: 0}
-    - target: {fileID: 6067612536254253380, guid: ee38ba5e4637b2f42b6c12598562f1bb,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6067612536254253380, guid: ee38ba5e4637b2f42b6c12598562f1bb,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6067612536254253380, guid: ee38ba5e4637b2f42b6c12598562f1bb,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6067612536254253380, guid: ee38ba5e4637b2f42b6c12598562f1bb,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6067612536254253380, guid: ee38ba5e4637b2f42b6c12598562f1bb,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6067612536254253380, guid: ee38ba5e4637b2f42b6c12598562f1bb,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6067612536254253380, guid: ee38ba5e4637b2f42b6c12598562f1bb,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6881409902503531518, guid: ee38ba5e4637b2f42b6c12598562f1bb,
-        type: 3}
-      propertyPath: m_Name
-      value: BallHolder
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: ee38ba5e4637b2f42b6c12598562f1bb, type: 3}
---- !u!4 &377175359 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 6067612536254253380, guid: ee38ba5e4637b2f42b6c12598562f1bb,
-    type: 3}
-  m_PrefabInstance: {fileID: 377175358}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &377788411 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3284881333745251327, guid: 2f65f1dbdf277034887aa36763c8eae7,
@@ -17079,17 +17004,20 @@ MonoBehaviour:
   height: 0.8
   additionalColliders: []
   rotation: {x: 0, y: 0, z: 0}
+  target: {fileID: 0}
   throwableArrowMedium: {fileID: 0}
   throwableArrowHeavy: {fileID: 0}
   throwableArrowLight: {fileID: 0}
-  target: {fileID: 0}
   isDodgeball: 0
   isDropped: 1
   PickedUpMaterial: {fileID: 0}
   DroppedMaterial: {fileID: 0}
   dodgeballRenderer: {fileID: 0}
-  throwerColor: 
   materialLerpDuration: 1.5
+  isDeleteBallTimerStarted: 0
+  DeleteBallTimer: 0
+  DeleteBallFX: {fileID: 0}
+  throwerColor: 
 --- !u!114 &503212419
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18410,17 +18338,20 @@ MonoBehaviour:
   height: 0.8
   additionalColliders: []
   rotation: {x: 0, y: 0, z: 0}
+  target: {fileID: 0}
   throwableArrowMedium: {fileID: 0}
   throwableArrowHeavy: {fileID: 0}
   throwableArrowLight: {fileID: 0}
-  target: {fileID: 0}
   isDodgeball: 0
   isDropped: 1
   PickedUpMaterial: {fileID: 0}
   DroppedMaterial: {fileID: 0}
   dodgeballRenderer: {fileID: 0}
-  throwerColor: 
   materialLerpDuration: 1.5
+  isDeleteBallTimerStarted: 0
+  DeleteBallTimer: 0
+  DeleteBallFX: {fileID: 0}
+  throwerColor: 
 --- !u!114 &546044190
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23247,6 +23178,81 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3284881333745251327, guid: 2f65f1dbdf277034887aa36763c8eae7,
     type: 3}
   m_PrefabInstance: {fileID: 723810696}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &660321363
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 1417629884}
+    m_Modifications:
+    - target: {fileID: 6067612536254253380, guid: ee38ba5e4637b2f42b6c12598562f1bb,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 6067612536254253380, guid: ee38ba5e4637b2f42b6c12598562f1bb,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.06
+      objectReference: {fileID: 0}
+    - target: {fileID: 6067612536254253380, guid: ee38ba5e4637b2f42b6c12598562f1bb,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.273
+      objectReference: {fileID: 0}
+    - target: {fileID: 6067612536254253380, guid: ee38ba5e4637b2f42b6c12598562f1bb,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -25.691
+      objectReference: {fileID: 0}
+    - target: {fileID: 6067612536254253380, guid: ee38ba5e4637b2f42b6c12598562f1bb,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6067612536254253380, guid: ee38ba5e4637b2f42b6c12598562f1bb,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6067612536254253380, guid: ee38ba5e4637b2f42b6c12598562f1bb,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6067612536254253380, guid: ee38ba5e4637b2f42b6c12598562f1bb,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6067612536254253380, guid: ee38ba5e4637b2f42b6c12598562f1bb,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6067612536254253380, guid: ee38ba5e4637b2f42b6c12598562f1bb,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6067612536254253380, guid: ee38ba5e4637b2f42b6c12598562f1bb,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6881409902503531518, guid: ee38ba5e4637b2f42b6c12598562f1bb,
+        type: 3}
+      propertyPath: m_Name
+      value: BallHolder (9)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: ee38ba5e4637b2f42b6c12598562f1bb, type: 3}
+--- !u!4 &660321364 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6067612536254253380, guid: ee38ba5e4637b2f42b6c12598562f1bb,
+    type: 3}
+  m_PrefabInstance: {fileID: 660321363}
   m_PrefabAsset: {fileID: 0}
 --- !u!4 &664934423 stripped
 Transform:
@@ -31835,17 +31841,20 @@ MonoBehaviour:
   height: 0.8
   additionalColliders: []
   rotation: {x: 0, y: 0, z: 0}
+  target: {fileID: 0}
   throwableArrowMedium: {fileID: 0}
   throwableArrowHeavy: {fileID: 0}
   throwableArrowLight: {fileID: 0}
-  target: {fileID: 0}
   isDodgeball: 0
   isDropped: 1
   PickedUpMaterial: {fileID: 0}
   DroppedMaterial: {fileID: 0}
   dodgeballRenderer: {fileID: 0}
-  throwerColor: 
   materialLerpDuration: 1.5
+  isDeleteBallTimerStarted: 0
+  DeleteBallTimer: 0
+  DeleteBallFX: {fileID: 0}
+  throwerColor: 
 --- !u!114 &929716044
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -50440,6 +50449,81 @@ Transform:
   m_Father: {fileID: 565685253}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &1201421983
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 1417629884}
+    m_Modifications:
+    - target: {fileID: 6067612536254253380, guid: ee38ba5e4637b2f42b6c12598562f1bb,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 6067612536254253380, guid: ee38ba5e4637b2f42b6c12598562f1bb,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -9.978
+      objectReference: {fileID: 0}
+    - target: {fileID: 6067612536254253380, guid: ee38ba5e4637b2f42b6c12598562f1bb,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 5.242
+      objectReference: {fileID: 0}
+    - target: {fileID: 6067612536254253380, guid: ee38ba5e4637b2f42b6c12598562f1bb,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -24.388
+      objectReference: {fileID: 0}
+    - target: {fileID: 6067612536254253380, guid: ee38ba5e4637b2f42b6c12598562f1bb,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6067612536254253380, guid: ee38ba5e4637b2f42b6c12598562f1bb,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6067612536254253380, guid: ee38ba5e4637b2f42b6c12598562f1bb,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6067612536254253380, guid: ee38ba5e4637b2f42b6c12598562f1bb,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6067612536254253380, guid: ee38ba5e4637b2f42b6c12598562f1bb,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6067612536254253380, guid: ee38ba5e4637b2f42b6c12598562f1bb,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6067612536254253380, guid: ee38ba5e4637b2f42b6c12598562f1bb,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6881409902503531518, guid: ee38ba5e4637b2f42b6c12598562f1bb,
+        type: 3}
+      propertyPath: m_Name
+      value: BallHolder (8)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: ee38ba5e4637b2f42b6c12598562f1bb, type: 3}
+--- !u!4 &1201421984 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6067612536254253380, guid: ee38ba5e4637b2f42b6c12598562f1bb,
+    type: 3}
+  m_PrefabInstance: {fileID: 1201421983}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1207001460
 GameObject:
   m_ObjectHideFlags: 0
@@ -57252,7 +57336,6 @@ Transform:
   - {fileID: 1258216314}
   - {fileID: 1086836474}
   - {fileID: 126850575}
-  - {fileID: 377175359}
   - {fileID: 1487605244}
   - {fileID: 1305136136}
   - {fileID: 152378523}
@@ -57263,6 +57346,8 @@ Transform:
   - {fileID: 1361825559}
   - {fileID: 798471033}
   - {fileID: 1426251169}
+  - {fileID: 1201421984}
+  - {fileID: 660321364}
   m_Father: {fileID: 1319391884}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -59677,7 +59762,7 @@ PrefabInstance:
     - target: {fileID: 6067612536254253380, guid: ee38ba5e4637b2f42b6c12598562f1bb,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.0000009536743
+      value: 10.017
       objectReference: {fileID: 0}
     - target: {fileID: 6067612536254253380, guid: ee38ba5e4637b2f42b6c12598562f1bb,
         type: 3}
@@ -72260,17 +72345,20 @@ MonoBehaviour:
   height: 0.8
   additionalColliders: []
   rotation: {x: 0, y: 0, z: 0}
+  target: {fileID: 0}
   throwableArrowMedium: {fileID: 0}
   throwableArrowHeavy: {fileID: 0}
   throwableArrowLight: {fileID: 0}
-  target: {fileID: 0}
   isDodgeball: 0
   isDropped: 1
   PickedUpMaterial: {fileID: 0}
   DroppedMaterial: {fileID: 0}
   dodgeballRenderer: {fileID: 0}
-  throwerColor: 
   materialLerpDuration: 1.5
+  isDeleteBallTimerStarted: 0
+  DeleteBallTimer: 0
+  DeleteBallFX: {fileID: 0}
+  throwerColor: 
 --- !u!114 &1733193383
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -89628,7 +89716,7 @@ PrefabInstance:
     - target: {fileID: 6067612536254253380, guid: ee38ba5e4637b2f42b6c12598562f1bb,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -4.984
+      value: 0.06
       objectReference: {fileID: 0}
     - target: {fileID: 6067612536254253380, guid: ee38ba5e4637b2f42b6c12598562f1bb,
         type: 3}
