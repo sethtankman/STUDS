@@ -24,8 +24,6 @@ public class DynamicAIcount : MonoBehaviour
 
                 AiOBJ[i].SetActive(false);
             }
-
-
         }
     }
 }

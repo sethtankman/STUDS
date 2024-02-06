@@ -251,7 +251,6 @@ public class CharacterMovementController : MonoBehaviour
     /// </summary>
     public void Jump()
     {
-        //GameObject menu = GameObject.Find("GameManager");
         if (airborn == false && isJumping && CanJump )
         {
             if (!isAI)
@@ -280,7 +279,6 @@ public class CharacterMovementController : MonoBehaviour
             controller.Move(velocity * Time.deltaTime);
             velocity.y = 0;
         }
-        //Debug.Log("velocity y is: " + velocity.y);
     }
 
     /// <summary>
