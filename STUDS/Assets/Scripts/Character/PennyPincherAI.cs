@@ -12,7 +12,7 @@ public class PennyPincherAI : MonoBehaviour
     private bool gameStarted = false;
     [SerializeField] private Transform target, previousTarget;
 
-    public float turnSpeed = 1;
+    private float turnSpeed = 1;
 
     public int speed = 1;
 
@@ -49,12 +49,10 @@ public class PennyPincherAI : MonoBehaviour
               && Mathf.Abs(target.position.z - transform.position.z) < 0.1f
               && target.position.y - transform.position.y < 3)
             {
-                Debug.Log("Jump!");
                 movementController.isJumping = true;
             } */
             else
             {
-                // Debug.Log("MOVING");
                 Vector3 lookPos;
                 Quaternion targetRot;
 
@@ -68,9 +66,6 @@ public class PennyPincherAI : MonoBehaviour
                 targetRot = Quaternion.LookRotation(lookPos);
                 this.transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, Time.deltaTime * turnSpeed);
 
-                // These are the two lines I commented out and replaced with the new line below to get animations on the move
-                // movementController.GetController().Move(agent.desiredVelocity.normalized * speed * Time.deltaTime);
-                // agent.velocity = movementController.GetController().velocity;
                 GetComponent<CharacterMovementController>().Move(agent.desiredVelocity.normalized * speed);
             }
         }
