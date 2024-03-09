@@ -12,7 +12,7 @@ public class DodgeballAI : MonoBehaviour
     [SerializeField] private NavMeshAgent agent;
     [SerializeField] private Transform target;
 
-    [SerializeField] private bool hasTarget = false;
+    [SerializeField] private bool hasTarget = false, isHoldingSomething = false;
 
     private float turnSpeed = 1;
     private int speed = 1;
@@ -26,9 +26,9 @@ public class DodgeballAI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (hasTarget == false) {
+        if (!hasTarget && !isHoldingSomething) {
             AquireTarget();
-        } else
+        } else if (!isHoldingSomething)
         {
             Vector3 lookPos;
             Quaternion targetRot;
@@ -49,5 +49,14 @@ public class DodgeballAI : MonoBehaviour
         GameObject[] dodgeballs = GameObject.FindGameObjectsWithTag("Grabbable");
         target = dodgeballs[Random.Range(0, dodgeballs.Length)].transform;
         hasTarget = true;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Grabbable") && !isHoldingSomething)
+        {
+            GetComponent<CharacterMovementController>().SetGrabbedObject(other.gameObject);
+            isHoldingSomething = true;
+        }
     }
 }
