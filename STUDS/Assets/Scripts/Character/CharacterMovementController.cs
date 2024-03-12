@@ -569,11 +569,12 @@ public class CharacterMovementController : MonoBehaviour
                     collider.gameObject.GetComponent<ShoppingItem>().SetPlayer(this.gameObject);
                 }
 
-                if (pickupPressed && !hasGrabbed)
+                if (pickupPressed && !hasGrabbed && collider.GetComponent<GrabbableObjectController>() 
+                    && collider.GetComponent<GrabbableObjectController>().getCanPickup())
                 {
                     animator.SetBool("isHoldingSomething", true);
                     GrabSound.Post(gameObject);
-                    //grabSound.Play();
+                    Debug.Log($"I was able to pick up {collider.name}");
                     grabbedObject = collider.gameObject;
                     grabbedObject.GetComponent<GrabbableObjectController>().PickupObject(color);
                     moveSpeed = moveSpeedGrab;

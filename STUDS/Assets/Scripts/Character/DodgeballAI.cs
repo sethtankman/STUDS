@@ -56,6 +56,7 @@ public class DodgeballAI : MonoBehaviour
         if (other.CompareTag("Grabbable") && !isHoldingSomething)
         {
             GetComponent<CharacterMovementController>().SetGrabbedObject(other.gameObject);
+            other.GetComponent<GrabbableObjectController>().PickupObject("AI");
             isHoldingSomething = true;
         }
     }

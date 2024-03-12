@@ -28,7 +28,7 @@ public class GrabbableObjectController : MonoBehaviour
     public GameObject DeleteBallFX;
 
     [Header("Homing")]
-    private bool homing = false, dirMagCaptured = false;
+    private bool homing = false, dirMagCaptured = false, canPickup = true;
     private float ogDirMag = 0;
     public string throwerColor = "";
     
@@ -88,6 +88,7 @@ public class GrabbableObjectController : MonoBehaviour
         gameObject.GetComponent<Rigidbody>().isKinematic = true;
         gameObject.GetComponent<Rigidbody>().useGravity = false;
         GetComponent<Collider>().enabled = false;
+        canPickup = false;
         throwerColor = _color;
         foreach (Collider collider in additionalColliders)
         {
@@ -111,6 +112,7 @@ public class GrabbableObjectController : MonoBehaviour
         gameObject.GetComponent<Rigidbody>().isKinematic = false;
         gameObject.GetComponent<Rigidbody>().useGravity = true;
         GetComponent<Collider>().enabled = true;
+        canPickup = true;
         foreach (Collider collider in additionalColliders)
         {
             collider.enabled = true;
@@ -204,5 +206,10 @@ public class GrabbableObjectController : MonoBehaviour
         materialLerpDuration = 1.5f;
         isDeleteBallTimerStarted = false;
         DeleteBallTimer = 0;
+    }
+
+    public bool getCanPickup()
+    {
+        return canPickup;
     }
 }
