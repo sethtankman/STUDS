@@ -155,9 +155,7 @@ public class CharacterMovementController : MonoBehaviour
                         animator.SetBool("isHoldingSomething", false);
                     } else if (throwPressed && throwCoolDown <= 0)
                     {
-                        StartCoroutine(performThrow());
-                        animator.SetBool("isHoldingSomething", false);
-                        throwCoolDown = 1;
+                        performThrow();
                     }
                 } else { // HasGrabbed is true but object is Null.  This happens when we pick up an object and it is destroyed without dropping it
                     hasGrabbed = false;
@@ -178,9 +176,7 @@ public class CharacterMovementController : MonoBehaviour
                 grabbedObject.transform.rotation = transform.rotation;
                 if (throwPressed && throwCoolDown <= 0)
                 {
-                    StartCoroutine(performThrow());
-                    animator.SetBool("isHoldingSomething", false);
-                    throwCoolDown = 1;
+                    performThrow();
                 }
             }
         }
@@ -519,12 +515,10 @@ public class CharacterMovementController : MonoBehaviour
     }
 
     
-    private IEnumerator performThrow()
+    public void performThrow()
     {
-
         animator.ResetTrigger("Land");
         animator.SetTrigger("Throw");
-        yield return new WaitForSeconds(0.0f);
         ThrowSound.Post(gameObject);
         Vector3 forward = transform.forward;
         grabbedObject.transform.forward = forward;
@@ -555,6 +549,8 @@ public class CharacterMovementController : MonoBehaviour
         moveSpeed = moveSpeedNormal;
         grabbedObject = null;
         animator.ResetTrigger("Throw");
+        animator.SetBool("isHoldingSomething", false);
+        throwCoolDown = 1;
     }
 
     private void HandleGrabObject()

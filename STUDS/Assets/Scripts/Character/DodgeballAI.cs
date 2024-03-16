@@ -17,18 +17,17 @@ public class DodgeballAI : MonoBehaviour
     private float turnSpeed = 1;
     private int speed = 1;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
     // Update is called once per frame
     void Update()
     {
-        if (!hasTarget && !isHoldingSomething) {
-            AquireTarget();
-        } else if (!isHoldingSomething)
+        if (!hasTarget) { 
+            if (!isHoldingSomething) {
+                AquireTarget("Grabbable");
+            } else
+            {
+                AquireTarget("Player");
+            }
+        } else 
         {
             Vector3 lookPos;
             Quaternion targetRot;
@@ -41,13 +40,13 @@ public class DodgeballAI : MonoBehaviour
             this.transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, Time.deltaTime * turnSpeed);
 
             GetComponent<CharacterMovementController>().Move(agent.desiredVelocity.normalized * speed);
-        }
+        } 
     }
 
-    private void AquireTarget()
+    private void AquireTarget(string tag)
     {
-        GameObject[] dodgeballs = GameObject.FindGameObjectsWithTag("Grabbable");
-        target = dodgeballs[Random.Range(0, dodgeballs.Length)].transform;
+        GameObject[] candidates = GameObject.FindGameObjectsWithTag(tag);
+        target = candidates[Random.Range(0, candidates.Length)].transform;
         hasTarget = true;
     }
 
@@ -58,6 +57,7 @@ public class DodgeballAI : MonoBehaviour
             GetComponent<CharacterMovementController>().SetGrabbedObject(other.gameObject);
             other.GetComponent<GrabbableObjectController>().PickupObject("AI");
             isHoldingSomething = true;
+            hasTarget = false;
         }
     }
 }

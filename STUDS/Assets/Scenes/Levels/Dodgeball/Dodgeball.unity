@@ -91236,6 +91236,7 @@ MonoBehaviour:
   agent: {fileID: 932691823736066790}
   target: {fileID: 0}
   hasTarget: 0
+  isHoldingSomething: 0
 --- !u!1 &932691823828381224
 GameObject:
   m_ObjectHideFlags: 0
@@ -91299,6 +91300,7 @@ MonoBehaviour:
   agent: {fileID: 932691823828381225}
   target: {fileID: 0}
   hasTarget: 0
+  isHoldingSomething: 0
 --- !u!1 &932691824747116516
 GameObject:
   m_ObjectHideFlags: 0
@@ -91362,6 +91364,7 @@ MonoBehaviour:
   agent: {fileID: 932691824747116517}
   target: {fileID: 0}
   hasTarget: 0
+  isHoldingSomething: 0
 --- !u!1 &941638313300331839
 GameObject:
   m_ObjectHideFlags: 0
@@ -111993,6 +111996,7 @@ GameObject:
   - component: {fileID: 5060634770621810083}
   - component: {fileID: 7668432706067494690}
   - component: {fileID: 8913274795673712511}
+  - component: {fileID: 2300649859608499750}
   m_Layer: 2
   m_Name: AimAssist
   m_TagString: LevelSelectGrab
@@ -112000,6 +112004,18 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &2300649859608499750
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2300649859608499749}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 447dfeac08006d940830e06312bec13c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2300649860753339172
 GameObject:
   m_ObjectHideFlags: 0
@@ -112011,6 +112027,7 @@ GameObject:
   - component: {fileID: 5060634769610645666}
   - component: {fileID: 7668432704931009059}
   - component: {fileID: 8913274796684841598}
+  - component: {fileID: 2300649860753339173}
   m_Layer: 2
   m_Name: AimAssist
   m_TagString: LevelSelectGrab
@@ -112018,6 +112035,18 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &2300649860753339173
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2300649860753339172}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 447dfeac08006d940830e06312bec13c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2300649860845637609
 GameObject:
   m_ObjectHideFlags: 0
@@ -112029,6 +112058,7 @@ GameObject:
   - component: {fileID: 5060634769770060911}
   - component: {fileID: 7668432705107144430}
   - component: {fileID: 8913274796575764147}
+  - component: {fileID: 2300649860845637610}
   m_Layer: 2
   m_Name: AimAssist
   m_TagString: LevelSelectGrab
@@ -112036,6 +112066,18 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &2300649860845637610
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2300649860845637609}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 447dfeac08006d940830e06312bec13c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!65 &2322419720760812986
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -113473,7 +113515,6 @@ ParticleSystemRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: 9bd38ee24ed833740a7d8f1ca5c799ef, type: 2}
-  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -119824,7 +119865,7 @@ MonoBehaviour:
   isAI: 1
   finishPosition: 0
   color: 
-  hasAimAssist: 0
+  hasAimAssist: 1
   CanJump: 0
   CanMove: 0
 --- !u!114 &7703250767058337471
@@ -119896,7 +119937,7 @@ MonoBehaviour:
   isAI: 1
   finishPosition: 0
   color: red
-  hasAimAssist: 0
+  hasAimAssist: 1
   CanJump: 0
   CanMove: 0
 --- !u!114 &7703250767167406706
@@ -119968,7 +120009,7 @@ MonoBehaviour:
   isAI: 1
   finishPosition: 0
   color: 
-  hasAimAssist: 0
+  hasAimAssist: 1
   CanJump: 0
   CanMove: 0
 --- !u!33 &7718101402792701327
