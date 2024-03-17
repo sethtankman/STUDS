@@ -17,13 +17,10 @@ public class DBLevelInitialize : MonoBehaviour
     public float waitTime = 5.0f;
     private float currentTime = 0;
 
-    //public Material strollerColor1;
-    //public Material strollerColor2;
-    //public Material strollerColor3;
-    //public Material strollerColor4;
-    //public Material strollerColor5;
+    [SerializeField] private Material[] materials;
 
     private List<GameObject> players;
+    private List<string> aiColors;
 
     //public GameObject strollerPrefab;
     public GameObject pauseMenuUI;
@@ -35,16 +32,19 @@ public class DBLevelInitialize : MonoBehaviour
     {
         GameObject.Find("Music Manager").GetComponent<Music_Manager>().PlayStopMusic("Menu", false);
         GameObject.Find("Music Manager").GetComponent<Music_Manager>().PlayStopMusic("Stroller", true);
+        aiColors = new List<string> { "red", "blue", "purple", "yellow", "green" };
         if (ManagePlayerHub.Instance) {
             players = ManagePlayerHub.Instance.getPlayers();
             foreach (GameObject player in players)
             {
+                aiColors.Remove(player.GetComponent<CharacterMovementController>().GetColorName());
                 player.GetComponent<CharacterMovementController>().SetAimAssist(true);
             }
         } else if (NetGameManager.Instance) {
             players = NetGameManager.Instance.getPlayers();
             foreach (GameObject player in players)
             {
+                aiColors.Remove(player.GetComponent<CharacterMovementController>().GetColorName());
                 player.GetComponent<NetworkCharacterMovementController>().SetAimAssist(true);
             }
         } else
@@ -52,6 +52,7 @@ public class DBLevelInitialize : MonoBehaviour
         PlayerInputManager.instance.DisableJoining();
         if(pauseMenuUI)
             GameObject.Find("GameManager").GetComponent<PauseV2>().PauseMenuUI = pauseMenuUI;
+
     }
 
     // Update is called once per frame
@@ -68,9 +69,13 @@ public class DBLevelInitialize : MonoBehaviour
             {
                 for (int i = 0; i < players.Count; i++)
                 {
-                    //GameObject stroller = Instantiate(strollerPrefab, playerSpawns[i].position + new Vector3(0, 0, 2f), Quaternion.identity);
-                    //DetermineColor(players[i].GetComponent<CharacterMovementController>().GetColorName(), stroller);
-                    //stroller.GetComponent<StrollerController>().SetID(players[i].GetComponent<CharacterMovementController>().getPlayerID());
+                    if(players[i].GetComponent<CharacterMovementController>().isAI)
+                    {
+                        string aiColor = aiColors[0];
+                        players[i].GetComponentInChildren<CharacterMovementController>(true).SetColorName(aiColor);
+                        players[i].GetComponentInChildren<SkinnedMeshRenderer>(true).material = materials[GetColorIndex(aiColor)];
+                        aiColors.Remove(aiColors[0]);
+                    }
                     spawnedPlayers = true;
                 }
             }
@@ -91,29 +96,23 @@ public class DBLevelInitialize : MonoBehaviour
         }
     }
 
-    //private void DetermineColor(string colorName, GameObject stroller)
-    //{
-    //    Debug.Log(colorName);
-    //    if (colorName.Equals("blue"))
-    //    {
-    //        stroller.GetComponent<MeshRenderer>().material = strollerColor1;
-    //    }
-    //    else if (colorName.Equals("green"))
-    //    {
-    //        stroller.GetComponent<MeshRenderer>().material = strollerColor2;
-    //    }
-    //    else if (colorName.Equals("red"))
-    //    {
-    //        stroller.GetComponent<MeshRenderer>().material = strollerColor3;
-    //    }
-    //    else if (colorName.Equals("yellow"))
-    //    {
-    //        stroller.GetComponent<MeshRenderer>().material = strollerColor4;
-    //    }
-    //    else if (colorName.Equals("purple"))
-    //    {
-    //        stroller.GetComponent<MeshRenderer>().material = strollerColor5;
-    //    }
-    //    stroller.GetComponent<StrollerController>().SetColor(colorName);
-    //}
+    private int GetColorIndex(string _color)
+    {
+        switch (_color)
+        {
+            case "red":
+                return 0;
+            case "blue":
+                return 1;
+            case "purple":
+                return 2;
+            case "yellow":
+                return 3;
+            case "green":
+                return 4;
+            default:
+                Debug.LogError("Invalid color name");
+                return -1;
+        }
+    }
 }

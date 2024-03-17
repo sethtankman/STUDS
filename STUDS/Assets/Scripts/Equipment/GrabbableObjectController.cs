@@ -41,6 +41,7 @@ public class GrabbableObjectController : MonoBehaviour
             dodgeballRenderer.material = DroppedMaterial;
             isDeleteBallTimerStarted = false;
             DeleteBallTimer = 0;
+            DBGameManager.Instance.enlistDodgeball(gameObject);
         }
     }
 
@@ -81,6 +82,12 @@ public class GrabbableObjectController : MonoBehaviour
             GetComponent<CombatThrow>().knockBack.GetComponent<KnockBack>().owner = "";
             GetComponent<CombatThrow>().knockBack.SetActive(false);
         }
+    }
+
+    private void OnDestroy()
+    {
+        if (isDodgeball)
+            DBGameManager.Instance.deListDodgeball(gameObject);
     }
 
     public void PickupObject(string _color)
@@ -146,7 +153,7 @@ public class GrabbableObjectController : MonoBehaviour
         dodgeballRenderer.material = PickedUpMaterial;
         isDropped = false;
         ResetDeleteBallTimer();
-
+        DBGameManager.Instance.deListDodgeball(gameObject);
 
         if (gameObject.layer == 10)
         {

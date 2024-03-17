@@ -12846,6 +12846,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scorePanel: {fileID: 1090778596}
+  availableDodgeballs: []
 --- !u!1001 &363575417
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -89742,6 +89743,12 @@ MonoBehaviour:
   playerPrefab: {fileID: 932691824398563431, guid: 753e681864132214fb0d23e1a26532b0,
     type: 3}
   waitTime: 5
+  materials:
+  - {fileID: 2100000, guid: 9173f83340c50ed4489d001759834012, type: 2}
+  - {fileID: 2100000, guid: 2a137063db3863a4395d2d95ba1571dc, type: 2}
+  - {fileID: 2100000, guid: 87a4d82006c08154f9f972679e026858, type: 2}
+  - {fileID: 2100000, guid: fc860b144e41a09488418a912d760a75, type: 2}
+  - {fileID: 2100000, guid: 2ef8f8502189db34385343713e8414d3, type: 2}
   pauseMenuUI: {fileID: 346756341}
   startCam: {fileID: 60981875}
   startText: {fileID: 1844688229}
@@ -91236,7 +91243,7 @@ MonoBehaviour:
   agent: {fileID: 932691823736066790}
   target: {fileID: 0}
   hasTarget: 0
-  isHoldingSomething: 0
+  loiter: 540
 --- !u!1 &932691823828381224
 GameObject:
   m_ObjectHideFlags: 0
@@ -91300,7 +91307,7 @@ MonoBehaviour:
   agent: {fileID: 932691823828381225}
   target: {fileID: 0}
   hasTarget: 0
-  isHoldingSomething: 0
+  loiter: 540
 --- !u!1 &932691824747116516
 GameObject:
   m_ObjectHideFlags: 0
@@ -91364,7 +91371,7 @@ MonoBehaviour:
   agent: {fileID: 932691824747116517}
   target: {fileID: 0}
   hasTarget: 0
-  isHoldingSomething: 0
+  loiter: 540
 --- !u!1 &941638313300331839
 GameObject:
   m_ObjectHideFlags: 0

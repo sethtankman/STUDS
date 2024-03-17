@@ -21,9 +21,13 @@ public class DynamicAIcount : MonoBehaviour
             int AICount = PlayerCount - 4;
             for (int i = 0; i < AICount; i++)
             {
-
                 AiOBJ[i].SetActive(false);
             }
         }
+
+        // TODO: Check if this breaks scenes besides dodgeball where DynamicAIcount is used.
+        for (int i = 0; i < AiOBJ.Count; i++)
+            if(AiOBJ[i].activeSelf)
+                ManagePlayerHub.Instance.AddPlayer(AiOBJ[i]);
     }
 }
