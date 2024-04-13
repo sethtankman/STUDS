@@ -14,6 +14,10 @@ public class DBGameManager : MonoBehaviour
     {
         Instance = this;
         availableDodgeballs = new List<GameObject>();
+    }
+
+    public void InitScores()
+    {
         foreach (GameObject player in ManagePlayerHub.Instance.getPlayers())
         {
             scores[player.GetComponent<CharacterMovementController>().color] = 0;

@@ -81,6 +81,7 @@ public class DBLevelInitialize : MonoBehaviour
                     spawnedPlayers = true;
                 }
                 ui.UpdateSpriteColors();
+                DBGameManager.Instance.InitScores();
             }
         }
         else if(!spawnedPlayers)
