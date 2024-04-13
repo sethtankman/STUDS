@@ -7,13 +7,20 @@ using UnityEngine;
 /// </summary>
 public class AIThrowTrigger : MonoBehaviour
 {
+    private bool canThrow = false;
+
     private void OnTriggerEnter(Collider other)
     {
-        if(other.CompareTag("Player"))
+        if(canThrow && other.CompareTag("Player"))
         {
             GetComponentInParent<CharacterMovementController>().target = other.gameObject;
             GetComponentInParent<CharacterMovementController>().performThrow();
             GetComponentInParent<DodgeballAI>().Loiter();
         }
+    }
+
+    public void setCanThrow(bool tf)
+    {
+        canThrow = tf;
     }
 }

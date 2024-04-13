@@ -495,6 +495,8 @@ public class CharacterMovementController : MonoBehaviour
             {
                 grabbedObject.GetComponent<Rigidbody>().useGravity = true;
             }
+            if (GetComponentInChildren<AIThrowTrigger>())
+                GetComponentInChildren<AIThrowTrigger>().setCanThrow(false);
             grabbedObject.GetComponent<GrabbableObjectController>().LetGo();
             grabbedObject = null;
             hasGrabbed = false;
@@ -551,6 +553,8 @@ public class CharacterMovementController : MonoBehaviour
         animator.ResetTrigger("Throw");
         animator.SetBool("isHoldingSomething", false);
         throwCoolDown = 1;
+        if (GetComponentInChildren<AIThrowTrigger>())
+            GetComponentInChildren<AIThrowTrigger>().setCanThrow(false);
     }
 
     private void HandleGrabObject()
@@ -570,12 +574,14 @@ public class CharacterMovementController : MonoBehaviour
                 {
                     animator.SetBool("isHoldingSomething", true);
                     GrabSound.Post(gameObject);
-                    Debug.Log($"I was able to pick up {collider.name}");
+                    //Debug.Log($"I was able to pick up {collider.name}");
                     grabbedObject = collider.gameObject;
                     grabbedObject.GetComponent<GrabbableObjectController>().PickupObject(color);
                     moveSpeed = moveSpeedGrab;
                     hasGrabbed = true;
                     pickupPressed = false;
+                    if (GetComponentInChildren<AIThrowTrigger>())
+                        GetComponentInChildren<AIThrowTrigger>().setCanThrow(true);
                     if (grabbedObject.name == "Grabpoint") // Designed to only use Grabpoint as the name of the Utility Cart Grabbing point.
                     {
                         grabbedObject.GetComponent<Rigidbody>().useGravity = false;

@@ -9,7 +9,10 @@ public class DB_UI : MonoBehaviour
     [SerializeField] private Texture[] Textures = new Texture[5];
     private Dictionary<int, string> scoreOrder = new Dictionary<int, string>();
 
-    private void Start()
+    /// <summary>
+    /// Sets the colors initially of the scoreboard and backend values.
+    /// </summary>
+    public void UpdateSpriteColors()
     {
         int i = 0;
         foreach (GameObject player in ManagePlayerHub.Instance.players)
@@ -21,9 +24,17 @@ public class DB_UI : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Updates the scoreOrder dictionary for the score display.
+    /// PRE: Scores should have been updated in DBGameManager.Instance.scores before this.
+    /// POST: Arranges scores in order in the scoreOrder dictionary.
+    /// </summary>
+    /// <param name="updatedOwner">The name of the person who increased their score</param>
     public void UpdateScores(string updatedOwner)
     {
         int i = 0;
+        // Iterate through each <place, name> pair on the scoreOrder dictionary
+        // And re-order the scores if someone overtakes someone else.
         foreach (KeyValuePair<int, string> pair in scoreOrder)
         {
             if (pair.Value.Equals(updatedOwner))
@@ -46,6 +57,7 @@ public class DB_UI : MonoBehaviour
             i++;
         }
         i = 0;
+        // Put the updated scores on the screen in order.
         while (i < DBGameManager.Instance.scores.Count)
         {
             Scores[i].text = $"{i+1}   {DBGameManager.Instance.scores[scoreOrder[i]]}";

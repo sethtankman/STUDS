@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -27,6 +27,8 @@ public class DBLevelInitialize : MonoBehaviour
     public GameObject startCam;
 
     public TextMeshProUGUI startText;
+    [SerializeField] private DB_UI ui;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -74,10 +76,11 @@ public class DBLevelInitialize : MonoBehaviour
                         string aiColor = aiColors[0];
                         players[i].GetComponentInChildren<CharacterMovementController>(true).SetColorName(aiColor);
                         players[i].GetComponentInChildren<SkinnedMeshRenderer>(true).material = materials[GetColorIndex(aiColor)];
-                        aiColors.Remove(aiColors[0]);
+                        aiColors.Remove(aiColor);
                     }
                     spawnedPlayers = true;
                 }
+                ui.UpdateSpriteColors();
             }
         }
         else if(!spawnedPlayers)
