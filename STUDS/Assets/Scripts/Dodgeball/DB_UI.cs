@@ -7,7 +7,10 @@ public class DB_UI : MonoBehaviour
 {
     [SerializeField] private Text[] Scores = new Text[4];
     [SerializeField] private Texture[] Textures = new Texture[5];
-    private Dictionary<int, string> scoreOrder = new Dictionary<int, string>();
+    /// <summary>
+    ///  Maps placement to color (places 0-3)
+    /// </summary>
+    private string[] scoreOrder = new string[4];
 
     /// <summary>
     /// Sets the colors initially of the scoreboard and backend values.
@@ -17,7 +20,7 @@ public class DB_UI : MonoBehaviour
         int i = 0;
         foreach (GameObject player in ManagePlayerHub.Instance.players)
         {
-            scoreOrder.Add(i, player.GetComponent<CharacterMovementController>().color);
+            scoreOrder[i] = player.GetComponent<CharacterMovementController>().color;
             Scores[i].text = $"{i+1}   0";
             SetSpriteColor(scoreOrder[i], i);
             i++;
@@ -32,37 +35,33 @@ public class DB_UI : MonoBehaviour
     /// <param name="updatedOwner">The name of the person who increased their score</param>
     public void UpdateScores(string updatedOwner)
     {
-        int i = 0;
         // Iterate through each <place, name> pair on the scoreOrder dictionary
         // And re-order the scores if someone overtakes someone else.
-        foreach (KeyValuePair<int, string> pair in scoreOrder)
+        for(int i = 0; i< scoreOrder.Length; i++)
         {
-            if (pair.Value.Equals(updatedOwner))
+            if (scoreOrder[i].Equals(updatedOwner))
                 break;
-            if (DBGameManager.Instance.scores[pair.Value] < DBGameManager.Instance.scores[updatedOwner])
+            if (DBGameManager.Instance.scores[scoreOrder[i]] < DBGameManager.Instance.scores[updatedOwner])
             {
                 Queue<string> next = new Queue<string>();
-                next.Enqueue(pair.Value);
-                scoreOrder[pair.Key] = updatedOwner;
-                i = pair.Key + 1;
-                while(i < DBGameManager.Instance.scores.Count && scoreOrder[i] != updatedOwner)
+                next.Enqueue(scoreOrder[i]);
+                scoreOrder[i] = updatedOwner;
+                i++;
+                while(i < scoreOrder.Length-1 && scoreOrder[i] != updatedOwner)
                 {
-                    next.Enqueue(scoreOrder[i + 1]);
+                    next.Enqueue(scoreOrder[i]);
                     scoreOrder[i] = next.Dequeue();
                     i++;
                 }
                 scoreOrder[i] = next.Dequeue();
                 break;
             } 
-            i++;
         }
-        i = 0;
         // Put the updated scores on the screen in order.
-        while (i < DBGameManager.Instance.scores.Count)
+        for (int i=0; i < scoreOrder.Length; i++)
         {
             Scores[i].text = $"{i+1}   {DBGameManager.Instance.scores[scoreOrder[i]]}";
             SetSpriteColor(scoreOrder[i], i);
-            i++;
         }
     }
 

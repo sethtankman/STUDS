@@ -580,8 +580,6 @@ public class CharacterMovementController : MonoBehaviour
                     moveSpeed = moveSpeedGrab;
                     hasGrabbed = true;
                     pickupPressed = false;
-                    if (GetComponentInChildren<AIThrowTrigger>())
-                        GetComponentInChildren<AIThrowTrigger>().setCanThrow(true);
                     if (grabbedObject.name == "Grabpoint") // Designed to only use Grabpoint as the name of the Utility Cart Grabbing point.
                     {
                         grabbedObject.GetComponent<Rigidbody>().useGravity = false;

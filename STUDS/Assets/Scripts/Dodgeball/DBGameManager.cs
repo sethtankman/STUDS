@@ -7,6 +7,7 @@ public class DBGameManager : MonoBehaviour
 {
     public static DBGameManager Instance { get; private set; }
     public DB_UI scorePanel;
+    /// Maps color to score
     public Dictionary<string, int> scores = new Dictionary<string, int>();
     [SerializeField] private List<GameObject> availableDodgeballs;
 

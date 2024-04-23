@@ -88,6 +88,7 @@ public class DodgeballAI : MonoBehaviour
             GetComponent<CharacterMovementController>().SetGrabbedObject(other.gameObject);
             other.GetComponent<GrabbableObjectController>().PickupObject(GetComponent<CharacterMovementController>().GetColorName());
             hasTarget = false;
+            GetComponentInChildren<AIThrowTrigger>().setCanThrow(true);
         }
     }
 
