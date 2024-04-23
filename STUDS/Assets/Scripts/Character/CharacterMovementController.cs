@@ -137,7 +137,7 @@ public class CharacterMovementController : MonoBehaviour
                 {
                     float grabDistance = 1.3f;
                     float grabHeight = 0.7f;
-                    if(grabbedObject.GetComponent<GrabbableObjectController>())
+                    if (grabbedObject.GetComponent<GrabbableObjectController>())
                     {
                         grabDistance = grabbedObject.GetComponent<GrabbableObjectController>().distance;
                         grabHeight = grabbedObject.GetComponent<GrabbableObjectController>().height;
@@ -146,16 +146,19 @@ public class CharacterMovementController : MonoBehaviour
                     grabbedObject.transform.rotation = transform.rotation;
 
                     //If player released "e" then let go
-                    if (pickupPressed)
-                    {
-                        GrabSound.Post(gameObject);
-                        //grabSound.Play();
-                        DropGrabbedItem();
-                        pickupPressed = false;
-                        animator.SetBool("isHoldingSomething", false);
-                    } else if (throwPressed && throwCoolDown <= 0)
-                    {
-                        performThrow();
+                    if (!isAI) { 
+                        if (pickupPressed)
+                        {
+                            GrabSound.Post(gameObject);
+                            //grabSound.Play();
+                            DropGrabbedItem();
+                            pickupPressed = false;
+                            animator.SetBool("isHoldingSomething", false);
+                        }
+                        else if (throwPressed && throwCoolDown <= 0)
+                        {
+                            performThrow();
+                        }
                     }
                 } else { // HasGrabbed is true but object is Null.  This happens when we pick up an object and it is destroyed without dropping it
                     hasGrabbed = false;
@@ -519,6 +522,7 @@ public class CharacterMovementController : MonoBehaviour
     
     public void performThrow()
     {
+        Debug.Log($"{name}: threw");
         animator.ResetTrigger("Land");
         animator.SetTrigger("Throw");
         ThrowSound.Post(gameObject);

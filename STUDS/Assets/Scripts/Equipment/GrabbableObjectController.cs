@@ -131,7 +131,6 @@ public class GrabbableObjectController : MonoBehaviour
 
         if (isDodgeball)
         {
-            //set material and throw line preview
             DropDodgeball();
         }
     }
@@ -169,6 +168,9 @@ public class GrabbableObjectController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Set material and throw line preview
+    /// </summary>
     public void DropDodgeball()
     {
         dodgeballRenderer.material = DroppedMaterial;

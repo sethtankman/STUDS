@@ -16,12 +16,13 @@ public class DodgeballAI : MonoBehaviour
 
     private float turnSpeed = 1;
     private int speed = 1;
-    [SerializeField] private int loiter = 540;
+    [SerializeField] private int loiter = 540, patience;
 
 
     private void FixedUpdate()
     {
         loiter--;
+        patience--;
     }
 
     // Update is called once per frame
@@ -36,7 +37,10 @@ public class DodgeballAI : MonoBehaviour
             {
                 AcquireTargetPlayer();
             }
-        } else 
+        } else if (patience < 0)
+        {
+            hasTarget = false;
+        } else
         {
             Vector3 lookPos;
             Quaternion targetRot;
@@ -72,6 +76,7 @@ public class DodgeballAI : MonoBehaviour
         System.Array.Copy(tagMatch, candidates, tagMatch.Length - 1);
         target = candidates[Random.Range(0, candidates.Length)].transform;
         hasTarget = true;
+        patience = 2000;
     }
 
     private void AcquireTargetDodgeball()
@@ -79,11 +84,13 @@ public class DodgeballAI : MonoBehaviour
         List<GameObject> dodgeballs = DBGameManager.Instance.GetAvailableDodgeballs();
         target = dodgeballs[Random.Range(0, dodgeballs.Count)].transform;
         hasTarget = true;
+        patience = 2000;
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (!GetComponent<CharacterMovementController>().GetHasGrabbed() && other.CompareTag("Grabbable"))
+        if (!GetComponent<CharacterMovementController>().GetHasGrabbed() && other.CompareTag("Grabbable")
+            && other.GetComponent<GrabbableObjectController>().getCanPickup())
         {
             GetComponent<CharacterMovementController>().SetGrabbedObject(other.gameObject);
             other.GetComponent<GrabbableObjectController>().PickupObject(GetComponent<CharacterMovementController>().GetColorName());

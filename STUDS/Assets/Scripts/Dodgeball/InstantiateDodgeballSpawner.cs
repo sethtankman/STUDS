@@ -12,7 +12,6 @@ public class InstantiateDodgeballSpawner : MonoBehaviour
     {
         Instantiate(SpawnEffects, SpawnTransform.transform.position, Quaternion.identity);
         Instantiate(DodgeballSpawner, SpawnTransform.transform.position, Quaternion.identity);
-       
         //Destroy(SpawnEffects);
     }
 }
