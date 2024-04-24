@@ -90,7 +90,8 @@ public class DodgeballAI : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         if (!GetComponent<CharacterMovementController>().GetHasGrabbed() && other.CompareTag("Grabbable")
-            && other.GetComponent<GrabbableObjectController>().getCanPickup())
+            && other.GetComponent<GrabbableObjectController>().getCanPickup()
+            && other.name.Equals(target.name))
         {
             GetComponent<CharacterMovementController>().SetGrabbedObject(other.gameObject);
             other.GetComponent<GrabbableObjectController>().PickupObject(GetComponent<CharacterMovementController>().GetColorName());
