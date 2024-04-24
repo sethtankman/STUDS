@@ -76,7 +76,7 @@ public class DodgeballAI : MonoBehaviour
         System.Array.Copy(tagMatch, candidates, tagMatch.Length - 1);
         target = candidates[Random.Range(0, candidates.Length)].transform;
         hasTarget = true;
-        patience = 2000;
+        patience = 1500;
     }
 
     private void AcquireTargetDodgeball()
@@ -84,7 +84,7 @@ public class DodgeballAI : MonoBehaviour
         List<GameObject> dodgeballs = DBGameManager.Instance.GetAvailableDodgeballs();
         target = dodgeballs[Random.Range(0, dodgeballs.Count)].transform;
         hasTarget = true;
-        patience = 2000;
+        patience = 1500;
     }
 
     private void OnTriggerEnter(Collider other)

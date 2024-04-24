@@ -8,6 +8,7 @@ public class HitScore : MonoBehaviour
 
     public void RecordHit(string owner)
     {
-        DBGameManager.Instance.AddPoints(owner, pointValue);
+        if(owner.Length > 0)
+            DBGameManager.Instance.AddPoints(owner, pointValue);
     }
 }
