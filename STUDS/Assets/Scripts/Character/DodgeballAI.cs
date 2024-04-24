@@ -16,7 +16,7 @@ public class DodgeballAI : MonoBehaviour
 
     private float turnSpeed = 1;
     private int speed = 1;
-    [SerializeField] private int loiter = 540, patience;
+    [SerializeField] private int loiter = 540, patience, maxPatience;
 
 
     private void FixedUpdate()
@@ -76,7 +76,7 @@ public class DodgeballAI : MonoBehaviour
         System.Array.Copy(tagMatch, candidates, tagMatch.Length - 1);
         target = candidates[Random.Range(0, candidates.Length)].transform;
         hasTarget = true;
-        patience = 1500;
+        patience = maxPatience;
     }
 
     private void AcquireTargetDodgeball()
@@ -84,7 +84,7 @@ public class DodgeballAI : MonoBehaviour
         List<GameObject> dodgeballs = DBGameManager.Instance.GetAvailableDodgeballs();
         target = dodgeballs[Random.Range(0, dodgeballs.Count)].transform;
         hasTarget = true;
-        patience = 1500;
+        patience = maxPatience;
     }
 
     private void OnTriggerEnter(Collider other)
