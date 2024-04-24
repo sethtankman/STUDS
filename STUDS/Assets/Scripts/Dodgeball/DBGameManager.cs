@@ -10,6 +10,7 @@ public class DBGameManager : MonoBehaviour
     /// Maps color to score
     public Dictionary<string, int> scores = new Dictionary<string, int>();
     [SerializeField] private List<GameObject> availableDodgeballs;
+    private int dbNum = 0;
 
     private void Start()
     {
@@ -40,6 +41,8 @@ public class DBGameManager : MonoBehaviour
 
     public void enlistDodgeball(GameObject dodgeball)
     {
+        dbNum++;
+        dodgeball.name = dodgeball.name + dbNum.ToString();
         availableDodgeballs.Add(dodgeball);
     }
 

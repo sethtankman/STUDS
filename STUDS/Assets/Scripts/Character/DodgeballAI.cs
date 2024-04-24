@@ -19,6 +19,12 @@ public class DodgeballAI : MonoBehaviour
     [SerializeField] private int loiter = 540, patience, maxPatience;
 
 
+    private void Start()
+    {
+        // We disable the character controller so it doesn't override the navmesh agent.
+        GetComponent<CharacterController>().enabled = false;
+    }
+
     private void FixedUpdate()
     {
         loiter--;
@@ -52,7 +58,8 @@ public class DodgeballAI : MonoBehaviour
             targetRot = Quaternion.LookRotation(lookPos);
             this.transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, Time.deltaTime * turnSpeed);
 
-            GetComponent<CharacterMovementController>().Move(agent.desiredVelocity.normalized * speed);
+            //GetComponent<CharacterMovementController>().Move(agent.desiredVelocity.normalized * speed);
+            //agent.Move(agent.desiredVelocity.normalized * speed);
         } 
     }
 
