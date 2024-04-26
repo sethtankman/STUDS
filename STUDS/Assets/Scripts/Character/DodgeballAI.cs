@@ -1,28 +1,36 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Events;
 
 /// <summary>
 /// Controls the AI for dodgeball
+/// 
+/// Used https://github.com/SunnyValleyStudio/Diablo-Like-Movement-in-Unity-using-AI-Navigation-package/blob/main/AgentMover.cs 
+/// For ideas on how to get navmesh jumping to look better.
 /// </summary>
 public class DodgeballAI : MonoBehaviour
 {
     [SerializeField] private CharacterMovementController movementController;
+    [SerializeField] private Animator animator;
     [SerializeField] private NavMeshAgent agent;
     [SerializeField] private Transform target;
 
     [SerializeField] private bool hasTarget = false;
 
-    private float turnSpeed = 1;
-    private int speed = 1;
-    [SerializeField] private int loiter = 540, patience, maxPatience;
+    [SerializeField] private bool _onNavMeshLink = false;
 
+    private float turnSpeed = 2;
+    [SerializeField] private int loiter = 540, patience, maxPatience;
+    [SerializeField] private float _jumpDuration = 0.8f;
 
     private void Start()
     {
         // We disable the character controller so it doesn't override the navmesh agent.
         GetComponent<CharacterController>().enabled = false;
+        agent.autoTraverseOffMeshLink = false;
     }
 
     private void FixedUpdate()
@@ -51,39 +59,94 @@ public class DodgeballAI : MonoBehaviour
             Vector3 lookPos;
             Quaternion targetRot;
 
-            agent.SetDestination(target.position);
 
             lookPos = agent.desiredVelocity;
             lookPos.y = 0;
             targetRot = Quaternion.LookRotation(lookPos);
             this.transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, Time.deltaTime * turnSpeed);
 
+            if(agent.isOnOffMeshLink && _onNavMeshLink == false)
+            {
+                StartNavMeshLinkMovement();
+            }
+
             //GetComponent<CharacterMovementController>().Move(agent.desiredVelocity.normalized * speed);
             //agent.Move(agent.desiredVelocity.normalized * speed);
         } 
     }
 
+    private void StartNavMeshLinkMovement()
+    {
+        _onNavMeshLink = true;
+        NavMeshLink link = (NavMeshLink)agent.navMeshOwner;
+        Spline spline = link.GetComponentInChildren<Spline>();
+        PerformJump(link, spline);
+    }
+
+    private void PerformJump(NavMeshLink link, Spline spline)
+    {
+        bool reverseDirection = CheckIfJumpingFromEndToStart(link);
+        StartCoroutine(MoveOnOffMeshLink(spline, reverseDirection));
+
+        animator.SetTrigger("Jump");
+    }
+
+    private bool CheckIfJumpingFromEndToStart(NavMeshLink link)
+    {
+        Vector3 startPosWorld
+            = link.gameObject.transform.TransformPoint(link.startPoint);
+        Vector3 endPosWorld
+            = link.gameObject.transform.TransformPoint(link.endPoint);
+
+        float distancePlayerToStart
+            = Vector3.Distance(agent.transform.position, startPosWorld);
+        float distancePlayerToEnd
+            = Vector3.Distance(agent.transform.position, endPosWorld);
+
+
+        return distancePlayerToStart > distancePlayerToEnd;
+    }
+
+    private IEnumerator MoveOnOffMeshLink(Spline spline, bool reverseDirection)
+    {
+        float currentTime = 0;
+        Vector3 agentStartPosition = agent.transform.position;
+
+        while (currentTime < _jumpDuration)
+        {
+            currentTime += Time.deltaTime;
+
+            float amount = Mathf.Clamp01(currentTime / _jumpDuration);
+            amount = reverseDirection ? 1 - amount : amount;
+
+            agent.transform.position =
+                reverseDirection ?
+                spline.CalculatePositionCustomEnd(amount, agentStartPosition)
+                : spline.CalculatePositionCustomStart(amount, agentStartPosition);
+
+            yield return new WaitForEndOfFrame();
+        }
+
+        agent.CompleteOffMeshLink();
+        animator.SetTrigger("Jump");
+
+        yield return new WaitForSeconds(0.1f);
+        _onNavMeshLink = false;
+
+    }
+
     private void AcquireTargetPlayer()
     {
-        GameObject[] tagMatch = GameObject.FindGameObjectsWithTag("Player");
-
-        bool foundMatch = false;
-        for(int i = 0; i < tagMatch.Length; i++)
-        {
-            if (tagMatch[i].name == name)
-            {
-                foundMatch = true;
-            }
-            if(foundMatch && i+1 < tagMatch.Length)
-            {
-                tagMatch[i] = tagMatch[i + 1];
-            }
-        }
-        GameObject[] candidates = new GameObject[tagMatch.Length-1];
-        System.Array.Copy(tagMatch, candidates, tagMatch.Length - 1);
+        
+        List<GameObject> players = GameObject.FindGameObjectsWithTag("Player").ToList();
+        players.Remove(gameObject);
+        GameObject[] candidates = players.ToArray();
         target = candidates[Random.Range(0, candidates.Length)].transform;
         hasTarget = true;
         patience = maxPatience;
+        animator.SetBool("isRunning", true);
+        if (_onNavMeshLink == false)
+            agent.SetDestination(target.position);
     }
 
     private void AcquireTargetDodgeball()
@@ -92,6 +155,9 @@ public class DodgeballAI : MonoBehaviour
         target = dodgeballs[Random.Range(0, dodgeballs.Count)].transform;
         hasTarget = true;
         patience = maxPatience;
+        animator.SetBool("isRunning", true);
+        if (_onNavMeshLink == false)
+            agent.SetDestination(target.position);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -111,5 +177,6 @@ public class DodgeballAI : MonoBehaviour
     {
         loiter = 60;
         hasTarget = false;
+        animator.SetBool("isRunning", false);
     }
 }
