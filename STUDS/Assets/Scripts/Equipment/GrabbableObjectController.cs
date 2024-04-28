@@ -29,7 +29,7 @@ public class GrabbableObjectController : MonoBehaviour
 
     [Header("Homing")]
     private bool homing = false, dirMagCaptured = false, canPickup = true;
-    private float ogDirMag = 0;
+    private Vector2 ogDir = new Vector2();
     public string throwerColor = "";
     
 
@@ -51,13 +51,13 @@ public class GrabbableObjectController : MonoBehaviour
         {
             if (!dirMagCaptured && GetComponent<Rigidbody>().velocity.magnitude > 1.0f)
             {
-                ogDirMag = new Vector2(GetComponent<Rigidbody>().velocity.x, GetComponent<Rigidbody>().velocity.z).magnitude;
+                ogDir = new Vector2(GetComponent<Rigidbody>().velocity.x, GetComponent<Rigidbody>().velocity.z);
                 dirMagCaptured = true;
             }
             Vector3 newDir = target.transform.position - transform.position;
-            newDir = newDir.normalized * ogDirMag;
+            newDir = newDir.normalized * ogDir.magnitude;
             // Debug.Log($"Homing! OG: {ogDirMag}, newDir: {newDir}");
-            GetComponent<Rigidbody>().velocity = new Vector3(newDir.x, GetComponent<Rigidbody>().velocity.y, newDir.z);
+            GetComponent<Rigidbody>().velocity = new Vector3((newDir.x + ogDir.x)/2, GetComponent<Rigidbody>().velocity.y, (newDir.z +ogDir.y)/2);
         }
 
         if (isDodgeball && isDeleteBallTimerStarted)
