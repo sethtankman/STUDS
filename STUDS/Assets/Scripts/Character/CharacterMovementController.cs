@@ -580,7 +580,7 @@ public class CharacterMovementController : MonoBehaviour
                     GrabSound.Post(gameObject);
                     //Debug.Log($"I was able to pick up {collider.name}");
                     grabbedObject = collider.gameObject;
-                    grabbedObject.GetComponent<GrabbableObjectController>().PickupObject(color);
+                    grabbedObject.GetComponent<GrabbableObjectController>().PickupObject(color, true);
                     moveSpeed = moveSpeedGrab;
                     hasGrabbed = true;
                     pickupPressed = false;

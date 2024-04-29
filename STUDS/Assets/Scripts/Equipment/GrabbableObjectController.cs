@@ -90,7 +90,7 @@ public class GrabbableObjectController : MonoBehaviour
             DBGameManager.Instance.deListDodgeball(gameObject);
     }
 
-    public void PickupObject(string _color)
+    public void PickupObject(string _color, bool isLocalPlayer = false)
     {
         gameObject.GetComponent<Rigidbody>().isKinematic = true;
         gameObject.GetComponent<Rigidbody>().useGravity = false;
@@ -109,7 +109,7 @@ public class GrabbableObjectController : MonoBehaviour
         if (isDodgeball)
         {
             //set material and throw line preview
-            PickUpDodgeball();
+            PickUpDodgeball(isLocalPlayer);
         }
 
     }
@@ -147,24 +147,26 @@ public class GrabbableObjectController : MonoBehaviour
         dodgeballRenderer.material.Lerp(PickedUpMaterial, DroppedMaterial, lerp);
     }
 
-    public void PickUpDodgeball()
+    public void PickUpDodgeball(bool isLocalPlayer = false)
     {
         dodgeballRenderer.material = PickedUpMaterial;
         isDropped = false;
         ResetDeleteBallTimer();
         DBGameManager.Instance.deListDodgeball(gameObject);
-
-        if (gameObject.layer == 10)
+        if (isLocalPlayer)
         {
-            throwableArrowMedium.SetActive(true);
-        }
-        if (gameObject.layer == 11)
-        {
-            throwableArrowHeavy.SetActive(true);
-        }
-        if (gameObject.layer == 12)
-        {
-            throwableArrowLight.SetActive(true);
+            if (gameObject.layer == 10)
+            {
+                throwableArrowMedium.SetActive(true);
+            }
+            if (gameObject.layer == 11)
+            {
+                throwableArrowHeavy.SetActive(true);
+            }
+            if (gameObject.layer == 12)
+            {
+                throwableArrowLight.SetActive(true);
+            }
         }
     }
 
