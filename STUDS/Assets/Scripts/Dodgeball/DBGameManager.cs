@@ -63,7 +63,9 @@ public class DBGameManager : MonoBehaviour
                 DontDestroyOnLoad(player);
             }
             string color = player.GetComponent<CharacterMovementController>().GetColorName();
-            player.GetComponent<CharacterMovementController>().SetFinishPosition(Array.IndexOf(scoreOrder, color));
+            int placement = Array.IndexOf(scoreOrder, color) + 1;
+            if(placement == 4) { placement = -1; } // Since 4th place is represented as -1 in victoryStands.
+            player.GetComponent<CharacterMovementController>().SetFinishPosition(placement);
         }
 
         SceneManager.LoadScene("VictoryStands");
