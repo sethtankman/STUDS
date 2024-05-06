@@ -9,7 +9,6 @@ public class OutOfBoundsCollider : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("T");
         if (other.gameObject.CompareTag("Player"))
         {
             other.gameObject.GetComponent<CharacterController>().enabled = false;

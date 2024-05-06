@@ -76,9 +76,4 @@ public class PlaceTracker : MonoBehaviour
         Ready = true;
 
     }
-
-
-
-
-
 }

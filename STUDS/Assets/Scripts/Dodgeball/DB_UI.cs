@@ -33,7 +33,7 @@ public class DB_UI : MonoBehaviour
     /// POST: Arranges scores in order in the scoreOrder dictionary.
     /// </summary>
     /// <param name="updatedOwner">The name of the person who increased their score</param>
-    public void UpdateScores(string updatedOwner)
+    public string[] UpdateScores(string updatedOwner)
     {
         // Iterate through each <place, name> pair on the scoreOrder dictionary
         // And re-order the scores if someone overtakes someone else.
@@ -63,6 +63,7 @@ public class DB_UI : MonoBehaviour
             Scores[i].text = $"{i+1}   {DBGameManager.Instance.scores[scoreOrder[i]]}";
             SetSpriteColor(scoreOrder[i], i);
         }
+        return scoreOrder;
     }
 
     private void SetSpriteColor(string _color, int _i)
