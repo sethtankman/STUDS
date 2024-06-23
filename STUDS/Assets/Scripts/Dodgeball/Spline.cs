@@ -22,7 +22,7 @@ public class Spline : MonoBehaviour
         Vector3 startMiddle = Vector3.Lerp(startPos, midPos, value01);
         Vector3 middleEnd = Vector3.Lerp(midPos, endPos, value01);
         Vector3 newPos = Vector3.Lerp(startMiddle, middleEnd, value01);
-        Debug.Log($"NewPos: {newPos}");
+        //Debug.Log($"NewPos: {newPos}");
         return newPos;
     }
 
