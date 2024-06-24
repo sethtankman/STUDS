@@ -19,7 +19,7 @@ public class DodgeballAI : MonoBehaviour
     [SerializeField] private Transform target;
 
     [SerializeField] private bool hasTarget = false;
-
+    [SerializeField] private bool coroutineOn = false;
     [SerializeField] private bool _onNavMeshLink = false;
 
     private float turnSpeed = 2;
@@ -54,6 +54,7 @@ public class DodgeballAI : MonoBehaviour
         } else if (patience < 0)
         {
             hasTarget = false;
+            coroutineOn = false;
         } else
         {
             Vector3 lookPos;
@@ -145,8 +146,25 @@ public class DodgeballAI : MonoBehaviour
         hasTarget = true;
         patience = maxPatience;
         animator.SetBool("isRunning", true);
-        if (_onNavMeshLink == false)
-            agent.SetDestination(target.position);
+        coroutineOn = true;
+        StartCoroutine(FollowTarget(target));
+    }
+
+    private IEnumerator FollowTarget(Transform target)
+    {
+        Vector3 previousTargetPosition = new Vector3(float.PositiveInfinity, float.PositiveInfinity);
+
+        while (coroutineOn && Vector3.SqrMagnitude(transform.position - target.position) > 0.1f)
+        {
+            // did target move more than at least a minimum amount since last destination set?
+            if (Vector3.SqrMagnitude(previousTargetPosition - target.position) > 0.1f)
+            {
+                agent.SetDestination(target.position);
+                previousTargetPosition = target.position;
+            }
+            yield return new WaitForSeconds(0.5f);
+        }
+        yield return null;
     }
 
     private void AcquireTargetDodgeball()
@@ -173,10 +191,14 @@ public class DodgeballAI : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Called to reset bools when AI throws something.
+    /// </summary>
     public void Loiter()
     {
         loiter = 60;
         hasTarget = false;
+        coroutineOn = false;
         animator.SetBool("isRunning", false);
     }
 }
