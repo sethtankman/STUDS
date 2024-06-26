@@ -71,7 +71,7 @@ public class PlayersReady : MonoBehaviour
                     }
                     else if (gameObject.CompareTag("Dodgeball"))
                     {
-                        SceneManager.LoadScene("Dodgeball");
+                        SceneManager.LoadScene("Dodgeball_v2");
                     }
 
                 }
