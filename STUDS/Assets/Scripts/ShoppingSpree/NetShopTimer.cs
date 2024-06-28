@@ -48,8 +48,7 @@ public class NetShopTimer : NetworkBehaviour
 
     void EndGame()
     { 
-        List<GameObject> players = NetGameManager.Instance.getPlayers();
-        foreach (GameObject player in players)
+        foreach (GameObject player in NetGameManager.Instance.getPlayers())
         {
             if (player.GetComponent<NetworkCharacterMovementController>().GetFinishPosition() == 0)
             {

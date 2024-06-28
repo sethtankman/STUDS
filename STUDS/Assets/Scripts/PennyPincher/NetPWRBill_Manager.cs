@@ -81,16 +81,10 @@ public class NetPWRBill_Manager : NetworkBehaviour
         {
             Showtime(timer);
         }
-        else if(!ended && isServer) { 
-            RpcEndGame();
+        else if(!ended) { 
+            EndGame();
         }
 
-    }
-
-    [ClientRpc]
-    public void RpcEndGame()
-    {
-        EndGame();
     }
 
     private void SetInteractives()
@@ -120,18 +114,17 @@ public class NetPWRBill_Manager : NetworkBehaviour
             if (player.GetComponent<NetworkCharacterMovementController>().isAI)
             {
                 player.GetComponent<NetPennyPincherAI>().SetActive(false);
-                DontDestroyOnLoad(player.gameObject);
+                DontDestroyOnLoad(player);
             }
         }
         if (isServer)
         {
-            List<GameObject> players = NetGameManager.Instance.getPlayers();
-            foreach (GameObject player in players) // TODO: Doesn't account for which side won!
+            foreach (GameObject player in NetGameManager.Instance.getPlayers()) // TODO: Doesn't account for which side won!
             {
-                if (player.GetComponent<NetworkCharacterMovementController>())
+                var controller = player.GetComponent<NetworkCharacterMovementController>();
+                if (controller)
                 {
-                    var controller = player.GetComponent<NetworkCharacterMovementController>();
-                    if (controller.finishPosition == 0)
+                    if (controller.GetFinishPosition() == 0)
                     {
                         if (controller.isMini)
                         {
@@ -146,8 +139,8 @@ public class NetPWRBill_Manager : NetworkBehaviour
                     }
                 }
                 else if (player.GetComponentInChildren<NetworkCharacterMovementController>()) {
-                    var controller = player.GetComponentInChildren<NetworkCharacterMovementController>();
-                    if (controller.finishPosition == 0)
+                    controller = player.GetComponentInChildren<NetworkCharacterMovementController>();
+                    if (controller.GetFinishPosition() == 0)
                     {
                         if (controller.isMini)
                         {
@@ -167,9 +160,8 @@ public class NetPWRBill_Manager : NetworkBehaviour
                     Debug.LogError("No Network Character movement controller found in player!");
                 }
             }
+            netManager.ServerChangeScene("NetVictoryStands");
         }
-
-        netManager.ServerChangeScene("NetVictoryStands");
     }
 
     void Showtime(float timeleft)

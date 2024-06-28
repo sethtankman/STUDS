@@ -11,7 +11,8 @@ public class VictoryCharacter : MonoBehaviour
     public Material color3;
     public Material color4;
     public Material color5;
-    private bool foundMatch, isPowerBill;
+    [SerializeField] private bool foundMatch;
+    private bool isPowerBill;
     public bool networkMode;
     // Start is called before the first frame update
     void Start()
@@ -70,19 +71,21 @@ public class VictoryCharacter : MonoBehaviour
             if (isPowerBill && player.GetComponent<NetworkCharacterMovementController>().isMini)
             {
                 gameObject.GetComponent<CharacterMovementController>().SetToMini(true);
-                gameObject.GetComponent<CharacterMovementController>().enabled = false;
+                //gameObject.GetComponent<CharacterMovementController>().enabled = false;
             }
         }
         else if (isPowerBill && player.GetComponent<CharacterMovementController>().isMini)
         {
             gameObject.GetComponent<CharacterMovementController>().SetToMini(true);
-            gameObject.GetComponent<CharacterMovementController>().enabled = false;
+            //gameObject.GetComponent<CharacterMovementController>().enabled = false;
+            // Not sure why we disable cmcs in this method.
         }
     }
 
     private void SetColor(string colorName)
     {
         colorName = colorName.ToLower();
+        GetComponent<CharacterMovementController>().SetColorName(colorName);
         if (colorName.Equals("blue"))
         {
             GetComponentInChildren<SkinnedMeshRenderer>().material = color1;

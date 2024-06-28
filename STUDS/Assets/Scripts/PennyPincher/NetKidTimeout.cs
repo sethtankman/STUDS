@@ -83,13 +83,11 @@ public class NetKidTimeout : NetworkBehaviour
     public void Timeout(GameObject mini)
     {
         int randomidx = Random.Range(0, 3);
-        Debug.Log($"Random: {randomidx}");
         if (randomidx > 2)
         {
             randomidx = 2;
         }
         currIdx = randomidx;
-        Debug.Log(currIdx);
         GameObject g = timeoutPos[currIdx];
         Vector3 newPos = g.transform.position;
         mini.transform.position = newPos;
