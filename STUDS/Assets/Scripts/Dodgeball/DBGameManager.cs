@@ -34,7 +34,7 @@ public class DBGameManager : MonoBehaviour
             scores.Add(owner, 0);
         scores[owner] += pointValue;
         scoreOrder = scorePanel.UpdateScores(owner);
-        if(scores[owner] >= 100)
+        if(scores[owner] >= 50)
         {
             EndGame();
         }
