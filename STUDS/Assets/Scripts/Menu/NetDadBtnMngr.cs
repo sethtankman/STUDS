@@ -6,10 +6,10 @@ using UnityEngine.SceneManagement;
 
 public class NetDadBtnMngr : NetworkBehaviour
 {
-    public List<GameObject> allPlayers, miniPlayers, dadPlayers;
+    public List<GameObject> miniPlayers, dadPlayers;
     public List<string> remainingColors;
     public Stack<string> AIColors;
-    public GameObject[] allButtons;
+    public GameObject[] allButtons, allPlayers;
     public GameObject characterButton, GameManager, acceptButton;
     public RectTransform[] buttonLocations;
     public string levelName;
@@ -26,38 +26,42 @@ public class NetDadBtnMngr : NetworkBehaviour
         miniPlayers = new List<GameObject>();
         dadPlayers = new List<GameObject>();
         //PlayerInputManager.instance.DisableJoining();  //Technically we shouldn't need this, because we should disable joining before level select.
-        allPlayers = GameObject.Find("GameManager").GetComponent<NetGameManager>().players;
+        allPlayers = GameObject.FindGameObjectsWithTag("Player");
         allButtons = new GameObject[4];
-        int i = 0;
-
         if (isServer)
         {
-            acceptButton.SetActive(true);
-            foreach (GameObject player in allPlayers)
-            {
-                GameObject button = Instantiate(characterButton, buttonLocations[i].position, Quaternion.identity, gameObject.transform);
-                NetworkServer.Spawn(button);
-                button.GetComponent<RectTransform>().pivot = buttonLocations[i].pivot;
-                button.GetComponent<NetDadBtn>().SetSprite(player.GetComponent<NetworkCharacterMovementController>().GetColorName(), false);
-                remainingColors.Remove(player.GetComponent<NetworkCharacterMovementController>().GetColorName());
-                button.GetComponent<NetDadBtn>().SetPlayer(player);
-                button.GetComponent<NetDadBtn>().manager = this;
-                allButtons[i] = button;
-
-                if (i > 0) // This sort of performs it backwards: add the player to the wrong list, then switch them.
-                {
-                    button.GetComponent<NetDadBtn>().ToggleMini();
-                }
-                else
-                { // first player is a dad.
-                    miniPlayers.Add(player);
-                    ToggleMini(player);
-                }
-                i++;
-                numPlayers = i;
-            }
-            Invoke("ClientInitialize", 1.0f);
+            Invoke(nameof(InitBtns), 0.1f);
         }
+    }
+
+    public void InitBtns()
+    {
+        int i = 0;
+        acceptButton.SetActive(true);
+        foreach (GameObject player in allPlayers)
+        {
+            GameObject button = Instantiate(characterButton, buttonLocations[i].position, Quaternion.identity, gameObject.transform);
+            NetworkServer.Spawn(button);
+            button.GetComponent<RectTransform>().pivot = buttonLocations[i].pivot;
+            button.GetComponent<NetDadBtn>().SetSprite(player.GetComponent<NetworkCharacterMovementController>().GetColorName(), false);
+            remainingColors.Remove(player.GetComponent<NetworkCharacterMovementController>().GetColorName());
+            button.GetComponent<NetDadBtn>().SetPlayer(player);
+            button.GetComponent<NetDadBtn>().manager = this;
+            allButtons[i] = button;
+
+            if (i > 0) // This sort of performs it backwards: add the player to the wrong list, then switch them.
+            {
+                button.GetComponent<NetDadBtn>().ToggleMini();
+            }
+            else
+            { // first player is a dad.
+                miniPlayers.Add(player);
+                ToggleMini(player);
+            }
+            i++;
+            numPlayers = i;
+        }
+        Invoke(nameof(ClientInitialize), 1.0f);
     }
 
     public void ClientInitialize()

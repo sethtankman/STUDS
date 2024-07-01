@@ -47,22 +47,21 @@ public class NetGameManager : NetworkBehaviour
         {
             colorMaterials[colorNames[i]] = materials[i];
         }
-         
     }
 
 
     // Start is called before the first frame update
     void Start()
     {
+
+        players = new List<GameObject>();
+        playerJoined = false;
+
         if (isServer)
         {
             for (int i = 0; i < colorNames.Length; i++)
                 availableColors.Add(colorNames[i]);
         }
-
-        players = new List<GameObject>();
-        playerJoined = false;
-
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
 
@@ -165,7 +164,7 @@ public class NetGameManager : NetworkBehaviour
             int playerID = playerObj.GetComponent<NetworkCharacterMovementController>().getPlayerID();
             Debug.Log($"Player ID: {playerID}");
             playerObj.name = $"STUD{playerID + 1}";
-            AssignColor(playerObj, playerColors[playerID]);
+            AssignColor(playerObj, playerID);
         }
     }
 
@@ -182,6 +181,8 @@ public class NetGameManager : NetworkBehaviour
             Instance = this;
             DontDestroyOnLoad(Instance.gameObject);
         }
+
+        NetGameManager.Instance.players = new List<GameObject>();
     }
 
     [ClientRpc]
@@ -203,11 +204,14 @@ public class NetGameManager : NetworkBehaviour
         playerColors[playerID] = colorName;
     }
 
-    public void AssignColor(GameObject playerObj, string color)
+    public void AssignColor(GameObject playerObj, int playerID)
     {
+        string color = availableColors.ToArray()[0];
         playerObj.GetComponentInChildren<SkinnedMeshRenderer>().material = colorMaterials[color];
         NetworkCharacterMovementController netCMC = playerObj.GetComponent<NetworkCharacterMovementController>();
         netCMC.color = color;
+        playerColors[playerID] = color;
+        availableColors.Remove(color);
         if (playerConnectionPanel)
             playerConnectionPanel.SetPanelImage(netCMC.getPlayerID(), color);
         else
@@ -219,15 +223,13 @@ public class NetGameManager : NetworkBehaviour
     {
         playerJoined = true;
         players.Add(player);
-        DontDestroyOnLoad(player);
+        //DontDestroyOnLoad(player); // TODO: Remove if network spawn locations are all working.
         if (isServer)
         {
             player.GetComponent<NetworkCharacterMovementController>().SetPlayerID(playerIDCount);
             player.name = $"STUD{playerIDCount + 1}";
-            string color = availableColors.ToArray()[0];
-            AssignColor(player, color);
-            playerColors[playerIDCount] = color;
-            availableColors.Remove(color);
+            
+            AssignColor(player, playerIDCount);
             playerIDCount++;
         } 
     }

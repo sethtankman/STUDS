@@ -13,46 +13,21 @@ public class VictoryCharacter : MonoBehaviour
     public Material color5;
     [SerializeField] private bool foundMatch;
     private bool isPowerBill;
-    public bool networkMode;
     // Start is called before the first frame update
     void Start()
     {
         foundMatch = false;
         isPowerBill = (GameObject.Find("PBFinalText(Clone)") != null);
-        if (!networkMode)
+        players = ManagePlayerHub.Instance.getPlayers();
+        foreach (GameObject player in players)
         {
-            players = ManagePlayerHub.Instance.getPlayers();
-        }
-        else
-        {
-            players = NetGameManager.Instance.getPlayers();
-        }
-        if (networkMode)
-        {
-            foreach (GameObject player in players)
+            gameObject.GetComponent<CharacterMovementController>().enabled = true;
+            if (player.GetComponent<CharacterMovementController>().GetFinishPosition() == posNumber)
             {
-                GetComponent<CharacterMovementController>().enabled = true;
-                if (player.GetComponent<NetworkCharacterMovementController>().GetFinishPosition() == posNumber)
-                {
-                    SetColor(player.GetComponent<NetworkCharacterMovementController>().GetColorName());
+                SetColor(player.GetComponent<CharacterMovementController>().GetColorName());
+                if (foundMatch == false)
                     TurnMini(player);
-                    foundMatch = true;
-                    break;
-                }
-            }
-        }
-        else
-        {
-            foreach (GameObject player in players)
-            {
-                gameObject.GetComponent<CharacterMovementController>().enabled = true;
-                if (player.GetComponent<CharacterMovementController>().GetFinishPosition() == posNumber)
-                {
-                    SetColor(player.GetComponent<CharacterMovementController>().GetColorName());
-                    if (foundMatch == false)
-                        TurnMini(player);
-                    foundMatch = true;
-                }
+                foundMatch = true;
             }
         }
         if (!foundMatch)
@@ -67,14 +42,7 @@ public class VictoryCharacter : MonoBehaviour
     /// <param name="player"></param>
     private void TurnMini(GameObject player)
     {
-        if (player.GetComponent<NetworkCharacterMovementController>()) {
-            if (isPowerBill && player.GetComponent<NetworkCharacterMovementController>().isMini)
-            {
-                gameObject.GetComponent<CharacterMovementController>().SetToMini(true);
-                //gameObject.GetComponent<CharacterMovementController>().enabled = false;
-            }
-        }
-        else if (isPowerBill && player.GetComponent<CharacterMovementController>().isMini)
+        if (isPowerBill && player.GetComponent<CharacterMovementController>().isMini)
         {
             gameObject.GetComponent<CharacterMovementController>().SetToMini(true);
             //gameObject.GetComponent<CharacterMovementController>().enabled = false;

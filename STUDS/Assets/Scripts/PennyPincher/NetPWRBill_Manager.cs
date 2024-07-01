@@ -119,7 +119,7 @@ public class NetPWRBill_Manager : NetworkBehaviour
         }
         if (isServer)
         {
-            foreach (GameObject player in NetGameManager.Instance.getPlayers()) // TODO: Doesn't account for which side won!
+            foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player")) // TODO: Doesn't account for which side won!
             {
                 var controller = player.GetComponent<NetworkCharacterMovementController>();
                 if (controller)

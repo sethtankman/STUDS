@@ -20,10 +20,8 @@ public class NetPBInitLvl : NetworkBehaviour
     private bool[] aiInstantiated;
     private bool spawnedPlayers = false;
     private float waitTime = 5f;
-    [SyncVar]
-    private float currentTime = 0;
     private int numAI;
-    private List<GameObject> players;
+    private GameObject[] players;
     private Stack<string> aiColors;
 
     private void Awake()
@@ -39,7 +37,7 @@ public class NetPBInitLvl : NetworkBehaviour
         GameObject.Find("Music Manager").GetComponent<Music_Manager>().PlayStopMusic("Menu", false);
         GameObject.Find("Music Manager").GetComponent<Music_Manager>().PlayStopMusic("Penny", true);
 
-        players = NetGameManager.Instance.getPlayers();
+        players = GameObject.FindGameObjectsWithTag("Player");
         numAI = NetGameManager.Instance.numAIToSpawnPB;
         aiInstantiated = new bool[numAI];
         aiColors = NetGameManager.Instance.aiColors;
@@ -54,26 +52,47 @@ public class NetPBInitLvl : NetworkBehaviour
         {
             Debug.LogError("PB no pause menu UI?");
         }
+        waitTime += (float)NetworkTime.time; // This way wait time is in sync across network.
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (isServer)
-        {
-            currentTime += Time.deltaTime;
-        }
 
-        if (currentTime > waitTime && !spawnedPlayers)
+        if (NetworkTime.time > waitTime && !spawnedPlayers)
         {
             loadingScreen.SetActive(false);
             spawnedPlayers = true;
             PauseV2.canPause = true;
-        }
+            foreach (GameObject player in players)
+            {
+                player.GetComponent<NetKidTimeout>().Init();
+            }
+        } 
         else if (!spawnedPlayers)
         {
-            Invoke("SpawnPlayers", 0.5f); 
-        }
+            int i = 4 - numAI;
+            if (isServer)
+            { // spawn AI
+                for (int k = 0; k < numAI; k++)
+                {
+                    if (aiInstantiated[k] == false)
+                    {
+                        if (aiColors.Count != 0)
+                        {
+                            GameObject AI = Instantiate(AIPrefab, playerSpawns[i].position, playerSpawns[i].transform.rotation);
+                            NetworkServer.Spawn(AI);
+                            string aiColor = aiColors.Pop();
+
+                            AI.GetComponent<NetworkCharacterMovementController>().RpcSetColorName(aiColor);
+                            RpcSetKidMaterial(AI.GetComponent<NetworkIdentity>().netId, GetColorIndex(aiColor));
+                        }
+                        aiInstantiated[k] = true;
+                    }
+                    i++;
+                }
+            }
+        } 
     }
 
     [ClientRpc]
@@ -82,42 +101,6 @@ public class NetPBInitLvl : NetworkBehaviour
         Debug.Log($"ID: {netID}, V: {v}");
         if(NetworkClient.spawned.ContainsKey(netID))
             NetworkClient.spawned[netID].GetComponentInChildren<SkinnedMeshRenderer>(true).material = kidsMaterials[v];
-    }
-
-    /// <summary>
-    /// Spawns AI.  Invoked after delay because Mirror.
-    /// </summary>
-    private void SpawnPlayers()
-    {
-        int i = 0;
-        foreach (GameObject player in players)
-        {
-            player.transform.forward = playerSpawns[i].transform.forward;
-            player.transform.position = playerSpawns[i].position;
-            player.GetComponent<NetKidTimeout>().Init();
-            i++;
-        }
-
-        if (isServer)
-        { // spawn AI
-            for (int k = 0; k < numAI; k++)
-            {
-                if (aiInstantiated[k] == false)
-                {
-                    if (aiColors.Count != 0)
-                    {
-                        GameObject AI = Instantiate(AIPrefab, playerSpawns[i].position, playerSpawns[i].transform.rotation);
-                        NetworkServer.Spawn(AI);
-                        string aiColor = aiColors.Pop();
-
-                        AI.GetComponent<NetworkCharacterMovementController>().RpcSetColorName(aiColor);
-                        RpcSetKidMaterial(AI.GetComponent<NetworkIdentity>().netId, GetColorIndex(aiColor));
-                    }
-                    aiInstantiated[k] = true;
-                }
-                i++;
-            }
-        }
     }
 
     private int GetColorIndex(string _color)

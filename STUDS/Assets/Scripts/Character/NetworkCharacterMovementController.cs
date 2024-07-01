@@ -116,10 +116,23 @@ public class NetworkCharacterMovementController : NetworkBehaviour
         if (!isAI)
         {
             sa = GameObject.Find("SteamScripts").GetComponent<SteamAchievements>();
-            hub.NetworkPlayerJoin(this.gameObject); // This is unique to network characters.
+            if(SceneManager.GetActiveScene().name.Equals("TheBlock_LevelSelectOnlineMultiplayer"))
+                hub.NetworkPlayerJoin(this.gameObject); // This is unique to network characters.
         }
         if (isLocalPlayer)
             CmdRequestPlayerVariables();
+    }
+
+    public override void OnStartServer()
+    {
+        if (!isAI && connectionToClient.authenticationData != null)
+        {
+            PlayerInfo info = (PlayerInfo)connectionToClient.authenticationData;
+            color = info.color;
+            playerID = info.id;
+            finishPosition = info.finishPos;
+            GetComponentInChildren<SkinnedMeshRenderer>().material = NetGameManager.Instance.colorMaterials[color];
+        }
     }
 
     // Update is called once per frame
@@ -260,6 +273,12 @@ public class NetworkCharacterMovementController : NetworkBehaviour
             pickupCooldown -= Time.deltaTime;
         }
 
+    }
+
+    private void OnDestroy()
+    {
+        PlayerInfo info = new PlayerInfo(color, playerID, finishPosition);
+        connectionToClient.authenticationData = info;
     }
 
     private void CollisionDetection()
@@ -1102,22 +1121,6 @@ public class NetworkCharacterMovementController : NetworkBehaviour
         pickupPressed = false;
     }
 
-    // TODO: Remove this and hook if everything is working fine with picking up stuff.
-    /* 
-    private void HookSetGrabbedObject(uint oldObj, uint objID)
-    {
-        grabbedObjectID = objID;
-        if (objID != 0)
-        {
-            animator.SetBool("isHoldingSomething", true);
-            grabbedObject = NetworkClient.spawned[objID].gameObject;
-            grabbedObject.GetComponent<NetGrabbableObjectController>().LocalPickupObject(name);
-            moveSpeed = moveSpeedGrab;
-            hasGrabbed = true;
-            pickupPressed = false;
-        }
-    }*/
-
     public GameObject GetGrabbedObject()
     {
         return grabbedObject;
@@ -1191,5 +1194,19 @@ public class NetworkCharacterMovementController : NetworkBehaviour
     public void SetFinishPosition(int pos)
     {
         finishPosition = pos;
+    }
+
+    public struct PlayerInfo
+    {
+        public string color;
+        public int id;
+        public int finishPos;
+
+        public PlayerInfo(string _color, int _id, int _finishPos)
+        {
+            color = _color;
+            id = _id;
+            finishPos = _finishPos;
+        }
     }
 }
