@@ -107,8 +107,8 @@ public class NetPWRBill_Manager : NetworkBehaviour
         GameObject EndText = Instantiate(PBGameEndText);
         DontDestroyOnLoad(EndText);
         EndText.GetComponent<TextMeshProUGUI>().text = Score.ToString();
-
-        foreach (GameObject player in NetGameManager.Instance.getPlayers())
+        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+        foreach (GameObject player in players)
         {
             player.GetComponent<NetKidTimeout>().inPowerBill = false;
             if (player.GetComponent<NetworkCharacterMovementController>().isAI)
@@ -119,7 +119,7 @@ public class NetPWRBill_Manager : NetworkBehaviour
         }
         if (isServer)
         {
-            foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player")) // TODO: Doesn't account for which side won!
+            foreach (GameObject player in players) // TODO: Doesn't account for which side won!
             {
                 var controller = player.GetComponent<NetworkCharacterMovementController>();
                 if (controller)

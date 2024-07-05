@@ -108,7 +108,8 @@ public class NetworkCharacterMovementController : NetworkBehaviour
         moveSpeed = moveSpeedNormal;
         direction = new Vector2();
         isReady = false;
-        finishPosition = 0;
+        if(SceneManager.GetActiveScene().name.Equals("TheBlock_LevelSelectOnlineMultiplayer"))
+            finishPosition = 0;
         controller = GetComponent<CharacterController>();
         PlayerParticles = GetComponent<PLR_ParticleController>();
         CanJump = true;
@@ -116,23 +117,41 @@ public class NetworkCharacterMovementController : NetworkBehaviour
         if (!isAI)
         {
             sa = GameObject.Find("SteamScripts").GetComponent<SteamAchievements>();
-            if(SceneManager.GetActiveScene().name.Equals("TheBlock_LevelSelectOnlineMultiplayer"))
+            if (SceneManager.GetActiveScene().name.Equals("TheBlock_LevelSelectOnlineMultiplayer"))
                 hub.NetworkPlayerJoin(this.gameObject); // This is unique to network characters.
         }
         if (isLocalPlayer)
             CmdRequestPlayerVariables();
+        if (GetComponentInChildren<Camera>()) { 
+            if (SceneManager.GetActiveScene().name.Equals("NetVictoryStands"))
+            {
+                GetComponentInChildren<Camera>().enabled = false;
+            } else
+            {
+                GetComponentInChildren<Camera>().enabled = true;
+            }
+        }
     }
 
     public override void OnStartServer()
     {
+        base.OnStartServer();
         if (!isAI && connectionToClient.authenticationData != null)
         {
             PlayerInfo info = (PlayerInfo)connectionToClient.authenticationData;
             color = info.color;
             playerID = info.id;
-            finishPosition = info.finishPos;
+            SetFinishPosition(info.finishPos);
             GetComponentInChildren<SkinnedMeshRenderer>().material = NetGameManager.Instance.colorMaterials[color];
         }
+    }
+
+    public override void OnStopServer()
+    {
+        base.OnStopServer();
+
+        PlayerInfo info = new PlayerInfo(color, playerID, finishPosition);
+        connectionToClient.authenticationData = info;
     }
 
     // Update is called once per frame
@@ -275,11 +294,6 @@ public class NetworkCharacterMovementController : NetworkBehaviour
 
     }
 
-    private void OnDestroy()
-    {
-        PlayerInfo info = new PlayerInfo(color, playerID, finishPosition);
-        connectionToClient.authenticationData = info;
-    }
 
     private void CollisionDetection()
     {

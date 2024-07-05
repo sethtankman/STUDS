@@ -13,16 +13,19 @@ public class NetInitLevelSelect : MonoBehaviour
         if (NetGameManager.Instance)
         {
             NetGameManager.Instance.GetComponent<PauseV2>().PauseMenuUI = PausePanel;
-            List<GameObject> players = NetGameManager.Instance.getPlayers();
+            GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
             bool[] AI_ids = new bool[4];
             int i = 0;
-            while (i < players.Count)
+            while (i < players.Length)
             {
                 GameObject player = players[i];
                 // Move players into the right place
                 if (player.GetComponent<NetworkCharacterMovementController>().isAI)
                 {
-                    Destroy(player.transform.parent.gameObject);
+                    if (transform.parent)
+                        Destroy(player.transform.parent.gameObject);
+                    else
+                        Destroy(player);
                     AI_ids[i] = true;
                 } else {
                     player.transform.position = new Vector3(-5, 0, 32);
@@ -44,7 +47,7 @@ public class NetInitLevelSelect : MonoBehaviour
             foreach (GameObject player in NetGameManager.Instance.players)
             {
                 player.GetComponent<NetworkCharacterMovementController>().SetAimAssist(true);
-                player.GetComponent<NetworkCharacterMovementController>().finishPosition = 0;
+                player.GetComponent<NetworkCharacterMovementController>().SetFinishPosition(0);
             }
         }
     }

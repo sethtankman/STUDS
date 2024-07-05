@@ -19,14 +19,6 @@ public class NetVictoryScreenInit : MonoBehaviour
         GameObject.Find("Music Manager").GetComponent<Music_Manager>().PlayStopMusic("Stroller", false);
         GameObject.Find("Music Manager").GetComponent<Music_Manager>().PlayStopMusic("Penny", false);
         GameObject.Find("Music Manager").GetComponent<Music_Manager>().PlayStopMusic("Menu", true);
-        if (NetGameManager.Instance)
-        {
-            var players = NetGameManager.Instance.getPlayers();
-            foreach (GameObject player in players)
-            {
-                player.SetActive(false);
-            }
-        }
 
 
         finalText = GameObject.Find("PBFinalText(Clone)");
