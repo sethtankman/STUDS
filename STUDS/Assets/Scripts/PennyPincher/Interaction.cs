@@ -4,7 +4,8 @@ using UnityEngine.UI;
 public class Interaction : MonoBehaviour
 
 {
-    public NetPWRBill_Manager GameMaster;
+    public NetPWRBill_Manager NetGameMaster;
+    private PWRBill_Manager GameMaster;
 
     public int PowerCharge = 1;
 
@@ -28,7 +29,8 @@ public class Interaction : MonoBehaviour
 
     private void Awake()
     {
-        GameMaster = GameObject.Find("Game Manager").GetComponent<NetPWRBill_Manager>();
+        NetGameMaster = GameObject.Find("Game Manager").GetComponent<NetPWRBill_Manager>();
+        GameMaster = GameObject.Find("Game Manager").GetComponent<PWRBill_Manager>();
 
     }
 
@@ -42,7 +44,6 @@ public class Interaction : MonoBehaviour
             {
                 CashTimer = 0f;
                 GameMaster.AddScore(PowerCharge);
-                //print(this.name);
 
             }
         }
@@ -50,10 +51,12 @@ public class Interaction : MonoBehaviour
 
     public void ToggleVisual(bool isMini)
     {
-        Debug.Log("ToggleVisual Called.");
         if (isMini && !Object_active.activeSelf)
         {
-            GameMaster.NumItemsOn += 1;
+            if (GameMaster)
+                GameMaster.NumItemsOn += 1;
+            else
+                NetGameMaster.NumItemsOn += 1;
             interactPressed = false;
             trigger.isSwitchActive = false;
             Object_active.SetActive(true);
@@ -63,7 +66,10 @@ public class Interaction : MonoBehaviour
         }
         else if (!isMini && Object_active.activeSelf)
         {
-            GameMaster.NumItemsOn -= 1;
+            if (GameMaster)
+                GameMaster.NumItemsOn -= 1;
+            else
+                NetGameMaster.NumItemsOn -= 1;
             interactPressed = true;
             trigger.isSwitchActive = true;
             Object_active.SetActive(false);

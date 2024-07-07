@@ -6,18 +6,13 @@ public class ResetGame : MonoBehaviour
 {
     public void Reset()
     {
-        GameObject gameManager = GameObject.Find("GameManager");
-        if(gameManager) {
-            if (gameManager.GetComponent<ManagePlayerHub>())
-            {
-                gameManager.GetComponent<ManagePlayerHub>().DeletePlayers();
-                Destroy(gameManager);
-            }
+        if(ManagePlayerHub.Instance) {
+            ManagePlayerHub.Instance.DeletePlayers();
+            Destroy(ManagePlayerHub.Instance);
         } else if (NetGameManager.Instance)
         {
             NetGameManager.Instance.DeletePlayers();
-            Destroy(GameObject.Find("SteamScripts"));
-            Destroy(NetGameManager.Instance.gameObject);
+            //Destroy(GameObject.Find("SteamScripts"));
         } else
         {
             Debug.LogWarning("Couldn't find anything in ResetGame");

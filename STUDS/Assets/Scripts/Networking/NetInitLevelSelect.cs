@@ -27,11 +27,7 @@ public class NetInitLevelSelect : MonoBehaviour
                     else
                         Destroy(player);
                     AI_ids[i] = true;
-                } else {
-                    player.transform.position = new Vector3(-5, 0, 32);
-                    player.SetActive(true);
-                    player.GetComponentInChildren<StrollerLocator>().SetActive(false);
-                }
+                } 
                 player.GetComponent<NetworkCharacterMovementController>().inStrollerRace = false;
                 ++i;
             }

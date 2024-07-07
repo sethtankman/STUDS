@@ -95,7 +95,7 @@ public class NetworkCharacterMovementController : NetworkBehaviour
     private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody>();
-        hub = GameObject.Find("GameManager").GetComponent<NetGameManager>();
+        hub = GameObject.Find("NetGameManager").GetComponent<NetGameManager>();
         if (!isLocalPlayer)
         {
             Destroy(GetComponent<Rigidbody>()); // This was causing characters to fly off over network.
@@ -151,7 +151,8 @@ public class NetworkCharacterMovementController : NetworkBehaviour
         base.OnStopServer();
 
         PlayerInfo info = new PlayerInfo(color, playerID, finishPosition);
-        connectionToClient.authenticationData = info;
+        if(connectionToClient != null)
+            connectionToClient.authenticationData = info;
     }
 
     // Update is called once per frame

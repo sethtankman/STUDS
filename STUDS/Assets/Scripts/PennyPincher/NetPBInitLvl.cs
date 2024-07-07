@@ -47,7 +47,7 @@ public class NetPBInitLvl : NetworkBehaviour
             player.GetComponent<NetworkCharacterMovementController>().SetAimAssist(true);
 
         if (pauseMenuUI)
-            GameObject.Find("GameManager").GetComponent<PauseV2>().PauseMenuUI = pauseMenuUI;
+            GameObject.Find("NetGameManager").GetComponent<PauseV2>().PauseMenuUI = pauseMenuUI;
         else
         {
             Debug.LogError("PB no pause menu UI?");

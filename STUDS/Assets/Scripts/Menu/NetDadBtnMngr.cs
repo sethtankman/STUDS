@@ -22,7 +22,7 @@ public class NetDadBtnMngr : NetworkBehaviour
         acceptButton.SetActive(false);
         AIColors = new Stack<string>();
         remainingColors = new List<string>() { "blue", "red", "purple", "green", "yellow" };
-        GameManager = GameObject.Find("GameManager");
+        GameManager = GameObject.Find("NetGameManager");
         miniPlayers = new List<GameObject>();
         dadPlayers = new List<GameObject>();
         //PlayerInputManager.instance.DisableJoining();  //Technically we shouldn't need this, because we should disable joining before level select.

@@ -35,7 +35,7 @@ public class NetGameManager : NetworkBehaviour
 
     public Text StartText;
 
-    [SerializeField] private bool playerJoined, oldHub;
+    [SerializeField] private bool playerJoined;
 
     public static NetGameManager Instance { get; private set; }
     public PlayerInputManager pim;
@@ -56,7 +56,6 @@ public class NetGameManager : NetworkBehaviour
 
         players = new List<GameObject>();
         playerJoined = false;
-
         if (isServer)
         {
             for (int i = 0; i < colorNames.Length; i++)
@@ -129,7 +128,6 @@ public class NetGameManager : NetworkBehaviour
         }
     }
 
-
     private void OnGameOverlayActivated(GameOverlayActivated_t pCallback)
     {
         if (pCallback.m_bActive != 0)
@@ -142,6 +140,14 @@ public class NetGameManager : NetworkBehaviour
         {
             Debug.Log("Steam Overlay has been closed");
         }
+    }
+
+    public void HandlePlayerJoin(PlayerInput pi)
+    {
+        playerJoined = true;
+        players.Add(pi.gameObject);
+        //oldHub = true;
+        playerIDCount++;
     }
 
     /// <summary>
@@ -174,7 +180,8 @@ public class NetGameManager : NetworkBehaviour
     {
         if (Instance != null)
         {
-            Debug.LogError("Making a second instance of singleton very bad");
+            //Changed From Error to Warning since this is expected to happen when you play a level -> return to level select -> play another level.
+            Debug.LogWarning("Making a second instance of singleton very bad");
         }
         else
         {
@@ -258,19 +265,17 @@ public class NetGameManager : NetworkBehaviour
     }
 
     /// <summary>
-    /// refreshes player list.
+    /// refreshes player list.  Also Removes Player Input Manager.
     /// </summary>
     /// <returns>If this game manager is on server</returns>
     public bool DeletePlayers()
     {
         foreach (GameObject player in players)
         {
-            if (player.GetComponent<NetworkCharacterMovementController>().isAI)
-                Destroy(player.transform.parent.gameObject);
-            else
-                Destroy(player);
+            Destroy(player);
         }
         players = new List<GameObject>();
+        Destroy(GetComponent<PlayerInputManager>());
         return isServer;
     }
 

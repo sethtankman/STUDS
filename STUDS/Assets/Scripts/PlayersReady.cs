@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 public class PlayersReady : MonoBehaviour
 {
     public GameObject gameManager;
+    private GameObject[] netPlayers;
     public List<GameObject> players;
     public AK.Wwise.Event EffectSound;
     public GameObject NetworkManager;
@@ -81,7 +82,7 @@ public class PlayersReady : MonoBehaviour
                 bool allReady = true;
                 other.gameObject.GetComponent<NetworkCharacterMovementController>().ReadyPlayer(true, gameObject.tag);
 
-                players = gameManager.GetComponent<NetGameManager>().getPlayers();
+                netPlayers = GameObject.FindGameObjectsWithTag("Player");
                 foreach (GameObject player in players)
                 {
                     if (player && !player.GetComponent<NetworkCharacterMovementController>().GetReadyPlayer(gameObject.tag))
@@ -92,7 +93,7 @@ public class PlayersReady : MonoBehaviour
                 }
                 if (allReady)
                 {
-                    gameManager.GetComponent<NetGameManager>().RpcSaveState();
+                    GameObject.Find("NetGameManager").GetComponent<NetGameManager>().RpcSaveState();
                     StudsNetworkManager netManager = NetworkManager.GetComponent<StudsNetworkManager>();
                     // Close the lobby
                     SteamLobby.singleton.SetLobbyClosed();

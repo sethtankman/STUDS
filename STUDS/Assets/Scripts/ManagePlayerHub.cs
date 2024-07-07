@@ -76,7 +76,6 @@ public class ManagePlayerHub : MonoBehaviour
 
         if (SceneManager.GetActiveScene().name == "TheBlock_Scott" || SceneManager.GetActiveScene().name == "Shopping_Spree-Scott")
         {
-            //Debug.Log("This was called.");
             foreach (GameObject player in players)
             {
                 player.GetComponent<CharacterMovementController>().SetAimAssist(true);
