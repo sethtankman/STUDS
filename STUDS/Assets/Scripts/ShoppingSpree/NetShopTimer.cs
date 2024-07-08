@@ -42,13 +42,16 @@ public class NetShopTimer : NetworkBehaviour
         else
         {
             if (isServer)
+            {
                 EndGame();
+                timer = 10000.0f; // This way we should only call it once.
+            }
         }
     }
 
     void EndGame()
     { 
-        foreach (GameObject player in NetGameManager.Instance.getPlayers())
+        foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
         {
             if (player.GetComponent<NetworkCharacterMovementController>().GetFinishPosition() == 0)
             {

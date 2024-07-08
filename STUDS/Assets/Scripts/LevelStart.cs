@@ -26,7 +26,7 @@ public class LevelStart : MonoBehaviour
         if (pauseMenuUI)
             GameObject.Find("GameManager").GetComponent<PauseV2>().PauseMenuUI = pauseMenuUI;
         if(NetGameManager.Instance) // LevelStart is used on local too.
-            foreach(GameObject player in NetGameManager.Instance.getPlayers())
+            foreach(GameObject player in GameObject.FindGameObjectsWithTag("Player"))
                 player.GetComponent<NetworkCharacterMovementController>().SetAimAssist(false);
     }
 

@@ -24,7 +24,7 @@ public class NetInitRace : NetworkBehaviour
     public Material strollerColor4;
     public Material strollerColor5;
 
-    private List<GameObject> players;
+    private GameObject[] players;
 
     public GameObject strollerPrefab;
     public GameObject pauseMenuUI;
@@ -37,41 +37,32 @@ public class NetInitRace : NetworkBehaviour
         PauseV2.canPause = false;
         GameObject.Find("Music Manager").GetComponent<Music_Manager>().PlayStopMusic("Menu", false);
         GameObject.Find("Music Manager").GetComponent<Music_Manager>().PlayStopMusic("Stroller", true);
-        players = NetGameManager.Instance.getPlayers();
+        players = GameObject.FindGameObjectsWithTag("Player");
         PlayerInputManager.instance.DisableJoining();
         if(pauseMenuUI)
             GameObject.Find("GameManager").GetComponent<PauseV2>().PauseMenuUI = pauseMenuUI;
+        waitTime += (float)NetworkTime.time;
     }
 
     // Update is called once per frame
     void Update()
     {
-
-        currentTime += Time.deltaTime;
-        if (currentTime > waitTime && !spawnedPlayers)
+        if (isServer)
         {
-            startText.text = "";
-            if (isServer && players != null)
+            if (NetworkTime.time > waitTime && !spawnedPlayers)
             {
-                for (int i = 0; i < players.Count; i++)
+                startText.text = "";
+                if (players != null)
                 {
-                    GameObject stroller = Instantiate(strollerPrefab, playerSpawns[i].position + new Vector3(0, 0, 2f), Quaternion.identity);
-                    NetworkServer.Spawn(stroller); 
-                    RpcDetermineColor(players[i].GetComponent<NetworkCharacterMovementController>().GetColorName(), 
-                        stroller.GetComponent<NetworkIdentity>().netId, 
-                        players[i].GetComponent<NetworkCharacterMovementController>().getPlayerID());
-                    players[i].GetComponent<NetworkCharacterMovementController>().inStrollerRace = true;
-                }
-            }
-        }
-        else if(!spawnedPlayers)
-        {
-            if (players != null)
-            {
-                for (int i = 0; i < players.Count; i++)
-                {
-                    players[i].transform.forward = new Vector3(0, 0, 1);
-                    players[i].transform.position = playerSpawns[i].position;
+                    for (int i = 0; i < players.Length; i++)
+                    {
+                        GameObject stroller = Instantiate(strollerPrefab, playerSpawns[i].position + new Vector3(0, 0, 2f), Quaternion.identity);
+                        NetworkServer.Spawn(stroller);
+                        RpcDetermineColor(players[i].GetComponent<NetworkCharacterMovementController>().GetColorName(),
+                            stroller.GetComponent<NetworkIdentity>().netId,
+                            players[i].GetComponent<NetworkCharacterMovementController>().getPlayerID());
+                        players[i].GetComponent<NetworkCharacterMovementController>().inStrollerRace = true;
+                    }
                 }
             }
         }

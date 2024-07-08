@@ -17,7 +17,7 @@ public class Net_SS_Initialize : NetworkBehaviour
     public float waitTime = 5f;
     private float currentTime = 0;
 
-    private List<GameObject> players;
+    private GameObject[] players;
     private GameObject localPlayer;
 
     public GameObject startCam;
@@ -35,8 +35,8 @@ public class Net_SS_Initialize : NetworkBehaviour
         GameObject.Find("Music Manager").GetComponent<Music_Manager>().PlayStopMusic("Menu", false);
         GameObject.Find("Music Manager").GetComponent<Music_Manager>().PlayStopMusic("Shopping", true);
         PlayerInputManager.instance.DisableJoining();
-        players = NetGameManager.Instance.getPlayers();
-        for (int i = 0; i < players.Count; i++)
+        players = GameObject.FindGameObjectsWithTag("Player");
+        for (int i = 0; i < players.Length; i++)
         {
             players[i].AddComponent<SS_ItemTracker>();
             players[i].GetComponent<NetworkCharacterMovementController>().SetAimAssist(true);
@@ -56,7 +56,7 @@ public class Net_SS_Initialize : NetworkBehaviour
             tracker.myPaper = p1Paper;
         }
         if (pauseMenuUI)
-            GameObject.Find("GameManager").GetComponent<PauseV2>().PauseMenuUI = pauseMenuUI;
+            GameObject.Find("NetGameManager").GetComponent<PauseV2>().PauseMenuUI = pauseMenuUI;
         else
         {
             Debug.LogError("SS no pause menu UI");
@@ -72,23 +72,12 @@ public class Net_SS_Initialize : NetworkBehaviour
             Destroy(startCam);
             if (startText)
                 startText.text = "";
-            for (int i = 0; i < players.Count; i++)
+            for (int i = 0; i < players.Length; i++)
             {
                 spawnedPlayers = true;
             }
             GameObject.Find("Row1").GetComponent<NetRandomPicker>().RandomDeactivate();
             PauseV2.canPause = true;
-        }
-        else if (!spawnedPlayers)
-        {
-            for (int i = 0; i < players.Count; i++)
-            {
-                //Vector3 flagPos = GameObject.Find("Proto_Flag_01").transform.position;
-                //players[i].transform.LookAt(new Vector3(transform.position.x, transform.position.y, transform.position.z));
-                players[i].transform.forward = new Vector3(0, 0, 1);
-                players[i].transform.position = playerSpawns[i].position;
-            }
-
         }
     }
 

@@ -14,7 +14,7 @@ using System;
 /// </summary>
 public class NetGameManager : NetworkBehaviour
 {
-    public List<GameObject> players;
+    public List<GameObject> AIplayers;
     public Stack<string> aiColors;
     public List<string> availableColors;
     public GameObject playerPrefab, player4PlaceHolder;
@@ -54,7 +54,7 @@ public class NetGameManager : NetworkBehaviour
     void Start()
     {
 
-        players = new List<GameObject>();
+        AIplayers = new List<GameObject>();
         playerJoined = false;
         if (isServer)
         {
@@ -102,9 +102,9 @@ public class NetGameManager : NetworkBehaviour
             if (StartText)
                 StartText.text = "";
             int readyCount = 0;
-            foreach (GameObject player in players)
+            foreach (GameObject AI in AIplayers)
             {
-                if (player && player.GetComponent<NetworkCharacterMovementController>().GetReadyPlayer("ManagePlayerHub"))
+                if (AI && AI.GetComponent<NetworkCharacterMovementController>().GetReadyPlayer("ManagePlayerHub"))
                 {
                     readyCount++;
                 }
@@ -145,7 +145,7 @@ public class NetGameManager : NetworkBehaviour
     public void HandlePlayerJoin(PlayerInput pi)
     {
         playerJoined = true;
-        players.Add(pi.gameObject);
+        AIplayers.Add(pi.gameObject);
         //oldHub = true;
         playerIDCount++;
     }
@@ -165,7 +165,7 @@ public class NetGameManager : NetworkBehaviour
     {
         if (isServer)
             return;
-        foreach (GameObject playerObj in players)
+        foreach (GameObject playerObj in AIplayers)
         {   
             int playerID = playerObj.GetComponent<NetworkCharacterMovementController>().getPlayerID();
             Debug.Log($"Player ID: {playerID}");
@@ -189,7 +189,7 @@ public class NetGameManager : NetworkBehaviour
             DontDestroyOnLoad(Instance.gameObject);
         }
 
-        NetGameManager.Instance.players = new List<GameObject>();
+        NetGameManager.Instance.AIplayers = new List<GameObject>();
     }
 
     [ClientRpc]
@@ -229,7 +229,6 @@ public class NetGameManager : NetworkBehaviour
     public void NetworkPlayerJoin(GameObject player)
     {
         playerJoined = true;
-        players.Add(player);
         //DontDestroyOnLoad(player); // TODO: Remove if network spawn locations are all working.
         if (isServer)
         {
@@ -243,7 +242,7 @@ public class NetGameManager : NetworkBehaviour
 
     public List<GameObject> getPlayers()
     {
-        return players;
+        return AIplayers;
     }
 
     /// <summary>
@@ -253,8 +252,8 @@ public class NetGameManager : NetworkBehaviour
     public void RemovePlayerAssignments(int i)
     {
         Debug.Log($"Calling Remove Player Assignments {i}");
-        if (i < players.Count)
-            players.RemoveAt(i);
+        if (i < AIplayers.Count)
+            AIplayers.RemoveAt(i);
         if(playerColors.ContainsKey(i))
             availableColors.Add(playerColors[i]);
         else
@@ -270,11 +269,11 @@ public class NetGameManager : NetworkBehaviour
     /// <returns>If this game manager is on server</returns>
     public bool DeletePlayers()
     {
-        foreach (GameObject player in players)
+        foreach (GameObject player in AIplayers)
         {
             Destroy(player);
         }
-        players = new List<GameObject>();
+        AIplayers = new List<GameObject>();
         Destroy(GetComponent<PlayerInputManager>());
         return isServer;
     }
@@ -282,6 +281,6 @@ public class NetGameManager : NetworkBehaviour
     public void AddPlayer(GameObject newPlayer)
     {
         Debug.Log("Adding Player");
-        players.Add(newPlayer);
+        AIplayers.Add(newPlayer);
     }
 }

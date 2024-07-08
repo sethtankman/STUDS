@@ -40,7 +40,7 @@ public class NetInitLevelSelect : MonoBehaviour
                     ++i;
             }
 
-            foreach (GameObject player in NetGameManager.Instance.players)
+            foreach (GameObject player in NetGameManager.Instance.AIplayers)
             {
                 player.GetComponent<NetworkCharacterMovementController>().SetAimAssist(true);
                 player.GetComponent<NetworkCharacterMovementController>().SetFinishPosition(0);
