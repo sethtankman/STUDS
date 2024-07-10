@@ -16,7 +16,6 @@ public class NetInitRace : NetworkBehaviour
 
     private bool spawnedPlayers = false;
     public float waitTime = 5f;
-    private float currentTime = 0;
 
     public Material strollerColor1;
     public Material strollerColor2;
@@ -40,7 +39,7 @@ public class NetInitRace : NetworkBehaviour
         players = GameObject.FindGameObjectsWithTag("Player");
         PlayerInputManager.instance.DisableJoining();
         if(pauseMenuUI)
-            GameObject.Find("GameManager").GetComponent<PauseV2>().PauseMenuUI = pauseMenuUI;
+            NetGameManager.Instance.GetComponent<PauseV2>().PauseMenuUI = pauseMenuUI;
         waitTime += (float)NetworkTime.time;
     }
 
