@@ -24,6 +24,8 @@ public class SettingsMenu_Scott : MonoBehaviour
         extrasFirstButton, feedbackFirstButton, videoFirstButton, videoCloseButton, soundFirstButton, soundCloseButton,
         controlsFirstButton, controlsCloseButton, ReturnFirstButton, okayButton, noKickButton, onlineFirstButton;
 
+    [SerializeField] private GameObject mainPauseMenu;
+
     public AK.Wwise.Event PlayButtonSoundEvent;
 
     void Start()
@@ -64,9 +66,12 @@ public class SettingsMenu_Scott : MonoBehaviour
     private void OnEnable()
     {
         GameObject pv2 = GameObject.Find("GameManager");
-        if(pv2)
+        GameObject ngm = GameObject.Find("NetGameManager");
+        if (pv2)
         {
             menuPlayButton.GetComponent<Button>().onClick.AddListener(pv2.GetComponent<PauseV2>().Pause);
+        } else if (ngm) {
+            menuPlayButton.GetComponent<Button>().onClick.AddListener(ngm.GetComponent<PauseV2>().Pause);
         }
     }
 
@@ -81,21 +86,6 @@ public class SettingsMenu_Scott : MonoBehaviour
             Screen.SetResolution(resolution.width, resolution.height, Screen.fullScreen);
         }
     }
-
-    /*
-    public void SetRefresh(int refreshRate)
-    {
-        int i = resolutionIndex;
-        while (i < resolutions.Length)
-        {
-            if (resolutions[i].refreshRate == refreshRate)
-            {
-                Debug.Log("Refresh Rate set to: " + resolutions[i].refreshRate);
-                Screen.SetResolution(Screen.currentResolution.width, Screen.currentResolution.height, Screen.fullScreen, resolutions[i].refreshRate);
-            }
-        }
-    }
-*/
 
     public void SetVolume(float volume)
     {
@@ -229,5 +219,10 @@ public class SettingsMenu_Scott : MonoBehaviour
     {
         GameObject Manager = GameObject.Find("Music Manager");
         PlayButtonSoundEvent.Post(Manager);
+    }
+
+    public GameObject GetMainPauseMenu()
+    {
+        return mainPauseMenu;
     }
 }

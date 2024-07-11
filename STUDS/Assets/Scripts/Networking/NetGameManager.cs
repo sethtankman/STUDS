@@ -36,6 +36,7 @@ public class NetGameManager : NetworkBehaviour
     public Text StartText;
 
     [SerializeField] private bool playerJoined;
+    [SerializeField] private PauseV2 pv2; // to be set in editor
 
     public static NetGameManager Instance { get; private set; }
     public PlayerInputManager pim;
@@ -76,8 +77,7 @@ public class NetGameManager : NetworkBehaviour
                     case InputDeviceChange.Disconnected:
                         // Device got unplugged.
                         Debug.Log("A Player has disconnected");
-                        PauseV2 pauseFunction = GameObject.Find("GameManager").GetComponent<PauseV2>();
-                        pauseFunction.Pause();
+                        pv2.Pause();
                         break;
                     case InputDeviceChange.Reconnected:
                         Debug.Log("A Player has reconnected");
@@ -206,7 +206,6 @@ public class NetGameManager : NetworkBehaviour
     {
         string oldColor = playerColors[playerID];
         availableColors.Add(oldColor);
-        //Debug.Log($"Attempting to remove: {colorName}");
         availableColors.Remove(colorName);
         playerColors[playerID] = colorName;
     }
@@ -229,7 +228,6 @@ public class NetGameManager : NetworkBehaviour
     public void NetworkPlayerJoin(GameObject player)
     {
         playerJoined = true;
-        //DontDestroyOnLoad(player); // TODO: Remove if network spawn locations are all working.
         if (isServer)
         {
             player.GetComponent<NetworkCharacterMovementController>().SetPlayerID(playerIDCount);
@@ -280,7 +278,11 @@ public class NetGameManager : NetworkBehaviour
 
     public void AddPlayer(GameObject newPlayer)
     {
-        Debug.Log("Adding Player");
         AIplayers.Add(newPlayer);
+    }
+
+    public void SetPauseMenuPanel(GameObject panel)
+    {
+        pv2.PauseMenuUI = panel;
     }
 }

@@ -15,8 +15,11 @@ public class PauseV2 : MonoBehaviour
     public static bool canPause = true;
     public static bool gameisPaused = false;
 
+    /// <summary>
+    /// Relies on other scripts to tell us where the PauseMenuUI is
+    /// </summary>
     public GameObject PauseMenuUI;
-    public GameObject OptionsMenu;
+    public GameObject MainPauseMenu;
     public GameObject firstButton;
     public GameObject[] allOtherMenus;
     public GameObject p4PH;
@@ -42,11 +45,8 @@ public class PauseV2 : MonoBehaviour
 
     public bool oneCycle = false;
 
-    private bool lostPausePanels = false;
-
     private void OnLevelWasLoaded(int level)
     {
-        lostPausePanels = true;
         p4PH = GameObject.Find("Player4PlaceHolder");
         if (p4PH == false)
             Debug.Log("PauseV2 Couldn't find Player 4 PlaceHolder");
@@ -66,16 +66,6 @@ public class PauseV2 : MonoBehaviour
 
         thePause.Menu.Pause.performed += ctx => Pause();
 
-        //p4PH = GameObject.Find("P4PlaceHolder");
-
-        //thePause.Menu.Return.performed += ctx => Return();
-
-        //thePause.Menu.ScrollDown.performed += ctx => ScrollDown();
-
-        //thePause.Menu.ScrollUp.performed += ctx => ScrollUp();
-
-        //thePause.Menu.Go.performed += ctx => Go();
-
     }
 
 
@@ -91,7 +81,6 @@ public class PauseV2 : MonoBehaviour
         Cursor.visible = true;
         if(p4PH && p4PH.activeSelf)
             p4PHWasEnabled = true;
-        //Debug.Log($"GameIsPaused: {gameisPaused}, LostPausePanels: {lostPausePanels}");
         if (!gameisPaused)
         {
             if(p4PH) // Activates the player 4 placeholder image if it is set.
@@ -108,13 +97,9 @@ public class PauseV2 : MonoBehaviour
             gameisPaused = true;
             Time.timeScale = 0f;
             PauseMenuUI.SetActive(true);
-            if (lostPausePanels)
-            {
-                allOtherMenus = PauseMenuUI.GetComponent<SettingsMenu_Scott>().allOtherMenus;
-                OptionsMenu = GameObject.Find("PauseMenu");
-            }
-
-            OptionsMenu.SetActive(true);
+            allOtherMenus = PauseMenuUI.GetComponent<SettingsMenu_Scott>().allOtherMenus;
+            MainPauseMenu = PauseMenuUI.GetComponent<SettingsMenu_Scott>().GetMainPauseMenu();
+            MainPauseMenu.SetActive(true);
         }
         else
         {
@@ -134,7 +119,7 @@ public class PauseV2 : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         PauseMenuUI.SetActive(false);
-        OptionsMenu.SetActive(true);
+        MainPauseMenu.SetActive(true);
         foreach(GameObject menu in allOtherMenus)
         {
             menu.SetActive(false);

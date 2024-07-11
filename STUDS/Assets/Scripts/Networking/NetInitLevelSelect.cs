@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Mirror;
 
-public class NetInitLevelSelect : MonoBehaviour
+public class NetInitLevelSelect : NetworkBehaviour
 {
     [SerializeField] private GameObject PausePanel;
 
@@ -12,7 +13,6 @@ public class NetInitLevelSelect : MonoBehaviour
         // We only need this when we revisit the levelselect.
         if (NetGameManager.Instance)
         {
-            NetGameManager.Instance.GetComponent<PauseV2>().PauseMenuUI = PausePanel;
             GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
             bool[] AI_ids = new bool[4];
             int i = 0;
@@ -46,5 +46,11 @@ public class NetInitLevelSelect : MonoBehaviour
                 player.GetComponent<NetworkCharacterMovementController>().SetFinishPosition(0);
             }
         }
+    }
+
+    public override void OnStartServer()
+    {
+        base.OnStartServer();
+        FindObjectOfType<NetGameManager>().SetPauseMenuPanel(PausePanel);
     }
 }
