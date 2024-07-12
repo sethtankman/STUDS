@@ -31,7 +31,8 @@ public class NetCart : NetworkBehaviour
     {
         if (isServer)
         {
-            if (other.CompareTag("ShoppingItem") && other.GetComponent<ShoppingItem>().isBeingHeld == false)
+            if (other.CompareTag("ShoppingItem") && other.GetComponent<ShoppingItem>()
+                && other.GetComponent<ShoppingItem>().isBeingHeld == false)
             {
                 string itemName = other.gameObject.GetComponent<ShoppingItem>().name;
                 switch (itemName)

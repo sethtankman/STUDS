@@ -10,9 +10,11 @@ public class NetInitLevelSelect : NetworkBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        PauseV2.canPause = true;
         // We only need this when we revisit the levelselect.
         if (NetGameManager.Instance)
         {
+            NetGameManager.Instance.SetPauseMenuPanel(PausePanel);
             GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
             bool[] AI_ids = new bool[4];
             int i = 0;
@@ -46,11 +48,8 @@ public class NetInitLevelSelect : NetworkBehaviour
                 player.GetComponent<NetworkCharacterMovementController>().SetFinishPosition(0);
             }
         }
-    }
-
-    public override void OnStartServer()
-    {
-        base.OnStartServer();
-        FindObjectOfType<NetGameManager>().SetPauseMenuPanel(PausePanel);
+        else {
+            FindObjectOfType<NetGameManager>().SetPauseMenuPanel(PausePanel);
+        }
     }
 }

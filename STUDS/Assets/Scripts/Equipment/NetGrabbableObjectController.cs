@@ -11,6 +11,7 @@ public class NetGrabbableObjectController : NetworkBehaviour
     private Transform holderTransform = null;
     [SerializeField] private GameObject localPrefab;
     private GameObject localGO;
+    [SyncVar] private bool canPickup = true;
 
     /// <summary>
     /// Movement is server-authoritative, so we update throwable positions in the update method
@@ -25,6 +26,11 @@ public class NetGrabbableObjectController : NetworkBehaviour
         }
     }
 
+    public void OnDestroy()
+    {
+        Destroy(localGO);
+    }
+
     /// <summary>
     /// 
     /// </summary>
@@ -32,8 +38,8 @@ public class NetGrabbableObjectController : NetworkBehaviour
     /// <returns>A reference to the offline copy instantiated on this client.</returns>
     public GameObject LocalPickupObject(Transform _holderTransform)
     {
+        canPickup = false;
         holderTransform = _holderTransform;
-        Debug.Log("Local Pickup Object");
         gameObject.GetComponent<Rigidbody>().isKinematic = true;
         gameObject.GetComponent<Rigidbody>().useGravity = false;
         GetComponent<Collider>().enabled = false;
@@ -76,6 +82,11 @@ public class NetGrabbableObjectController : NetworkBehaviour
         return null;
     }
 
+    /// <summary>
+    /// Erases holder transform, deals with collisions and physics, re-enables colliders, 
+    /// sets isbeingheld to false on shopping item, linear interpolates from local GO to net GO.
+    /// </summary>
+    /// <returns>A reference to this gameobject</returns>
     public GameObject LocalLetGo()
     {
         holderTransform = null;
@@ -102,6 +113,7 @@ public class NetGrabbableObjectController : NetworkBehaviour
             //Create a new localGO
             lerpGO.GetComponentInChildren<LocalGrabbableObjectController>().SetLocalT(localGO.transform);
             lerpGO.GetComponentInChildren<LocalGrabbableObjectController>().SetLerp(true);
+            lerpGO.GetComponentInChildren<LocalGrabbableObjectController>().networkedGO = gameObject;
         }
          
         return gameObject;
@@ -114,5 +126,15 @@ public class NetGrabbableObjectController : NetworkBehaviour
             rend.enabled = true;
         }
         Destroy(localGO);
+    }
+
+    public bool GetCanPickup()
+    {
+        return canPickup;
+    }
+
+    public void SetCanPickup(bool tf)
+    {
+        canPickup = tf;
     }
 }

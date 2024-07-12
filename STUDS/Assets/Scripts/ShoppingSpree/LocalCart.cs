@@ -13,4 +13,9 @@ public class LocalCart : MonoBehaviour
             cartItems[i].SetActive(isActive[i]);
         }
     }
+
+    public void OnDestroy()
+    {
+        Destroy(transform.parent.gameObject);
+    }
 }

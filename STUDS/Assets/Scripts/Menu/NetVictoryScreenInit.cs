@@ -12,6 +12,7 @@ public class NetVictoryScreenInit : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        PauseV2.canPause = false;
         Time.timeScale = 1f;
 
         GameObject.Find("Music Manager").GetComponent<Music_Manager>().PlayStopMusic("Menu", false);

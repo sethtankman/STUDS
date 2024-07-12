@@ -741,64 +741,66 @@ public class NetworkCharacterMovementController : NetworkBehaviour
     private void HandleGrabObject()
     {
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, 1);
-        foreach (Collider collider in hitColliders)
+        if (pickupPressed)
         {
-            if (collider.CompareTag("Grabbable") || collider.CompareTag("ShoppingItem"))
+            foreach (Collider collider in hitColliders)
             {
-                if(collider.isTrigger && pickupPressed && !hasGrabbed)
+                if (collider.GetComponent<NetGrabbableObjectController>()
+                    && collider.GetComponent<NetGrabbableObjectController>().GetCanPickup())
                 {
-                    // TODO: Changed to take fix dodgeball pickup.  If picking up isn't broken anywhere in the game, simply remove and modify if/else.
-                    /*GrabSound.Post(gameObject);
-                    moveSpeed = moveSpeedGrab;
-                    pickupPressed = false;
-                    */
-                }
-                else
-                {
-                    if (collider.CompareTag("ShoppingItem"))
+                    if (collider.CompareTag("Grabbable") || collider.CompareTag("ShoppingItem"))
                     {
-                        collider.GetComponent<ShoppingItem>().SetPlayer(this.gameObject);
-                    }
-
-                    if (pickupPressed && !hasGrabbed)
-                    {
-                        animator.SetBool("isHoldingSomething", true);
-                        GrabSound.Post(gameObject);
-                        grabbedObjectID = collider.GetComponent<NetworkIdentity>().netId;
-                        CmdPickupObject(grabbedObjectID);
-                        if (!isServer)
+                        if (collider.isTrigger)
                         {
-                            grabbedObject = collider.GetComponent<NetGrabbableObjectController>().LocalPickupObject(transform);
-                            if (collider.GetComponent<StrollerController>())
-                                GetComponentInChildren<StrollerLocator>().SetActive(false);
+                            // TODO: Changed to take fix dodgeball pickup.  If picking up isn't broken anywhere in the game, simply remove and modify if/else.
+                            /*GrabSound.Post(gameObject);
+                            moveSpeed = moveSpeedGrab;
+                            pickupPressed = false;
+                            */
                         }
-                        if (!grabbedObject)
-                            grabbedObject = collider.gameObject;
-                        moveSpeed = moveSpeedGrab;
-                        hasGrabbed = true;
-                        pickupPressed = false;
-                        if (grabbedObject.name.StartsWith("Grabpoint")) // Designed to only use Grabpoint as the name of the Utility Cart Grabbing point.
+                        else
                         {
-                            grabbedObject.GetComponent<Rigidbody>().useGravity = false;
+                            if (collider.CompareTag("ShoppingItem"))
+                            {
+                                collider.GetComponent<ShoppingItem>().SetPlayer(this.gameObject);
+                            }
+                            animator.SetBool("isHoldingSomething", true);
+                            GrabSound.Post(gameObject);
+                            grabbedObjectID = collider.GetComponent<NetworkIdentity>().netId;
+                            CmdPickupObject(grabbedObjectID);
+                            if (!isServer)
+                            {
+                                grabbedObject = collider.GetComponent<NetGrabbableObjectController>().LocalPickupObject(transform);
+                                if (collider.GetComponent<StrollerController>())
+                                    GetComponentInChildren<StrollerLocator>().SetActive(false);
+                            }
+                            if (!grabbedObject)
+                                grabbedObject = collider.gameObject;
+                            moveSpeed = moveSpeedGrab;
+                            hasGrabbed = true;
+                            pickupPressed = false;
+                            if (grabbedObject.name.StartsWith("Grabpoint")) // Designed to only use Grabpoint as the name of the Utility Cart Grabbing point.
+                            {
+                                grabbedObject.GetComponent<Rigidbody>().useGravity = false;
+                            }
                         }
+                        break;
                     }
-
-                }
-            }
-            else if (collider.CompareTag("Player") && collider.GetComponent<NetworkCharacterMovementController>().isMini)
-            {
-                if (pickupPressed && isMini == false)
+                } // The following are items without grabbable object controllers
+                else if (collider.CompareTag("Player") && collider.GetComponent<NetworkCharacterMovementController>().isMini
+                    && isMini == false)
                 {
                     sa.UnlockAchievement("PB_TIMEOUT");
                     CmdTimeout(collider.GetComponent<NetworkIdentity>().netId);
                 }
-            }
-            else if (collider.CompareTag("ShoppingCart"))
-            {
-                CmdPickupFromCart(collider.GetComponent<NetworkIdentity>().netId);
-                GrabSound.Post(gameObject);
-                moveSpeed = moveSpeedGrab;
-                pickupPressed = false;
+                else if (collider.CompareTag("ShoppingCart"))
+                {
+                    CmdPickupFromCart(collider.transform.parent.GetComponent<NetworkIdentity>().netId);
+                    GrabSound.Post(gameObject);
+                    moveSpeed = moveSpeedGrab;
+                    pickupPressed = false;
+                    break; // Ensures players can't perform multiple pickups simultaneuosly.
+                }
             }
         }
     }
@@ -872,7 +874,6 @@ public class NetworkCharacterMovementController : NetworkBehaviour
     [Command]
     private void CmdPickupObject(uint objID)
     {
-        //Debug.Log("CmdPickupObject: " + obj.name);
         hasGrabbed = true;
         grabbedObject = NetworkServer.spawned[objID].GetComponent<NetGrabbableObjectController>().LocalPickupObject(transform);
         RpcPickupObject(objID);

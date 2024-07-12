@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using System;
 using UnityEngine;
@@ -11,9 +11,12 @@ public class LocalGrabbableObjectController : MonoBehaviour
     public GameObject networkedGO;
     private Transform localT;
     private Vector3 offset;
-    private bool isLerp = false;
+    [SerializeField] private bool isLerp = false;
     private DateTime start;
 
+    /// <summary>
+    /// Calls LocalLetGo on NetworkedGO. 
+    /// </summary>
     public void LocalLetGo()
     {
         networkedGO.GetComponent<NetGrabbableObjectController>().LocalLetGo();
@@ -24,14 +27,21 @@ public class LocalGrabbableObjectController : MonoBehaviour
         if(isLerp)
         {
             float t = (float)((DateTime.Now - start).TotalMilliseconds / 500);
-            Vector3 localProjection = offset + networkedGO.transform.position; 
-            transform.position = Vector3.Lerp(localProjection, networkedGO.transform.position, t);
-            // Debug.Log($"t = {t}, Position = {transform.position - localProjection}");
-            transform.rotation = Quaternion.Lerp(localT.rotation, networkedGO.transform.rotation, t);
-            if (t > 1.0f)
+            if(networkedGO)
             {
-                isLerp = false;
-                EndLerp();
+                Vector3 localProjection = offset + networkedGO.transform.position;
+                transform.position = Vector3.Lerp(localProjection, networkedGO.transform.position, t);
+                transform.rotation = Quaternion.Lerp(localT.rotation, networkedGO.transform.rotation, t);
+                if (t > 1.0f)
+                {
+                    isLerp = false;
+                    EndLerp();
+                }
+            } else
+            {
+                if (networkedGO)
+                    networkedGO.GetComponent<NetGrabbableObjectController>().SetCanPickup(true);
+                Destroy(gameObject);
             }
         }
     }
@@ -39,6 +49,7 @@ public class LocalGrabbableObjectController : MonoBehaviour
     private void EndLerp()
     {
         networkedGO.GetComponent<NetGrabbableObjectController>().RenderNetworkedGO();
+        networkedGO.GetComponent<NetGrabbableObjectController>().SetCanPickup(true);
         Destroy(gameObject);
     }
 

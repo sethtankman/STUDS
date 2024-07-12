@@ -54,7 +54,8 @@ public class NetGameManager : NetworkBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        if (Instance != null && Instance != this)
+            Destroy(gameObject);
         AIplayers = new List<GameObject>();
         playerJoined = false;
         if (isServer)
