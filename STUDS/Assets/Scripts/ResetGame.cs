@@ -8,7 +8,7 @@ public class ResetGame : MonoBehaviour
     {
         if(ManagePlayerHub.Instance) {
             ManagePlayerHub.Instance.DeletePlayers();
-            Destroy(ManagePlayerHub.Instance);
+            Destroy(ManagePlayerHub.Instance.gameObject);
         } else if (NetGameManager.Instance)
         {
             NetGameManager.Instance.DeletePlayers();

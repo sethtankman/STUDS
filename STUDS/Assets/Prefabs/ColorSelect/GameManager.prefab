@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 6653746179830588751}
   - component: {fileID: 6653746179830588748}
   - component: {fileID: 6653746179830588750}
+  - component: {fileID: 5573521825853607938}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -52,6 +53,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 6653746179830588750}
+        m_TargetAssemblyTypeName: 
         m_MethodName: HandlePlayerJoin
         m_Mode: 0
         m_Arguments:
@@ -66,6 +68,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 6653746179830588750}
+        m_TargetAssemblyTypeName: 
         m_MethodName: HandlePlayerLeave
         m_Mode: 0
         m_Arguments:
@@ -111,7 +114,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   players: []
+  playerPrefab: {fileID: 0}
+  player4PlaceHolder: {fileID: 0}
   playerConnectionPanel: {fileID: 0}
+  playerIDCount: 0
+  numAIToSpawnPB: 0
   playerColor1: {fileID: 2100000, guid: 03b9124d1cc490342a4cfc40162f4ec2, type: 2}
   playerColor2: {fileID: 2100000, guid: 87a4d82006c08154f9f972679e026858, type: 2}
   playerColor3: {fileID: 2100000, guid: 9173f83340c50ed4489d001759834012, type: 2}
@@ -122,3 +129,45 @@ MonoBehaviour:
   colorName4: Yellow
   ReadyText: {fileID: 0}
   StartText: {fileID: 0}
+  playerJoined: 0
+  oldHub: 0
+  pim: {fileID: 0}
+--- !u!114 &5573521825853607938
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6653746179830588749}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc72479fd56c1be409abbc97ddca4eaa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PauseMenuUI: {fileID: 0}
+  MainPauseMenu: {fileID: 0}
+  firstButton: {fileID: 0}
+  allOtherMenus:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  p4PH: {fileID: 0}
+  p4PHWasEnabled: 0
+  theImage: {fileID: 0}
+  theImage01: {fileID: 0}
+  theImage02: {fileID: 0}
+  theImage03: {fileID: 0}
+  ResumeText: {fileID: 0}
+  MenuText: {fileID: 0}
+  OptionsText: {fileID: 0}
+  QuitText: {fileID: 0}
+  newFontsize01: 0
+  newFontsize02: 0
+  oneCycle: 0

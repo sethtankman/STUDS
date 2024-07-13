@@ -37,79 +37,12 @@ public class ManagePlayerHub : MonoBehaviour
     public PlayerInputManager pim;
     protected Callback<GameOverlayActivated_t> m_GameOverlayActivated;
 
-    private void OnEnable()
-    {
-        if (SteamManager.Initialized)
-        {
-            m_GameOverlayActivated = Callback<GameOverlayActivated_t>.Create(OnGameOverlayActivated);
-        }
-    }
-
-    private void OnGameOverlayActivated(GameOverlayActivated_t pCallback)
-    {
-        if (pCallback.m_bActive != 0)
-        {
-            Debug.Log("Steam Overlay has been activated");
-
-            GameObject.Find("GameManager").GetComponent<PauseV2>().Pause();
-        }
-        else
-        {
-            Debug.Log("Steam Overlay has been closed");
-        }
-    }
-
-    private void OnLevelWasLoaded(int level)
-    {
-        if (!(SceneManager.GetActiveScene().name == "TheBlock_LevelSelect") && playerIDCount != 3)
-        {
-            player4PlaceHolder = GameObject.Find("P4PlaceHolder");
-            if (!player4PlaceHolder)
-            {
-                Debug.Log("Couldn't find player 4 placeholder!");
-            }
-            else
-            {
-                player4PlaceHolder.SetActive(false);
-            }
-        }
-
-        if (SceneManager.GetActiveScene().name == "TheBlock_Scott" || SceneManager.GetActiveScene().name == "Shopping_Spree-Scott")
-        {
-            foreach (GameObject player in players)
-            {
-                player.GetComponent<CharacterMovementController>().SetAimAssist(true);
-            }
-        }
-        else if (SceneManager.GetActiveScene().name == "TheBlock_LevelSelect" && oldHub)
-        {
-            Destroy(this.gameObject);
-        }
-        else
-        {
-            foreach (GameObject player in players)
-            {
-                player.GetComponent<CharacterMovementController>().SetAimAssist(false);
-            }
-        }
-    }
-
-    public void SaveState()
-    {
-        if (Instance != null)
-        {
-            Debug.Log("Making a second instance of singleton very bad");
-        }
-        else
-        {
-            Instance = this;
-            DontDestroyOnLoad(Instance);
-        }
-    }
 
     // Start is called before the first frame update
     void Start()
     {
+        if (Instance != null && Instance != this)
+            Destroy(gameObject);
         players = new List<GameObject>();
         playerJoined = false;
 
@@ -168,6 +101,81 @@ public class ManagePlayerHub : MonoBehaviour
             playerJoined = false; //This is mainly to save time in the if check of the previous if block.
         }
 
+    }
+
+    private void OnEnable()
+    {
+        if (SteamManager.Initialized)
+        {
+            m_GameOverlayActivated = Callback<GameOverlayActivated_t>.Create(OnGameOverlayActivated);
+        }
+    }
+
+    private void OnLevelWasLoaded(int level)
+    {
+        if (!(SceneManager.GetActiveScene().name == "TheBlock_LevelSelect") && playerIDCount != 3)
+        {
+            player4PlaceHolder = GameObject.Find("P4PlaceHolder");
+            if (!player4PlaceHolder)
+            {
+                Debug.Log("Couldn't find player 4 placeholder!");
+            }
+            else
+            {
+                player4PlaceHolder.SetActive(false);
+            }
+        }
+
+        if (SceneManager.GetActiveScene().name == "TheBlock_Scott" || SceneManager.GetActiveScene().name == "Shopping_Spree-Scott")
+        {
+            foreach (GameObject player in players)
+            {
+                player.GetComponent<CharacterMovementController>().SetAimAssist(true);
+            }
+        }
+        else if (SceneManager.GetActiveScene().name == "TheBlock_LevelSelect" && oldHub)
+        {
+            Destroy(this.gameObject);
+        }
+        else
+        {
+            foreach (GameObject player in players)
+            {
+                player.GetComponent<CharacterMovementController>().SetAimAssist(false);
+            }
+        }
+    }
+
+    private void OnDestroy()
+    {
+        Instance = null;
+    }
+
+    private void OnGameOverlayActivated(GameOverlayActivated_t pCallback)
+    {
+        if (pCallback.m_bActive != 0)
+        {
+            Debug.Log("Steam Overlay has been activated");
+
+            GameObject.Find("GameManager").GetComponent<PauseV2>().Pause();
+        }
+        else
+        {
+            Debug.Log("Steam Overlay has been closed");
+        }
+    }
+
+    public void SaveState()
+    {
+        if (Instance != null)
+        {
+            Debug.Log("Making a second instance of singleton very bad");
+        }
+        else
+        {
+            Instance = this;
+            DontDestroyOnLoad(Instance);
+        }
     }
 
     public void HandlePlayerJoin(PlayerInput pi)
