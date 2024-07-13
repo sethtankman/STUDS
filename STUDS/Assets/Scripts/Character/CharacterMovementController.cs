@@ -41,6 +41,7 @@ public class CharacterMovementController : MonoBehaviour
     public float turnTime;
     public float jumpHeightGrab;
     public float throwForce;
+    [SerializeField] private float homingSpeed;
     public float throwCoolDown = 0;
     public float knockBackTime;
     public float timeUntilMoveEnabled = 0;
@@ -522,7 +523,6 @@ public class CharacterMovementController : MonoBehaviour
     
     public void performThrow()
     {
-        Debug.Log($"{name}: threw");
         animator.ResetTrigger("Land");
         animator.SetTrigger("Throw");
         ThrowSound.Post(gameObject);
@@ -530,12 +530,11 @@ public class CharacterMovementController : MonoBehaviour
         grabbedObject.transform.forward = forward;
         if (hasAimAssist)
         {
-            //Debug.Log("Resetting forward vector");
             forward = Vector3.Normalize(target.transform.position - transform.position);
             if (grabbedObject.GetComponent<GrabbableObjectController>().isDodgeball)
-                grabbedObject.GetComponent<GrabbableObjectController>().SetHoming(true, target);
+                grabbedObject.GetComponent<GrabbableObjectController>().HomingThrow(true, target, forward*homingSpeed);
         }
-        Vector3 throwingForce = forward * throwForce * 2.3f;
+        Vector3 throwingForce = forward * throwForce;
         Vector3 movementAdjust = forward * direction.magnitude * moveSpeedGrab * 40;
         throwingForce += movementAdjust;
         throwingForce.y = 300f;

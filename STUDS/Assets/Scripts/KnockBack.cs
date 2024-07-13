@@ -41,7 +41,7 @@ public class KnockBack : MonoBehaviour
                 }
                 else if (GetComponentInParent<GrabbableObjectController>())
                 {
-                    GetComponentInParent<GrabbableObjectController>().SetHoming(false, null);
+                    GetComponentInParent<GrabbableObjectController>().HomingThrow(false, null, Vector3.zero);
                     Debug.Log($"1: {GetComponentInParent<GrabbableObjectController>().throwerColor}, 2: {other.GetComponent<CharacterMovementController>().GetColorName()}");
                     if (GetComponentInParent<GrabbableObjectController>().throwerColor == other.GetComponent<CharacterMovementController>().GetColorName())
                     {

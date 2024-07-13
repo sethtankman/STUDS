@@ -49,14 +49,14 @@ public class GrabbableObjectController : MonoBehaviour
     {
         if (homing)
         {
-            if (!dirMagCaptured && GetComponent<Rigidbody>().velocity.magnitude > 1.0f)
+            /*if (!dirMagCaptured && GetComponent<Rigidbody>().velocity.magnitude > 1.0f)
             {
                 ogDir = new Vector2(GetComponent<Rigidbody>().velocity.x, GetComponent<Rigidbody>().velocity.z);
                 dirMagCaptured = true;
-            }
+            }*/
+
             Vector3 newDir = target.transform.position - transform.position;
             newDir = newDir.normalized * ogDir.magnitude;
-            // Debug.Log($"Homing! OG: {ogDirMag}, newDir: {newDir}");
             GetComponent<Rigidbody>().velocity = new Vector3((newDir.x + ogDir.x)/2, GetComponent<Rigidbody>().velocity.y, (newDir.z +ogDir.y)/2);
         }
 
@@ -135,8 +135,15 @@ public class GrabbableObjectController : MonoBehaviour
         }
     }
 
-    public void SetHoming(bool tf, GameObject _target)
+    /// <summary>
+    /// Enables homing throw and sets inital direction
+    /// </summary>
+    /// <param name="tf">Set homing to true or false</param>
+    /// <param name="_target">Target gameobject</param>
+    /// <param name="_ogDir">Original throw direction (Entry doesn't matter if setting homing to false</param>
+    public void HomingThrow(bool tf, GameObject _target, Vector3 _ogDir)
     {
+        ogDir = new Vector2(_ogDir.x, _ogDir.z);
         homing = tf;
         target = _target;
     }

@@ -39,13 +39,16 @@ public class NetworkCharacterMovementController : NetworkBehaviour
     public float moveSpeedNormal;
     public float turnTime;
     public float jumpHeightGrab;
-    public float throwForce;
+    [SerializeField] private float throwForce;
     public float throwCoolDown = 0;
     public float knockBackTime;
     public float timeUntilMoveEnabled = 0;
 
     public Vector3 velocity;
 
+    /// <summary>
+    /// Stores the direction the user is inputing through their controls.
+    /// </summary>
     private Vector2 direction;
 
     float turnSmoothVelocity;
@@ -233,7 +236,7 @@ public class NetworkCharacterMovementController : NetworkBehaviour
                     // Defaults
                     float grabDistance = 1.3f;
                     float grabHeight = 0.7f;
-                    //Quaternion grabRotation = Quaternion.; //Maybe we'll need this for the hammer in shopping spree
+                    //Quaternion grabRotation = Quaternion.; // TODO: Maybe we'll need this for the hammer in shopping spree
                 
                     if (grabbedObject.GetComponent<NetGrabbableObjectController>())
                     {
@@ -687,7 +690,7 @@ public class NetworkCharacterMovementController : NetworkBehaviour
         {
             forward = Vector3.Normalize(target.transform.position - transform.position);
         }
-        Vector3 throwingForce = forward * throwForce * 2.3f;
+        Vector3 throwingForce = forward * throwForce;
         Vector3 movementAdjust = forward * direction.magnitude * moveSpeedGrab * 40;
         throwingForce += movementAdjust;
         throwingForce.y = 300f;
@@ -939,14 +942,14 @@ public class NetworkCharacterMovementController : NetworkBehaviour
     /// Called on all clients after knockback happens on the server.
     /// Only servers and local players have authority over their objects.
     /// </summary>
-    /// <param name="direction"></param>
+    /// <param name="_direction"></param>
     /// <param name="_drop"></param>
     [ClientRpc]
-    private void RpcKnockBack(Vector3 direction, bool _drop)
+    private void RpcKnockBack(Vector3 _direction, bool _drop)
     {
         if (isServer || isLocalPlayer)
         {
-            Debug.Log($"KBCalled on {name} with: {direction}");
+            Debug.Log($"KBCalled on {name} with: {_direction}");
             knockBackCounter = knockBackTime;
             beingKnockedBack = true;
             drop = _drop;
@@ -956,7 +959,7 @@ public class NetworkCharacterMovementController : NetworkBehaviour
                 if (cameraShake)
                     StartCoroutine(cameraShake.Shake(0.15f, 0.4f));
             }
-            velocity = direction;
+            velocity = _direction;
         }
     }
 
