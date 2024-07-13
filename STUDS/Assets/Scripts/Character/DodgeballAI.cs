@@ -70,9 +70,6 @@ public class DodgeballAI : MonoBehaviour
             {
                 StartNavMeshLinkMovement();
             }
-
-            //GetComponent<CharacterMovementController>().Move(agent.desiredVelocity.normalized * speed);
-            //agent.Move(agent.desiredVelocity.normalized * speed);
         } 
     }
 
@@ -175,7 +172,17 @@ public class DodgeballAI : MonoBehaviour
         patience = maxPatience;
         animator.SetBool("isRunning", true);
         if (_onNavMeshLink == false)
-            agent.SetDestination(target.position);
+        {
+            if (agent.isOnNavMesh)
+                agent.SetDestination(target.position);
+            else
+            { // Return navmesh agents to navmesh after being knocked back.
+                NavMeshHit hit;
+                NavMesh.SamplePosition(transform.position, out hit, 100, NavMesh.AllAreas);
+                transform.position = hit.position;
+                agent.Warp(hit.position);
+            }
+        }
     }
 
     private void OnTriggerEnter(Collider other)

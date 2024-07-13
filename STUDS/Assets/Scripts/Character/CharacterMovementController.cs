@@ -6,6 +6,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using static UnityEngine.InputSystem.InputAction;
 using UnityEngine.SceneManagement;
+using UnityEngine.AI;
 
 public class CharacterMovementController : MonoBehaviour
 {
@@ -474,20 +475,42 @@ public class CharacterMovementController : MonoBehaviour
         }
     }
 
-    public void KnockBack(Vector3 direction, bool _drop)
+    public void KnockBack(Vector3 _direction, bool _drop)
     {
-        Debug.Log("KBCalled with: " + direction.ToString());
+        Debug.Log("KBCalled with: " + _direction.ToString());
         knockBackCounter = knockBackTime;
         beingKnockedBack = true;
         drop = _drop;
         if (_drop)
         {
             DropGrabbedItem();
-            if(cameraShake)
+            if (cameraShake)
                 StartCoroutine(cameraShake.Shake(0.15f, 0.4f));
+            if (GetComponent<DodgeballAI>())
+            { // Only knockbacks that make the AI drop an item will affect it.  This allows navmesh link traversal over trampolines.
+                GetComponent<DodgeballAI>().Loiter();
+                StartCoroutine(KnockbackAI(_direction));
+            }
         }
-        velocity = direction;
+        velocity = _direction;
+    }
 
+    private IEnumerator KnockbackAI(Vector3 _direction)
+    {
+        NavMeshAgent agent = GetComponent<NavMeshAgent>();
+        Rigidbody rigidbody = GetComponent<Rigidbody>();
+        agent.enabled = false;
+        rigidbody.useGravity = true;
+        rigidbody.isKinematic = false;
+        rigidbody.velocity = _direction;
+        yield return new WaitForFixedUpdate();
+        float initTime = Time.time;
+        yield return new WaitUntil(() => Time.time > knockBackTime + initTime);
+        rigidbody.velocity = Vector3.zero;
+        rigidbody.useGravity = false;
+        rigidbody.isKinematic = true;
+        agent.Warp(transform.position);
+        agent.enabled = true;
     }
 
     public void DropGrabbedItem()

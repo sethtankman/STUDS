@@ -35,7 +35,9 @@ public class DBLevelInitialize : MonoBehaviour
         GameObject.Find("Music Manager").GetComponent<Music_Manager>().PlayStopMusic("Menu", false);
         GameObject.Find("Music Manager").GetComponent<Music_Manager>().PlayStopMusic("Stroller", true);
         aiColors = new List<string> { "red", "blue", "purple", "yellow", "green" };
-        if (ManagePlayerHub.Instance) {
+        if (ManagePlayerHub.Instance)
+        {
+            ManagePlayerHub.Instance.GetComponent<PauseV2>().PauseMenuUI = pauseMenuUI;
             players = ManagePlayerHub.Instance.getPlayers();
             foreach (GameObject player in players)
             {
@@ -43,6 +45,7 @@ public class DBLevelInitialize : MonoBehaviour
                 player.GetComponent<CharacterMovementController>().SetAimAssist(true);
             }
         } else if (NetGameManager.Instance) {
+            NetGameManager.Instance.GetComponent<PauseV2>().PauseMenuUI = pauseMenuUI;
             players = NetGameManager.Instance.getPlayers();
             foreach (GameObject player in players)
             {
@@ -52,8 +55,6 @@ public class DBLevelInitialize : MonoBehaviour
         } else
             Debug.LogWarning("Manage Player Hub not found!");
         PlayerInputManager.instance.DisableJoining();
-        if(pauseMenuUI)
-            GameObject.Find("GameManager").GetComponent<PauseV2>().PauseMenuUI = pauseMenuUI;
 
     }
 
