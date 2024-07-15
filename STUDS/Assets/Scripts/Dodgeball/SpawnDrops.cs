@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,6 +6,7 @@ public class SpawnDrops : MonoBehaviour {
 
     public int NumToSpawn = 3;
     public bool SpawnOnStart = true;
+    [SerializeField] private bool AIIgnore;
     public GameObject[] DropTypes;
     public float lifetimeOfDrops = -1;
     [Tooltip("Each drop will be randomized.")]
@@ -23,38 +24,41 @@ public class SpawnDrops : MonoBehaviour {
     private void Start()
     {
         if(SpawnOnStart)
-            Spawn(NumToSpawn);
+            Invoke(nameof(Spawn), 0.1f);
     }
 
-    public void Spawn(int num)
+    public void Spawn()
     {
-        items = new GameObject[num];
+        items = new GameObject[1];
         int numTrack = 0;
-        //int numSpawns = 0;
 
         if (!_RandomizeAll)
         {
-            while (numTrack < num)
+            while (numTrack < 1)
             {
                 for (int i = 0; i < DropTypes.Length; i++)
                 {
                     items[i] = (Instantiate(DropTypes[i], transform.position, transform.rotation));
+                    if(!AIIgnore)
+                        DBGameManager.Instance.enlistDodgeball(items[i]);
                     numTrack++;
-                    if (numTrack >= num)
+                    if (numTrack >= 1)
                         break;
                 }
             }
         }
         else
         {
-            while (numTrack < num)
+            while (numTrack < 1)
             {
-                for (int i = 0; i < num; i++)
+                for (int i = 0; i < 1; i++)
                 {
                     int randIndex = Random.Range((int)0, DropTypes.Length);
                     items[numTrack] = (Instantiate(DropTypes[randIndex], transform.position, transform.rotation));
+                    if(!AIIgnore)
+                        DBGameManager.Instance.enlistDodgeball(items[numTrack]);
                     numTrack++;
-                    if (numTrack >= num)
+                    if (numTrack >= 1)
                         break;
                 }
             }

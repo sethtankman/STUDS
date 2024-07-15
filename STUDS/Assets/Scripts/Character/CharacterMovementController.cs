@@ -488,7 +488,7 @@ public class CharacterMovementController : MonoBehaviour
                 StartCoroutine(cameraShake.Shake(0.15f, 0.4f));
             if (GetComponent<DodgeballAI>())
             { // Only knockbacks that make the AI drop an item will affect it.  This allows navmesh link traversal over trampolines.
-                GetComponent<DodgeballAI>().Loiter();
+                GetComponent<DodgeballAI>().Loiter(true);
                 StartCoroutine(KnockbackAI(_direction));
             }
         }
@@ -523,7 +523,10 @@ public class CharacterMovementController : MonoBehaviour
                 grabbedObject.GetComponent<Rigidbody>().useGravity = true;
             }
             if (GetComponentInChildren<AIThrowTrigger>())
+            {
                 GetComponentInChildren<AIThrowTrigger>().setCanThrow(false);
+                DBGameManager.Instance.enlistDodgeball(grabbedObject);
+            }
             grabbedObject.GetComponent<GrabbableObjectController>().LetGo();
             grabbedObject = null;
             hasGrabbed = false;

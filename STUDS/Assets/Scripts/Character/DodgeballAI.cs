@@ -70,7 +70,7 @@ public class DodgeballAI : MonoBehaviour
             {
                 StartNavMeshLinkMovement();
             }
-        } 
+        }
     }
 
     private void StartNavMeshLinkMovement()
@@ -167,18 +167,30 @@ public class DodgeballAI : MonoBehaviour
     private void AcquireTargetDodgeball()
     {
         List<GameObject> dodgeballs = DBGameManager.Instance.GetAvailableDodgeballs();
-        target = dodgeballs[Random.Range(0, dodgeballs.Count)].transform;
-        hasTarget = true;
+        if (dodgeballs.Count == 0)
+        {
+            Debug.LogWarning("Dodgeball list is empty");
+            Loiter(false);
+            return;
+        }
+        if (target == null)
+        {
+            target = dodgeballs[Random.Range(0, dodgeballs.Count)].transform;
+            DBGameManager.Instance.deListDodgeball(target.gameObject, gameObject);
+        }
         patience = maxPatience;
         animator.SetBool("isRunning", true);
         if (_onNavMeshLink == false)
         {
             if (agent.isOnNavMesh)
+            {
                 agent.SetDestination(target.position);
+                hasTarget = true;
+            } 
             else
             { // Return navmesh agents to navmesh after being knocked back.
                 NavMeshHit hit;
-                NavMesh.SamplePosition(transform.position, out hit, 100, NavMesh.AllAreas);
+                NavMesh.SamplePosition(transform.position, out hit, 150, NavMesh.AllAreas);
                 transform.position = hit.position;
                 agent.Warp(hit.position);
             }
@@ -189,7 +201,7 @@ public class DodgeballAI : MonoBehaviour
     {
         if (!GetComponent<CharacterMovementController>().GetHasGrabbed() && other.CompareTag("Grabbable")
             && other.GetComponent<GrabbableObjectController>().getCanPickup()
-            && other.name.Equals(target.name))
+            && target != null && other.name.Equals(target.name))
         {
             GetComponent<CharacterMovementController>().SetGrabbedObject(other.gameObject);
             other.GetComponent<GrabbableObjectController>().PickupObject(GetComponent<CharacterMovementController>().GetColorName());
@@ -199,13 +211,26 @@ public class DodgeballAI : MonoBehaviour
     }
 
     /// <summary>
-    /// Called to reset bools when AI throws something.
+    /// Called to reset targets and have AI stop for a second.
     /// </summary>
-    public void Loiter()
+    public void Loiter(bool enlistDB)
     {
         loiter = 60;
         hasTarget = false;
         coroutineOn = false;
+        if (target && target.GetComponent<GrabbableObjectController>() && enlistDB)
+        {
+            DBGameManager.Instance.enlistDodgeball(target.gameObject);
+        }
+        target = null;
         animator.SetBool("isRunning", false);
+    }
+
+    public bool CompareTarget(GameObject _target)
+    {
+        if (target)
+            return _target.name == target.name;
+        else
+            return false;
     }
 }

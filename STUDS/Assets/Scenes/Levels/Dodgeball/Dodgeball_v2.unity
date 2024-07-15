@@ -310,6 +310,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8166487836147283756, guid: c819817e8e46587488a5f646207a7c34,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8792719567955718988, guid: c819817e8e46587488a5f646207a7c34,
         type: 3}
       propertyPath: timeToDelay
@@ -3633,6 +3638,11 @@ PrefabInstance:
       propertyPath: timeToDelay
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 5634774800374327806, guid: 6712d1b69617c0e4a91bca45dcc62396,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7017234631288261041, guid: 6712d1b69617c0e4a91bca45dcc62396,
         type: 3}
       propertyPath: m_Name
@@ -3870,7 +3880,7 @@ NavMeshObstacle:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 201013341}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Shape: 1
   m_Extents: {x: 0.5, y: 0.5, z: 0.5}
@@ -5250,7 +5260,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 252118947}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.7005981, y: 1.1199999, z: 0.17077196}
+  m_LocalPosition: {x: 1.3637058, y: 0.8499999, z: -1.4824407}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1625933051}
@@ -6639,6 +6649,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8166487836147283756, guid: c819817e8e46587488a5f646207a7c34,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8792719567955718988, guid: c819817e8e46587488a5f646207a7c34,
         type: 3}
       propertyPath: timeToDelay
@@ -7129,7 +7144,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 353086998}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.8968346, y: -0.5799999, z: -1.6424539}
+  m_LocalPosition: {x: -1.363707, y: -0.8499999, z: 1.4824424}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1625933051}
@@ -7320,6 +7335,7 @@ MonoBehaviour:
   scorePanel: {fileID: 1090778596}
   availableDodgeballs: []
   scoreOrder: []
+  players: []
 --- !u!4 &367357799 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4652126084092095740, guid: b80cd8fd30639a64ead79db5a175b0d1,
@@ -7845,6 +7861,10 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 58104093, guid: ee38ba5e4637b2f42b6c12598562f1bb, type: 3}
       propertyPath: m_NavMeshLayer
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 58104095, guid: ee38ba5e4637b2f42b6c12598562f1bb, type: 3}
+      propertyPath: AIIgnore
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 58104095, guid: ee38ba5e4637b2f42b6c12598562f1bb, type: 3}
@@ -10187,7 +10207,7 @@ NavMeshObstacle:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 475192803}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Shape: 1
   m_Extents: {x: 0.5, y: 1, z: 0.5}
@@ -10397,6 +10417,11 @@ PrefabInstance:
         type: 3}
       propertyPath: timeToDelay
       value: 5.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5634774800374327806, guid: 6712d1b69617c0e4a91bca45dcc62396,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7017234631288261041, guid: 6712d1b69617c0e4a91bca45dcc62396,
         type: 3}
@@ -12420,6 +12445,10 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 58104093, guid: ee38ba5e4637b2f42b6c12598562f1bb, type: 3}
       propertyPath: m_NavMeshLayer
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 58104095, guid: ee38ba5e4637b2f42b6c12598562f1bb, type: 3}
+      propertyPath: AIIgnore
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 58104095, guid: ee38ba5e4637b2f42b6c12598562f1bb, type: 3}
@@ -18129,7 +18158,7 @@ NavMeshObstacle:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 803741801}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Shape: 1
   m_Extents: {x: 0.5, y: 0.5, z: 0.5}
@@ -19377,7 +19406,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 857968308}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.0981181, y: 4.4200006, z: -0.7358396}
+  m_LocalPosition: {x: 0, y: 4.1500006, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1625933051}
@@ -19503,8 +19532,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 862361881}
-  m_LocalRotation: {x: 0, y: -0.62714773, z: 0, w: 0.7789004}
-  m_LocalPosition: {x: 8.1, y: 6.058, z: 4.9659653}
+  m_LocalRotation: {x: -0, y: 0.65395373, z: -0, w: 0.7565346}
+  m_LocalPosition: {x: 9.421553, y: 6.328, z: 4.994644}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1625933051}
@@ -19540,8 +19569,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AgentTypeID: 0
-  m_StartPoint: {x: -0.4, y: 1.12, z: 0.6}
-  m_EndPoint: {x: 1.02, y: -0.58, z: -3.17}
+  m_StartPoint: {x: 0.0000005662441, y: 0.8499999, z: -2.01428}
+  m_EndPoint: {x: -0.00000032782555, y: -0.8499999, z: 2.014282}
   m_Width: 0
   m_CostModifier: -1
   m_Bidirectional: 0
@@ -33401,6 +33430,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8166487836147283756, guid: c819817e8e46587488a5f646207a7c34,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8792719567955718988, guid: c819817e8e46587488a5f646207a7c34,
         type: 3}
       propertyPath: timeToDelay
@@ -41056,6 +41090,11 @@ PrefabInstance:
       propertyPath: timeToDelay
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 5634774800374327806, guid: 6712d1b69617c0e4a91bca45dcc62396,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7017234631288261041, guid: 6712d1b69617c0e4a91bca45dcc62396,
         type: 3}
       propertyPath: m_Name
@@ -42433,7 +42472,7 @@ NavMeshObstacle:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1461793544}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Shape: 1
   m_Extents: {x: 0.5, y: 1, z: 0.5}
@@ -44282,6 +44321,11 @@ PrefabInstance:
         type: 3}
       propertyPath: timeToDelay
       value: 5.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5634774800374327806, guid: 6712d1b69617c0e4a91bca45dcc62396,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7017234631288261041, guid: 6712d1b69617c0e4a91bca45dcc62396,
         type: 3}
@@ -51085,6 +51129,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8166487836147283756, guid: c819817e8e46587488a5f646207a7c34,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8792719567955718988, guid: c819817e8e46587488a5f646207a7c34,
         type: 3}
       propertyPath: timeToDelay
@@ -51738,7 +51787,7 @@ NavMeshObstacle:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1637679650}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Shape: 1
   m_Extents: {x: 0.5, y: 0.5, z: 0.5}
@@ -51978,7 +52027,7 @@ NavMeshObstacle:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1649823653}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Shape: 1
   m_Extents: {x: 0.5, y: 1, z: 0.5}
@@ -53360,7 +53409,7 @@ NavMeshObstacle:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1717682874}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Shape: 1
   m_Extents: {x: 0.5, y: 0.5, z: 0.5}
@@ -53734,7 +53783,7 @@ NavMeshObstacle:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1727430296}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Shape: 1
   m_Extents: {x: 0.5, y: 1, z: 0.5}
@@ -54212,6 +54261,10 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 58104093, guid: ee38ba5e4637b2f42b6c12598562f1bb, type: 3}
       propertyPath: m_NavMeshLayer
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 58104095, guid: ee38ba5e4637b2f42b6c12598562f1bb, type: 3}
+      propertyPath: AIIgnore
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 58104095, guid: ee38ba5e4637b2f42b6c12598562f1bb, type: 3}
@@ -54863,6 +54916,10 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 58104093, guid: ee38ba5e4637b2f42b6c12598562f1bb, type: 3}
       propertyPath: m_NavMeshLayer
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 58104095, guid: ee38ba5e4637b2f42b6c12598562f1bb, type: 3}
+      propertyPath: AIIgnore
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 58104095, guid: ee38ba5e4637b2f42b6c12598562f1bb, type: 3}
@@ -60998,6 +61055,11 @@ PrefabInstance:
       propertyPath: timeToDelay
       value: 1.25
       objectReference: {fileID: 0}
+    - target: {fileID: 5634774800374327806, guid: 6712d1b69617c0e4a91bca45dcc62396,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7017234631288261041, guid: 6712d1b69617c0e4a91bca45dcc62396,
         type: 3}
       propertyPath: m_Name
@@ -64384,6 +64446,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8166487836147283756, guid: c819817e8e46587488a5f646207a7c34,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8792719567955718988, guid: c819817e8e46587488a5f646207a7c34,
         type: 3}
       propertyPath: timeToDelay
@@ -65002,6 +65069,11 @@ PrefabInstance:
         type: 3}
       propertyPath: timeToDelay
       value: 1.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 5634774800374327806, guid: 6712d1b69617c0e4a91bca45dcc62396,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7017234631288261041, guid: 6712d1b69617c0e4a91bca45dcc62396,
         type: 3}

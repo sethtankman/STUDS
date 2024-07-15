@@ -41,7 +41,6 @@ public class GrabbableObjectController : MonoBehaviour
             dodgeballRenderer.material = DroppedMaterial;
             isDeleteBallTimerStarted = false;
             DeleteBallTimer = 0;
-            DBGameManager.Instance.enlistDodgeball(gameObject);
         }
     }
 
@@ -229,5 +228,10 @@ public class GrabbableObjectController : MonoBehaviour
     public bool getCanPickup()
     {
         return canPickup;
+    }
+
+    public void SetCanPickup(bool tf)
+    {
+        canPickup = tf;
     }
 }

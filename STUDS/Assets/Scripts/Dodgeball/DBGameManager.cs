@@ -12,12 +12,14 @@ public class DBGameManager : MonoBehaviour
     public Dictionary<string, int> scores = new Dictionary<string, int>();
     [SerializeField] private List<GameObject> availableDodgeballs;
     [SerializeField] private string[] scoreOrder;
+    [SerializeField] private GameObject[] players;
     private int dbNum = 0;
 
     private void Start()
     {
         Instance = this;
         availableDodgeballs = new List<GameObject>();
+        players = GameObject.FindGameObjectsWithTag("Player");
     }
 
     public void InitScores()
@@ -43,6 +45,26 @@ public class DBGameManager : MonoBehaviour
     public void deListDodgeball(GameObject dodgeball)
     {
         availableDodgeballs.Remove(dodgeball);
+        foreach (GameObject player in players)
+        {
+            if(player.GetComponent<CharacterMovementController>().isAI && player.GetComponent<DodgeballAI>().CompareTarget(dodgeball))
+            {
+                player.GetComponent<DodgeballAI>().Loiter(false);
+            }
+        }
+    }
+
+    public void deListDodgeball(GameObject dodgeball, GameObject taker)
+    {
+        availableDodgeballs.Remove(dodgeball);
+        foreach (GameObject player in players)
+        {
+            if (player.GetComponent<CharacterMovementController>().isAI && player.GetComponent<DodgeballAI>().CompareTarget(dodgeball))
+            {
+                if(taker.name != player.name)
+                    player.GetComponent<DodgeballAI>().Loiter(false);
+            }
+        }
     }
 
     public void enlistDodgeball(GameObject dodgeball)
