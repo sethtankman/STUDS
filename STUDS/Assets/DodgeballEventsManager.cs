@@ -5,7 +5,7 @@ using UnityEngine;
 public class DodgeballEventsManager : MonoBehaviour
 {
     [Header("Events")]
-    public float EventCountdownTimer = 30.0f;
+    public float EventCountdownTimer = 45.0f;
     public bool EventStarted = false;
     public bool EventEnded = false;
     public float RandomEventSelect = 0;
@@ -25,7 +25,7 @@ public class DodgeballEventsManager : MonoBehaviour
             if (!EventStarted)
             {
                 DodgeballEventPicker();
-                StartCoroutine(EndEventTimer(30));
+                StartCoroutine(EndEventTimer(90));
             }
         }
     }
