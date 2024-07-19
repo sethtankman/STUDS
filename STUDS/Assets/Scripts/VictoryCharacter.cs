@@ -22,9 +22,9 @@ public class VictoryCharacter : MonoBehaviour
         foreach (GameObject player in players)
         {
             gameObject.GetComponent<CharacterMovementController>().enabled = true;
-            if (player.GetComponent<CharacterMovementController>().GetFinishPosition() == posNumber)
-            {
-                SetColor(player.GetComponent<CharacterMovementController>().GetColorName());
+            if (player.GetComponentInChildren<CharacterMovementController>().GetFinishPosition() == posNumber) 
+            { // GetComponentInChildren required for AI that use waypoints (Racing levels)
+                SetColor(player.GetComponentInChildren<CharacterMovementController>().GetColorName());
                 if (foundMatch == false)
                     TurnMini(player);
                 foundMatch = true;

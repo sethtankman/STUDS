@@ -130,7 +130,7 @@ public class ManagePlayerHub : MonoBehaviour
         {
             foreach (GameObject player in players)
             {
-                player.GetComponent<CharacterMovementController>().SetAimAssist(true);
+                player.GetComponentInChildren<CharacterMovementController>().SetAimAssist(true);
             }
         }
         else if (SceneManager.GetActiveScene().name == "TheBlock_LevelSelect" && oldHub)
@@ -141,7 +141,7 @@ public class ManagePlayerHub : MonoBehaviour
         {
             foreach (GameObject player in players)
             {
-                player.GetComponent<CharacterMovementController>().SetAimAssist(false);
+                player.GetComponentInChildren<CharacterMovementController>().SetAimAssist(false);
             }
         }
     }

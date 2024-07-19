@@ -80,9 +80,9 @@ public class ManageGame : MonoBehaviour
                 List<GameObject> players = ManagePlayerHub.Instance.getPlayers();
                 foreach (GameObject player in players)
                 {
-                    if(player.GetComponent<CharacterMovementController>().GetFinishPosition() == 0)
+                    if(player.GetComponentInChildren<CharacterMovementController>().GetFinishPosition() == 0)
                     {
-                        player.GetComponent<CharacterMovementController>().SetFinishPosition(noFinishPositions);
+                        player.GetComponentInChildren<CharacterMovementController>().SetFinishPosition(noFinishPositions);
                         noFinishPositions--;
                     }
                 }
