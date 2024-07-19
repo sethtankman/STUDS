@@ -27,9 +27,10 @@ public class NetPWRBill_Manager : NetworkBehaviour
 
     //Timer for the end of the game
     public TextMeshProUGUI TimerTXT;
-    [SyncVar]
-    public float timer;
+    private float serverStartTime;
+    [SerializeField] private float gameTime;
     private float Sprint = 10.0f;
+
 
     public GameObject PBGameEndText;
     private StudsNetworkManager netManager;
@@ -64,22 +65,19 @@ public class NetPWRBill_Manager : NetworkBehaviour
 
             Invoke("SetInteractives", 3.0f);
         }
+        serverStartTime = (float)NetworkTime.time;
     }
 
     // Update is called once per frame
     void Update()
     {
-        Mathf.RoundToInt(timer);
 
         PowerTXT.text = "Power Bill: $" + (Score / 10) + "0";
         ItemsOnTXT.text = "Appliances: " + (NumItemsOn + 1);
-        
-        if(isServer)
-            timer -= Time.deltaTime;
 
-        if (timer > 0.0f)
+        if ((float)NetworkTime.time  < serverStartTime + gameTime)
         {
-            Showtime(timer);
+            Showtime();
         }
         else if(!ended) { 
             EndGame();
@@ -164,8 +162,9 @@ public class NetPWRBill_Manager : NetworkBehaviour
         }
     }
 
-    void Showtime(float timeleft)
+    void Showtime()
     {
+        float timeleft = gameTime - (float)NetworkTime.time + serverStartTime;
         float min = Mathf.FloorToInt(timeleft / 60);
         float sec = Mathf.FloorToInt(timeleft % 60);
 

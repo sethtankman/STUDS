@@ -14,8 +14,7 @@ public class Net_SS_Initialize : NetworkBehaviour
     public Transform[] playerSpawns;
 
     private bool spawnedPlayers = false;
-    public float waitTime = 5f;
-    private float currentTime = 0;
+    [SerializeField] private float waitTime = 5f;
 
     private GameObject[] players;
     private GameObject localPlayer;
@@ -61,13 +60,13 @@ public class Net_SS_Initialize : NetworkBehaviour
         {
             Debug.LogError("SS no pause menu UI");
         }
+        waitTime += (float)NetworkTime.time;
     }
 
     // Update is called once per frame
     void Update()
     {
-        currentTime += Time.deltaTime;
-        if (currentTime > waitTime && !spawnedPlayers)
+        if (NetworkTime.time > waitTime && !spawnedPlayers)
         {
             Destroy(startCam);
             if (startText)

@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 1
   m_AmbientMode: 1
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 530655520}
+  m_SkyboxMaterial: {fileID: 1168390459}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -123,7 +123,7 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!21 &530655520
+--- !u!21 &1168390459
 Material:
   serializedVersion: 6
   m_ObjectHideFlags: 0
@@ -550,12 +550,22 @@ PrefabInstance:
     - target: {fileID: 1087861997094861470, guid: eac7b817e41768047a6ea4c802362b33,
         type: 3}
       propertyPath: m_AdditionalShaderChannelsFlag
-      value: 1
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 1087861997094861471, guid: eac7b817e41768047a6ea4c802362b33,
         type: 3}
       propertyPath: m_MatchWidthOrHeight
       value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 2105230177143250130, guid: eac7b817e41768047a6ea4c802362b33,
+        type: 3}
+      propertyPath: specificScene
+      value: TitleScreen
+      objectReference: {fileID: 0}
+    - target: {fileID: 6324155298183600940, guid: eac7b817e41768047a6ea4c802362b33,
+        type: 3}
+      propertyPath: specificScene
+      value: TitleScreen
       objectReference: {fileID: 0}
     - target: {fileID: 8324892554119817641, guid: eac7b817e41768047a6ea4c802362b33,
         type: 3}

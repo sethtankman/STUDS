@@ -10,9 +10,9 @@ public class NetShopTimer : NetworkBehaviour
     public TextMeshProUGUI TimerTXT;
     public GameObject NetworkManager;
     private float Sprint = 10.0f;
-
-    [SyncVar]
-    public float timer;
+    private float serverStartTime;
+    private bool gameEnded = false;
+    [SerializeField] private float gameTime;
     [SyncVar]
     public int racePositions;
     [SyncVar]
@@ -24,27 +24,23 @@ public class NetShopTimer : NetworkBehaviour
         noFinishPos = -1;
         NetworkManager = GameObject.Find("NetworkManager");
         sa = GameObject.Find("SteamScripts").GetComponent<SteamAchievements>();
+        gameTime += (float)NetworkTime.time;
+        serverStartTime = (float)NetworkTime.time;
+        
     }
 
     void Update()
     {
-        if (isServer)
+        if (NetworkTime.time < gameTime)
         {
-
-            Mathf.RoundToInt(timer);
-
-            timer -= Time.deltaTime;
-        }
-        if (timer > 0.0f)
-        {
-            Showtime(timer);
+            Showtime();
         }
         else
         {
-            if (isServer)
+            if (isServer && !gameEnded)
             {
                 EndGame();
-                timer = 10000.0f; // This way we should only call it once.
+                gameEnded = true; // This way we should only call it once.
             }
         }
     }
@@ -66,8 +62,9 @@ public class NetShopTimer : NetworkBehaviour
         netManager.ServerChangeScene("NetVictoryStands");
     }
 
-    void Showtime(float timeleft)
+    void Showtime()
     {
+        float timeleft = gameTime - (float)NetworkTime.time;
         float min = Mathf.FloorToInt(timeleft / 60);
         float sec = Mathf.FloorToInt(timeleft % 60);
 

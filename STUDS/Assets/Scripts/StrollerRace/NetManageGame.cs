@@ -30,10 +30,8 @@ public class NetManageGame : NetworkBehaviour
 
     public AK.Wwise.Event mySource;
 
-    private float timeCount;
     [SyncVar] private bool display;
     [SyncVar] private int playerID;
-    private float timer;
     private bool playerFinish = false;
 
     private int positions = 1;
@@ -45,6 +43,7 @@ public class NetManageGame : NetworkBehaviour
     {
         sa = GameObject.Find("SteamScripts").GetComponent<SteamAchievements>();
         netManager = GameObject.Find("NetworkManager").GetComponent<StudsNetworkManager>();
+        swapTime += (float)NetworkTime.time;
     }
 
     // Update is called once per frame
@@ -52,13 +51,13 @@ public class NetManageGame : NetworkBehaviour
     {
         if (display)
         {
-            timeCount += Time.deltaTime;
             FinishText.text = $"Player {playerID} has finished the race!";
             playerFinish = true;
-            if (timeCount >= swapTime)
+            endTimer += (float)NetworkTime.time;
+            if (NetworkTime.time >= swapTime)
             {
                 display = false;
-                timeCount = 0;
+                swapTime = (float)NetworkTime.time + 3.0f;
             }
         }
         else if (!display)
@@ -68,9 +67,8 @@ public class NetManageGame : NetworkBehaviour
 
         if (playerFinish)
         {
-            timer += Time.deltaTime;
-            FinishTimer.text = "A player has finished the race! The race will end in " + (int)(endTimer - timer) + " seconds!";
-            if(timer >= endTimer && endSequenceCalled == false)
+            FinishTimer.text = "A player has finished the race! The race will end in " + (int)(endTimer - NetworkTime.time) + " seconds!";
+            if(NetworkTime.time >= endTimer && endSequenceCalled == false)
             {
                 endSequenceCalled = true;
                 GameObject[] allPlayers = GameObject.FindGameObjectsWithTag("Player");
