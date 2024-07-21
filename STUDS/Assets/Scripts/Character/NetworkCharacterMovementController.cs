@@ -44,6 +44,8 @@ public class NetworkCharacterMovementController : NetworkBehaviour
     public float knockBackTime;
     public float timeUntilMoveEnabled = 0;
 
+    private float speedMultiplier = 1;
+
     public Vector3 velocity;
 
     /// <summary>
@@ -436,7 +438,7 @@ public class NetworkCharacterMovementController : NetworkBehaviour
                 transform.rotation = Quaternion.Euler(0f, angle, 0f);
 
                 Vector3 moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
-                controller.Move(moveDir.normalized * moveSpeed * Time.deltaTime);
+                controller.Move(moveDir.normalized * moveSpeed * speedMultiplier * Time.deltaTime);
 
             }
             else
@@ -465,7 +467,7 @@ public class NetworkCharacterMovementController : NetworkBehaviour
             if (dirVector.magnitude >= 0.1f && movementEnabled)
             {
                 animator.SetBool("isRunning", true);
-                controller.Move((dirVector.normalized * moveSpeed) * Time.deltaTime);
+                controller.Move(dirVector.normalized * moveSpeed * speedMultiplier * Time.deltaTime);
             }
             else
             {
@@ -1122,6 +1124,11 @@ public class NetworkCharacterMovementController : NetworkBehaviour
     public float getMoveSpeed()
     {
         return moveSpeed;
+    }
+
+    public void setSpeedMultiplier(float _mult)
+    {
+        speedMultiplier = _mult;
     }
 
     /// <summary>

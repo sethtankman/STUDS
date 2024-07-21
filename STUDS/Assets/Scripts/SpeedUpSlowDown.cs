@@ -22,13 +22,13 @@ public class SpeedUpSlowDown : MonoBehaviour
             if (!NCMC)
             {
                 CMC = other.GetComponent<CharacterMovementController>();
-                CMC.setMoveSpeed(CMC.getMoveSpeed() * SpeedAdjustment);
+                CMC.setSpeedMultiplier(SpeedAdjustment);
                 CMC.CanJump = false;
                 originalSpeedNormal = CMC.moveSpeedNormal;
                 originalSpeedGrab = CMC.moveSpeedGrab;
             } else
             {
-                NCMC.setMoveSpeed(NCMC.getMoveSpeed() * SpeedAdjustment);
+                NCMC.setSpeedMultiplier(SpeedAdjustment);
                 NCMC.CanJump = false;
                 originalSpeedNormal = NCMC.moveSpeedNormal;
                 originalSpeedGrab = NCMC.moveSpeedGrab;
@@ -44,11 +44,11 @@ public class SpeedUpSlowDown : MonoBehaviour
             if (!NCMC)
             {
                 CMC = other.GetComponent<CharacterMovementController>();
-                CMC.setMoveSpeed(originalSpeedNormal);
+                CMC.setSpeedMultiplier(1);
                 CMC.CanJump = true;
             } else
             {
-                NCMC.setMoveSpeed(originalSpeedNormal);
+                NCMC.setSpeedMultiplier(1);
                 NCMC.CanJump = true;
             }
         }

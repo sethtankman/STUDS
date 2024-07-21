@@ -39,7 +39,11 @@ public class CharacterMovementController : MonoBehaviour
     public float jumpHeight;
     public float moveSpeedGrab;
     public float moveSpeedNormal;
-    public float turnTime;
+    /// <summary>
+    /// Designed only to be modified by mud, water, etc. through SpeedUpSlowDown.cs
+    /// </summary>
+    [SerializeField] private float speedMultiplier = 1;
+    [SerializeField] private float turnTime;
     public float jumpHeightGrab;
     public float throwForce;
     [SerializeField] private float homingSpeed;
@@ -301,7 +305,7 @@ public class CharacterMovementController : MonoBehaviour
                 transform.rotation = Quaternion.Euler(0f, angle, 0f);
 
                 Vector3 moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
-                controller.Move((moveDir.normalized * moveSpeed) * Time.deltaTime);
+                controller.Move((moveDir.normalized * moveSpeed * speedMultiplier) * Time.deltaTime);
 
             }
             else
@@ -343,7 +347,7 @@ public class CharacterMovementController : MonoBehaviour
             {
                 animator.SetBool("isRunning", true);
                 //runSound.Play();
-                controller.Move((dirVector.normalized * moveSpeed) * Time.deltaTime);
+                controller.Move(dirVector.normalized * moveSpeed * speedMultiplier * Time.deltaTime);
 
             }
             else
@@ -603,7 +607,6 @@ public class CharacterMovementController : MonoBehaviour
                 {
                     animator.SetBool("isHoldingSomething", true);
                     GrabSound.Post(gameObject);
-                    //Debug.Log($"I was able to pick up {collider.name}");
                     grabbedObject = collider.gameObject;
                     grabbedObject.GetComponent<GrabbableObjectController>().PickupObject(color, true);
                     moveSpeed = moveSpeedGrab;
@@ -724,6 +727,11 @@ public class CharacterMovementController : MonoBehaviour
     public float getMoveSpeed()
     {
         return moveSpeed;
+    }
+
+    public void setSpeedMultiplier(float _mult)
+    {
+        speedMultiplier = _mult;
     }
 
     public void SetGrabbedObject(GameObject obj)
