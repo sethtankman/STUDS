@@ -173,7 +173,7 @@ public class StudsNetworkManager : NetworkManager
             {
                 spawnPos.GetComponent<NetHUB_Lineup>().playerLeft(ni.gameObject);
             }
-            NetGameManager.Instance.HandleLeavePlayer(id);
+            FindObjectOfType<NetGameManager>().HandleLeavePlayer(id);
         }
         base.OnServerDisconnect(conn);
     }
@@ -199,7 +199,8 @@ public class StudsNetworkManager : NetworkManager
     /// <param name="conn">Connection to the server.</param>
     public override void OnClientDisconnect()
     {
-        Destroy(NetGameManager.Instance.gameObject);
+        if(NetGameManager.Instance)
+            Destroy(NetGameManager.Instance.gameObject);
         base.OnClientDisconnect();
     }
 

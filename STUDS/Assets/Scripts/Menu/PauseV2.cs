@@ -25,14 +25,6 @@ public class PauseV2 : MonoBehaviour
     public GameObject p4PH;
     public bool p4PHWasEnabled;
 
-    public GameObject theImage;
-    public GameObject theImage01;
-    public GameObject theImage02;
-    public GameObject theImage03;
-
-    int menutracker = 0;
-
-
     public PauseMenu thePause;
 
     public Text ResumeText;
@@ -123,91 +115,6 @@ public class PauseV2 : MonoBehaviour
         foreach(GameObject menu in allOtherMenus)
         {
             menu.SetActive(false);
-        }
-    }
-
-
-
-    void Return()
-    {
-        if (gameisPaused)
-        {
-            PauseMenuUI.SetActive(false);
-
-            gameisPaused = false;
-            Time.timeScale = 1f;
-        }
-    }
-
-    void ScrollDown()
-    {
-
-
-        if (menutracker == 0)
-        {
-
-            theImage.SetActive(false);
-            theImage01.SetActive(true);
-
-        }
-
-        else if (menutracker == 1)
-        {
-
-            theImage01.SetActive(false);
-            theImage02.SetActive(true);
-        }
-
-        else if (menutracker == 2)
-        {
-
-            theImage02.SetActive(false);
-            theImage03.SetActive(true);
-
-        }
-
-        else if (menutracker == 3)
-        {
-            theImage03.SetActive(false);
-            theImage.SetActive(true);
-            menutracker = -1;
-        }
-
-
-        menutracker++;
-    }
-
-    void ScrollUp()
-    {
-        if (menutracker == 1)
-        {
-            theImage.SetActive(true);
-            theImage01.SetActive(false);
-            menutracker = 0;
-        }
-
-        else if (menutracker == 2)
-        {
-            theImage01.SetActive(true);
-            theImage02.SetActive(false);
-
-            menutracker = 1;
-        }
-
-        else if (menutracker == 3)
-        {
-            theImage02.SetActive(true);
-            theImage03.SetActive(false);
-            menutracker = 2;
-        }
-
-
-        else if (menutracker == 0)
-        {
-            theImage03.SetActive(true);
-            theImage.SetActive(false);
-            menutracker = 3;
-
         }
     }
 

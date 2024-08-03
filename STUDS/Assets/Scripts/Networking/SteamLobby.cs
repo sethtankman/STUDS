@@ -133,6 +133,7 @@ public class SteamLobby : NetworkBehaviour
     /// </summary>
     public void HandleLeave()
     {
+        PauseV2.gameisPaused = false;
         netManager.StopHost();
         SteamMatchmaking.LeaveLobby(joinedLobbyID);
     }
