@@ -53,6 +53,8 @@ public class NetworkCharacterMovementController : NetworkBehaviour
     /// </summary>
     private Vector2 direction;
 
+    private Vector3 throwingForce;
+
     float turnSmoothVelocity;
 
     public GameObject grabbedObject;
@@ -205,6 +207,11 @@ public class NetworkCharacterMovementController : NetworkBehaviour
 
         CollisionDetection();
 
+        ThrowAndPickup();
+    }
+
+    private void ThrowAndPickup()
+    {
         if (knockBackCounter <= 0)
         {
             //Grab input
@@ -239,12 +246,13 @@ public class NetworkCharacterMovementController : NetworkBehaviour
                     float grabDistance = 1.3f;
                     float grabHeight = 0.7f;
                     //Quaternion grabRotation = Quaternion.; // TODO: Maybe we'll need this for the hammer in shopping spree
-                
+
                     if (grabbedObject.GetComponent<NetGrabbableObjectController>())
                     {
                         grabDistance = grabbedObject.GetComponent<NetGrabbableObjectController>().distance;
                         grabHeight = grabbedObject.GetComponent<NetGrabbableObjectController>().height;
-                    } else if(grabbedObject.GetComponent<LocalGrabbableObjectController>())
+                    }
+                    else if (grabbedObject.GetComponent<LocalGrabbableObjectController>())
                     {
                         grabDistance = grabbedObject.GetComponent<LocalGrabbableObjectController>().distance;
                         grabHeight = grabbedObject.GetComponent<LocalGrabbableObjectController>().height;
@@ -252,6 +260,20 @@ public class NetworkCharacterMovementController : NetworkBehaviour
                     grabbedObject.transform.position = transform.position + (transform.forward * grabDistance) + (transform.up * grabHeight);
                     grabbedObject.transform.rotation = transform.rotation;
 
+                    Vector3 forward = transform.forward;
+                    grabbedObject.transform.forward = forward;
+                    if (hasAimAssist)
+                    {
+                        forward = Vector3.Normalize(target.transform.position - transform.position);
+                    }
+                    throwingForce = forward * (throwForce + (direction.magnitude * moveSpeedGrab * 40));
+                    throwingForce.y = 300f;
+
+                    ThrowSpline spline = grabbedObject.GetComponentInChildren<ThrowSpline>();
+                    if (spline)
+                    {
+                        spline.SetThrowForce(throwingForce);
+                    }
 
                     //If player released "e" then let go
                     if (pickupPressed)
@@ -269,7 +291,9 @@ public class NetworkCharacterMovementController : NetworkBehaviour
                         animator.SetBool("isHoldingSomething", false);
                         throwCoolDown = 1;
                     }
-                } else { // HasGrabbed is true but object is Null.  This happens when we pick up an object and it is destroyed without dropping it
+                }
+                else
+                { // HasGrabbed is true but object is Null.  This happens when we pick up an object and it is destroyed without dropping it
                     hasGrabbed = false;
                     animator.SetBool("isHoldingSomething", false);
                 }
@@ -297,9 +321,7 @@ public class NetworkCharacterMovementController : NetworkBehaviour
         {
             pickupCooldown -= Time.deltaTime;
         }
-
     }
-
 
     private void CollisionDetection()
     {
@@ -686,16 +708,6 @@ public class NetworkCharacterMovementController : NetworkBehaviour
         netAnim.SetTrigger("Throw");
         yield return new WaitForSeconds(0.0f);
         ThrowSound.Post(gameObject);
-        Vector3 forward = transform.forward;
-        grabbedObject.transform.forward = forward;
-        if (hasAimAssist)
-        {
-            forward = Vector3.Normalize(target.transform.position - transform.position);
-        }
-        Vector3 throwingForce = forward * throwForce;
-        Vector3 movementAdjust = forward * direction.magnitude * moveSpeedGrab * 40;
-        throwingForce += movementAdjust;
-        throwingForce.y = 300f;
         GameObject networkedObj = grabbedObject.GetComponentInChildren<LocalGrabbableObjectController>().networkedGO;
         Vector3 localPos = grabbedObject.transform.position;
         grabbedObject.GetComponentInChildren<LocalGrabbableObjectController>().LocalLetGo();

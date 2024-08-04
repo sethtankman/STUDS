@@ -53,7 +53,11 @@ public class CharacterMovementController : MonoBehaviour
 
     public Vector3 velocity;
 
+    /// <summary>
+    /// Stores the direction the user is inputing through their controls.
+    /// </summary>
     private Vector2 direction;
+    private Vector3 throwingForce;
 
     float turnSmoothVelocity;
 
@@ -133,7 +137,12 @@ public class CharacterMovementController : MonoBehaviour
         Jump();
 
         CollisionDetection();
-        
+
+        ThrowAndPickup();
+    }
+
+    private void ThrowAndPickup()
+    {
         if (knockBackCounter <= 0)
         {
             //Handle moving and rotating the object that has been grabbed
@@ -152,7 +161,22 @@ public class CharacterMovementController : MonoBehaviour
                     grabbedObject.transform.rotation = transform.rotation;
 
                     //If player released "e" then let go
-                    if (!isAI) { 
+                    if (!isAI)
+                    {
+                        Vector3 forward = transform.forward;
+                        grabbedObject.transform.forward = forward;
+                        if (hasAimAssist)
+                        {
+                            forward = Vector3.Normalize(target.transform.position - transform.position);
+                        }
+                        throwingForce = forward * (throwForce + (direction.magnitude * moveSpeedGrab * 40));
+                        throwingForce.y = 300f;
+
+                        ThrowSpline spline = grabbedObject.GetComponentInChildren<ThrowSpline>();
+                        if (spline)
+                        {
+                            spline.SetThrowForce(throwingForce);
+                        }
                         if (pickupPressed)
                         {
                             GrabSound.Post(gameObject);
@@ -166,7 +190,9 @@ public class CharacterMovementController : MonoBehaviour
                             performThrow();
                         }
                     }
-                } else { // HasGrabbed is true but object is Null.  This happens when we pick up an object and it is destroyed without dropping it
+                }
+                else
+                { // HasGrabbed is true but object is Null.  This happens when we pick up an object and it is destroyed without dropping it
                     hasGrabbed = false;
                     animator.SetBool("isHoldingSomething", false);
                 }
@@ -179,7 +205,7 @@ public class CharacterMovementController : MonoBehaviour
         else
         {
             knockBackCounter -= Time.deltaTime;
-            if (hasGrabbed)
+            if (hasGrabbed) // TODO: Should we be able to throw while knocked back?
             {
                 grabbedObject.transform.position = transform.position + (transform.forward * 1.3f) + (transform.up * 0.7f); // Added transform.up because stroller is in the ground with new dad model.
                 grabbedObject.transform.rotation = transform.rotation;
@@ -197,7 +223,6 @@ public class CharacterMovementController : MonoBehaviour
         {
             pickupCooldown -= Time.deltaTime;
         }
-
     }
 
     private void CollisionDetection()
@@ -564,10 +589,6 @@ public class CharacterMovementController : MonoBehaviour
             if (grabbedObject.GetComponent<GrabbableObjectController>().isDodgeball)
                 grabbedObject.GetComponent<GrabbableObjectController>().HomingThrow(true, target, forward*homingSpeed);
         }
-        Vector3 throwingForce = forward * throwForce;
-        Vector3 movementAdjust = forward * direction.magnitude * moveSpeedGrab * 40;
-        throwingForce += movementAdjust;
-        throwingForce.y = 300f;
         grabbedObject.GetComponent<GrabbableObjectController>().LetGo();
         grabbedObject.GetComponent<Rigidbody>().AddForce(throwingForce);
 
