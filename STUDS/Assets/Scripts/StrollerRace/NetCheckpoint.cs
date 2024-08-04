@@ -45,34 +45,18 @@ public class NetCheckpoint : MonoBehaviour
     {
         if (collider.CompareTag("Player"))
         {
-            NetworkCharacterMovementController player = collider.GetComponent<NetworkCharacterMovementController>();
-            if(player)
-            { // players will always have NetworkCharacterMovementController in Network mode
-                GameObject stroller = player.GetGrabbedObject();
-                if ((player.getCheckpointCount() == checkPointNum - 1) && stroller != null)
+            NetworkCharacterMovementController player = collider.GetComponent<NetworkCharacterMovementController>();// players will always have NetworkCharacterMovementController in Network mode
+            GameObject stroller = player.GetGrabbedObject();
+            if ((player.getCheckpointCount() == checkPointNum - 1) && stroller != null)
+            {
+                if (stroller.GetComponent<StrollerController>().StrollerID == player.getPlayerID())
                 {
-                    if ((stroller.GetComponent<StrollerController>().StrollerID == player.getPlayerID()))
-                    {
-                        player.SetCheckpointCount(checkPointNum);
-                        display = true;
-                        playerID = player.getPlayerID() + 1;
-                        mySource.Post(gameObject);
-                    }
-
-                }
-            } else
-            { // AI will not have Network CMC
-                CharacterMovementController AI = collider.GetComponent<CharacterMovementController>();
-                GameObject stroller = AI.GetGrabbedObject();
-                if ((AI.getCheckpointCount() == checkPointNum - 1) && stroller != null)
-                {
-                    AI.SetCheckpointCount(checkPointNum);
+                    player.SetCheckpointCount(checkPointNum);
                     display = true;
-                    playerID = AI.getPlayerID() + 1;
+                    playerID = player.getPlayerID() + 1;
+                    mySource.Post(gameObject);
                 }
             }
-            
-
         }
     }
 }

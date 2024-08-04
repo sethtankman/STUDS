@@ -55,11 +55,14 @@ public class NetInitRace : NetworkBehaviour
                 {
                     for (int i = 0; i < players.Length; i++)
                     {
-                        GameObject stroller = Instantiate(strollerPrefab, playerSpawns[i].position + new Vector3(0, 0, 2f), Quaternion.identity);
-                        NetworkServer.Spawn(stroller);
-                        RpcDetermineColor(players[i].GetComponent<NetworkCharacterMovementController>().GetColorName(),
-                            stroller.GetComponent<NetworkIdentity>().netId,
-                            players[i].GetComponent<NetworkCharacterMovementController>().getPlayerID());
+                        if (!players[i].GetComponent<NetworkCharacterMovementController>().isAI)
+                        {
+                            GameObject stroller = Instantiate(strollerPrefab, players[i].transform.position + new Vector3(0, 0, 2f), Quaternion.identity);
+                            NetworkServer.Spawn(stroller);
+                            RpcDetermineColor(players[i].GetComponent<NetworkCharacterMovementController>().GetColorName(),
+                                stroller.GetComponent<NetworkIdentity>().netId,
+                                players[i].GetComponent<NetworkCharacterMovementController>().getPlayerID());
+                        }
                         players[i].GetComponent<NetworkCharacterMovementController>().inStrollerRace = true;
                     }
                 }
