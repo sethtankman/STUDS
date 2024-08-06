@@ -14,13 +14,20 @@ public class ThrowSpline : MonoBehaviour
     [SerializeField, Min(3)] 
     private int maxIterations = 20;
     [SerializeField, Min(1)]
-    private float timeOfFlight = 5;
+    private float timeOfFlight = 1.5f;
     [SerializeField] private Vector3 throwForce = Vector3.zero;
     private float mass;
+    private bool lrState; // If line renderer is in the aim assist state or not.
 
     private void Start()
     {
         mass = transform.parent.GetComponent<Rigidbody>().mass;
+        Gradient gradient = new Gradient();
+        gradient.SetKeys(
+            new GradientColorKey[] { new GradientColorKey(Color.white, 0.0f) },
+            new GradientAlphaKey[] { new GradientAlphaKey(0.0f, 0.0f), new GradientAlphaKey(0.0f, 0.05f), new GradientAlphaKey(1.0f, 0.5f) }
+        );
+        lineRenderer.colorGradient = gradient;
     }
 
     private void Update()
@@ -53,8 +60,26 @@ public class ThrowSpline : MonoBehaviour
         return lineRendererPoints;
     }
 
-    public void SetThrowForce(Vector3 _throwForce)
+    public void SetThrowForce(Vector3 _throwForce, bool aimAssist)
     {
         throwForce = _throwForce;
+        if(aimAssist != lrState)
+        {
+            Gradient gradient = new Gradient();
+            if (aimAssist)
+                gradient.SetKeys(
+                    new GradientColorKey[] { new GradientColorKey(Color.red, 0.0f) },
+                    new GradientAlphaKey[] { new GradientAlphaKey(0.5f, 0.0f), new GradientAlphaKey(1.0f, 1.0f) }
+                );
+            else
+                gradient.SetKeys(
+                    new GradientColorKey[] { new GradientColorKey(Color.white, 0.0f) },
+                    new GradientAlphaKey[] { new GradientAlphaKey(0.0f, 0.0f), new GradientAlphaKey (0.0f, 0.05f), new GradientAlphaKey(1.0f, 0.5f) }
+                );
+
+            lineRenderer.colorGradient = gradient;
+            lrState = aimAssist;
+        }
+            
     }
 }

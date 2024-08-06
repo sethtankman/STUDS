@@ -175,7 +175,7 @@ public class CharacterMovementController : MonoBehaviour
                         ThrowSpline spline = grabbedObject.GetComponentInChildren<ThrowSpline>();
                         if (spline)
                         {
-                            spline.SetThrowForce(throwingForce);
+                            spline.SetThrowForce(throwingForce, hasAimAssist);
                         }
                         if (pickupPressed)
                         {
