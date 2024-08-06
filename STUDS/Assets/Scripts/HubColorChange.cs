@@ -6,20 +6,23 @@ public class HubColorChange : MonoBehaviour
 {
     public Material playerColor;
 
-    public GameObject gameManager;
+    [SerializeField] private GameObject gameManager;
 
     public string colorName;
 
     public AK.Wwise.Event ParticleSound;
+
+
     private void Start()
     {
-        gameManager = GameObject.Find("NetGameManager");
-        if (!gameManager)
-            gameManager = GameObject.Find("GameManager");
     }
 
     private void OnTriggerEnter(Collider other)
     {
+        if(!gameManager)
+            gameManager = GameObject.Find("NetGameManager");
+            if (!gameManager)
+                gameManager = GameObject.Find("GameManager");
         if (other.CompareTag("Player"))
         {
             if (gameManager.GetComponent<ManagePlayerHub>())
