@@ -54,12 +54,16 @@ public class InitializeLevel : MonoBehaviour
             {
                 for (int i = 0; i < players.Count; i++)
                 {
-                    GameObject stroller = Instantiate(strollerPrefab, playerSpawns[i].position + new Vector3(0, 0, 2f), Quaternion.identity);
-                    CharacterMovementController cmc = players[i].GetComponentInChildren<CharacterMovementController>();
-                    DetermineColor(cmc.GetColorName(), stroller);
-                    stroller.GetComponent<StrollerController>().SetID(cmc.getPlayerID());
-                    spawnedPlayers = true;
+
+                    if (!players[i].GetComponentInChildren<CharacterMovementController>().isAI)
+                    {
+                        GameObject stroller = Instantiate(strollerPrefab, playerSpawns[i].position + new Vector3(0, 0, 2f), Quaternion.identity);
+                        CharacterMovementController cmc = players[i].GetComponentInChildren<CharacterMovementController>();
+                        DetermineColor(cmc.GetColorName(), stroller);
+                        stroller.GetComponent<StrollerController>().SetID(cmc.getPlayerID());
+                    }
                 }
+                spawnedPlayers = true;
             }
         }
         else if(!spawnedPlayers)
