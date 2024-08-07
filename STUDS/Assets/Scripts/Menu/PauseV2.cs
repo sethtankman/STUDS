@@ -111,6 +111,8 @@ public class PauseV2 : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         PauseMenuUI.SetActive(false);
+        if(!MainPauseMenu)
+            MainPauseMenu = PauseMenuUI.GetComponent<SettingsMenu_Scott>().GetMainPauseMenu();
         MainPauseMenu.SetActive(true);
         foreach(GameObject menu in allOtherMenus)
         {

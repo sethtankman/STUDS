@@ -35,6 +35,7 @@ public class DBLevelInitialize : MonoBehaviour
         GameObject.Find("Music Manager").GetComponent<Music_Manager>().PlayStopMusic("Menu", false);
         GameObject.Find("Music Manager").GetComponent<Music_Manager>().PlayStopMusic("Stroller", true);
         aiColors = new List<string> { "red", "blue", "purple", "yellow", "green" };
+        PauseV2.canPause = false;
         if (ManagePlayerHub.Instance)
         {
             ManagePlayerHub.Instance.GetComponent<PauseV2>().PauseMenuUI = pauseMenuUI;
@@ -84,6 +85,7 @@ public class DBLevelInitialize : MonoBehaviour
                 ui.UpdateSpriteColors();
                 DBGameManager.Instance.InitScores();
             }
+            PauseV2.canPause = true;
         }
         else if(!spawnedPlayers)
         {

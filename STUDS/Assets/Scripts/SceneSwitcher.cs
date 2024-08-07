@@ -8,6 +8,9 @@ public class SceneSwitcher : MonoBehaviour
 {
     public string specificScene = "";
 
+    /// <summary>
+    /// Called from buttons that return you to the main menu.
+    /// </summary>
     public void CallHandleLeave()
     {
         Debug.Log("CallHandleLeave");

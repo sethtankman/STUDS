@@ -19,6 +19,7 @@ public class DadButtonMngr : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        PauseV2.canPause = false;
         AIColors = new Stack<string>();
         remainingColors = new List<string>() { "blue", "red", "purple", "green", "yellow"};
         GameManager = GameObject.Find("GameManager");
