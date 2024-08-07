@@ -76,8 +76,11 @@ public class GrabbableObjectController : MonoBehaviour
             homing = false;
             dirMagCaptured = false;
             throwerColor = "";
-            GetComponent<CombatThrow>().knockBack.GetComponent<KnockBack>().owner = "";
-            GetComponent<CombatThrow>().knockBack.SetActive(false);
+            if (GetComponent<CombatThrow>())
+            {
+                GetComponent<CombatThrow>().knockBack.GetComponent<KnockBack>().owner = "";
+                GetComponent<CombatThrow>().knockBack.SetActive(false);
+            }
         }
     }
 
