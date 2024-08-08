@@ -68,8 +68,8 @@ public class ThrowSpline : MonoBehaviour
             Gradient gradient = new Gradient();
             if (aimAssist)
                 gradient.SetKeys(
-                    new GradientColorKey[] { new GradientColorKey(Color.red, 0.0f) },
-                    new GradientAlphaKey[] { new GradientAlphaKey(0.5f, 0.0f), new GradientAlphaKey(1.0f, 1.0f) }
+                    new GradientColorKey[] { new GradientColorKey(Color.white, 0.0f) },
+                    new GradientAlphaKey[] { new GradientAlphaKey(0.0f, 0.0f), new GradientAlphaKey(0.5f, 0.05f), new GradientAlphaKey(1.0f, 0.2f) }
                 );
             else
                 gradient.SetKeys(
