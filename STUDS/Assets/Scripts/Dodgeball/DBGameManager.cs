@@ -13,6 +13,7 @@ public class DBGameManager : MonoBehaviour
     [SerializeField] private List<GameObject> availableDodgeballs;
     [SerializeField] private string[] scoreOrder;
     [SerializeField] private GameObject[] players;
+    [SerializeField] private bool[] hitByArr;
     private int dbNum = 0;
 
     private void Start()
@@ -20,6 +21,7 @@ public class DBGameManager : MonoBehaviour
         Instance = this;
         availableDodgeballs = new List<GameObject>();
         players = GameObject.FindGameObjectsWithTag("Player");
+        SteamAchievements.UnlockAchievement("DB_COUCH"); // TODO: Make sure this doesn't get copied over to online
     }
 
     public void InitScores()
@@ -89,8 +91,19 @@ public class DBGameManager : MonoBehaviour
             if(placement == 4) { placement = -1; } // Since 4th place is represented as -1 in victoryStands.
             player.GetComponent<CharacterMovementController>().SetFinishPosition(placement);
         }
-
+        SteamAchievements.UnlockAchievement("DB_WINNER");
         SceneManager.LoadScene("VictoryStands");
+    }
+
+    public void GetHitBy(int obstacleIndex)
+    {
+        hitByArr[obstacleIndex] = true;
+        for(int i = 0; i < hitByArr.Length; i++)
+        {
+            if (hitByArr[i] == false)
+                return;
+        }
+        SteamAchievements.UnlockAchievement("DB_OUCH");
     }
 
     internal List<GameObject> GetAvailableDodgeballs()

@@ -2,7 +2,6 @@
 
 public class TitleScreenInitializer : MonoBehaviour
 {
-    public SteamAchievements sa;
 
     // Start is called before the first frame update
     void Start()
@@ -34,6 +33,5 @@ public class TitleScreenInitializer : MonoBehaviour
             NetGameManager.Instance.DeletePlayers();
         }
 
-        sa = GameObject.Find("SteamScripts").GetComponent<SteamAchievements>();
     }
 }

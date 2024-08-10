@@ -7,15 +7,8 @@ public class Net_SS_Checkout : NetworkBehaviour
 {
     public ParticleSystem CheckoutEffect;
     public AK.Wwise.Event RegisterSound;
-    public SteamAchievements sa;
 
     public NetShopTimer timerManager;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        sa = GameObject.Find("SteamScripts").GetComponent<SteamAchievements>();
-    }
 
     void OnCollisionEnter(Collision collision)
     {
@@ -33,7 +26,7 @@ public class Net_SS_Checkout : NetworkBehaviour
                     CheckoutEffect.Play();
                     if (player.GetComponent<NetworkCharacterMovementController>().isLocalPlayer)
                         player.GetComponent<NetworkCharacterMovementController>().CmdDestroyObject(collision.gameObject.GetComponent<NetworkIdentity>().netId);
-                    sa.UnlockAchievement("SS_CHECKOUT");
+                    SteamAchievements.UnlockAchievement("SS_CHECKOUT");
                 }
             }
             if (isServer) {

@@ -15,8 +15,6 @@ public class ManageGame : MonoBehaviour
     public TextMeshProUGUI FinishText;
     public TextMeshProUGUI FinishTimer;
 
-    public SteamAchievements sa;
-
     public float endTimer;
 
     public float swapTime;
@@ -33,12 +31,6 @@ public class ManageGame : MonoBehaviour
 
     private int positions = 1;
     private int noFinishPositions = -1;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        sa = GameObject.Find("SteamScripts").GetComponent<SteamAchievements>();
-    }
 
     // Update is called once per frame
     void Update()
@@ -105,9 +97,9 @@ public class ManageGame : MonoBehaviour
                 {
                     display = true;
                     if (SceneManager.GetActiveScene().name.Equals("TheBlock_Scott"))
-                        sa.UnlockAchievement("SR_COMPLETE");
+                        SteamAchievements.UnlockAchievement("SR_COMPLETE");
                     else
-                        sa.UnlockAchievement("SR_DOWNTOWN");
+                        SteamAchievements.UnlockAchievement("SR_DOWNTOWN");
                     playerID = collider.gameObject.GetComponent<CharacterMovementController>().getPlayerID() + 1;
                     collider.gameObject.GetComponent<CharacterMovementController>().SetFinishPosition(positions);
                     positions++;

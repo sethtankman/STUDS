@@ -20,8 +20,6 @@ public class NetManageGame : NetworkBehaviour
     public TextMeshProUGUI FinishText;
     public TextMeshProUGUI FinishTimer;
 
-    public SteamAchievements sa;
-
     public float endTimer;
 
     public float swapTime;
@@ -41,7 +39,6 @@ public class NetManageGame : NetworkBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        sa = GameObject.Find("SteamScripts").GetComponent<SteamAchievements>();
         netManager = GameObject.Find("NetworkManager").GetComponent<StudsNetworkManager>();
         swapTime += (float)NetworkTime.time;
     }
@@ -112,10 +109,10 @@ public class NetManageGame : NetworkBehaviour
                 if (!collider.GetComponent<NetworkCharacterMovementController>().isAI)
                 {
                     display = true;
-                    if (SceneManager.GetActiveScene().name.Equals("TheBlock_Scott"))
-                        sa.UnlockAchievement("SR_COMPLETE");
-                    else
-                        sa.UnlockAchievement("SR_DOWNTOWN");
+                    if (SceneManager.GetActiveScene().name.Equals("NetBlock"))
+                        SteamAchievements.UnlockAchievement("SR_BL_ONLINE");
+                    else if(SceneManager.GetActiveScene().name.Equals("NetDowntown"))
+                        SteamAchievements.UnlockAchievement("SR_DT_ONLINE");
                     mySource.Post(gameObject);
                 }
                 playerID = collider.GetComponent<NetworkCharacterMovementController>().getPlayerID() + 1;

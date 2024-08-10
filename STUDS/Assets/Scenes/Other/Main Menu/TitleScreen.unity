@@ -12518,7 +12518,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1fb9b3963f75b7444b93c180d6cc0bc3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sa: {fileID: 0}
 --- !u!4 &330265438
 Transform:
   m_ObjectHideFlags: 0
@@ -16569,7 +16568,6 @@ MonoBehaviour:
     valueGuidInternal: 
     WwiseObjectReference: {fileID: 11400000, guid: 4aef3822175cfb143b44258b0a6efb7f,
       type: 2}
-  sa: {fileID: 0}
   camPos: {fileID: 0}
   animator: {fileID: 417178664}
   renderer: {fileID: 618375488}
@@ -16584,9 +16582,11 @@ MonoBehaviour:
   jumpHeight: 1
   moveSpeedGrab: 10
   moveSpeedNormal: 11
+  speedMultiplier: 1
   turnTime: 0.1
   jumpHeightGrab: 0.85
   throwForce: 300
+  homingSpeed: 0
   throwCoolDown: 0
   knockBackTime: 1
   timeUntilMoveEnabled: 0
@@ -47867,7 +47867,6 @@ MonoBehaviour:
     valueGuidInternal: 
     WwiseObjectReference: {fileID: 11400000, guid: 4aef3822175cfb143b44258b0a6efb7f,
       type: 2}
-  sa: {fileID: 0}
   camPos: {fileID: 0}
   animator: {fileID: 1012148353}
   renderer: {fileID: 1524597515}
@@ -47882,9 +47881,11 @@ MonoBehaviour:
   jumpHeight: 1
   moveSpeedGrab: 10
   moveSpeedNormal: 11
+  speedMultiplier: 1
   turnTime: 0.1
   jumpHeightGrab: 0.85
   throwForce: 300
+  homingSpeed: 0
   throwCoolDown: 0
   knockBackTime: 1
   timeUntilMoveEnabled: 0
@@ -75662,7 +75663,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1757357281}
-  - component: {fileID: 1757357282}
   - component: {fileID: 1757357283}
   m_Layer: 0
   m_Name: SteamScripts
@@ -75685,18 +75685,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1757357282
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1757357280}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 86d9c49fa7756ee4581fe30329241640, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1757357283
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -92853,7 +92841,6 @@ MonoBehaviour:
     valueGuidInternal: 
     WwiseObjectReference: {fileID: 11400000, guid: 4aef3822175cfb143b44258b0a6efb7f,
       type: 2}
-  sa: {fileID: 0}
   camPos: {fileID: 0}
   animator: {fileID: 6475084739710768424}
   renderer: {fileID: 1102721185176899994}
@@ -92868,9 +92855,11 @@ MonoBehaviour:
   jumpHeight: 1
   moveSpeedGrab: 10
   moveSpeedNormal: 11
+  speedMultiplier: 1
   turnTime: 0.1
   jumpHeightGrab: 0.85
   throwForce: 300
+  homingSpeed: 0
   throwCoolDown: 0
   knockBackTime: 1
   timeUntilMoveEnabled: 0

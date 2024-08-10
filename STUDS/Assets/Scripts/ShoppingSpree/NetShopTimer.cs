@@ -6,7 +6,6 @@ using Mirror;
 
 public class NetShopTimer : NetworkBehaviour
 {
-    public SteamAchievements sa;
     public TextMeshProUGUI TimerTXT;
     public GameObject NetworkManager;
     private float Sprint = 10.0f;
@@ -23,7 +22,6 @@ public class NetShopTimer : NetworkBehaviour
         racePositions = 1;
         noFinishPos = -1;
         NetworkManager = GameObject.Find("NetworkManager");
-        sa = GameObject.Find("SteamScripts").GetComponent<SteamAchievements>();
         gameTime += (float)NetworkTime.time;
         serverStartTime = (float)NetworkTime.time;
         
@@ -57,7 +55,7 @@ public class NetShopTimer : NetworkBehaviour
             }
             Destroy(player.GetComponent<SS_ItemTracker>());
         }
-        sa.UnlockAchievement("SS_FINISH");
+        SteamAchievements.UnlockAchievement("SS_ONLINE");
         StudsNetworkManager netManager = NetworkManager.GetComponent<StudsNetworkManager>();
         netManager.ServerChangeScene("NetVictoryStands");
     }

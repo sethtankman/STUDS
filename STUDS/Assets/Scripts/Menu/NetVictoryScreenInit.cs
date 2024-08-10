@@ -7,7 +7,6 @@ using TMPro;
 public class NetVictoryScreenInit : MonoBehaviour
 {
     public GameObject finalText;
-    public SteamAchievements sa;
 
     // Start is called before the first frame update
     void Start()
@@ -23,7 +22,6 @@ public class NetVictoryScreenInit : MonoBehaviour
 
 
         finalText = GameObject.Find("PBFinalText(Clone)");
-        sa = GameObject.Find("SteamScripts").GetComponent<SteamAchievements>();
         if (finalText)
         {
             DetermineFinalText();
@@ -50,7 +48,7 @@ public class NetVictoryScreenInit : MonoBehaviour
             finalText.GetComponent<TextMeshProUGUI>().text += " Time for that new boat!";
         } else
         {
-            sa.UnlockAchievement("PB_THRIFTY");
+            SteamAchievements.UnlockAchievement("PB_ONLINE");
             finalText.GetComponent<TextMeshProUGUI>().text += " My mother-in-law will have nothing to say...";
         }
     }

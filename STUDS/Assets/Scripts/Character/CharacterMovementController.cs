@@ -17,8 +17,6 @@ public class CharacterMovementController : MonoBehaviour
 
     private CharacterController controller;
 
-    public SteamAchievements sa;
-
     public Transform camPos;
     public Animator animator;
     public Renderer renderer;
@@ -108,7 +106,6 @@ public class CharacterMovementController : MonoBehaviour
         PlayerParticles = GetComponent<PLR_ParticleController>();
         CanJump = true;
         CanMove = true;
-        sa = GameObject.Find("SteamScripts").GetComponent<SteamAchievements>();
     }
 
     // Update is called once per frame
@@ -598,7 +595,7 @@ public class CharacterMovementController : MonoBehaviour
         }
         if (grabbedObject.GetComponent<StrollerController>())
         {
-            sa.UnlockAchievement("SR_STROLLER");
+            SteamAchievements.UnlockAchievement("SR_STROLLER");
         }
         
         hasGrabbed = false;
@@ -643,7 +640,7 @@ public class CharacterMovementController : MonoBehaviour
             {
                 if (pickupPressed && isMini == false)  // This is just making it so timeout doesn't work...
                 {
-                    sa.UnlockAchievement("PB_TIMEOUT");
+                    SteamAchievements.UnlockAchievement("PB_TIMEOUT");
                     Debug.Log("Calling timeout");
                     collider.gameObject.GetComponent<KidTimeout>().Timeout(collider.gameObject);
                 }

@@ -14,8 +14,6 @@ public class NetworkCharacterMovementController : NetworkBehaviour
     private CharacterController controller;
     private Rigidbody _rigidbody;
 
-    public SteamAchievements sa;
-
     public Transform camPos;
     public Animator animator;
     public NetworkAnimator netAnim;
@@ -123,7 +121,6 @@ public class NetworkCharacterMovementController : NetworkBehaviour
         CanMove = true;
         if (!isAI)
         {
-            sa = GameObject.Find("SteamScripts").GetComponent<SteamAchievements>();
             if (SceneManager.GetActiveScene().name.Equals("TheBlock_LevelSelectOnlineMultiplayer"))
                 hub.NetworkPlayerJoin(this.gameObject); // This is unique to network characters.
         }
@@ -735,7 +732,7 @@ public class NetworkCharacterMovementController : NetworkBehaviour
 
         if (grabbedObject.GetComponent<StrollerController>() && !isAI)
         {
-            sa.UnlockAchievement("SR_STROLLER");
+            SteamAchievements.UnlockAchievement("SR_STROLLER");
         }
 
         hasGrabbed = false;
@@ -807,7 +804,7 @@ public class NetworkCharacterMovementController : NetworkBehaviour
                 else if (collider.CompareTag("Player") && collider.GetComponent<NetworkCharacterMovementController>().isMini
                     && isMini == false)
                 {
-                    sa.UnlockAchievement("PB_TIMEOUT");
+                    SteamAchievements.UnlockAchievement("PB_TIMEOUT");
                     CmdTimeout(collider.GetComponent<NetworkIdentity>().netId);
                 }
                 else if (collider.CompareTag("ShoppingCart"))

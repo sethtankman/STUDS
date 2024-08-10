@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 776730979}
-  m_IndirectSpecularColor: {r: 0.22418097, g: 0.62828076, b: 0.87369883, a: 1}
+  m_IndirectSpecularColor: {r: 0.047634125, g: 0.37732342, b: 0.934799, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -136,6 +136,7 @@ GameObject:
   - component: {fileID: 1126959}
   - component: {fileID: 1126958}
   - component: {fileID: 1126957}
+  - component: {fileID: 1126961}
   m_Layer: 2
   m_Name: KnockBackCollision02
   m_TagString: Untagged
@@ -243,6 +244,19 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1126955}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1126961
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1126955}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2174eb2d68cf36347ab4b92bf5b659bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  obstacleNum: 5
 --- !u!1001 &7145099
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -338,6 +352,25 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 7145099}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &7145101 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1097386995643495610, guid: c819817e8e46587488a5f646207a7c34,
+    type: 3}
+  m_PrefabInstance: {fileID: 7145099}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &7145102
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7145101}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2174eb2d68cf36347ab4b92bf5b659bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  obstacleNum: 4
 --- !u!1 &10238222
 GameObject:
   m_ObjectHideFlags: 0
@@ -5009,6 +5042,7 @@ GameObject:
   - component: {fileID: 201013344}
   - component: {fileID: 201013343}
   - component: {fileID: 201013347}
+  - component: {fileID: 201013348}
   m_Layer: 0
   m_Name: KnockBackCollider
   m_TagString: Untagged
@@ -5132,6 +5166,19 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0, y: 0, z: 0}
   m_TimeToStationary: 0.5
+--- !u!114 &201013348
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 201013341}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2174eb2d68cf36347ab4b92bf5b659bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  obstacleNum: 3
 --- !u!1 &201895258
 GameObject:
   m_ObjectHideFlags: 0
@@ -6107,6 +6154,7 @@ GameObject:
   - component: {fileID: 230994943}
   - component: {fileID: 230994942}
   - component: {fileID: 230994941}
+  - component: {fileID: 230994945}
   m_Layer: 2
   m_Name: KnockBackCollision01
   m_TagString: Untagged
@@ -6214,6 +6262,19 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 230994939}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &230994945
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 230994939}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2174eb2d68cf36347ab4b92bf5b659bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  obstacleNum: 5
 --- !u!1 &233625250
 GameObject:
   m_ObjectHideFlags: 0
@@ -8834,6 +8895,7 @@ MonoBehaviour:
   availableDodgeballs: []
   scoreOrder: []
   players: []
+  hitByArr: 
 --- !u!4 &367357799 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4652126084092095740, guid: b80cd8fd30639a64ead79db5a175b0d1,
@@ -10490,7 +10552,6 @@ MonoBehaviour:
     valueGuidInternal: 
     WwiseObjectReference: {fileID: 11400000, guid: 4aef3822175cfb143b44258b0a6efb7f,
       type: 2}
-  sa: {fileID: 0}
   camPos: {fileID: 0}
   animator: {fileID: 436335482}
   renderer: {fileID: 879635571}
@@ -20769,6 +20830,7 @@ GameObject:
   - component: {fileID: 803741804}
   - component: {fileID: 803741803}
   - component: {fileID: 803741807}
+  - component: {fileID: 803741808}
   m_Layer: 0
   m_Name: KnockBackCollider
   m_TagString: Untagged
@@ -20892,6 +20954,19 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0, y: 0, z: 0}
   m_TimeToStationary: 0.5
+--- !u!114 &803741808
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 803741801}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2174eb2d68cf36347ab4b92bf5b659bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  obstacleNum: 3
 --- !u!1001 &811103425
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -37748,7 +37823,6 @@ MonoBehaviour:
     valueGuidInternal: 
     WwiseObjectReference: {fileID: 11400000, guid: 4aef3822175cfb143b44258b0a6efb7f,
       type: 2}
-  sa: {fileID: 0}
   camPos: {fileID: 0}
   animator: {fileID: 1086341511}
   renderer: {fileID: 1344049558}
@@ -41721,6 +41795,82 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1253562367}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1253562369 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4327602635544846500, guid: d3b3068bd79b76e49bd10cf12e4fffaa,
+    type: 3}
+  m_PrefabInstance: {fileID: 1253562367}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1253562370 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4327602636248333974, guid: d3b3068bd79b76e49bd10cf12e4fffaa,
+    type: 3}
+  m_PrefabInstance: {fileID: 1253562367}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1253562371 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4327602636972005635, guid: d3b3068bd79b76e49bd10cf12e4fffaa,
+    type: 3}
+  m_PrefabInstance: {fileID: 1253562367}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1253562372 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4327602635416200619, guid: d3b3068bd79b76e49bd10cf12e4fffaa,
+    type: 3}
+  m_PrefabInstance: {fileID: 1253562367}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1253562373
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1253562369}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2174eb2d68cf36347ab4b92bf5b659bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  obstacleNum: 2
+--- !u!114 &1253562374
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1253562370}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2174eb2d68cf36347ab4b92bf5b659bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  obstacleNum: 2
+--- !u!114 &1253562375
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1253562371}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2174eb2d68cf36347ab4b92bf5b659bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  obstacleNum: 2
+--- !u!114 &1253562376
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1253562372}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2174eb2d68cf36347ab4b92bf5b659bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  obstacleNum: 2
 --- !u!1 &1255901525
 GameObject:
   m_ObjectHideFlags: 0
@@ -41897,7 +42047,6 @@ MonoBehaviour:
     valueGuidInternal: 
     WwiseObjectReference: {fileID: 11400000, guid: 4aef3822175cfb143b44258b0a6efb7f,
       type: 2}
-  sa: {fileID: 0}
   camPos: {fileID: 0}
   animator: {fileID: 1260436763}
   renderer: {fileID: 829604522}
@@ -55943,6 +56092,25 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1607519770}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1607519772 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1097386995643495610, guid: c819817e8e46587488a5f646207a7c34,
+    type: 3}
+  m_PrefabInstance: {fileID: 1607519770}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1607519773
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1607519772}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2174eb2d68cf36347ab4b92bf5b659bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  obstacleNum: 4
 --- !u!1 &1608840178
 GameObject:
   m_ObjectHideFlags: 0
@@ -56751,6 +56919,7 @@ GameObject:
   - component: {fileID: 1637679653}
   - component: {fileID: 1637679652}
   - component: {fileID: 1637679656}
+  - component: {fileID: 1637679657}
   m_Layer: 0
   m_Name: KnockBackCollider
   m_TagString: Untagged
@@ -56874,6 +57043,19 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0, y: 0, z: 0}
   m_TimeToStationary: 0.5
+--- !u!114 &1637679657
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1637679650}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2174eb2d68cf36347ab4b92bf5b659bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  obstacleNum: 3
 --- !u!1 &1641665939
 GameObject:
   m_ObjectHideFlags: 0
@@ -59115,6 +59297,7 @@ GameObject:
   - component: {fileID: 1717682877}
   - component: {fileID: 1717682876}
   - component: {fileID: 1717682880}
+  - component: {fileID: 1717682881}
   m_Layer: 0
   m_Name: KnockBackCollider
   m_TagString: Untagged
@@ -59238,6 +59421,19 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0, y: 0, z: 0}
   m_TimeToStationary: 0.5
+--- !u!114 &1717682881
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1717682874}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2174eb2d68cf36347ab4b92bf5b659bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  obstacleNum: 3
 --- !u!1 &1719964270
 GameObject:
   m_ObjectHideFlags: 0
@@ -66450,6 +66646,25 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b80cd8fd30639a64ead79db5a175b0d1, type: 3}
+--- !u!1 &1946816463 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8766351002493900928, guid: b80cd8fd30639a64ead79db5a175b0d1,
+    type: 3}
+  m_PrefabInstance: {fileID: 1946816462}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1946816464
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1946816463}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2174eb2d68cf36347ab4b92bf5b659bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  obstacleNum: 0
 --- !u!1 &1949685042 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1359161774068632367, guid: 43638baefb9fa794eada2aa477ffbf2b,
@@ -70456,6 +70671,7 @@ GameObject:
   - component: {fileID: 618836999667498508}
   - component: {fileID: 6674164133150172047}
   - component: {fileID: 4369912802728300926}
+  - component: {fileID: 70522429548207495}
   m_Layer: 2
   m_Name: KnockBackCollision01
   m_TagString: Untagged
@@ -70463,6 +70679,19 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &70522429548207495
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 70522429548207494}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2174eb2d68cf36347ab4b92bf5b659bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  obstacleNum: 5
 --- !u!65 &115143168995118741
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -71347,6 +71576,25 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c819817e8e46587488a5f646207a7c34, type: 3}
+--- !u!1 &1097386997583087102 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1097386995643495610, guid: c819817e8e46587488a5f646207a7c34,
+    type: 3}
+  m_PrefabInstance: {fileID: 1097386997583087101}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1097386997583087103
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1097386997583087102}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2174eb2d68cf36347ab4b92bf5b659bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  obstacleNum: 4
 --- !u!65 &1184695853614705965
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -71560,6 +71808,7 @@ GameObject:
   - component: {fileID: 4396232161273563440}
   - component: {fileID: 1220361720669451884}
   - component: {fileID: 4268851165843088206}
+  - component: {fileID: 2062203586554458508}
   m_Layer: 2
   m_Name: KnockBackCollision02
   m_TagString: Untagged
@@ -71567,6 +71816,19 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &2062203586554458508
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2062203586554458507}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2174eb2d68cf36347ab4b92bf5b659bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  obstacleNum: 5
 --- !u!23 &2114519408269411837
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -72457,6 +72719,44 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5ba72c08ec9cf61419302e225b3ab2be, type: 3}
+--- !u!1 &4245488065305828350 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 885328059941971497, guid: 5ba72c08ec9cf61419302e225b3ab2be,
+    type: 3}
+  m_PrefabInstance: {fileID: 4245488065305828349}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &4245488065305828351 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8055970186705269056, guid: 5ba72c08ec9cf61419302e225b3ab2be,
+    type: 3}
+  m_PrefabInstance: {fileID: 4245488065305828349}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &4245488065305828352
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4245488065305828350}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2174eb2d68cf36347ab4b92bf5b659bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  obstacleNum: 1
+--- !u!114 &4245488065305828353
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4245488065305828351}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2174eb2d68cf36347ab4b92bf5b659bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  obstacleNum: 1
 --- !u!114 &4268851165843088206
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -72613,6 +72913,82 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 4327602635602957982}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &4327602635602957984 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4327602635544846500, guid: d3b3068bd79b76e49bd10cf12e4fffaa,
+    type: 3}
+  m_PrefabInstance: {fileID: 4327602635602957982}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &4327602635602957985 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4327602636248333974, guid: d3b3068bd79b76e49bd10cf12e4fffaa,
+    type: 3}
+  m_PrefabInstance: {fileID: 4327602635602957982}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &4327602635602957986 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4327602636972005635, guid: d3b3068bd79b76e49bd10cf12e4fffaa,
+    type: 3}
+  m_PrefabInstance: {fileID: 4327602635602957982}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &4327602635602957987 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4327602635416200619, guid: d3b3068bd79b76e49bd10cf12e4fffaa,
+    type: 3}
+  m_PrefabInstance: {fileID: 4327602635602957982}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &4327602635602957988
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4327602635602957984}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2174eb2d68cf36347ab4b92bf5b659bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  obstacleNum: 2
+--- !u!114 &4327602635602957989
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4327602635602957985}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2174eb2d68cf36347ab4b92bf5b659bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  obstacleNum: 2
+--- !u!114 &4327602635602957990
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4327602635602957986}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2174eb2d68cf36347ab4b92bf5b659bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  obstacleNum: 2
+--- !u!114 &4327602635602957991
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4327602635602957987}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2174eb2d68cf36347ab4b92bf5b659bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  obstacleNum: 2
 --- !u!114 &4357808913195091225
 MonoBehaviour:
   m_ObjectHideFlags: 0

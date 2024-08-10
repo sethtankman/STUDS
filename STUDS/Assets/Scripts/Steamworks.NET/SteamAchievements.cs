@@ -3,25 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using Steamworks;
 
-public class SteamAchievements : MonoBehaviour
+public static class SteamAchievements
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        DontDestroyOnLoad(this.gameObject);
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
-    public void UnlockAchievement(string achievementName)
+    public static void UnlockAchievement(string achievementName)
     {
         if(!SteamManager.Initialized) { return; }
 
-        Debug.Log("Achieving Eugene");
+        Debug.Log($"Achieving {achievementName}");
 
         SteamUserStats.SetAchievement(achievementName);
 
