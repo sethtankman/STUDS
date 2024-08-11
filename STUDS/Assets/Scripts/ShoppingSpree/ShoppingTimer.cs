@@ -15,6 +15,8 @@ public class ShoppingTimer : MonoBehaviour
     public int racePositions;
     public int noFinishPos;
 
+    private bool gameEnded;
+
     void Start()
     {
         racePositions = 1;
@@ -31,9 +33,10 @@ public class ShoppingTimer : MonoBehaviour
         {
             Showtime(timer);
         }
-        else
+        else if (!gameEnded)
         {
             EndGame();
+            gameEnded = true; // This way we should only call it once.
         }
 
     }
@@ -66,5 +69,18 @@ public class ShoppingTimer : MonoBehaviour
 
         TimerTXT.text = string.Format("{0:00}:{1:00}", min, sec);
 
+    }
+
+    /// <summary>
+    /// Increment race positions. Should only be performed by server.
+    /// </summary>
+    public void IncrementRacePositions()
+    {
+        racePositions++;
+        if (racePositions > GameObject.FindGameObjectsWithTag("Player").Length)
+        {
+            EndGame();
+            gameEnded = true;
+        }
     }
 }

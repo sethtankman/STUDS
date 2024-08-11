@@ -33,13 +33,10 @@ public class NetShopTimer : NetworkBehaviour
         {
             Showtime();
         }
-        else
+        else if (isServer && !gameEnded)
         {
-            if (isServer && !gameEnded)
-            {
-                EndGame();
-                gameEnded = true; // This way we should only call it once.
-            }
+            EndGame();
+            gameEnded = true; // This way we should only call it once.
         }
     }
 
@@ -82,5 +79,10 @@ public class NetShopTimer : NetworkBehaviour
     public void IncrementRacePositions()
     {
         racePositions++;
+        if(racePositions > GameObject.FindGameObjectsWithTag("Player").Length)
+        {
+            EndGame();
+            gameEnded = true;
+        }
     }
 }
