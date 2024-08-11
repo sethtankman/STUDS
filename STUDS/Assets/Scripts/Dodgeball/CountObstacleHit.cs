@@ -10,7 +10,7 @@ public class CountObstacleHit : MonoBehaviour
     {
         if(other.CompareTag("Player") && !other.GetComponent<CharacterMovementController>().isAI)
         {
-            GameObject.Find("GameManager").GetComponent<DBGameManager>().GetHitBy(obstacleNum);
+            GameObject.Find("GameManagerStatic").GetComponent<DBGameManager>().GetHitBy(obstacleNum);
         }
     }
 }
