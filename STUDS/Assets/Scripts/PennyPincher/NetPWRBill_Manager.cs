@@ -72,8 +72,8 @@ public class NetPWRBill_Manager : NetworkBehaviour
     void Update()
     {
 
-        PowerTXT.text = "Power Bill: $" + (Score / 10) + "0";
-        ItemsOnTXT.text = "Appliances: " + (NumItemsOn + 1);
+        PowerTXT.text = $"Power Bill: ${Mathf.Floor(Score / 10)}.{Score % 10}0";
+        ItemsOnTXT.text = $"Appliances: {NumItemsOn + 1}";
 
         if ((float)NetworkTime.time  < serverStartTime + gameTime)
         {

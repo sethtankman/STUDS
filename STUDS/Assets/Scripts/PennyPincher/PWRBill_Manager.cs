@@ -65,8 +65,8 @@ public class PWRBill_Manager : MonoBehaviour
     {
         Mathf.RoundToInt(timer);
 
-        PowerTXT.text = "Power Bill: $" + (Score / 10) + "0";
-        ItemsOnTXT.text = "Appliances: " + (NumItemsOn + 1);
+        PowerTXT.text = $"Power Bill: ${Mathf.Floor(Score / 10)}.{Score % 10}0";
+        ItemsOnTXT.text = $"Appliances: {NumItemsOn + 1}";
                
         timer -= Time.deltaTime;
 
