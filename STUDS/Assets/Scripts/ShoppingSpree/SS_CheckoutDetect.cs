@@ -40,7 +40,7 @@ public class SS_CheckoutDetect : MonoBehaviour
             if (allDone && player.GetComponent<CharacterMovementController>() && player.GetComponent<CharacterMovementController>().GetFinishPosition() == 0)
             {
                 player.GetComponent<CharacterMovementController>().SetFinishPosition(timerManager.GetComponent<ShoppingTimer>().racePositions);
-                timerManager.GetComponent<ShoppingTimer>().racePositions++;
+                timerManager.GetComponent<ShoppingTimer>().IncrementRacePositions();
             }
         }
     }
