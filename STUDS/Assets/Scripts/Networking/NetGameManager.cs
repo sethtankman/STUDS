@@ -103,9 +103,9 @@ public class NetGameManager : NetworkBehaviour
             if (StartText)
                 StartText.text = "";
             int readyCount = 0;
-            foreach (GameObject AI in AIplayers)
+            foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
             {
-                if (AI && AI.GetComponent<NetworkCharacterMovementController>().GetReadyPlayer("ManagePlayerHub"))
+                if (player && player.GetComponent<NetworkCharacterMovementController>().GetReadyPlayer("ManagePlayerHub"))
                 {
                     readyCount++;
                 }
@@ -146,7 +146,6 @@ public class NetGameManager : NetworkBehaviour
     public void HandlePlayerJoin(PlayerInput pi)
     {
         playerJoined = true;
-        AIplayers.Add(pi.gameObject);
         //oldHub = true;
         playerIDCount++;
     }
