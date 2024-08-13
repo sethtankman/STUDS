@@ -8,14 +8,10 @@ public class HubColorChange : MonoBehaviour
 
     [SerializeField] private GameObject gameManager;
 
-    public string colorName;
+    public string colorName; // Set in editor
 
     public AK.Wwise.Event ParticleSound;
 
-
-    private void Start()
-    {
-    }
 
     private void OnTriggerEnter(Collider other)
     {
@@ -46,7 +42,7 @@ public class HubColorChange : MonoBehaviour
             }
             else if (gameManager.GetComponent<NetGameManager>())
             {
-                List<GameObject> players = gameManager.GetComponent<NetGameManager>().getPlayers();
+                GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
 
                 bool isTaken = false;
                 foreach (GameObject player in players)

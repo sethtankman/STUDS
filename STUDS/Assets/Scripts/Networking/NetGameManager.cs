@@ -165,12 +165,14 @@ public class NetGameManager : NetworkBehaviour
     {
         if (isServer)
             return;
-        foreach (GameObject playerObj in AIplayers)
+        foreach (GameObject playerObj in GameObject.FindGameObjectsWithTag("Player"))
         {   
             int playerID = playerObj.GetComponent<NetworkCharacterMovementController>().getPlayerID();
             Debug.Log($"Player ID: {playerID}");
             playerObj.name = $"STUD{playerID + 1}";
-            AssignColor(playerObj, playerID);
+            playerObj.GetComponentInChildren<SkinnedMeshRenderer>().material = colorMaterials[playerColors[playerID]];
+            NetworkCharacterMovementController netCMC = playerObj.GetComponent<NetworkCharacterMovementController>();
+            netCMC.color = playerColors[playerID];
         }
     }
 
@@ -210,6 +212,11 @@ public class NetGameManager : NetworkBehaviour
         playerColors[playerID] = colorName;
     }
 
+    /// <summary>
+    /// Only to be called by the server
+    /// </summary>
+    /// <param name="playerObj"></param>
+    /// <param name="playerID"></param>
     public void AssignColor(GameObject playerObj, int playerID)
     {
         string color = availableColors.ToArray()[0];
