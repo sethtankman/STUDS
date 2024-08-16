@@ -82545,8 +82545,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: -50}
-  m_SizeDelta: {x: 200, y: 50}
+  m_AnchoredPosition: {x: 0, y: -35}
+  m_SizeDelta: {x: 500, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1305332675
 MonoBehaviour:
@@ -82579,7 +82579,7 @@ MonoBehaviour:
   m_fontColor32:
     serializedVersion: 2
     rgba: 4278190335
-  m_fontColor: {r: 1, g: 0, b: 0, a: 1}
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -82599,7 +82599,7 @@ MonoBehaviour:
   m_fontSize: 72
   m_fontSizeBase: 72
   m_fontWeight: 400
-  m_enableAutoSizing: 1
+  m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 2
@@ -91145,8 +91145,16 @@ MonoBehaviour:
   EventCountdownTimer: 45
   EventStarted: 0
   EventEnded: 0
-  RandomEventSelect: 0
   DodgeballUIText: {fileID: 1305332675}
+  EventDuration: 90
+  EndingCountdownDuration: 5
+  lightEventColor: {r: 0.9843138, g: 0.81568635, b: 0.027450982, a: 1}
+  heavyEventColor: {r: 0.8862746, g: 0.07058824, b: 0.20392159, a: 1}
+  randomEventColor: {r: 0.50980395, g: 0.039215688, b: 0.6666667, a: 1}
+  eventActiveSize: 18
+  eventTypeSize: 28
+  countdownSize: 28
+  lastFiveSecondsSize: 28
   LightDodgeballHolders: {fileID: 306841013}
   MediumDodgeballHolders: {fileID: 1417629883}
   HeavyDodgeballHolders: {fileID: 313162334}
