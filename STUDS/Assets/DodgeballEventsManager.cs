@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class DodgeballEventsManager : MonoBehaviour
 {
@@ -9,6 +10,7 @@ public class DodgeballEventsManager : MonoBehaviour
     public bool EventStarted = false;
     public bool EventEnded = false;
     public float RandomEventSelect = 0;
+    public TextMeshProUGUI DodgeballUIText;
 
     [Header("All Dodgeball Holder Prefab Refs")]
     public GameObject LightDodgeballHolders;
@@ -20,7 +22,7 @@ public class DodgeballEventsManager : MonoBehaviour
     void Update()
     {
         EventCountdownTimer -= Time.deltaTime;
-        if(EventCountdownTimer <= 0.0f)
+        if (EventCountdownTimer <= 0.0f)
         {
             if (!EventStarted)
             {
@@ -28,42 +30,53 @@ public class DodgeballEventsManager : MonoBehaviour
                 StartCoroutine(EndEventTimer(90));
             }
         }
+
+        if (EventCountdownTimer <= 5.0f)
+        {
+            if (!EventStarted)
+            {
+                UpdateTimerText();
+            }
+        }
     }
 
-    //Event Types
+    // Event Types
     void DodgeballEventLight()
     {
         MediumDodgeballHolders.SetActive(false);
         LightDodgeballHolders.SetActive(true);
+        DodgeballUIText.text = "EVENT ACTIVE\n LIGHT DODGEBALLS";
     }
 
     void DodgeballEventHeavy()
     {
         MediumDodgeballHolders.SetActive(false);
         HeavyDodgeballHolders.SetActive(true);
+        DodgeballUIText.text = "EVENT ACTIVE\n HEAVY DODGEBALLS";
     }
 
     void DodgeballEventRandom()
     {
         MediumDodgeballHolders.SetActive(false);
         RandomDodgeballHolders.SetActive(true);
+        DodgeballUIText.text = "EVENT ACTIVE\n RANDOM DODGEBALLS";
     }
 
-    //Random pick event
+    // Random pick event
     void DodgeballEventPicker()
     {
-        RandomEventSelect = Random.Range(1, 3);
+        RandomEventSelect = Random.Range(1, 4);
         EventStarted = true;
 
         if (RandomEventSelect == 1)
         {
             DodgeballEventLight();
         }
-        if(RandomEventSelect == 2)
+        if (RandomEventSelect == 2)
         {
             DodgeballEventHeavy();
         }
-        if(RandomEventSelect == 3)
+        if (RandomEventSelect == 3)
         {
             DodgeballEventRandom();
         }
@@ -76,6 +89,14 @@ public class DodgeballEventsManager : MonoBehaviour
         HeavyDodgeballHolders.SetActive(false);
         RandomDodgeballHolders.SetActive(false);
         MediumDodgeballHolders.SetActive(true);
+        DodgeballUIText.text = "";
+    }
+
+    void UpdateTimerText()
+    {
+        int timeInSeconds = Mathf.CeilToInt(EventCountdownTimer);
+
+        DodgeballUIText.text = "EVENT STARTS IN\n" + timeInSeconds + " SECONDS";
     }
 
     IEnumerator EndEventTimer(float time)
