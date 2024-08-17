@@ -25,6 +25,7 @@ public class DBLevelInitialize : MonoBehaviour
     //public GameObject strollerPrefab;
     public GameObject pauseMenuUI;
     public GameObject startCam;
+    public GameObject startUI;
 
     public TextMeshProUGUI startText;
     [SerializeField] private DB_UI ui;
@@ -68,6 +69,7 @@ public class DBLevelInitialize : MonoBehaviour
         {
             Destroy(startCam);
             Destroy(startText);
+            Destroy(startUI);
             //startText.text = "";
             if (players != null)
             {
