@@ -15,6 +15,7 @@ public class DBGameManager : MonoBehaviour
     [SerializeField] private GameObject[] players;
     [SerializeField] private bool[] hitByArr;
     private int dbNum = 0;
+    private bool winnerFound = false;
 
     private void Start()
     {
@@ -38,9 +39,9 @@ public class DBGameManager : MonoBehaviour
             scores.Add(owner, 0);
         scores[owner] += pointValue;
         scoreOrder = scorePanel.UpdateScores(owner);
-        if(scores[owner] >= 50)
+        if(scores[owner] >= 15 && winnerFound == false)
         {
-            EndGame();
+            StartCoroutine(EndGame());
         }
     }
 
@@ -76,8 +77,10 @@ public class DBGameManager : MonoBehaviour
         availableDodgeballs.Add(dodgeball);
     }
 
-    private void EndGame()
+    private IEnumerator EndGame()
     {
+        winnerFound = true;
+        yield return new WaitForSeconds(1.0f);
         GameObject[] allPlayers = GameObject.FindGameObjectsWithTag("Player");
         foreach (GameObject player in allPlayers)
         {
