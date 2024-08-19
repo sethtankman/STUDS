@@ -14,7 +14,7 @@ public class OutOfBoundsCollider : MonoBehaviour
             other.gameObject.GetComponent<CharacterController>().enabled = false;
             other.transform.position = Spawns[Random.Range(0, 3)].position;
             other.gameObject.GetComponent<CharacterController>().enabled = true;
-            DBGameManager.Instance.AddPoints(other.gameObject.GetComponent<CharacterMovementController>().color, -20);
+            DBGameManager.Instance.AddPoints(other.gameObject.GetComponent<CharacterMovementController>().color, 0);
         }
     }
 }
