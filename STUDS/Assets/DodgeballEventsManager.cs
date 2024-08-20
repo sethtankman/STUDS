@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
@@ -13,21 +14,26 @@ public class DodgeballEventsManager : MonoBehaviour
     public float EndingCountdownDuration = 5.0f;
 
     [Header("Colors")]
-    public Color lightEventColor = Color.yellow; // Yellow for light event
-    public Color heavyEventColor = Color.red;    // Red for heavy event
-    public Color randomEventColor = new Color(0.5f, 0, 0.5f); // Purple for random event
+    public Color lightEventColor = Color.yellow;
+    public Color heavyEventColor = Color.red;
+    public Color randomEventColor = new Color(0.5f, 0, 0.5f);
 
-    [Header("Text Sizes")]
-    public int eventHeaderSize = 18;   // Size for "EVENT ACTIVE"
-    public int eventTypeSize = 28;     // Size for event type (e.g., "HEAVY DODGEBALLS")
-    //public int countdownSize = 28;     // Size for countdown text (e.g., "5 seconds")
-    //public int lastFiveSecondsSize = 28; // Size for last 5 seconds countdown
+    [Header("UI Text Sizes")]
+    public int eventHeaderSize = 18;
+    public int eventTypeSize = 28;
+
+    [Header("Level Object Text Sizes")]
+    public int levelObjectHeaderSize = 16;
+    public int levelObjectTypeSize = 24;
 
     [Header("All Dodgeball Holder Prefab Refs")]
     public GameObject LightDodgeballHolders;
     public GameObject MediumDodgeballHolders;
     public GameObject HeavyDodgeballHolders;
     public GameObject RandomDodgeballHolders;
+
+    [Header("Level Text Objects")]
+    public List<GameObject> LevelTextObjects;
 
     private enum DodgeballEventType
     {
@@ -37,8 +43,8 @@ public class DodgeballEventsManager : MonoBehaviour
     }
 
     private DodgeballEventType currentEventType;
-    private Color eventColor = Color.white; // Default color
-    private float eventEndTimer; // Timer for last 5 seconds
+    private Color eventColor = Color.white;
+    private float eventEndTimer;
 
     void Start()
     {
@@ -47,7 +53,6 @@ public class DodgeballEventsManager : MonoBehaviour
 
     IEnumerator CountdownCoroutine()
     {
-        // Main countdown timer
         while (EventCountdownTimer > 0)
         {
             if (EventCountdownTimer <= 5.0f)
@@ -61,14 +66,13 @@ public class DodgeballEventsManager : MonoBehaviour
         if (!EventStarted)
         {
             DodgeballEventPicker();
-            eventEndTimer = EventDuration; // Initialize end timer
+            eventEndTimer = EventDuration;
             StartCoroutine(EventEndCountdownCoroutine());
         }
     }
 
     IEnumerator EventEndCountdownCoroutine()
     {
-        // Event duration timer
         while (eventEndTimer > 0)
         {
             if (eventEndTimer <= EndingCountdownDuration)
@@ -84,30 +88,61 @@ public class DodgeballEventsManager : MonoBehaviour
 
     void HandleDodgeballEvent(DodgeballEventType eventType)
     {
-        // Deactivate all holders
         LightDodgeballHolders.SetActive(false);
         MediumDodgeballHolders.SetActive(false);
         HeavyDodgeballHolders.SetActive(false);
         RandomDodgeballHolders.SetActive(false);
 
-        // Set eventText and eventColor based on eventType
         switch (eventType)
         {
             case DodgeballEventType.Light:
                 LightDodgeballHolders.SetActive(true);
                 eventColor = lightEventColor;
-                DodgeballUIText.text = $"<size={eventHeaderSize}><color=#{ColorUtility.ToHtmlStringRGB(eventColor)}>EVENT ACTIVE</color></size>\n<size={eventTypeSize}><color=#{ColorUtility.ToHtmlStringRGB(eventColor)}>LIGHT DODGEBALLS</color></size>";
+                SetEventText($"<size={eventHeaderSize}><color=#{ColorUtility.ToHtmlStringRGB(eventColor)}>EVENT ACTIVE</color></size>\n<size={eventTypeSize}><color=#{ColorUtility.ToHtmlStringRGB(eventColor)}>LIGHT DODGEBALLS</color></size>");
                 break;
             case DodgeballEventType.Heavy:
                 HeavyDodgeballHolders.SetActive(true);
                 eventColor = heavyEventColor;
-                DodgeballUIText.text = $"<size={eventHeaderSize}><color=#{ColorUtility.ToHtmlStringRGB(eventColor)}>EVENT ACTIVE</color></size>\n<size={eventTypeSize}><color=#{ColorUtility.ToHtmlStringRGB(eventColor)}>HEAVY DODGEBALLS</color></size>";
+                SetEventText($"<size={eventHeaderSize}><color=#{ColorUtility.ToHtmlStringRGB(eventColor)}>EVENT ACTIVE</color></size>\n<size={eventTypeSize}><color=#{ColorUtility.ToHtmlStringRGB(eventColor)}>HEAVY DODGEBALLS</color></size>");
                 break;
             case DodgeballEventType.Random:
                 RandomDodgeballHolders.SetActive(true);
                 eventColor = randomEventColor;
-                DodgeballUIText.text = $"<size={eventHeaderSize}><color=#{ColorUtility.ToHtmlStringRGB(eventColor)}>EVENT ACTIVE</color></size>\n<size={eventTypeSize}><color=#{ColorUtility.ToHtmlStringRGB(eventColor)}>RANDOM DODGEBALLS</color></size>";
+                SetEventText($"<size={eventHeaderSize}><color=#{ColorUtility.ToHtmlStringRGB(eventColor)}>EVENT ACTIVE</color></size>\n<size={eventTypeSize}><color=#{ColorUtility.ToHtmlStringRGB(eventColor)}>RANDOM DODGEBALLS</color></size>");
                 break;
+        }
+    }
+
+    void SetEventText(string newText)
+    {
+        // Set UI text
+        DodgeballUIText.text = newText;
+
+        // Independent text for level objects
+        string levelObjectText = $"<size={levelObjectHeaderSize}><color=#{ColorUtility.ToHtmlStringRGB(eventColor)}>EVENT ACTIVE</color></size>\n<size={levelObjectTypeSize}><color=#{ColorUtility.ToHtmlStringRGB(eventColor)}>{GetEventTypeText()}</color></size>";
+
+        foreach (GameObject obj in LevelTextObjects)
+        {
+            TextMeshPro textComponent = obj.GetComponent<TextMeshPro>();
+            if (textComponent != null)
+            {
+                textComponent.text = levelObjectText;
+            }
+        }
+    }
+
+    string GetEventTypeText()
+    {
+        switch (currentEventType)
+        {
+            case DodgeballEventType.Light:
+                return "LIGHT DODGEBALLS";
+            case DodgeballEventType.Heavy:
+                return "HEAVY DODGEBALLS";
+            case DodgeballEventType.Random:
+                return "RANDOM DODGEBALLS";
+            default:
+                return "";
         }
     }
 
@@ -125,7 +160,7 @@ public class DodgeballEventsManager : MonoBehaviour
         HeavyDodgeballHolders.SetActive(false);
         RandomDodgeballHolders.SetActive(false);
         MediumDodgeballHolders.SetActive(true);
-        DodgeballUIText.text = "";
+        SetEventText("");
     }
 
     void UpdateTimerText()
@@ -133,8 +168,7 @@ public class DodgeballEventsManager : MonoBehaviour
         int timeInSeconds = Mathf.CeilToInt(EventCountdownTimer);
         string countdownText = timeInSeconds == 1 ? "1 second" : $"{timeInSeconds} seconds";
 
-        // Ensure correct size and color for "EVENT STARTS IN" and countdown
-        DodgeballUIText.text = $"<size={eventHeaderSize}><color=#{ColorUtility.ToHtmlStringRGB(eventColor)}>EVENT STARTS IN</color></size>\n<size={eventTypeSize}><color=#{ColorUtility.ToHtmlStringRGB(eventColor)}>{countdownText}</color></size>";
+        SetEventText($"<size={eventHeaderSize}><color=#{ColorUtility.ToHtmlStringRGB(eventColor)}>EVENT STARTS IN</color></size>\n<size={eventTypeSize}><color=#{ColorUtility.ToHtmlStringRGB(eventColor)}>{countdownText}</color></size>");
     }
 
     void UpdateEventEndText()
@@ -142,7 +176,6 @@ public class DodgeballEventsManager : MonoBehaviour
         int timeInSeconds = Mathf.CeilToInt(eventEndTimer);
         string countdownText = timeInSeconds == 1 ? "1 second" : $"{timeInSeconds} seconds";
 
-        // Update text with last 5 seconds countdown
-        DodgeballUIText.text = $"<size={eventHeaderSize}><color=#{ColorUtility.ToHtmlStringRGB(eventColor)}>EVENT ENDS IN</color></size>\n<size={eventTypeSize}><color=#{ColorUtility.ToHtmlStringRGB(eventColor)}>{countdownText}</color></size>";
+        SetEventText($"<size={eventHeaderSize}><color=#{ColorUtility.ToHtmlStringRGB(eventColor)}>EVENT ENDS IN</color></size>\n<size={eventTypeSize}><color=#{ColorUtility.ToHtmlStringRGB(eventColor)}>{countdownText}</color></size>");
     }
 }
