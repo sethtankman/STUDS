@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.36683366, g: 0.18024237, b: 0.48037732, a: 1}
+  m_IndirectSpecularColor: {r: 0.36856622, g: 0.18195042, b: 0.48207545, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -11949,8 +11949,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 32
-  m_fontSizeBase: 32
+  m_fontSize: 48
+  m_fontSizeBase: 48
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -11985,7 +11985,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 1
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 473.58524, y: -6.3914185, z: 495.98853, w: 783.26807}
+  m_margin: {x: 473.58524, y: -16.489655, z: 257.23608, w: 786.1532}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -87650,6 +87650,78 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2117090774}
   m_Mesh: {fileID: 858191721930426540, guid: d91e236bc7820844889f69a3ed322f6b, type: 3}
+--- !u!1 &2119089624
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2119089625}
+  - component: {fileID: 2119089627}
+  - component: {fileID: 2119089626}
+  m_Layer: 5
+  m_Name: RawImage
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &2119089625
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2119089624}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4491329578492925896}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 490, y: 798}
+  m_SizeDelta: {x: 1375, y: 2}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &2119089626
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2119089624}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1344c3c82d62a2a41a3576d8abb8e3ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.30588236}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Texture: {fileID: 0}
+  m_UVRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
+--- !u!222 &2119089627
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2119089624}
+  m_CullTransparentMesh: 1
 --- !u!1001 &2120846476
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -93108,6 +93180,7 @@ RectTransform:
   - {fileID: 4491329580031932755}
   - {fileID: 317615520}
   - {fileID: 4491329578780058790}
+  - {fileID: 2119089625}
   m_Father: {fileID: 2682236510159882485}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -93210,17 +93283,15 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'With this update, you can now host and join games over the internet by
-    clicking the "ONLINE" button.
+  m_text: 'You can now host and join games over the internet by clicking the "ONLINE"
+    button.
 
 
-    The game was developed by a small group of
-    students at the University of Utah, in collaboration with students from the Berklee
-    College of Music. Some features may be incomplete, and you will encounter bugs.
+    The new DODGEBALL game mode is now live, featuring dynamic obstacles
+    and randomized events.
 
 
-    Thank
-    you for playing STUDS! '
+    Thank you for playing STUDS! '
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 4214caa71498eaa4cb3741b2b8955d4b, type: 2}
   m_sharedMaterial: {fileID: 1686265398414052133, guid: 4214caa71498eaa4cb3741b2b8955d4b,
@@ -93303,14 +93374,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 0.9843137}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Texture: {fileID: 2800000, guid: a8344ab2be7e54cc6b34c453c8256ed4, type: 3}
+  m_Texture: {fileID: 2800000, guid: 9f8fb9f15b796304db142ab48e162fc2, type: 3}
   m_UVRect:
     serializedVersion: 2
     x: 0
@@ -93357,10 +93428,10 @@ RectTransform:
   m_Father: {fileID: 4491329578492925896}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 502, y: 594}
-  m_SizeDelta: {x: 75, y: 62}
+  m_AnchorMin: {x: 1, y: 1}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: -300, y: -20}
+  m_SizeDelta: {x: 130, y: 110}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!4 &4500143732614109172
 Transform:
