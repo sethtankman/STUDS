@@ -9,6 +9,7 @@ public class NetGrabbableObjectController : NetworkBehaviour
     public List<Collider> additionalColliders;
     public Vector3 rotation;
     private Transform holderTransform = null;
+    private GameObject holder;
     [SerializeField] private GameObject localPrefab;
     private GameObject localGO;
     [SyncVar] private bool canPickup = true;
@@ -40,6 +41,7 @@ public class NetGrabbableObjectController : NetworkBehaviour
     {
         canPickup = false;
         holderTransform = _holderTransform;
+        holder = _holderTransform.gameObject;
         gameObject.GetComponent<Rigidbody>().isKinematic = true;
         gameObject.GetComponent<Rigidbody>().useGravity = false;
         GetComponent<Collider>().enabled = false;
@@ -50,6 +52,11 @@ public class NetGrabbableObjectController : NetworkBehaviour
         if (GetComponent<ShoppingItem>())
         {
             GetComponent<ShoppingItem>().isBeingHeld = true;
+        }
+        if (GetComponent<NetExplodingPropane>())
+        {
+            GetComponent<NetExplodingPropane>().setOwnerName(holder.name);
+            SteamAchievements.UnlockAchievement("SS_PROPANE");
         }
 
         // Make networked version of object invisible (because it always lags) and spawn a local version instead.
@@ -126,6 +133,14 @@ public class NetGrabbableObjectController : NetworkBehaviour
             rend.enabled = true;
         }
         Destroy(localGO);
+    }
+
+    public void PropaneExplode(GameObject particleEffect)
+    {
+
+        GameObject effect = Instantiate(particleEffect, transform.position, Quaternion.identity);
+        NetworkServer.Spawn(effect, holder);
+        Destroy(gameObject);
     }
 
     public bool GetCanPickup()

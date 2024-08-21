@@ -746,7 +746,10 @@ public class NetworkCharacterMovementController : NetworkBehaviour
 
     private void LocalEnableKnockBack(GameObject grabbedObject)
     {
-        grabbedObject.GetComponent<CombatThrow>().EnableKnockBack(name);
+        if (grabbedObject.GetComponent<CombatThrow>())
+            grabbedObject.GetComponent<CombatThrow>().EnableKnockBack(name);
+        else if (grabbedObject.GetComponent<NetExplodingPropane>())
+            grabbedObject.GetComponent<NetExplodingPropane>().EnableKnockBack();
     }
 
     /// <summary>

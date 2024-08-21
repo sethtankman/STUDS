@@ -3,15 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 
+/// <summary>
+/// Used to inherit from CombatThrow, now inherits from NetworkBehavior so explosions spawn over network.
+/// </summary>
 public class NetExplodingPropane : CombatThrow
 {
     public GameObject explosionEffect;
+    private string ownerName;
 
     public new void EnableKnockBack()
     {
         if (knockBack)
         {
-            StartCoroutine(knockBackTimer());
+            StartCoroutine(KnockBackTimer());
         }
         else
         {
@@ -22,16 +26,16 @@ public class NetExplodingPropane : CombatThrow
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (knockBack.activeInHierarchy)
+        if (knockBack.activeInHierarchy && !collision.gameObject.name.Equals(ownerName))
         {
-            SteamAchievements.UnlockAchievement("SS_PROPANE");
-            Instantiate(explosionEffect, transform.position, Quaternion.identity);
-            Destroy(gameObject);
+            if (GetComponent<NetGrabbableObjectController>().isServer) {
+                GetComponent<NetGrabbableObjectController>().PropaneExplode(explosionEffect);
+            }
         }
     }
 
 
-    private IEnumerator knockBackTimer()
+    private IEnumerator KnockBackTimer()
     {
         yield return new WaitForSeconds(0.1f);
         knockBack.SetActive(true);
@@ -40,4 +44,8 @@ public class NetExplodingPropane : CombatThrow
 
     }
 
+    public void setOwnerName(string _ownerName)
+    {
+        ownerName = _ownerName;
+    }
 }
