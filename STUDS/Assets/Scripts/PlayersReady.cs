@@ -83,7 +83,7 @@ public class PlayersReady : MonoBehaviour
                 other.gameObject.GetComponent<NetworkCharacterMovementController>().ReadyPlayer(true, gameObject.tag);
 
                 netPlayers = GameObject.FindGameObjectsWithTag("Player");
-                foreach (GameObject player in players)
+                foreach (GameObject player in netPlayers)
                 {
                     if (player && !player.GetComponent<NetworkCharacterMovementController>().GetReadyPlayer(gameObject.tag))
                     {
