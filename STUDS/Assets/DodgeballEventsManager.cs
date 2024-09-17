@@ -35,6 +35,10 @@ public class DodgeballEventsManager : MonoBehaviour
     [Header("Level Text Objects")]
     public List<GameObject> LevelTextObjects;
 
+    [Header("Particle Effect")]
+    // Prefab for the particle effect to instantiate
+    public GameObject destructionParticleEffect;
+
     private enum DodgeballEventType
     {
         Light = 1,
@@ -84,6 +88,35 @@ public class DodgeballEventsManager : MonoBehaviour
         }
 
         EndDodgeballEvent();
+    }
+
+    // Method to destroy grabbable objects with collision enabled and spawn particle effects
+    void DestroyGrabbablesWithCollision()
+    {
+        GameObject[] grabbableObjects = GameObject.FindGameObjectsWithTag("Grabbable");
+
+        foreach (GameObject obj in grabbableObjects)
+        {
+            Collider collider = obj.GetComponent<Collider>();
+            if (collider != null && collider.enabled)
+            {
+                // Instantiate particle effect at the object's position and rotation
+                Instantiate(destructionParticleEffect, obj.transform.position, obj.transform.rotation);
+
+                // Destroy the object
+                Destroy(obj);
+            }
+        }
+    }
+
+    void DodgeballEventPicker()
+    {
+        // Add a 0.1 second delay before starting the event and destroying grabbable objects
+        Invoke(nameof(DestroyGrabbablesWithCollision), 0.1f);
+
+        currentEventType = (DodgeballEventType)Random.Range(1, 4);
+        EventStarted = true;
+        HandleDodgeballEvent(currentEventType);
     }
 
     void HandleDodgeballEvent(DodgeballEventType eventType)
@@ -146,16 +179,13 @@ public class DodgeballEventsManager : MonoBehaviour
         }
     }
 
-    void DodgeballEventPicker()
-    {
-        currentEventType = (DodgeballEventType)Random.Range(1, 4);
-        EventStarted = true;
-        HandleDodgeballEvent(currentEventType);
-    }
-
     void EndDodgeballEvent()
     {
         EventEnded = true;
+
+        // Destroy all grabbable objects with collisions when the event ends
+        DestroyGrabbablesWithCollision();
+
         LightDodgeballHolders.SetActive(false);
         HeavyDodgeballHolders.SetActive(false);
         RandomDodgeballHolders.SetActive(false);
