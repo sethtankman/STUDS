@@ -19,8 +19,13 @@ public class DodgeballAI : MonoBehaviour
     [SerializeField] private Transform target;
 
     [SerializeField] private bool hasTarget = false;
+    /// <summary>
+    /// Used so the AI will routinely repath to moving players
+    /// </summary>
     [SerializeField] private bool coroutineOn = false;
     [SerializeField] private bool _onNavMeshLink = false;
+    private bool agentHasPath = false;
+    private bool agentPathPending = false;
 
     private float turnSpeed = 2;
     [SerializeField] private int loiter = 540, patience, maxPatience;
@@ -42,6 +47,8 @@ public class DodgeballAI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        agentHasPath = agent.hasPath;
+        agentPathPending = agent.pathPending;
         if (loiter > 0)
             return;
         if (!hasTarget) { 
@@ -55,7 +62,7 @@ public class DodgeballAI : MonoBehaviour
         {
             hasTarget = false;
             coroutineOn = false;
-        } else
+        } else if (agent.hasPath)
         {
             Vector3 lookPos;
             Quaternion targetRot;
