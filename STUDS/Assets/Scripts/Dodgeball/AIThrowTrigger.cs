@@ -14,6 +14,7 @@ public class AIThrowTrigger : MonoBehaviour
         if(canThrow && other.CompareTag("Player"))
         {
             GetComponentInParent<CharacterMovementController>().target = other.gameObject;
+            GetComponentInParent<CharacterMovementController>().hasAimAssist = true;
             GetComponentInParent<CharacterMovementController>().performThrow();
             GetComponentInParent<DodgeballAI>().Loiter(false);
         }

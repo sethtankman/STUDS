@@ -77,6 +77,9 @@ public class DodgeballAI : MonoBehaviour
             {
                 StartNavMeshLinkMovement();
             }
+        } else if (!agent.pathPending)
+        {
+            Loiter(true);
         }
     }
 

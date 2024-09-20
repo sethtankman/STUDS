@@ -583,8 +583,11 @@ public class CharacterMovementController : MonoBehaviour
         if (hasAimAssist)
         {
             forward = Vector3.Normalize(target.transform.position - transform.position);
+            Vector3 upCompensation = Vector3.up;
+            if (!isAI)
+                upCompensation = Vector3.zero;
             if (grabbedObject.GetComponent<GrabbableObjectController>().isDodgeball)
-                grabbedObject.GetComponent<GrabbableObjectController>().HomingThrow(true, target, forward*homingSpeed);
+                grabbedObject.GetComponent<GrabbableObjectController>().HomingThrow(true, target, (forward+upCompensation)*homingSpeed);
         }
         grabbedObject.GetComponent<GrabbableObjectController>().LetGo();
         grabbedObject.GetComponent<Rigidbody>().AddForce(throwingForce);
