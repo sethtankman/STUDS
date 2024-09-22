@@ -46,14 +46,6 @@ public class DBLevelInitialize : MonoBehaviour
                 aiColors.Remove(player.GetComponent<CharacterMovementController>().GetColorName());
                 player.GetComponent<CharacterMovementController>().SetAimAssist(true);
             }
-        } else if (NetGameManager.Instance) {
-            NetGameManager.Instance.GetComponent<PauseV2>().PauseMenuUI = pauseMenuUI;
-            players = NetGameManager.Instance.getPlayers();
-            foreach (GameObject player in players)
-            {
-                aiColors.Remove(player.GetComponent<CharacterMovementController>().GetColorName());
-                player.GetComponent<NetworkCharacterMovementController>().SetAimAssist(true);
-            }
         } else
             Debug.LogWarning("Manage Player Hub not found!");
         PlayerInputManager.instance.DisableJoining();
