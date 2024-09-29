@@ -28,7 +28,7 @@ public class NetDBInit : MonoBehaviour
     public GameObject startUI;
 
     public TextMeshProUGUI startText;
-    [SerializeField] private DB_UI ui;
+    [SerializeField] private NetDBUI ui;
 
     // Start is called before the first frame update
     void Start()
@@ -42,7 +42,7 @@ public class NetDBInit : MonoBehaviour
             players = GameObject.FindGameObjectsWithTag("Player");
             foreach (GameObject player in players)
             {
-                aiColors.Remove(player.GetComponent<CharacterMovementController>().GetColorName());
+                aiColors.Remove(player.GetComponent<NetworkCharacterMovementController>().GetColorName());
                 player.GetComponent<NetworkCharacterMovementController>().SetAimAssist(true);
             }
         } else

@@ -8,6 +8,7 @@ public class NetSpawnDrops : NetworkBehaviour
 
     public int NumToSpawn = 3;
     public bool SpawnOnStart = true;
+    [SerializeField] private bool AIIgnore = false;
     public GameObject[] DropTypes;
     public float lifetimeOfDrops = -1;
     [Tooltip("Each drop will be randomized.")]
@@ -45,6 +46,8 @@ public class NetSpawnDrops : NetworkBehaviour
                 for (int i = 0; i < DropTypes.Length; i++)
                 {
                     items[i] = Instantiate(DropTypes[i], transform.position, transform.rotation);
+                    if (!AIIgnore)
+                        NetDBGameManager.Instance.enlistDodgeball(items[i]);
                     NetworkServer.Spawn(items[i]);
                     numTrack++;
                     if (numTrack >= num)
@@ -60,6 +63,8 @@ public class NetSpawnDrops : NetworkBehaviour
                 {
                     int randIndex = Random.Range((int)0, DropTypes.Length);
                     items[numTrack] = (Instantiate(DropTypes[randIndex], transform.position, transform.rotation));
+                    if (!AIIgnore)
+                        NetDBGameManager.Instance.enlistDodgeball(items[numTrack]);
                     NetworkServer.Spawn(items[numTrack]);
                     numTrack++;
                     if (numTrack >= num)
