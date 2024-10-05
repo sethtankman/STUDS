@@ -2,17 +2,51 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
+using static UnityEngine.GraphicsBuffer;
 
 public class NetGrabbableObjectController : NetworkBehaviour
 {
     public float distance, height;
     public List<Collider> additionalColliders;
     public Vector3 rotation;
+    public GameObject target;
+
+    [Header("Dodgeball Aimer Prefab")]
+    public GameObject throwableArrow;
+
+    [Header("Dodgeball Picked Up")]
+    public bool isDodgeball = false;
+    public bool isDropped = true;
+    public Material PickedUpMaterial;
+    public Material DroppedMaterial;
+    public MeshRenderer dodgeballRenderer;
+    public float materialLerpDuration = 1.5f;
+
+    [Header("Dodgeball Clean-Up")]
+    public bool isDeleteBallTimerStarted;
+    public float DeleteBallTimer;
+    public GameObject DeleteBallFX;
+
+    [Header("Homing")]
+    private bool homing = false, dirMagCaptured = false;
+    private Vector2 ogDir = new Vector2();
+    public string throwerColor = "";
     private Transform holderTransform = null;
     private GameObject holder;
     [SerializeField] private GameObject localPrefab;
     private GameObject localGO;
     [SyncVar] private bool canPickup = true;
+
+    public void Start()
+    {
+        if (isDodgeball)
+        {
+            //set dodgeball material without highlight outline
+            dodgeballRenderer.material = DroppedMaterial;
+            isDeleteBallTimerStarted = false;
+            DeleteBallTimer = 0;
+        }
+    }
 
     /// <summary>
     /// Movement is server-authoritative, so we update throwable positions in the update method
@@ -20,16 +54,55 @@ public class NetGrabbableObjectController : NetworkBehaviour
     /// </summary>
     private void Update()
     {
-        if (isServer && holderTransform)
+        if (isServer) 
         {
-            transform.position = holderTransform.position + (transform.forward * distance) + (transform.up * height);
-            transform.rotation = holderTransform.rotation;
+            if (homing)
+            {
+                Vector3 newDir = target.transform.position - transform.position;
+                newDir = newDir.normalized * ogDir.magnitude;
+                GetComponent<Rigidbody>().velocity = new Vector3((newDir.x + ogDir.x) / 2, GetComponent<Rigidbody>().velocity.y, (newDir.z + ogDir.y) / 2);
+            }
+
+            if (isDodgeball && isDeleteBallTimerStarted)
+            {
+                StartDeleteBallTimer();
+            }
+
+            if (holderTransform)
+            {
+                transform.position = holderTransform.position + (transform.forward * distance) + (transform.up * height);
+                transform.rotation = holderTransform.rotation;
+            }
+        }
+
+
+        if (isDodgeball && isDropped)
+        {
+            //lerp between highlight outline and non-outlined materials
+            BallMaterialLerp();
+        }
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Ground"))
+        {
+            homing = false;
+            dirMagCaptured = false;
+            throwerColor = "";
+            if (GetComponent<CombatThrow>())
+            {
+                GetComponent<CombatThrow>().knockBack.GetComponent<KnockBack>().owner = "";
+                GetComponent<CombatThrow>().knockBack.SetActive(false);
+            }
         }
     }
 
     public void OnDestroy()
     {
         Destroy(localGO);
+        if (isDodgeball)
+            NetDBGameManager.Instance.deListDodgeball(gameObject);
     }
 
     /// <summary>
@@ -124,6 +197,77 @@ public class NetGrabbableObjectController : NetworkBehaviour
         }
          
         return gameObject;
+    }
+
+
+
+    /// <summary>
+    /// Enables homing throw and sets inital direction
+    /// </summary>
+    /// <param name="tf">Set homing to true or false</param>
+    /// <param name="_target">Target gameobject</param>
+    /// <param name="_ogDir">Original throw direction (Entry doesn't matter if setting homing to false</param>
+    public void HomingThrow(bool tf, GameObject _target, Vector3 _ogDir)
+    {
+        ogDir = new Vector2(_ogDir.x, _ogDir.z);
+        homing = tf;
+        target = _target;
+    }
+
+    public void BallMaterialLerp()
+    {
+        float lerp = Mathf.PingPong(Time.time, materialLerpDuration) / materialLerpDuration;
+        dodgeballRenderer.material.Lerp(PickedUpMaterial, DroppedMaterial, lerp);
+    }
+
+    public void PickUpDodgeball(bool isLocalPlayer = false)
+    {
+        dodgeballRenderer.material = PickedUpMaterial;
+        isDropped = false;
+        ResetDeleteBallTimer();
+        DBGameManager.Instance.deListDodgeball(gameObject);
+        if (isLocalPlayer)
+        {
+            throwableArrow.SetActive(true);
+        }
+    }
+
+    /// <summary>
+    /// Set material and throw line preview
+    /// </summary>
+    public void DropDodgeball()
+    {
+        dodgeballRenderer.material = DroppedMaterial;
+        isDropped = true;
+        isDeleteBallTimerStarted = true;
+
+        throwableArrow.SetActive(false);
+    }
+
+    public void StartDeleteBallTimer()
+    {
+        isDeleteBallTimerStarted = true;
+        DeleteBallTimer += Time.deltaTime;
+
+        if (DeleteBallTimer >= 27)
+        {
+            materialLerpDuration = 0.25f;
+        }
+
+        if (DeleteBallTimer >= 30)
+        {
+            Instantiate(DeleteBallFX, gameObject.transform.position, Quaternion.identity);
+            gameObject.SetActive(false);
+            Destroy(gameObject, 1);
+        }
+
+    }
+
+    public void ResetDeleteBallTimer()
+    {
+        materialLerpDuration = 1.5f;
+        isDeleteBallTimerStarted = false;
+        DeleteBallTimer = 0;
     }
 
     public void RenderNetworkedGO()

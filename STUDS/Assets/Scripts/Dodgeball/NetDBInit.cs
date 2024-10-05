@@ -87,7 +87,7 @@ public class NetDBInit : MonoBehaviour
                     spawnedPlayers = true;
                 }
                 ui.UpdateSpriteColors();
-                DBGameManager.Instance.InitScores();
+                NetDBGameManager.Instance.InitScores();
             }
             PauseV2.canPause = true;
         }

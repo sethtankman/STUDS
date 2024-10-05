@@ -46,12 +46,6 @@ public class GrabbableObjectController : MonoBehaviour
     {
         if (homing)
         {
-            /*if (!dirMagCaptured && GetComponent<Rigidbody>().velocity.magnitude > 1.0f)
-            {
-                ogDir = new Vector2(GetComponent<Rigidbody>().velocity.x, GetComponent<Rigidbody>().velocity.z);
-                dirMagCaptured = true;
-            }*/
-
             Vector3 newDir = target.transform.position - transform.position;
             newDir = newDir.normalized * ogDir.magnitude;
             GetComponent<Rigidbody>().velocity = new Vector3((newDir.x + ogDir.x)/2, GetComponent<Rigidbody>().velocity.y, (newDir.z +ogDir.y)/2);

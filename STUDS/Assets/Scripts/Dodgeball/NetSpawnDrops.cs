@@ -26,51 +26,30 @@ public class NetSpawnDrops : NetworkBehaviour
     private void Start()
     {
         if (isServer && SpawnOnStart)
-            Spawn(NumToSpawn);
+            Invoke(nameof(Spawn), 0.1f);
     }
 
     /// <summary>
     /// Don't spawn anything unless it's on the server.
     /// </summary>
-    /// <param name="num"></param>
-    void Spawn(int num)
+    void Spawn()
     {
-        items = new GameObject[num];
-        int numTrack = 0;
-        //int numSpawns = 0;
+        items = new GameObject[1];
 
         if (!_RandomizeAll)
         {
-            while (numTrack < num)
-            {
-                for (int i = 0; i < DropTypes.Length; i++)
-                {
-                    items[i] = Instantiate(DropTypes[i], transform.position, transform.rotation);
-                    if (!AIIgnore)
-                        NetDBGameManager.Instance.enlistDodgeball(items[i]);
-                    NetworkServer.Spawn(items[i]);
-                    numTrack++;
-                    if (numTrack >= num)
-                        break;
-                }
-            }
+            items[0] = Instantiate(DropTypes[0], transform.position, transform.rotation);
+            if (!AIIgnore)
+                NetDBGameManager.Instance.enlistDodgeball(items[0]);
+            NetworkServer.Spawn(items[0]);
         }
         else
         {
-            while (numTrack < num)
-            {
-                for (int i = 0; i < num; i++)
-                {
-                    int randIndex = Random.Range((int)0, DropTypes.Length);
-                    items[numTrack] = (Instantiate(DropTypes[randIndex], transform.position, transform.rotation));
-                    if (!AIIgnore)
-                        NetDBGameManager.Instance.enlistDodgeball(items[numTrack]);
-                    NetworkServer.Spawn(items[numTrack]);
-                    numTrack++;
-                    if (numTrack >= num)
-                        break;
-                }
-            }
+            int randIndex = Random.Range((int)0, DropTypes.Length);
+            items[0] = (Instantiate(DropTypes[randIndex], transform.position, transform.rotation));
+            if (!AIIgnore)
+                NetDBGameManager.Instance.enlistDodgeball(items[0]);
+            NetworkServer.Spawn(items[0]);
         }
 
         foreach (GameObject i in items)

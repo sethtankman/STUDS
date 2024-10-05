@@ -176,7 +176,7 @@ public class NetDodgeballAI : MonoBehaviour
 
     private void AcquireTargetDodgeball()
     {
-        List<GameObject> dodgeballs = DBGameManager.Instance.GetAvailableDodgeballs();
+        List<GameObject> dodgeballs = NetDBGameManager.Instance.GetAvailableDodgeballs();
         if (dodgeballs.Count == 0)
         {
             Debug.LogWarning("Dodgeball list is empty");
@@ -186,7 +186,7 @@ public class NetDodgeballAI : MonoBehaviour
         if (target == null)
         {
             target = dodgeballs[Random.Range(0, dodgeballs.Count)].transform;
-            DBGameManager.Instance.deListDodgeball(target.gameObject, gameObject);
+            NetDBGameManager.Instance.deListDodgeball(target.gameObject, gameObject);
         }
         patience = maxPatience;
         animator.SetBool("isRunning", true);
@@ -210,7 +210,7 @@ public class NetDodgeballAI : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         if (!GetComponent<NetworkCharacterMovementController>().GetHasGrabbed() && other.CompareTag("Grabbable")
-            && other.GetComponent<GrabbableObjectController>().getCanPickup()
+            && other.GetComponent<NetGrabbableObjectController>().GetCanPickup()
             && target != null && other.name.Equals(target.name))
         {
             GetComponent<NetworkCharacterMovementController>().SetGrabbedObject(other.gameObject);
