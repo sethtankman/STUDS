@@ -1,3 +1,5 @@
+using Mirror;
+using Steamworks;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -29,7 +31,7 @@ public class NetDBGameManager : MonoBehaviour
     {
         foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
         {
-            scores[player.GetComponent<CharacterMovementController>().color] = 0;
+            scores[player.GetComponent<NetworkCharacterMovementController>().color] = 0;
         }
     }
 
@@ -95,7 +97,7 @@ public class NetDBGameManager : MonoBehaviour
             player.GetComponent<NetworkCharacterMovementController>().SetFinishPosition(placement);
         }
         SteamAchievements.UnlockAchievement("DB_WINNER");
-        SceneManager.LoadScene("VictoryStands");
+        FindObjectOfType<NetworkManager>().ServerChangeScene("NetVictoryStands");
     }
 
     public void GetHitBy(int obstacleIndex)
