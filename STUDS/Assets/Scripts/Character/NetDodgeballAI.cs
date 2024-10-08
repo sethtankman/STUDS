@@ -4,6 +4,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Events;
+using Mirror;
 
 /// <summary>
 /// Controls the AI for dodgeball
@@ -11,7 +12,7 @@ using UnityEngine.Events;
 /// Used https://github.com/SunnyValleyStudio/Diablo-Like-Movement-in-Unity-using-AI-Navigation-package/blob/main/AgentMover.cs 
 /// For ideas on how to get navmesh jumping to look better.
 /// </summary>
-public class NetDodgeballAI : MonoBehaviour
+public class NetDodgeballAI : NetworkBehaviour
 {
     [SerializeField] private NetworkCharacterMovementController movementController;
     [SerializeField] private Animator animator;
@@ -209,14 +210,14 @@ public class NetDodgeballAI : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (!GetComponent<NetworkCharacterMovementController>().GetHasGrabbed() && other.CompareTag("Grabbable")
+        if (isServer && !GetComponent<NetworkCharacterMovementController>().GetHasGrabbed() && other.CompareTag("Grabbable")
             && other.GetComponent<NetGrabbableObjectController>().GetCanPickup()
             && target != null && other.name.Equals(target.name))
         {
             GetComponent<NetworkCharacterMovementController>().SetGrabbedObject(other.gameObject);
-            other.GetComponent<GrabbableObjectController>().PickupObject(GetComponent<NetworkCharacterMovementController>().GetColorName());
+            GetComponent<NetworkCharacterMovementController>().AIPickup(other.GetComponent<NetworkIdentity>().netId);
             hasTarget = false;
-            GetComponentInChildren<AIThrowTrigger>().setCanThrow(true);
+            GetComponentInChildren<NetAIThrowTrigger>().setCanThrow(true);
         }
     }
 

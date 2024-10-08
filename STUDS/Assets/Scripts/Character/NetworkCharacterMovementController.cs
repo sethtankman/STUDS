@@ -284,7 +284,7 @@ public class NetworkCharacterMovementController : NetworkBehaviour
                     }
                     else if (throwPressed && throwCoolDown <= 0)
                     {
-                        StartCoroutine(performThrow());
+                        performThrow();
                         animator.SetBool("isHoldingSomething", false);
                         throwCoolDown = 1;
                     }
@@ -699,11 +699,10 @@ public class NetworkCharacterMovementController : NetworkBehaviour
     /// Handles animation and physics for throwing objects.
     /// </summary>
     /// <returns></returns>
-    private IEnumerator performThrow()
+    public void performThrow()
     {
         netAnim.ResetTrigger("Land");
         netAnim.SetTrigger("Throw");
-        yield return new WaitForSeconds(0.0f);
         ThrowSound.Post(gameObject);
         GameObject networkedObj = grabbedObject.GetComponentInChildren<LocalGrabbableObjectController>().networkedGO;
         Vector3 localPos = grabbedObject.transform.position;
@@ -822,6 +821,15 @@ public class NetworkCharacterMovementController : NetworkBehaviour
         }
     }
 
+    public void AIPickup(uint objID)
+    {
+        CmdPickupObject(objID);
+        if (!isServer)
+        {
+            grabbedObject = NetworkServer.spawned[objID].GetComponent<NetGrabbableObjectController>().LocalPickupObject(transform);
+        }
+    }
+
     [Command]
     private void CmdTimeout(uint kidID)
     {
@@ -858,27 +866,6 @@ public class NetworkCharacterMovementController : NetworkBehaviour
         uint objId = NetworkServer.spawned[cartId].GetComponent<NetCart>().GiveObject(transform);
         if (objId != 0)
             RpcPickupFromCart(objId);
-    }
-
-    [Command]
-    private void CmdAssignNetworkAuthority(NetworkIdentity item, NetworkIdentity clientId)
-    {
-        if (!item)
-        {
-            Debug.LogError("Woah!  NO ITEM???");
-        }
-        if (item.connectionToClient == null)
-        {
-            Debug.LogError("Connection to client is null");
-        }
-        if (item.connectionToClient != null && item.isOwned == false)
-        {
-            item.RemoveClientAuthority();
-        }
-        if (item.connectionToClient == null)
-        {
-            item.AssignClientAuthority(clientId.connectionToClient);
-        }
     }
 
     [Command]

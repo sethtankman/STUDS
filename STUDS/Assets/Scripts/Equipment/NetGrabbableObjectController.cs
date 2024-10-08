@@ -225,7 +225,7 @@ public class NetGrabbableObjectController : NetworkBehaviour
         dodgeballRenderer.material = PickedUpMaterial;
         isDropped = false;
         ResetDeleteBallTimer();
-        DBGameManager.Instance.deListDodgeball(gameObject);
+        NetDBGameManager.Instance.deListDodgeball(gameObject);
         if (isLocalPlayer)
         {
             throwableArrow.SetActive(true);
