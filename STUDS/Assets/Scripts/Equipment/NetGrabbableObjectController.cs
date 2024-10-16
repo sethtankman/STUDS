@@ -16,7 +16,7 @@ public class NetGrabbableObjectController : NetworkBehaviour
 
     [Header("Dodgeball Picked Up")]
     public bool isDodgeball = false;
-    public bool isDropped = true;
+    [SyncVar] public bool isDropped = true;
     public Material PickedUpMaterial;
     public Material DroppedMaterial;
     public MeshRenderer dodgeballRenderer;
@@ -68,7 +68,7 @@ public class NetGrabbableObjectController : NetworkBehaviour
                 StartDeleteBallTimer();
             }
 
-            if (holderTransform)
+            if (!homing && holderTransform)
             {
                 transform.position = holderTransform.position + (transform.forward * distance) + (transform.up * height);
                 transform.rotation = holderTransform.rotation;

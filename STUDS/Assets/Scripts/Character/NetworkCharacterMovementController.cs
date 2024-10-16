@@ -38,6 +38,7 @@ public class NetworkCharacterMovementController : NetworkBehaviour
     public float turnTime;
     public float jumpHeightGrab;
     [SerializeField] private float throwForce;
+    [SerializeField] private float homingSpeed;
     public float throwCoolDown = 0;
     public float knockBackTime;
     public float timeUntilMoveEnabled = 0;
@@ -711,6 +712,16 @@ public class NetworkCharacterMovementController : NetworkBehaviour
         ThrowSound.Post(gameObject);
         GameObject networkedObj = grabbedObject.GetComponentInChildren<LocalGrabbableObjectController>().networkedGO;
         Vector3 localPos = grabbedObject.transform.position;
+        Vector3 forward = transform.forward;
+        grabbedObject.transform.forward = forward;
+        if (hasAimAssist)
+        {
+            Vector3 upCompensation = Vector3.up;
+            if (!isAI)
+                upCompensation = Vector3.zero;
+            if (networkedObj.GetComponent<NetGrabbableObjectController>().isDodgeball)
+                networkedObj.GetComponent<NetGrabbableObjectController>().HomingThrow(true, target, (forward + upCompensation) * homingSpeed);
+        }
         grabbedObject.GetComponentInChildren<LocalGrabbableObjectController>().LocalLetGo();
         grabbedObject = networkedObj;
         if(inStrollerRace && grabbedObject.GetComponent<StrollerController>())
