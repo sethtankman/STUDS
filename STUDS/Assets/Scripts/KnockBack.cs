@@ -95,9 +95,13 @@ public class KnockBack : MonoBehaviour
                 {
                     direction += directionVector.normalized;
                 }
-                Debug.Log("direction: " + direction.ToString() + " Force " + KBForce + " MakePlayerDrop " + makePlayerDrop);
 
                 other.gameObject.GetComponent<NetworkCharacterMovementController>().KnockBack(direction * KBForce, makePlayerDrop);
+
+                if (KnockBackFX)
+                    Instantiate(KnockBackFX, other.transform.position, Quaternion.identity); 
+                if (GetComponent<HitScore>())
+                    GetComponent<HitScore>().RecordHit(GetComponentInParent<NetGrabbableObjectController>().throwerColor);
                 if (!KBSound.Equals("") && other.gameObject.GetComponent<NetworkCharacterMovementController>().isAI == false)
                 {
                     KBSound.Post(gameObject);

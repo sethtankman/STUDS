@@ -2,6 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Counts the obstacle you were hit by for Achievement purposes.
+/// Offline script.
+/// </summary>
 public class CountObstacleHit : MonoBehaviour
 {
     [SerializeField] private int obstacleNum;
