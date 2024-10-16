@@ -676,6 +676,11 @@ public class NetworkCharacterMovementController : NetworkBehaviour
                     GetComponentInChildren<StrollerLocator>().SetActive(true);
                 CmdLetGo(grabbedObject.GetComponent<NetworkIdentity>().netId); 
             }
+            if (GetComponentInChildren<NetAIThrowTrigger>())
+            {
+                GetComponentInChildren<NetAIThrowTrigger>().setCanThrow(false);
+                NetDBGameManager.Instance.enlistDodgeball(grabbedObject);
+            }
             grabbedObject = null;
             grabbedObjectID = 0;
             hasGrabbed = false;
@@ -739,6 +744,8 @@ public class NetworkCharacterMovementController : NetworkBehaviour
         grabbedObject = null;
         grabbedObjectID = 0;
         netAnim.ResetTrigger("Throw");
+        if (GetComponentInChildren<NetAIThrowTrigger>())
+            GetComponentInChildren<NetAIThrowTrigger>().setCanThrow(false);
     }
 
 
@@ -1131,10 +1138,11 @@ public class NetworkCharacterMovementController : NetworkBehaviour
     }
 
     /// <summary>
-    /// Activates the animations for holding an object, gives the player a ref to the object, and adjusts physics
+    /// Activates the animations for holding an object, gives the player a ref to the object, and adjusts physics.
+    /// Should only be called on objects with NetworkIdentities
     /// </summary>
     /// <param name="obj"></param>
-    public void SetGrabbedObject(GameObject obj)
+    public void SetGrabbedObjectNet(GameObject obj)
     {
         animator.SetBool("isHoldingSomething", true);
         grabbedObject = obj;
@@ -1144,6 +1152,16 @@ public class NetworkCharacterMovementController : NetworkBehaviour
         moveSpeed = moveSpeedGrab;
         hasGrabbed = true;
         pickupPressed = false;
+    }
+
+    /// <summary>
+    /// Sets the grabbedObject variable to the local object. 
+    /// Only applies to Local versions of networked objects.
+    /// </summary>
+    /// <param name="obj"></param>
+    public void SetGrabbedObjectLocal(GameObject obj)
+    {
+        grabbedObject = obj;
     }
 
     public GameObject GetGrabbedObject()

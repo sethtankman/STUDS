@@ -214,8 +214,9 @@ public class NetDodgeballAI : NetworkBehaviour
             && other.GetComponent<NetGrabbableObjectController>().GetCanPickup()
             && target != null && other.name.Equals(target.name))
         {
-            GetComponent<NetworkCharacterMovementController>().SetGrabbedObject(other.gameObject);
-            GetComponent<NetworkCharacterMovementController>().AIPickup(other.GetComponent<NetworkIdentity>().netId);
+            GetComponent<NetworkCharacterMovementController>().SetGrabbedObjectNet(other.gameObject);
+            GetComponent<NetworkCharacterMovementController>().SetGrabbedObjectLocal(
+                other.GetComponent<NetGrabbableObjectController>().LocalPickupObject(transform));
             hasTarget = false;
             GetComponentInChildren<NetAIThrowTrigger>().setCanThrow(true);
         }

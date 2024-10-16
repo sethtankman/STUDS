@@ -112,12 +112,12 @@ public class NetGrabbableObjectController : NetworkBehaviour
     /// <returns>A reference to the offline copy instantiated on this client.</returns>
     public GameObject LocalPickupObject(Transform _holderTransform)
     {
-        canPickup = false;
-        holderTransform = _holderTransform;
-        holder = _holderTransform.gameObject;
         gameObject.GetComponent<Rigidbody>().isKinematic = true;
         gameObject.GetComponent<Rigidbody>().useGravity = false;
         GetComponent<Collider>().enabled = false;
+        canPickup = false;
+        holderTransform = _holderTransform;
+        holder = _holderTransform.gameObject;
         foreach (Collider collider in additionalColliders)
         {
             collider.enabled = false;
@@ -131,6 +131,8 @@ public class NetGrabbableObjectController : NetworkBehaviour
             GetComponent<NetExplodingPropane>().setOwnerName(holder.name);
             SteamAchievements.UnlockAchievement("SS_PROPANE");
         }
+        if (isDodgeball)
+            PickUpDodgeball();
 
         // Make networked version of object invisible (because it always lags) and spawn a local version instead.
         if (localPrefab)

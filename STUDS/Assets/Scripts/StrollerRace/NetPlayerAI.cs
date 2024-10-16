@@ -28,7 +28,7 @@ public class NetPlayerAI : NetworkBehaviour
     {
         stuckTimer = 500;
         pathNodes = path.GetComponent<Path_AI>().getPath();
-        GetComponent<NetworkCharacterMovementController>().SetGrabbedObject(stroller);
+        GetComponent<NetworkCharacterMovementController>().SetGrabbedObjectNet(stroller);
         GetComponent<NetworkCharacterMovementController>().SetPlayerID(ID);
         index = 0;
         prevPosition = transform.position;
@@ -66,7 +66,7 @@ public class NetPlayerAI : NetworkBehaviour
             GetComponent<NetworkCharacterMovementController>().Move(transform.forward);
             if (Math.Abs((stroller.transform.position - transform.position).magnitude) < 3)
             {
-                GetComponent<NetworkCharacterMovementController>().SetGrabbedObject(stroller);
+                GetComponent<NetworkCharacterMovementController>().SetGrabbedObjectNet(stroller);
             }
         }
         else if (index+1 <= pathNodes.Count && start)
