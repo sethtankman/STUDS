@@ -230,9 +230,9 @@ public class NetDodgeballAI : NetworkBehaviour
         loiter = 60;
         hasTarget = false;
         coroutineOn = false;
-        if (target && target.GetComponent<GrabbableObjectController>() && enlistDB)
+        if (target && target.GetComponent<NetGrabbableObjectController>() && enlistDB)
         {
-            DBGameManager.Instance.enlistDodgeball(target.gameObject);
+            NetDBGameManager.Instance.enlistDodgeball(target.gameObject);
         }
         target = null;
         animator.SetBool("isRunning", false);

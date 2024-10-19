@@ -977,6 +977,11 @@ public class NetworkCharacterMovementController : NetworkBehaviour
                 DropGrabbedItem();
                 if (cameraShake)
                     StartCoroutine(cameraShake.Shake(0.15f, 0.4f));
+                if (GetComponent<DodgeballAI>())
+                { // Only knockbacks that make the AI drop an item will affect it.  This allows navmesh link traversal over trampolines.
+                    GetComponent<DodgeballAI>().Loiter(true);
+                    StartCoroutine(KnockbackAI(_direction));
+                }
             }
             velocity = _direction;
         }
@@ -1088,6 +1093,24 @@ public class NetworkCharacterMovementController : NetworkBehaviour
             if (savedMaterial)
                 gameObject.GetComponentInChildren<SkinnedMeshRenderer>().material = savedMaterial;
         }
+    }
+
+    private IEnumerator KnockbackAI(Vector3 _direction)
+    {
+        NavMeshAgent agent = GetComponent<NavMeshAgent>();
+        Rigidbody rigidbody = GetComponent<Rigidbody>();
+        agent.enabled = false;
+        rigidbody.useGravity = true;
+        rigidbody.isKinematic = false;
+        rigidbody.velocity = _direction;
+        yield return new WaitForFixedUpdate();
+        float initTime = Time.time;
+        yield return new WaitUntil(() => Time.time > knockBackTime + initTime);
+        rigidbody.velocity = Vector3.zero;
+        rigidbody.useGravity = false;
+        rigidbody.isKinematic = true;
+        agent.Warp(transform.position);
+        agent.enabled = true;
     }
 
     /// <summary>
