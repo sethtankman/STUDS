@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// This Script applies to both Networked and Offline Modes.
+/// This Script applies to Offline Mode.
 /// Spawns the Dodgeballs.
 /// </summary>
 public class SpawnDrops : MonoBehaviour {
@@ -12,7 +12,6 @@ public class SpawnDrops : MonoBehaviour {
     public bool SpawnOnStart = true;
     [SerializeField] private bool AIIgnore;
     public GameObject[] DropTypes;
-    [SerializeField] private GameObject[] NetDropTypes;
     public float lifetimeOfDrops = -1;
     [Tooltip("Each drop will be randomized.")]
     public bool _RandomizeAll;
@@ -43,17 +42,9 @@ public class SpawnDrops : MonoBehaviour {
             {
                 for (int i = 0; i < DropTypes.Length; i++)
                 {
-                    if (DBGameManager.Instance)
-                    {
-                        items[i] = Instantiate(DropTypes[i], transform.position, transform.rotation);
-                        if (!AIIgnore)
-                            DBGameManager.Instance.enlistDodgeball(items[i]);
-                    } else
-                    {
-                        items[i] = Instantiate(NetDropTypes[i], transform.position, transform.rotation);
-                        if (!AIIgnore)
-                            NetDBGameManager.Instance.enlistDodgeball(items[i]);
-                    }
+                    items[i] = Instantiate(DropTypes[i], transform.position, transform.rotation);
+                    if (!AIIgnore)
+                        DBGameManager.Instance.enlistDodgeball(items[i]);
                     numTrack++;
                     if (numTrack >= 1)
                         break;
@@ -67,17 +58,9 @@ public class SpawnDrops : MonoBehaviour {
                 for (int i = 0; i < 1; i++)
                 {
                     int randIndex = Random.Range((int)0, DropTypes.Length);
-                    if (DBGameManager.Instance)
-                    {
-                        items[numTrack] = Instantiate(DropTypes[randIndex], transform.position, transform.rotation);
-                        if (!AIIgnore)
-                            DBGameManager.Instance.enlistDodgeball(items[numTrack]);
-                    } else
-                    {
-                        items[numTrack] = Instantiate(NetDropTypes[randIndex], transform.position, transform.rotation);
-                        if (!AIIgnore)
-                            NetDBGameManager.Instance.enlistDodgeball(items[numTrack]);
-                    }
+                    items[numTrack] = Instantiate(DropTypes[randIndex], transform.position, transform.rotation);
+                    if (!AIIgnore)
+                        DBGameManager.Instance.enlistDodgeball(items[numTrack]);
                     numTrack++;
                     if (numTrack >= 1)
                         break;
