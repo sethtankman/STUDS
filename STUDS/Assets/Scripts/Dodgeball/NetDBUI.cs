@@ -41,7 +41,7 @@ public class NetDBUI : MonoBehaviour
         {
             if (scoreOrder[i].Equals(updatedOwner))
                 break;
-            if (DBGameManager.Instance.scores[scoreOrder[i]] < DBGameManager.Instance.scores[updatedOwner])
+            if (NetDBGameManager.Instance.scores[scoreOrder[i]] < NetDBGameManager.Instance.scores[updatedOwner])
             {
                 Queue<string> next = new Queue<string>();
                 next.Enqueue(scoreOrder[i]);
@@ -60,7 +60,7 @@ public class NetDBUI : MonoBehaviour
         // Put the updated scores on the screen in order.
         for (int i=0; i < scoreOrder.Length; i++)
         {
-            Scores[i].text = $"{i+1}   {DBGameManager.Instance.scores[scoreOrder[i]]}";
+            Scores[i].text = $"{i+1}   {NetDBGameManager.Instance.scores[scoreOrder[i]]}";
             SetSpriteColor(scoreOrder[i], i);
         }
         return scoreOrder;

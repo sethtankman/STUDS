@@ -112,7 +112,6 @@ public class SteamLobby : NetworkBehaviour
             // Return false to not allow collision-destroyed second instance to continue.
             return false;
         }
-        Debug.Log("SteamLobby created singleton (DontDestroyOnLoad)");
         singleton = this;
         DontDestroyOnLoad(gameObject);
 

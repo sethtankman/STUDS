@@ -201,8 +201,8 @@ public class NetworkCharacterMovementController : NetworkBehaviour
         {
             PlaySteps();
         }
-        Jump();
-
+        if(GetComponentInChildren<CharacterController>().enabled)
+            Jump(); // Was calling CharacterController.Move when CharacterController is disabled.
         CollisionDetection();
 
         ThrowAndPickup();

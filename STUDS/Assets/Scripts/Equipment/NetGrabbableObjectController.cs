@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
@@ -118,6 +118,7 @@ public class NetGrabbableObjectController : NetworkBehaviour
         canPickup = false;
         holderTransform = _holderTransform;
         holder = _holderTransform.gameObject;
+        throwerColor = holder.GetComponent<NetworkCharacterMovementController>().GetColorName();
         foreach (Collider collider in additionalColliders)
         {
             collider.enabled = false;

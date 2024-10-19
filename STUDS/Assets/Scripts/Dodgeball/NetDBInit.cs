@@ -4,16 +4,17 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using TMPro;
+using Mirror;
 
 /// <summary>
 /// The level initializer for the stroller race levels.
 /// </summary>
-public class NetDBInit : MonoBehaviour
+public class NetDBInit : NetworkBehaviour
 {
     public Transform[] playerSpawns;
     public GameObject playerPrefab;
 
-    private bool spawnedPlayers = false;
+    private bool spawnPlayers = false;
     public float waitTime = 5.0f;
     private float currentTime = 0;
 
@@ -37,17 +38,24 @@ public class NetDBInit : MonoBehaviour
         GameObject.Find("Music Manager").GetComponent<Music_Manager>().PlayStopMusic("Stroller", true);
         aiColors = new List<string> { "red", "blue", "purple", "yellow", "green" };
         PauseV2.canPause = false;
-        if (NetGameManager.Instance) {
+        if (NetGameManager.Instance) 
+        {
             NetGameManager.Instance.GetComponent<PauseV2>().PauseMenuUI = pauseMenuUI;
-            players = GameObject.FindGameObjectsWithTag("Player");
-            foreach (GameObject player in players)
-            {
-                aiColors.Remove(player.GetComponent<NetworkCharacterMovementController>().GetColorName());
-                player.GetComponent<NetworkCharacterMovementController>().SetAimAssist(true);
-            }
         } else
             Debug.LogWarning("Manage Player Hub not found!");
         PlayerInputManager.instance.DisableJoining();
+        Invoke("LateStart", 0.5f);
+
+    }
+
+    private void LateStart()
+    {
+        players = GameObject.FindGameObjectsWithTag("Player");
+        foreach (GameObject player in players)
+        {
+            aiColors.Remove(player.GetComponent<NetworkCharacterMovementController>().GetColorName());
+            player.GetComponent<NetworkCharacterMovementController>().SetAimAssist(true);
+        }
         if (players != null)
         {
             for (int i = 0; i < players.Length; i++)
@@ -59,6 +67,7 @@ public class NetDBInit : MonoBehaviour
                 players[i].transform.rotation = playerSpawns[i].rotation;
             }
         }
+        spawnPlayers = true;
 
     }
 
@@ -67,7 +76,7 @@ public class NetDBInit : MonoBehaviour
     {
 
         currentTime += Time.deltaTime;
-        if (currentTime > waitTime && !spawnedPlayers)
+        if (currentTime > waitTime && spawnPlayers)
         {
             Destroy(startCam);
             Destroy(startText);
@@ -77,23 +86,19 @@ public class NetDBInit : MonoBehaviour
             {
                 for (int i = 0; i < players.Length; i++)
                 {
-                    if(players[i].GetComponent<CharacterMovementController>().isAI)
+                    if(players[i].GetComponent<NetworkCharacterMovementController>().isAI)
                     {
                         string aiColor = aiColors[0];
-                        players[i].GetComponentInChildren<CharacterMovementController>(true).SetColorName(aiColor);
+                        players[i].GetComponentInChildren<NetworkCharacterMovementController>(true).SetColorName(aiColor);
                         players[i].GetComponentInChildren<SkinnedMeshRenderer>(true).material = materials[GetColorIndex(aiColor)];
                         aiColors.Remove(aiColor);
                     }
-                    spawnedPlayers = true;
+                    spawnPlayers = false;
                 }
                 ui.UpdateSpriteColors();
                 NetDBGameManager.Instance.InitScores();
             }
             PauseV2.canPause = true;
-        }
-        else if(!spawnedPlayers)
-        {
-            
         }
     }
 

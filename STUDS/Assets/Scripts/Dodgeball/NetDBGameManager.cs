@@ -9,7 +9,7 @@ using UnityEngine.SceneManagement;
 public class NetDBGameManager : MonoBehaviour
 {
     public static NetDBGameManager Instance { get; private set; }
-    public DB_UI scorePanel;
+    public NetDBUI scorePanel;
     /// Maps color to score
     public Dictionary<string, int> scores = new Dictionary<string, int>();
     [SerializeField] private List<GameObject> availableDodgeballs;
