@@ -80,7 +80,7 @@ public class SpeedUpSlowDown : MonoBehaviour
         float arrowLerpTime = 0;
         bool increasing = true;
 
-        while (true)
+        while (arrowObj)
         {
             // Update the rotation for all players' cameras
             foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))

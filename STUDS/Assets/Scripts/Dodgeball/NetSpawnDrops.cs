@@ -5,8 +5,6 @@ using UnityEngine;
 
 public class NetSpawnDrops : NetworkBehaviour
 {
-
-    public int NumToSpawn = 3;
     public bool SpawnOnStart = true;
     [SerializeField] private bool AIIgnore = false;
     public GameObject[] DropTypes;
@@ -14,7 +12,7 @@ public class NetSpawnDrops : NetworkBehaviour
     public float lifetimeOfDrops = -1;
     [Tooltip("Each drop will be randomized.")]
     public bool _RandomizeAll;
-    GameObject[] items;
+    private GameObject item;
 
 
     // For the object to show up in Editor if need be.
@@ -41,37 +39,33 @@ public class NetSpawnDrops : NetworkBehaviour
     /// </summary>
     void Spawn()
     {
-        items = new GameObject[1];
 
         if (!_RandomizeAll)
         {
-            items[0] = Instantiate(DropTypes[0], transform.position, transform.rotation);
+            item = Instantiate(DropTypes[0], spawnTransform.position, spawnTransform.rotation);
             if (!AIIgnore)
-                NetDBGameManager.Instance.enlistDodgeball(items[0]);
-            NetworkServer.Spawn(items[0]);
+                NetDBGameManager.Instance.enlistDodgeball(item);
+            NetworkServer.Spawn(item);
 
         }
         else
         {
             int randIndex = Random.Range((int)0, DropTypes.Length);
-            items[0] = Instantiate(DropTypes[randIndex], transform.position, transform.rotation);
+            item = Instantiate(DropTypes[randIndex], spawnTransform.position, spawnTransform.rotation);
             if (!AIIgnore)
-                NetDBGameManager.Instance.enlistDodgeball(items[0]);
-            NetworkServer.Spawn(items[0]);
+                NetDBGameManager.Instance.enlistDodgeball(item);
+            NetworkServer.Spawn(item);
         }
-
-        foreach (GameObject i in items)
+        
+        Vector3 v = Random.insideUnitSphere.normalized * 500;
+        v.Scale(new Vector3(1, 0, 1));
+        Rigidbody rb = item.GetComponentInChildren<Rigidbody>();
+        if (rb != null)
         {
-            Vector3 v = Random.insideUnitSphere.normalized * 500;
-            v.Scale(new Vector3(1, 0, 1));
-            Rigidbody rb = i.GetComponentInChildren<Rigidbody>();
-            if (rb != null)
-            {
-                rb.AddForce(v);
-                rb.AddTorque(Random.insideUnitSphere * 500);
-            }
+            rb.AddForce(v);
+            rb.AddTorque(Random.insideUnitSphere * 500);
         }
-
+        
         if (lifetimeOfDrops > 0)
             StartCoroutine(CountdownForRemoval());
     }
@@ -81,8 +75,7 @@ public class NetSpawnDrops : NetworkBehaviour
     protected virtual IEnumerator CountdownForRemoval()
     {
         yield return new WaitForSeconds(lifetimeOfDrops);
-        foreach (GameObject i in items)
-            NetworkServer.Destroy(i);
+        NetworkServer.Destroy(item);
     }
 
 }
