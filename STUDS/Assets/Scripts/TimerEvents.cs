@@ -38,6 +38,11 @@ public class TimerEvents : MonoBehaviour {
         _timing = false;
         time = 0f;
     }
+
+    public void SetTimer(float _time)
+    {
+        time = _time;
+    }
 	
 	// Update is called once per frame
 	void Update ()

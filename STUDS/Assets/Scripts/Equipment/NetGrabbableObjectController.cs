@@ -200,6 +200,11 @@ public class NetGrabbableObjectController : NetworkBehaviour
             lerpGO.GetComponentInChildren<LocalGrabbableObjectController>().SetLerp(true);
             lerpGO.GetComponentInChildren<LocalGrabbableObjectController>().networkedGO = gameObject;
         }
+
+        if (isDodgeball)
+        {
+            DropDodgeball();
+        }
          
         return gameObject;
     }
@@ -263,7 +268,8 @@ public class NetGrabbableObjectController : NetworkBehaviour
         {
             Instantiate(DeleteBallFX, gameObject.transform.position, Quaternion.identity);
             gameObject.SetActive(false);
-            Destroy(gameObject, 1);
+            if(isServer)
+                NetworkServer.Destroy(gameObject);
         }
 
     }
