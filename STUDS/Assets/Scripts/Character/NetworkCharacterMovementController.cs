@@ -103,8 +103,8 @@ public class NetworkCharacterMovementController : NetworkBehaviour
     {
         _rigidbody = GetComponent<Rigidbody>();
         hub = GameObject.Find("NetGameManager").GetComponent<NetGameManager>();
-        if (!isLocalPlayer)
-        {
+        if (!isLocalPlayer && !isAI)
+        {   
             Destroy(GetComponent<Rigidbody>()); // This was causing characters to fly off over network.
         }
     }
