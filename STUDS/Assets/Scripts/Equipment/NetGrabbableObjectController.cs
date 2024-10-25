@@ -134,8 +134,6 @@ public class NetGrabbableObjectController : NetworkBehaviour
             GetComponent<NetExplodingPropane>().setOwnerName(holder.name);
             SteamAchievements.UnlockAchievement("SS_PROPANE");
         }
-        if (isDodgeball)
-            PickUpDodgeball();
 
         // Make networked version of object invisible (because it always lags) and spawn a local version instead.
         if (localPrefab)
@@ -162,14 +160,16 @@ public class NetGrabbableObjectController : NetworkBehaviour
                 offlineCopy.GetComponent<StrollerController>().DetermineColor(GetComponent<StrollerController>().GetColor());
             }
             localGO = offlineCopy;
-            return offlineCopy;
         }
-        return null;
+        if (isDodgeball)
+            PickUpDodgeball(holder.GetComponent<NetworkCharacterMovementController>().isLocalPlayer);
+        return localGO;
     }
 
     /// <summary>
     /// Erases holder transform, deals with collisions and physics, re-enables colliders, 
-    /// sets isbeingheld to false on shopping item, linear interpolates from local GO to net GO.
+    /// sets isbeingheld to false on shopping item, 
+    /// Spawns a local object which linear interpolates from local GO to net GO.
     /// </summary>
     /// <returns>A reference to this gameobject</returns>
     public GameObject LocalLetGo()
@@ -225,15 +225,15 @@ public class NetGrabbableObjectController : NetworkBehaviour
         dodgeballRenderer.material.Lerp(PickedUpMaterial, DroppedMaterial, lerp);
     }
 
-    public void PickUpDodgeball(bool isLocalPlayer = false)
+    public void PickUpDodgeball(bool _isLocalPlayer)
     {
         dodgeballRenderer.material = PickedUpMaterial;
         isDropped = false;
         ResetDeleteBallTimer();
         NetDBGameManager.Instance.deListDodgeball(gameObject);
-        if (isLocalPlayer)
+        if (_isLocalPlayer)
         {
-            throwableArrow.SetActive(true);
+            localGO.GetComponent<LocalGrabbableObjectController>().throwableArrow.SetActive(true);
         }
     }
 

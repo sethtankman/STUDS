@@ -17,7 +17,10 @@ public class ThrowSpline : MonoBehaviour
     private float timeOfFlight = 1.5f;
     [SerializeField] private Vector3 throwForce = Vector3.zero;
     private float mass;
-    private bool lrState; // If line renderer is in the aim assist state or not.
+    /// <summary>
+    /// If line renderer is in the aim assist state or not.
+    /// </summary>
+    private bool lrState; 
 
     private void Start()
     {

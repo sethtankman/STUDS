@@ -9,16 +9,21 @@ public class LocalGrabbableObjectController : MonoBehaviour
     public List<Collider> additionalColliders;
     public Vector3 rotation;
     public GameObject networkedGO;
+    public GameObject throwableArrow;
     private Transform localT;
     private Vector3 offset;
     [SerializeField] private bool isLerp = false;
     private DateTime start;
 
     /// <summary>
-    /// Calls LocalLetGo on NetworkedGO. 
+    /// Calls LocalLetGo on NetworkedGO and sets throwableArrow to inactive.
     /// </summary>
     public void LocalLetGo()
     {
+        if (throwableArrow)
+        {
+            throwableArrow.SetActive(false);
+        }
         networkedGO.GetComponent<NetGrabbableObjectController>().LocalLetGo();
     }
 

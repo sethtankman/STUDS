@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Sets CMC or NetCMC's target and hasAimAssist values.
+/// </summary>
 public class AimAssist : MonoBehaviour
 {
     [SerializeField] private CharacterMovementController myController;
@@ -11,21 +14,15 @@ public class AimAssist : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            if (myController)
+            if (myController && myController.target == null)
             {
-                if (myController.target == null)
-                {
-                    myController.target = other.gameObject;
-                    myController.hasAimAssist = true;
-                }
+                myController.target = other.gameObject;
+                myController.hasAimAssist = true;
             }
-            else
+            else if (myNetworkController.target == null)
             {
-                if (myNetworkController.target == null)
-                {
-                    myNetworkController.target = other.gameObject;
-                    myNetworkController.hasAimAssist = true;
-                }
+                myNetworkController.target = other.gameObject;
+                myNetworkController.hasAimAssist = true;
             }
         }
     }

@@ -267,11 +267,13 @@ public class NetworkCharacterMovementController : NetworkBehaviour
                     }
                     throwingForce = forward * (throwForce + (direction.magnitude * moveSpeedGrab * 40));
                     throwingForce.y = 300f;
-
-                    ThrowSpline spline = grabbedObject.GetComponentInChildren<ThrowSpline>();
-                    if (spline)
+                    if (!isAI)
                     {
-                        spline.SetThrowForce(throwingForce, hasAimAssist);
+                        ThrowSpline spline = grabbedObject.GetComponentInChildren<ThrowSpline>(true);
+                        if (spline)
+                        {
+                            spline.SetThrowForce(throwingForce, hasAimAssist);
+                        }
                     }
 
                     //If player released "e" then let go
