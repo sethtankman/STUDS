@@ -223,6 +223,7 @@ public class DodgeballAI : MonoBehaviour
     /// <summary>
     /// Called to reset targets and have AI stop for a second.
     /// </summary>
+    /// <param name="enlistDB">true if the held dodgeball should be re-added to the list.</param>
     public void Loiter(bool enlistDB)
     {
         loiter = 60;

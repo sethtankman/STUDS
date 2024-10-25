@@ -683,7 +683,7 @@ public class NetworkCharacterMovementController : NetworkBehaviour
             if (GetComponentInChildren<NetAIThrowTrigger>())
             {
                 GetComponentInChildren<NetAIThrowTrigger>().setCanThrow(false);
-                NetDBGameManager.Instance.enlistDodgeball(grabbedObject);
+                NetDBGameManager.Instance.enlistDodgeball(grabbedObject.GetComponentInChildren<LocalGrabbableObjectController>().networkedGO);
             }
             grabbedObject = null;
             grabbedObjectID = 0;
@@ -729,7 +729,10 @@ public class NetworkCharacterMovementController : NetworkBehaviour
         grabbedObject = networkedObj;
         if(inStrollerRace && grabbedObject.GetComponent<StrollerController>())
             GetComponentInChildren<StrollerLocator>().SetActive(true);
-        CmdLetGo(grabbedObject.GetComponent<NetworkIdentity>().netId);
+        if (isLocalPlayer)
+            CmdLetGo(grabbedObject.GetComponent<NetworkIdentity>().netId);
+        else
+            grabbedObject.GetComponent<NetGrabbableObjectController>().LocalLetGo();
 
         if (isServer)
         {
@@ -739,7 +742,7 @@ public class NetworkCharacterMovementController : NetworkBehaviour
                 RpcEnableKnockBack(grabbedObject.GetComponent<NetworkIdentity>().netId);
             }
         }
-        else
+        else if (isLocalPlayer)
         {
             CmdThrow(grabbedObject.GetComponent<NetworkIdentity>().netId, throwingForce, localPos);
             if (grabbedObject.GetComponent<CombatThrow>())

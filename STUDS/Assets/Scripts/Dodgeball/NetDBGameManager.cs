@@ -89,7 +89,7 @@ public class NetDBGameManager : MonoBehaviour
             if (player.GetComponent<NetworkCharacterMovementController>().isAI)
             {
                 player.transform.parent = null;
-                DontDestroyOnLoad(player);
+                DontDestroyOnLoad(player); // Players need to persist into the next scene to load their data.
             }
             string color = player.GetComponent<NetworkCharacterMovementController>().GetColorName();
             int placement = Array.IndexOf(scoreOrder, color) + 1;
