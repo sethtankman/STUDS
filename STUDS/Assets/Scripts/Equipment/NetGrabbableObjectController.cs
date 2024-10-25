@@ -35,12 +35,14 @@ public class NetGrabbableObjectController : NetworkBehaviour
     private GameObject holder;
     [SerializeField] private GameObject localPrefab;
     private GameObject localGO;
+    [SerializeField] private GameObject effects;
     [SyncVar] private bool canPickup = true;
 
     public void Start()
     {
         if (isDodgeball)
         {
+            Instantiate(effects, transform.position, transform.rotation);
             //set dodgeball material without highlight outline
             dodgeballRenderer.material = DroppedMaterial;
             isDeleteBallTimerStarted = false;

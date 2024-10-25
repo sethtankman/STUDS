@@ -10,6 +10,7 @@ public class NetSpawnDrops : NetworkBehaviour
     public bool SpawnOnStart = true;
     [SerializeField] private bool AIIgnore = false;
     public GameObject[] DropTypes;
+    [SerializeField] private Transform spawnTransform;
     public float lifetimeOfDrops = -1;
     [Tooltip("Each drop will be randomized.")]
     public bool _RandomizeAll;
@@ -29,6 +30,12 @@ public class NetSpawnDrops : NetworkBehaviour
             Invoke(nameof(Spawn), 0.1f);
     }
 
+    private void OnEnable()
+    {
+        if (isServer)
+            Invoke(nameof(Spawn), 0.1f);
+    }
+
     /// <summary>
     /// Don't spawn anything unless it's on the server.
     /// </summary>
@@ -42,11 +49,12 @@ public class NetSpawnDrops : NetworkBehaviour
             if (!AIIgnore)
                 NetDBGameManager.Instance.enlistDodgeball(items[0]);
             NetworkServer.Spawn(items[0]);
+
         }
         else
         {
             int randIndex = Random.Range((int)0, DropTypes.Length);
-            items[0] = (Instantiate(DropTypes[randIndex], transform.position, transform.rotation));
+            items[0] = Instantiate(DropTypes[randIndex], transform.position, transform.rotation);
             if (!AIIgnore)
                 NetDBGameManager.Instance.enlistDodgeball(items[0]);
             NetworkServer.Spawn(items[0]);
@@ -64,9 +72,7 @@ public class NetSpawnDrops : NetworkBehaviour
             }
         }
 
-        if (lifetimeOfDrops <= 0)
-            NetworkServer.Destroy(this.gameObject);
-        else
+        if (lifetimeOfDrops > 0)
             StartCoroutine(CountdownForRemoval());
     }
 
@@ -77,8 +83,6 @@ public class NetSpawnDrops : NetworkBehaviour
         yield return new WaitForSeconds(lifetimeOfDrops);
         foreach (GameObject i in items)
             NetworkServer.Destroy(i);
-
-        NetworkServer.Destroy(this.gameObject);
     }
 
 }

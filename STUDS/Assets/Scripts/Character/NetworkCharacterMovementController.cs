@@ -3,6 +3,7 @@ using UnityEngine;
 using static UnityEngine.InputSystem.InputAction;
 using UnityEngine.SceneManagement;
 using Mirror;
+using UnityEngine.AI;
 
 public class NetworkCharacterMovementController : NetworkBehaviour
 {
