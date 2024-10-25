@@ -24,50 +24,48 @@ public class NetSpawnDrops : NetworkBehaviour
 
     private void Start()
     {
-        if (isServer && SpawnOnStart)
-            Invoke(nameof(Spawn), 0.1f);
-    }
-
-    private void OnEnable()
-    {
-        if (isServer)
+        if (SpawnOnStart)
             Invoke(nameof(Spawn), 0.1f);
     }
 
     /// <summary>
     /// Don't spawn anything unless it's on the server.
+    /// Method is called by timers.
     /// </summary>
-    void Spawn()
+    public void Spawn()
     {
 
-        if (!_RandomizeAll)
+        if (isServer)
         {
-            item = Instantiate(DropTypes[0], spawnTransform.position, spawnTransform.rotation);
-            if (!AIIgnore)
-                NetDBGameManager.Instance.enlistDodgeball(item);
-            NetworkServer.Spawn(item);
+            if (!_RandomizeAll)
+            {
+                item = Instantiate(DropTypes[0], spawnTransform.position, spawnTransform.rotation);
+                if (!AIIgnore)
+                    NetDBGameManager.Instance.enlistDodgeball(item);
+                NetworkServer.Spawn(item);
 
+            }
+            else
+            {
+                int randIndex = Random.Range((int)0, DropTypes.Length);
+                item = Instantiate(DropTypes[randIndex], spawnTransform.position, spawnTransform.rotation);
+                if (!AIIgnore)
+                    NetDBGameManager.Instance.enlistDodgeball(item);
+                NetworkServer.Spawn(item);
+            }
+
+            Vector3 v = Random.insideUnitSphere.normalized * 500;
+            v.Scale(new Vector3(1, 0, 1));
+            Rigidbody rb = item.GetComponentInChildren<Rigidbody>();
+            if (rb != null)
+            {
+                rb.AddForce(v);
+                rb.AddTorque(Random.insideUnitSphere * 500);
+            }
+
+            if (lifetimeOfDrops > 0)
+                StartCoroutine(CountdownForRemoval());
         }
-        else
-        {
-            int randIndex = Random.Range((int)0, DropTypes.Length);
-            item = Instantiate(DropTypes[randIndex], spawnTransform.position, spawnTransform.rotation);
-            if (!AIIgnore)
-                NetDBGameManager.Instance.enlistDodgeball(item);
-            NetworkServer.Spawn(item);
-        }
-        
-        Vector3 v = Random.insideUnitSphere.normalized * 500;
-        v.Scale(new Vector3(1, 0, 1));
-        Rigidbody rb = item.GetComponentInChildren<Rigidbody>();
-        if (rb != null)
-        {
-            rb.AddForce(v);
-            rb.AddTorque(Random.insideUnitSphere * 500);
-        }
-        
-        if (lifetimeOfDrops > 0)
-            StartCoroutine(CountdownForRemoval());
     }
 
 

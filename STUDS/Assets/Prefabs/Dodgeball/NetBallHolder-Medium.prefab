@@ -387,12 +387,10 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  NumToSpawn: 1
   SpawnOnStart: 1
   AIIgnore: 0
   DropTypes:
   - {fileID: 6245996945508181891, guid: 29796edc8f191784c8b05bb8c6e9ddab, type: 3}
-  effects: {fileID: 9157105887711914197, guid: c4f829cb7dd4b864caf8832ec5b1ee55, type: 3}
   spawnTransform: {fileID: 451492917367253972}
   lifetimeOfDrops: -1
   _RandomizeAll: 1
@@ -521,9 +519,9 @@ MonoBehaviour:
   OnEndTimer:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: InstantiateDodgeballSpawner, Assembly-CSharp
-        m_MethodName: InstantiateDodgeballSpawn
+      - m_Target: {fileID: 3946261472788889665}
+        m_TargetAssemblyTypeName: NetSpawnDrops, Assembly-CSharp
+        m_MethodName: Spawn
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
