@@ -9,9 +9,9 @@ public class NetDynamicAICount : NetworkBehaviour
     public int PlayerCount;
 
     // Start is called before the first frame update
-    void Awake()
+    void Start()
     {
-        FillWithAI();
+        Invoke("FillWithAI", 0.1f);
     }
 
     public void FillWithAI()
