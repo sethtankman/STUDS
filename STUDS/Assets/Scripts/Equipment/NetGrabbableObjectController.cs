@@ -103,7 +103,7 @@ public class NetGrabbableObjectController : NetworkBehaviour
     public void OnDestroy()
     {
         Destroy(localGO);
-        if (isDodgeball)
+        if (isDodgeball && isServer)
             NetDBGameManager.Instance.deListDodgeball(gameObject);
     }
 
@@ -235,7 +235,8 @@ public class NetGrabbableObjectController : NetworkBehaviour
         dodgeballRenderer.material = PickedUpMaterial;
         isDropped = false;
         ResetDeleteBallTimer();
-        NetDBGameManager.Instance.deListDodgeball(gameObject);
+        if(isServer)
+            NetDBGameManager.Instance.deListDodgeball(gameObject);
         if (_isLocalPlayer)
         {
             localGO.GetComponent<LocalGrabbableObjectController>().throwableArrow.SetActive(true);

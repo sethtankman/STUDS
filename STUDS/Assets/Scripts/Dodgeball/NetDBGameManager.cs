@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class NetDBGameManager : MonoBehaviour
+public class NetDBGameManager : NetworkBehaviour
 {
     public static NetDBGameManager Instance { get; private set; }
     public NetDBUI scorePanel;
@@ -35,8 +35,15 @@ public class NetDBGameManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Only has functionality on the Server.
+    /// </summary>
+    /// <param name="owner"></param>
+    /// <param name="pointValue"></param>
     public void AddPoints(string owner, int pointValue)
     {
+        if (!isServer)
+            return;
         if (!scores.ContainsKey(owner))
             scores.Add(owner, 0);
         scores[owner] += pointValue;
@@ -47,6 +54,11 @@ public class NetDBGameManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// PRE: This method should only be run on the Server.
+    /// POST: Removes dodgeball availability for AI and tells them to loiter if that was their target.
+    /// </summary>
+    /// <param name="dodgeball">Dodgeball being delisted.</param>
     public void deListDodgeball(GameObject dodgeball)
     {
         availableDodgeballs.Remove(dodgeball);
@@ -59,6 +71,12 @@ public class NetDBGameManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// PRE: This method should only be run on the Server.
+    /// POST: Removes dodgeball availability for AI and tells them to loiter if that was their target.
+    /// </summary>
+    /// <param name="dodgeball">Dodgeball being delisted.</param>
+    /// <param name="taker">GameObject taking the dodgeball.</param>
     public void deListDodgeball(GameObject dodgeball, GameObject taker)
     {
         availableDodgeballs.Remove(dodgeball);

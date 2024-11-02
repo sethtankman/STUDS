@@ -680,7 +680,7 @@ public class NetworkCharacterMovementController : NetworkBehaviour
                     GetComponentInChildren<StrollerLocator>().SetActive(true);
                 CmdLetGo(grabbedObject.GetComponent<NetworkIdentity>().netId); 
             }
-            if (GetComponentInChildren<NetAIThrowTrigger>())
+            if (isServer && GetComponentInChildren<NetAIThrowTrigger>())
             {
                 GetComponentInChildren<NetAIThrowTrigger>().setCanThrow(false);
                 NetDBGameManager.Instance.enlistDodgeball(grabbedObject.GetComponentInChildren<LocalGrabbableObjectController>().networkedGO);

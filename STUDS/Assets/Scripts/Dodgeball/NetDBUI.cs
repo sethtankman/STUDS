@@ -1,9 +1,10 @@
+using Mirror;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class NetDBUI : MonoBehaviour
+public class NetDBUI : NetworkBehaviour
 {
     [SerializeField] private Text[] Scores = new Text[4];
     [SerializeField] private Texture[] Textures = new Texture[5];
@@ -21,7 +22,7 @@ public class NetDBUI : MonoBehaviour
         foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
         {
             scoreOrder[i] = player.GetComponent<NetworkCharacterMovementController>().color;
-            Scores[i].text = $"{i+1}   0";
+            Scores[i].text = $"{i+1}   0"; 
             SetSpriteColor(scoreOrder[i], i);
             i++;
         }
@@ -57,13 +58,24 @@ public class NetDBUI : MonoBehaviour
                 break;
             } 
         }
+        int[] scoreVals = new int[scoreOrder.Length];
         // Put the updated scores on the screen in order.
         for (int i=0; i < scoreOrder.Length; i++)
         {
-            Scores[i].text = $"{i+1}   {NetDBGameManager.Instance.scores[scoreOrder[i]]}";
-            SetSpriteColor(scoreOrder[i], i);
+            scoreVals[i] = NetDBGameManager.Instance.scores[scoreOrder[i]];
         }
+        RpcUpdateScoreboard(scoreOrder, scoreVals); 
         return scoreOrder;
+    }
+
+    [ClientRpc]
+    private void RpcUpdateScoreboard(string[] _scoreOrder, int[] _scoreVals)
+    {
+        for (int i = 0; i < scoreOrder.Length; i++)
+        {
+            Scores[i].text = $"{i + 1}   {_scoreVals[i]}";
+            SetSpriteColor(_scoreOrder[i], i);
+        }
     }
 
     private void SetSpriteColor(string _color, int _i)
