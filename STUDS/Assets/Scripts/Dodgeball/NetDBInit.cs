@@ -16,7 +16,6 @@ public class NetDBInit : NetworkBehaviour
 
     private bool spawnPlayers = false;
     public float waitTime = 5.0f;
-    private float currentTime = 0;
 
     [SerializeField] private Material[] materials;
 
@@ -45,7 +44,7 @@ public class NetDBInit : NetworkBehaviour
             Debug.LogWarning("Manage Player Hub not found!");
         PlayerInputManager.instance.DisableJoining();
         Invoke("LateStart", 0.5f);
-
+        waitTime += (float)NetworkTime.time;
     }
 
     private void LateStart()
@@ -55,6 +54,7 @@ public class NetDBInit : NetworkBehaviour
         {
             aiColors.Remove(player.GetComponent<NetworkCharacterMovementController>().GetColorName());
             player.GetComponent<NetworkCharacterMovementController>().SetAimAssist(true);
+            player.GetComponent<NetworkCharacterMovementController>().CanMove = false;
         }
         if (players != null)
         {
@@ -74,8 +74,7 @@ public class NetDBInit : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
-        currentTime += Time.deltaTime;
-        if (currentTime > waitTime && spawnPlayers)
+        if (NetworkTime.time > waitTime && spawnPlayers)
         {
             Destroy(startCam);
             Destroy(startText);
@@ -93,6 +92,7 @@ public class NetDBInit : NetworkBehaviour
                         aiColors.Remove(aiColor);
                     }
                     spawnPlayers = false;
+                    players[i].GetComponent<NetworkCharacterMovementController>().CanMove = true;
                 }
                 ui.UpdateSpriteColors();
                 NetDBGameManager.Instance.InitScores();
