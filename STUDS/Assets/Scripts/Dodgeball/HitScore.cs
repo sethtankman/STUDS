@@ -1,3 +1,4 @@
+using Mirror;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -23,6 +24,12 @@ public class HitScore : MonoBehaviour
             else
                 NetDBGameManager.Instance.AddPoints(owner, pointValue);
         }
-        Destroy(transform.parent.gameObject);
+        if(DBGameManager.Instance)
+            Destroy(transform.parent.gameObject);
+        else if (NetDBGameManager.Instance)
+        {
+            if (NetDBGameManager.Instance.isServer)
+                NetworkServer.Destroy(transform.parent.gameObject);
+        }
     }
 }
