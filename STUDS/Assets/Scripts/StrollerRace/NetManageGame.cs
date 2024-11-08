@@ -125,7 +125,7 @@ public class NetManageGame : NetworkBehaviour
         }
     }
 
-    public void updatePlayerConfigsList(List<PlayerConfiguration> configs)
+    public void UpdatePlayerConfigsList(List<PlayerConfiguration> configs)
     {
         foreach(PlayerConfiguration config in configs)
         {

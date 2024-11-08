@@ -50,7 +50,7 @@ public class NetDBGameManager : NetworkBehaviour
         scoreOrder = scorePanel.UpdateScores(owner);
         if(scores[owner] >= 15 && winnerFound == false)
         {
-            StartCoroutine(EndGame());
+            RpcEndGame();
         }
     }
 
@@ -97,10 +97,11 @@ public class NetDBGameManager : NetworkBehaviour
         availableDodgeballs.Add(dodgeball);
     }
 
-    private IEnumerator EndGame()
+    /// <summary>
+    /// Called by RPCEndGame after 1s delay.
+    /// </summary>
+    private void EndGame()
     {
-        winnerFound = true;
-        yield return new WaitForSeconds(1.0f);
         GameObject[] allPlayers = GameObject.FindGameObjectsWithTag("Player");
         foreach (GameObject player in allPlayers)
         {
@@ -111,7 +112,7 @@ public class NetDBGameManager : NetworkBehaviour
             }
             string color = player.GetComponent<NetworkCharacterMovementController>().GetColorName();
             int placement = Array.IndexOf(scoreOrder, color) + 1;
-            if(placement == 4) { placement = -1; } // Since 4th place is represented as -1 in victoryStands.
+            if (placement == 4) { placement = -1; } // Since 4th place is represented as -1 in victoryStands.
             player.GetComponent<NetworkCharacterMovementController>().SetFinishPosition(placement);
         }
         SteamAchievements.UnlockAchievement("DB_WINNER");
@@ -127,6 +128,13 @@ public class NetDBGameManager : NetworkBehaviour
                 return;
         }
         SteamAchievements.UnlockAchievement("DB_OUCH");
+    }
+
+    [ClientRpc]
+    private void RpcEndGame()
+    {
+        winnerFound = true;
+        Invoke("EndGame", 1.0f);
     }
 
     internal List<GameObject> GetAvailableDodgeballs()

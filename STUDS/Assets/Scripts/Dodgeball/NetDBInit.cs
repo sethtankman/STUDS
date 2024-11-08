@@ -37,11 +37,6 @@ public class NetDBInit : NetworkBehaviour
         GameObject.Find("Music Manager").GetComponent<Music_Manager>().PlayStopMusic("Stroller", true);
         aiColors = new List<string> { "red", "blue", "purple", "yellow", "green" };
         PauseV2.canPause = false;
-        if (NetGameManager.Instance) 
-        {
-            NetGameManager.Instance.GetComponent<PauseV2>().PauseMenuUI = pauseMenuUI;
-        } else
-            Debug.LogWarning("Manage Player Hub not found!");
         PlayerInputManager.instance.DisableJoining();
         Invoke("LateStart", 0.5f);
         waitTime += (float)NetworkTime.time;
@@ -49,6 +44,12 @@ public class NetDBInit : NetworkBehaviour
 
     private void LateStart()
     {
+        if (NetGameManager.Instance)
+        {
+            NetGameManager.Instance.GetComponent<PauseV2>().PauseMenuUI = pauseMenuUI;
+        }
+        else
+            Debug.LogWarning("Manage Player Hub not found!");
         players = GameObject.FindGameObjectsWithTag("Player");
         foreach (GameObject player in players)
         {

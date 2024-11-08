@@ -90,6 +90,7 @@ public class NetworkCharacterMovementController : NetworkBehaviour
     public int finishPosition;
 
     private string selectedLevel;
+    [SyncVar]
     public string color;
 
     //Particle effects
