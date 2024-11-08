@@ -95,9 +95,6 @@ public class DodgeballStartScript : MonoBehaviour
             return;
         }
 
-        // Log parent GameObject information
-        Debug.Log("Processing active children for Weather/Effects");
-
         // Track the active states of Rain and Fog
         bool isRainActive = false;
         bool isFogActive = false;
@@ -106,7 +103,6 @@ public class DodgeballStartScript : MonoBehaviour
         foreach (Transform child in parent.transform)
         {
             bool isActive = child.gameObject.activeInHierarchy; // Use activeInHierarchy
-            Debug.Log("Child name: " + child.name + " | Active In Hierarchy: " + isActive);
 
             if (child.name == "Rain")
             {

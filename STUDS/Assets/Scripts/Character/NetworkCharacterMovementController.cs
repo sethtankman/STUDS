@@ -311,7 +311,6 @@ public class NetworkCharacterMovementController : NetworkBehaviour
             {
                 grabbedObject.transform.position = transform.position + (transform.forward * 1.3f) + (transform.up * 0.7f); // Added transform.up because stroller is in the ground with new dad model.
                 grabbedObject.transform.rotation = transform.rotation;
-                //grabbedObject.transform.rotation *= Quaternion.Euler(0, 90, 0);
             }
         }
 
@@ -790,39 +789,28 @@ public class NetworkCharacterMovementController : NetworkBehaviour
                 {
                     if (collider.CompareTag("Grabbable") || collider.CompareTag("ShoppingItem"))
                     {
-                        if (collider.isTrigger)
+                        if (collider.CompareTag("ShoppingItem"))
                         {
-                            // TODO: Changed to take fix dodgeball pickup.  If picking up isn't broken anywhere in the game, simply remove and modify if/else.
-                            /*GrabSound.Post(gameObject);
-                            moveSpeed = moveSpeedGrab;
-                            pickupPressed = false;
-                            */
+                            collider.GetComponent<ShoppingItem>().SetPlayer(this.gameObject);
                         }
-                        else
+                        animator.SetBool("isHoldingSomething", true);
+                        GrabSound.Post(gameObject);
+                        grabbedObjectID = collider.GetComponent<NetworkIdentity>().netId;
+                        CmdPickupObject(grabbedObjectID);
+                        if (!isServer)
                         {
-                            if (collider.CompareTag("ShoppingItem"))
-                            {
-                                collider.GetComponent<ShoppingItem>().SetPlayer(this.gameObject);
-                            }
-                            animator.SetBool("isHoldingSomething", true);
-                            GrabSound.Post(gameObject);
-                            grabbedObjectID = collider.GetComponent<NetworkIdentity>().netId;
-                            CmdPickupObject(grabbedObjectID);
-                            if (!isServer)
-                            {
-                                grabbedObject = collider.GetComponent<NetGrabbableObjectController>().LocalPickupObject(transform);
-                                if (collider.GetComponent<StrollerController>())
-                                    GetComponentInChildren<StrollerLocator>().SetActive(false);
-                            }
-                            if (!grabbedObject)
-                                grabbedObject = collider.gameObject;
-                            moveSpeed = moveSpeedGrab;
-                            hasGrabbed = true;
-                            pickupPressed = false;
-                            if (grabbedObject.name.StartsWith("Grabpoint")) // Designed to only use Grabpoint as the name of the Utility Cart Grabbing point.
-                            {
-                                grabbedObject.GetComponent<Rigidbody>().useGravity = false;
-                            }
+                            grabbedObject = collider.GetComponent<NetGrabbableObjectController>().LocalPickupObject(transform);
+                            if (collider.GetComponent<StrollerController>())
+                                GetComponentInChildren<StrollerLocator>().SetActive(false);
+                        }
+                        if (!grabbedObject)
+                            grabbedObject = collider.gameObject;
+                        moveSpeed = moveSpeedGrab;
+                        hasGrabbed = true;
+                        pickupPressed = false;
+                        if (grabbedObject.name.StartsWith("Grabpoint")) // Designed to only use Grabpoint as the name of the Utility Cart Grabbing point.
+                        {
+                            grabbedObject.GetComponent<Rigidbody>().useGravity = false;
                         }
                         break;
                     }
@@ -899,6 +887,10 @@ public class NetworkCharacterMovementController : NetworkBehaviour
         item.RemoveClientAuthority();
     }
 
+    /// <summary>
+    /// Calls Local pickupObject on server, sets hasGrabbed = true, contains logic for strollers and shopping items, calls RPCPickupObject.
+    /// </summary>
+    /// <param name="objID">Object's Network ID</param>
     [Command]
     private void CmdPickupObject(uint objID)
     {
@@ -974,7 +966,6 @@ public class NetworkCharacterMovementController : NetworkBehaviour
     {
         if (isServer || isLocalPlayer)
         {
-            Debug.Log($"KBCalled on {name} with: {_direction}");
             knockBackCounter = knockBackTime;
             beingKnockedBack = true;
             drop = _drop;
