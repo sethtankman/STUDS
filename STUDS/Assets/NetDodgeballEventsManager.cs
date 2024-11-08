@@ -201,6 +201,11 @@ public class NetDodgeballEventsManager : NetworkBehaviour
         HeavyDodgeballHolders.SetActive(false);
         RandomDodgeballHolders.SetActive(false);
         MediumDodgeballHolders.SetActive(true);
+        foreach (TimerEvents t in MediumDodgeballHolders.GetComponentsInChildren<TimerEvents>())
+        {
+            t.SetTimer(t.duration - 1);
+            t.StartTimer();
+        }
         SetEventText("");
     }
 
