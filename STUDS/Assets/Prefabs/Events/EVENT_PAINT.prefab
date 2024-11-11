@@ -795,7 +795,6 @@ MonoBehaviour:
     valueGuidInternal: 
     WwiseObjectReference: {fileID: 11400000, guid: 4aef3822175cfb143b44258b0a6efb7f,
       type: 2}
-  sa: {fileID: 0}
   camPos: {fileID: 0}
   animator: {fileID: 2508075476478347121}
   renderer: {fileID: 2508075477130514470}
@@ -810,9 +809,11 @@ MonoBehaviour:
   jumpHeight: 1
   moveSpeedGrab: 10
   moveSpeedNormal: 11
+  speedMultiplier: 1
   turnTime: 0.1
   jumpHeightGrab: 0.85
   throwForce: 300
+  homingSpeed: 0
   throwCoolDown: 0
   knockBackTime: 1
   timeUntilMoveEnabled: 0
@@ -6111,7 +6112,6 @@ MonoBehaviour:
     valueGuidInternal: 
     WwiseObjectReference: {fileID: 11400000, guid: 4aef3822175cfb143b44258b0a6efb7f,
       type: 2}
-  sa: {fileID: 0}
   camPos: {fileID: 0}
   animator: {fileID: 2508075478527611585}
   renderer: {fileID: 2508075478240054723}
@@ -6126,9 +6126,11 @@ MonoBehaviour:
   jumpHeight: 1
   moveSpeedGrab: 10
   moveSpeedNormal: 11
+  speedMultiplier: 1
   turnTime: 0.1
   jumpHeightGrab: 0.85
   throwForce: 300
+  homingSpeed: 0
   throwCoolDown: 0
   knockBackTime: 1
   timeUntilMoveEnabled: 0
@@ -6905,6 +6907,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SpeedAdjustment: 0.656
+  slowdownArrowPrefab: {fileID: 6296226258153411926, guid: d7bf5bec56c900541bf3d6ef8fcf551f,
+    type: 3}
+  opacityLerpDuration: 1
 --- !u!1001 &2508075476638428444
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7261,6 +7266,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SpeedAdjustment: 0.656
+  slowdownArrowPrefab: {fileID: 6296226258153411926, guid: d7bf5bec56c900541bf3d6ef8fcf551f,
+    type: 3}
+  opacityLerpDuration: 1
 --- !u!1001 &2508075476962466054
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7709,6 +7717,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SpeedAdjustment: 0.656
+  slowdownArrowPrefab: {fileID: 6296226258153411926, guid: d7bf5bec56c900541bf3d6ef8fcf551f,
+    type: 3}
+  opacityLerpDuration: 1
 --- !u!1001 &2508075477709761976
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8373,6 +8384,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SpeedAdjustment: 0.656
+  slowdownArrowPrefab: {fileID: 6296226258153411926, guid: d7bf5bec56c900541bf3d6ef8fcf551f,
+    type: 3}
+  opacityLerpDuration: 1
 --- !u!1001 &2508075478375597284
 PrefabInstance:
   m_ObjectHideFlags: 0
