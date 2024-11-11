@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 
+/// <summary>
+/// Deactivates AI to ensure there are always 4 players.
+/// </summary>
 public class NetDynamicAICount : NetworkBehaviour
 {
     public List<GameObject> AiOBJ = new List<GameObject>();

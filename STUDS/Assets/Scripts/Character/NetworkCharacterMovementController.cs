@@ -67,6 +67,7 @@ public class NetworkCharacterMovementController : NetworkBehaviour
     [SerializeField]
     private bool hasGrabbed = false;
     public bool pickupPressed;
+    [SyncVar]
     public bool inStrollerRace = false;
     public bool throwPressed = false;
     [SyncVar]
@@ -727,12 +728,16 @@ public class NetworkCharacterMovementController : NetworkBehaviour
         }
         grabbedObject.GetComponentInChildren<LocalGrabbableObjectController>().LocalLetGo();
         grabbedObject = networkedObj;
-        if(inStrollerRace && grabbedObject.GetComponent<StrollerController>())
-            GetComponentInChildren<StrollerLocator>().SetActive(true);
         if (isLocalPlayer)
+        {
+            if (inStrollerRace && grabbedObject.GetComponent<StrollerController>())
+                GetComponentInChildren<StrollerLocator>().SetActive(true);
             CmdLetGo(grabbedObject.GetComponent<NetworkIdentity>().netId);
+        }
         else
+        {
             grabbedObject.GetComponent<NetGrabbableObjectController>().LocalLetGo();
+        }
 
         if (isServer)
         {

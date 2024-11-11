@@ -167,6 +167,7 @@ public class NetGameManager : NetworkBehaviour
             return;
         foreach (GameObject playerObj in GameObject.FindGameObjectsWithTag("Player"))
         {   
+            if(playerObj.GetComponent<NetworkCharacterMovementController>().isAI) { continue; } // Do not need to set AI colors in RPC
             int playerID = playerObj.GetComponent<NetworkCharacterMovementController>().getPlayerID();
             Debug.Log($"Player ID: {playerID}");
             playerObj.name = $"STUD{playerID + 1}";

@@ -36,7 +36,6 @@ public class NetInitRace : NetworkBehaviour
         PauseV2.canPause = false;
         GameObject.Find("Music Manager").GetComponent<Music_Manager>().PlayStopMusic("Menu", false);
         GameObject.Find("Music Manager").GetComponent<Music_Manager>().PlayStopMusic("Stroller", true);
-        players = GameObject.FindGameObjectsWithTag("Player");
         PlayerInputManager.instance.DisableJoining();
         if(pauseMenuUI)
             NetGameManager.Instance.GetComponent<PauseV2>().PauseMenuUI = pauseMenuUI;
@@ -51,6 +50,7 @@ public class NetInitRace : NetworkBehaviour
             if (NetworkTime.time > waitTime && !spawnedPlayers)
             {
                 startText.text = "";
+                players = GameObject.FindGameObjectsWithTag("Player");
                 if (players != null)
                 {
                     for (int i = 0; i < players.Length; i++)
