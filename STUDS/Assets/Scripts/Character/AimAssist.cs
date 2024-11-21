@@ -19,7 +19,7 @@ public class AimAssist : MonoBehaviour
                 myController.target = other.gameObject;
                 myController.hasAimAssist = true;
             }
-            else if (myNetworkController.target == null)
+            else if (myNetworkController && myNetworkController.target == null)
             {
                 myNetworkController.target = other.gameObject;
                 myNetworkController.hasAimAssist = true;

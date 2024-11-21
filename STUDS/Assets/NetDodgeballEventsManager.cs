@@ -9,7 +9,6 @@ public class NetDodgeballEventsManager : NetworkBehaviour
     [Header("Events")]
     public float EventCountdownTimer = 45.0f;
     public bool EventStarted = false;
-    public bool EventEnded = false;
     public TextMeshProUGUI DodgeballUIText;
     public float EventDuration = 90.0f;
     public float EndingCountdownDuration = 5.0f;
@@ -53,7 +52,8 @@ public class NetDodgeballEventsManager : NetworkBehaviour
 
     void Start()
     {
-        StartCoroutine(CountdownCoroutine());
+        if(isServer)
+            StartCoroutine(CountdownCoroutine());
         LightDodgeballHolders.SetActive(false);
         HeavyDodgeballHolders.SetActive(false);
         RandomDodgeballHolders.SetActive(false);
@@ -192,8 +192,6 @@ public class NetDodgeballEventsManager : NetworkBehaviour
 
     void EndDodgeballEvent()
     {
-        EventEnded = true;
-
         // Destroy all grabbable objects with collisions when the event ends
         DestroyGrabbablesWithCollision();
 
@@ -207,6 +205,9 @@ public class NetDodgeballEventsManager : NetworkBehaviour
             t.StartTimer();
         }
         SetEventText("");
+        EventStarted = false;
+        EventCountdownTimer = 30.0f;
+        StartCoroutine(CountdownCoroutine());
     }
 
     void UpdateTimerText()

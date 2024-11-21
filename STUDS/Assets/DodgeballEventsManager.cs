@@ -8,7 +8,6 @@ public class DodgeballEventsManager : MonoBehaviour
     [Header("Events")]
     public float EventCountdownTimer = 45.0f;
     public bool EventStarted = false;
-    public bool EventEnded = false;
     public TextMeshProUGUI DodgeballUIText;
     public float EventDuration = 90.0f;
     public float EndingCountdownDuration = 5.0f;
@@ -119,30 +118,36 @@ public class DodgeballEventsManager : MonoBehaviour
         HandleDodgeballEvent(currentEventType);
     }
 
-    void HandleDodgeballEvent(DodgeballEventType eventType)
+    void HandleDodgeballEvent(DodgeballEventType eventType) 
     {
         LightDodgeballHolders.SetActive(false);
         MediumDodgeballHolders.SetActive(false);
         HeavyDodgeballHolders.SetActive(false);
         RandomDodgeballHolders.SetActive(false);
-
+        GameObject ChosenHolders = MediumDodgeballHolders;
         switch (eventType)
         {
             case DodgeballEventType.Light:
-                LightDodgeballHolders.SetActive(true);
+                ChosenHolders = LightDodgeballHolders;
                 eventColor = lightEventColor;
                 SetEventText($"<size={eventHeaderSize}><color=#{ColorUtility.ToHtmlStringRGB(eventColor)}>EVENT ACTIVE</color></size>\n<size={eventTypeSize}><color=#{ColorUtility.ToHtmlStringRGB(eventColor)}>LIGHT DODGEBALLS</color></size>");
                 break;
             case DodgeballEventType.Heavy:
-                HeavyDodgeballHolders.SetActive(true);
+                ChosenHolders = HeavyDodgeballHolders;
                 eventColor = heavyEventColor;
                 SetEventText($"<size={eventHeaderSize}><color=#{ColorUtility.ToHtmlStringRGB(eventColor)}>EVENT ACTIVE</color></size>\n<size={eventTypeSize}><color=#{ColorUtility.ToHtmlStringRGB(eventColor)}>HEAVY DODGEBALLS</color></size>");
                 break;
             case DodgeballEventType.Random:
-                RandomDodgeballHolders.SetActive(true);
+                ChosenHolders = RandomDodgeballHolders;
                 eventColor = randomEventColor;
                 SetEventText($"<size={eventHeaderSize}><color=#{ColorUtility.ToHtmlStringRGB(eventColor)}>EVENT ACTIVE</color></size>\n<size={eventTypeSize}><color=#{ColorUtility.ToHtmlStringRGB(eventColor)}>RANDOM DODGEBALLS</color></size>");
                 break;
+        }
+        ChosenHolders.SetActive(true);
+        foreach (TimerEvents t in ChosenHolders.GetComponentsInChildren<TimerEvents>())
+        {
+            t.SetTimer(t.duration - 1);
+            t.StartTimer();
         }
     }
 
@@ -181,8 +186,6 @@ public class DodgeballEventsManager : MonoBehaviour
 
     void EndDodgeballEvent()
     {
-        EventEnded = true;
-
         // Destroy all grabbable objects with collisions when the event ends
         DestroyGrabbablesWithCollision();
 
@@ -190,7 +193,15 @@ public class DodgeballEventsManager : MonoBehaviour
         HeavyDodgeballHolders.SetActive(false);
         RandomDodgeballHolders.SetActive(false);
         MediumDodgeballHolders.SetActive(true);
+        foreach (TimerEvents t in MediumDodgeballHolders.GetComponentsInChildren<TimerEvents>())
+        {
+            t.SetTimer(t.duration - 1);
+            t.StartTimer();
+        }
         SetEventText("");
+        EventStarted = false;
+        EventCountdownTimer = 30.0f;
+        StartCoroutine(CountdownCoroutine());
     }
 
     void UpdateTimerText()
