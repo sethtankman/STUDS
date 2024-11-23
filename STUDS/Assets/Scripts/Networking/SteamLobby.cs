@@ -17,6 +17,7 @@ public class SteamLobby : NetworkBehaviour
     protected Callback<LobbyEnter_t> LobbyEntered;
     protected Callback<LobbyDataUpdate_t> LobbyListRequested;
     protected Callback<LobbyMatchList_t> Callback_lobbyList;
+    protected Callback<LobbyChatUpdate_t> LobbyLeft;
 
     public List<CSteamID> lobbyIDS = new List<CSteamID>();
     public bool fetchLobbies;
@@ -78,6 +79,7 @@ public class SteamLobby : NetworkBehaviour
         LobbyEntered = Callback<LobbyEnter_t>.Create(OnLobbyEntered);
         LobbyListRequested = Callback<LobbyDataUpdate_t>.Create(OnGetLobbyInfo);
         Callback_lobbyList = Callback<LobbyMatchList_t>.Create(OnGetLobbiesList);
+        LobbyLeft = Callback<LobbyChatUpdate_t>.Create(OnLobbyLeft);
     }
 
     public void Update()
@@ -134,7 +136,7 @@ public class SteamLobby : NetworkBehaviour
     {
         PauseV2.gameisPaused = false;
         netManager.StopHost();
-        SteamMatchmaking.LeaveLobby(joinedLobbyID);
+        StudsNetworkManager.ResetStatics();
     }
 
     public void JoinRoomAsClient()
@@ -174,6 +176,11 @@ public class SteamLobby : NetworkBehaviour
             "name",
             $"{SteamFriends.GetPersonaName()}'s lobby");
         bool result = SteamMatchmaking.SetLobbyData(joinedLobbyID, "isClosed", "f");
+    }
+
+    private void OnLobbyLeft(LobbyChatUpdate_t callback)
+    {
+        SteamMatchmaking.LeaveLobby(joinedLobbyID);
     }
 
     private void OnGameLobbyJoin(GameLobbyJoinRequested_t callback)

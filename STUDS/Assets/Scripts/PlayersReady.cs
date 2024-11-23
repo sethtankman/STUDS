@@ -4,6 +4,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+/// <summary>
+/// Checks if players are ready to move into a level (Offline only)
+/// </summary>
 public class PlayersReady : MonoBehaviour
 {
     public GameObject gameManager;
@@ -25,10 +28,6 @@ public class PlayersReady : MonoBehaviour
             if (other.gameObject.GetComponent<CharacterMovementController>())
             {
                 other.gameObject.GetComponent<CharacterMovementController>().ReadyPlayer(false, null);
-            }
-            else if (other.gameObject.GetComponent<NetworkCharacterMovementController>())
-            {
-                other.gameObject.GetComponent<NetworkCharacterMovementController>().ReadyPlayer(false, null);
             }
         }
     }
@@ -75,47 +74,6 @@ public class PlayersReady : MonoBehaviour
                         SceneManager.LoadScene("Dodgeball_v2");
                     }
 
-                }
-            }
-            else if (other.gameObject.GetComponent<NetworkCharacterMovementController>().isServer)
-            {
-                bool allReady = true;
-                other.gameObject.GetComponent<NetworkCharacterMovementController>().ReadyPlayer(true, gameObject.tag);
-
-                netPlayers = GameObject.FindGameObjectsWithTag("Player");
-                foreach (GameObject player in netPlayers)
-                {
-                    if (player && !player.GetComponent<NetworkCharacterMovementController>().GetReadyPlayer(gameObject.tag))
-                    {
-                        EffectSound.Post(gameObject);
-                        allReady = false;
-                    }
-                }
-                if (allReady)
-                {
-                    GameObject.Find("NetGameManager").GetComponent<NetGameManager>().RpcSaveState();
-                    StudsNetworkManager netManager = NetworkManager.GetComponent<StudsNetworkManager>();
-                    // Close the lobby
-                    SteamLobby.singleton.SetLobbyClosed();
-                    if (gameObject.CompareTag("PennyPincher"))
-                    {
-                        netManager.ServerChangeScene("Net-PBDadRandom");
-                    }
-                    else if (gameObject.CompareTag("StrollerRace"))
-                    {
-                        netManager.ServerChangeScene("NetBlock");
-                    }
-                    else if (gameObject.CompareTag("ShoppingSpree"))
-                    {
-                        netManager.ServerChangeScene("Network_Shopping_Spree");
-                    }
-                    else if (gameObject.CompareTag("Downtown"))
-                    {
-                        netManager.ServerChangeScene("NetDowntown");
-                    } else if (gameObject.CompareTag("Dodgeball"))
-                    {
-                        netManager.ServerChangeScene("NetDodgeball");
-                    }
                 }
             }
         }
