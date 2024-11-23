@@ -30,7 +30,6 @@ public class StudsNetworkManager : NetworkManager
     public override void Awake()
     {
         base.Awake(); // base.Awake calls Initialize Singleton
-        singleton = this;
     }
 
     /// <summary>
@@ -245,17 +244,31 @@ public class StudsNetworkManager : NetworkManager
     /// <summary>
     /// This is called when a host is stopped.
     /// </summary>
-    public override void OnStopHost() { }
+    public override void OnStopHost()
+    {
+        base.OnStopHost();
+        singleton = null;
+        Destroy(gameObject);
+    }
 
     /// <summary>
     /// This is called when a server is stopped - including when a host is stopped.
     /// </summary>
-    public override void OnStopServer() { }
+    public override void OnStopServer()
+    {
+        base.OnStopServer();
+        singleton = null;
+        Destroy(gameObject);
+    }
 
     /// <summary>
     /// This is called when a client is stopped.
     /// </summary>
-    public override void OnStopClient() { }
+    public override void OnStopClient() {
+        base.OnStopClient();
+        singleton = null;
+        Destroy(gameObject);
+    }
 
     #endregion
 }

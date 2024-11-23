@@ -9,9 +9,16 @@ public class NetSceneSwitcher : NetworkBehaviour
 {
     public string specificScene = "";
 
+    private void Start()
+    {
+        if (gameObject.name == "NetPauseMenuPanel") // Objects with a network identity are set to active by Mirror.
+        {
+            gameObject.SetActive(false);
+        }
+    }
+
     public void CallHandleLeave()
     {
-        Debug.Log("CallHandleLeave");
         SteamLobby.singleton.HandleLeave();
     }
 

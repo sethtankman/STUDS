@@ -284,6 +284,11 @@ public class NetGameManager : NetworkBehaviour
         return isServer;
     }
 
+    public void RemoveInstance()
+    {
+        Instance = null;
+    }
+
     public void AddPlayer(GameObject newPlayer)
     {
         AIplayers.Add(newPlayer);
