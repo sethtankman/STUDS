@@ -24,7 +24,7 @@ public class NetDBGameManager : NetworkBehaviour
         Instance = this;
         availableDodgeballs = new List<GameObject>();
         players = GameObject.FindGameObjectsWithTag("Player");
-        SteamAchievements.UnlockAchievement("DB_COUCH"); // TODO: Make sure this doesn't get copied over to online
+        SteamAchievements.UnlockAchievement("DB_ONLINE"); 
     }
 
     public void InitScores()
@@ -115,7 +115,6 @@ public class NetDBGameManager : NetworkBehaviour
             if (placement == 4) { placement = -1; } // Since 4th place is represented as -1 in victoryStands.
             player.GetComponent<NetworkCharacterMovementController>().SetFinishPosition(placement);
         }
-        SteamAchievements.UnlockAchievement("DB_WINNER");
         FindObjectOfType<NetworkManager>().ServerChangeScene("NetVictoryStands");
     }
 
