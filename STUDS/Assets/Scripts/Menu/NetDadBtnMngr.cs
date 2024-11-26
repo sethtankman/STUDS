@@ -25,17 +25,19 @@ public class NetDadBtnMngr : NetworkBehaviour
         GameManager = GameObject.Find("NetGameManager");
         miniPlayers = new List<GameObject>();
         dadPlayers = new List<GameObject>();
-        //PlayerInputManager.instance.DisableJoining();  //Technically we shouldn't need this, because we should disable joining before level select.
-        allPlayers = GameObject.FindGameObjectsWithTag("Player");
         allButtons = new GameObject[4];
+    }
+
+    public override void OnStartServer()
+    {
+        base.OnStartServer();
         if (isServer)
-        {
-            Invoke(nameof(InitBtns), 0.1f);
-        }
+            Invoke(nameof(InitBtns), 1.0f);
     }
 
     public void InitBtns()
     {
+        allPlayers = GameObject.FindGameObjectsWithTag("Player");
         int i = 0;
         acceptButton.SetActive(true);
         foreach (GameObject player in allPlayers)
