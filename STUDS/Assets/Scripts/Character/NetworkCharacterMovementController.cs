@@ -123,7 +123,7 @@ public class NetworkCharacterMovementController : NetworkBehaviour
         PlayerParticles = GetComponent<PLR_ParticleController>();
         CanJump = true;
         CanMove = true;
-        if (!isAI)
+        if (NetGameManager.Instance == null && !isAI)
         {
             if (SceneManager.GetActiveScene().name.Equals("TheBlock_LevelSelectOnlineMultiplayer"))
                 hub.NetworkPlayerJoin(this.gameObject); // This is unique to network characters.
