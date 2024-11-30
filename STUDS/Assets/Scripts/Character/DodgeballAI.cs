@@ -17,6 +17,7 @@ public class DodgeballAI : MonoBehaviour
     [SerializeField] private Animator animator;
     [SerializeField] private NavMeshAgent agent;
     [SerializeField] private Transform target;
+    private Vector3 targetPosition; // use instead of target.position since we don't want to move the target, just record nearest point on navmesh.
 
     [SerializeField] private bool hasTarget = false;
     /// <summary>
@@ -40,15 +41,13 @@ public class DodgeballAI : MonoBehaviour
 
     private void FixedUpdate()
     {
-        loiter--;
         patience--;
     }
 
     // Update is called once per frame
     void Update()
     {
-        agentHasPath = agent.hasPath;
-        agentPathPending = agent.pathPending;
+        loiter--;
         if (loiter > 0)
             return;
         if (!hasTarget) { 
@@ -150,6 +149,7 @@ public class DodgeballAI : MonoBehaviour
         players.Remove(gameObject);
         GameObject[] candidates = players.ToArray();
         target = candidates[Random.Range(0, candidates.Length)].transform;
+        targetPosition = target.position;
         hasTarget = true;
         patience = maxPatience;
         animator.SetBool("isRunning", true);
@@ -166,8 +166,9 @@ public class DodgeballAI : MonoBehaviour
             // did target move more than at least a minimum amount since last destination set?
             if (Vector3.SqrMagnitude(previousTargetPosition - target.position) > 0.1f)
             {
-                agent.SetDestination(target.position);
-                previousTargetPosition = target.position;
+                targetPosition = target.position;
+                agent.SetDestination(targetPosition);
+                previousTargetPosition = targetPosition;
             }
             yield return new WaitForSeconds(0.5f);
         }
@@ -185,7 +186,10 @@ public class DodgeballAI : MonoBehaviour
         }
         if (target == null)
         {
+            NavMeshHit hit;
             target = dodgeballs[Random.Range(0, dodgeballs.Count)].transform;
+            NavMesh.SamplePosition(target.position, out hit, 150, NavMesh.AllAreas);
+            targetPosition = hit.position;
             DBGameManager.Instance.deListDodgeball(target.gameObject, gameObject);
         }
         patience = maxPatience;
@@ -194,7 +198,7 @@ public class DodgeballAI : MonoBehaviour
         {
             if (agent.isOnNavMesh)
             {
-                agent.SetDestination(target.position);
+                agent.SetDestination(targetPosition);
                 hasTarget = true;
             } 
             else

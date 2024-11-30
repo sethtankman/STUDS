@@ -18,6 +18,7 @@ public class NetDodgeballAI : NetworkBehaviour
     [SerializeField] private Animator animator;
     [SerializeField] private NavMeshAgent agent;
     [SerializeField] private Transform target;
+    private Vector3 targetPosition;
 
     [SerializeField] private bool hasTarget = false;
     /// <summary>
@@ -39,27 +40,27 @@ public class NetDodgeballAI : NetworkBehaviour
 
     private void FixedUpdate()
     {
-        loiter--;
         patience--;
     }
 
     // Update is called once per frame
     void Update()
     {
+        loiter--;
         if (!isServer || loiter > 0)
             return;
-        if (!hasTarget) { 
+        if (!hasTarget) { // Agent finds target
             if (!GetComponent<NetworkCharacterMovementController>().GetHasGrabbed()) {
                 AcquireTargetDodgeball();
             } else
             {
                 AcquireTargetPlayer();
             }
-        } else if (patience < 0)
+        } else if (patience < 0) // Agent runs out of patience trying to get target.
         {
             hasTarget = false;
             coroutineOn = false;
-        } else if (agent.hasPath)
+        } else if (agent.hasPath) // Agent pursues target
         {
             Vector3 lookPos;
             Quaternion targetRot;
@@ -74,7 +75,7 @@ public class NetDodgeballAI : NetworkBehaviour
             {
                 StartNavMeshLinkMovement();
             }
-        } else if (!agent.pathPending)
+        } else if (!agent.pathPending) // Agent gives up finding a path to target.
         {
             Loiter(true);
         }
@@ -147,6 +148,7 @@ public class NetDodgeballAI : NetworkBehaviour
         players.Remove(gameObject);
         GameObject[] candidates = players.ToArray();
         target = candidates[Random.Range(0, candidates.Length)].transform;
+        targetPosition = target.position;
         hasTarget = true;
         patience = maxPatience;
         animator.SetBool("isRunning", true);
@@ -163,8 +165,9 @@ public class NetDodgeballAI : NetworkBehaviour
             // did target move more than at least a minimum amount since last destination set?
             if (Vector3.SqrMagnitude(previousTargetPosition - target.position) > 0.1f)
             {
-                agent.SetDestination(target.position);
-                previousTargetPosition = target.position;
+                targetPosition = target.position;
+                agent.SetDestination(targetPosition);
+                previousTargetPosition = targetPosition;
             }
             yield return new WaitForSeconds(0.5f);
         }
@@ -182,7 +185,10 @@ public class NetDodgeballAI : NetworkBehaviour
         }
         if (target == null)
         {
+            NavMeshHit hit;
             target = dodgeballs[Random.Range(0, dodgeballs.Count)].transform;
+            NavMesh.SamplePosition(target.position, out hit, 150, NavMesh.AllAreas);
+            targetPosition = hit.position;
             NetDBGameManager.Instance.deListDodgeball(target.gameObject, gameObject);
         }
         patience = maxPatience;
@@ -191,7 +197,7 @@ public class NetDodgeballAI : NetworkBehaviour
         {
             if (agent.isOnNavMesh)
             {
-                agent.SetDestination(target.position);
+                agent.SetDestination(targetPosition);
                 hasTarget = true;
             } 
             else
