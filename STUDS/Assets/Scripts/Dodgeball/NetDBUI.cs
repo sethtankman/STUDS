@@ -13,11 +13,17 @@ public class NetDBUI : NetworkBehaviour
     /// </summary>
     private string[] scoreOrder = new string[4];
 
+    private void Start()
+    {
+        gameObject.SetActive(false);
+    }
+
     /// <summary>
-    /// Sets the colors initially of the scoreboard and backend values.
+    /// Activates scoreboard and sets the colors initially of the scoreboard and backend values.
     /// </summary>
     public void UpdateSpriteColors()
     {
+        gameObject.SetActive(true);
         int i = 0;
         foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
         {
