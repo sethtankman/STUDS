@@ -25,8 +25,6 @@ public class DodgeballAI : MonoBehaviour
     /// </summary>
     [SerializeField] private bool coroutineOn = false;
     [SerializeField] private bool _onNavMeshLink = false;
-    private bool agentHasPath = false;
-    private bool agentPathPending = false;
 
     private float turnSpeed = 2;
     [SerializeField] private int loiter = 540, patience, maxPatience;

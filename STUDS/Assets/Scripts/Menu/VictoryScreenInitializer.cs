@@ -12,6 +12,7 @@ public class VictoryScreenInitializer : MonoBehaviour
     void Start()
     {
         Time.timeScale = 1f;
+        PauseV2.canPause = false;
 
         GameObject.Find("Music Manager").GetComponent<Music_Manager>().PlayStopMusic("Menu", false);
         GameObject.Find("Music Manager").GetComponent<Music_Manager>().PlayStopMusic("Shopping", false);

@@ -29,7 +29,6 @@ public class NetDBGameManager : NetworkBehaviour
 
     public void InitScores()
     {
-        scorePanel.gameObject.SetActive(true);
         foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
         {
             scores[player.GetComponent<NetworkCharacterMovementController>().color] = 0;
