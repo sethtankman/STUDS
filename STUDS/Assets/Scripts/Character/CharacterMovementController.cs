@@ -27,16 +27,16 @@ public class CharacterMovementController : MonoBehaviour
     public GameObject target;
     public GameObject aimAssist;
 
-    public float moveSpeed;
-    public float moveSpeedKid;
+    public float moveSpeed; // Current move speed (changes dynamically)
+    public float moveSpeedKid; // Set movespeed for kid
     private float knockBackCounter;
     private float pickupCooldown;
     private float stepSoundCooldown;
 
     public float gravity;
     public float jumpHeight;
-    public float moveSpeedGrab;
-    public float moveSpeedNormal;
+    public float moveSpeedGrab; // Set movespeed for grab
+    public float moveSpeedNormal; // Set movespeed for normal
     /// <summary>
     /// Designed only to be modified by mud, water, etc. through SpeedUpSlowDown.cs
     /// </summary>
