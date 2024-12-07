@@ -22,7 +22,7 @@ public class DBGameManager : MonoBehaviour
         Instance = this;
         availableDodgeballs = new List<GameObject>();
         players = GameObject.FindGameObjectsWithTag("Player");
-        SteamAchievements.UnlockAchievement("DB_COUCH"); // TODO: Make sure this doesn't get copied over to online
+        SteamAchievements.UnlockAchievement("DB_COUCH");
     }
 
     public void InitScores()
