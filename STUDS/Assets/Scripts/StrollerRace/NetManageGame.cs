@@ -110,7 +110,7 @@ public class NetManageGame : NetworkBehaviour
                 {
                     display = true;
                     if (SceneManager.GetActiveScene().name.Equals("NetBlock"))
-                        SteamAchievements.UnlockAchievement("SR_BL_ONLINE");
+                        SteamAchievements.UnlockAchievement("SR_NE_ONLINE");
                     else if(SceneManager.GetActiveScene().name.Equals("NetDowntown"))
                         SteamAchievements.UnlockAchievement("SR_DT_ONLINE");
                     mySource.Post(gameObject);
