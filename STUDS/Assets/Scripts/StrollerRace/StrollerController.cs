@@ -8,7 +8,7 @@ public class StrollerController : MonoBehaviour
 {
     public GameObject player;
 
-    public int StrollerID;
+    [SerializeField] private int StrollerID;
     public string strollerColor;
 
     public Material strollerColor1;
@@ -17,12 +17,6 @@ public class StrollerController : MonoBehaviour
     public Material strollerColor4;
     public Material strollerColor5;
 
-
-    // Start is called before the first frame update
-    void Start()
-    {        
-        // player = GameObject.FindGameObjectWithTag("Player");        
-    }
 
     public void SetID(int id)
     {
@@ -37,6 +31,11 @@ public class StrollerController : MonoBehaviour
     public string GetColor()
     {
         return strollerColor;
+    }
+
+    public int GetID()
+    {
+        return StrollerID;
     }
 
     public void DetermineColor(string colorName)

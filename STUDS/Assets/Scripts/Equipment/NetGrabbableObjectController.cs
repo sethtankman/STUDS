@@ -156,7 +156,7 @@ public class NetGrabbableObjectController : NetworkBehaviour
                 offlineCopy.GetComponentInChildren<LocalCart>().LocalSetActiveItems(isActiveArr);
             } else if (GetComponent<StrollerController>()) // The else if is necessary since shopping carts also have StrollerControllers.
             {
-                offlineCopy.GetComponent<StrollerController>().StrollerID = GetComponent<StrollerController>().StrollerID;
+                offlineCopy.GetComponent<StrollerController>().SetID(GetComponent<StrollerController>().GetID());
                 offlineCopy.GetComponent<StrollerController>().DetermineColor(GetComponent<StrollerController>().GetColor());
             }
             localGO = offlineCopy;

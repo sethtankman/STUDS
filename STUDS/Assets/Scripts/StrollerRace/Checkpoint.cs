@@ -49,7 +49,7 @@ public class Checkpoint : MonoBehaviour
             GameObject stroller = player.GetGrabbedObject();
             if ((player.getCheckpointCount() == checkPointNum - 1) && stroller != null)
             {
-                if((stroller.GetComponent<StrollerController>().StrollerID == player.getPlayerID()) || player.isAI)
+                if((stroller.GetComponent<StrollerController>().GetID() == player.getPlayerID()) || player.isAI)
                 {
                     player.SetCheckpointCount(checkPointNum);
                     display = true;

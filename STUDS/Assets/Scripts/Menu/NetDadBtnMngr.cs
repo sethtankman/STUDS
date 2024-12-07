@@ -11,6 +11,7 @@ public class NetDadBtnMngr : NetworkBehaviour
     public Stack<string> AIColors;
     public GameObject[] allButtons, allPlayers;
     public GameObject characterButton, GameManager, acceptButton;
+    [SerializeField] private GameObject addAIBtn, subAIBtn;
     public RectTransform[] buttonLocations;
     public string levelName;
     public int numAI, numPlayers;
@@ -40,6 +41,8 @@ public class NetDadBtnMngr : NetworkBehaviour
         allPlayers = GameObject.FindGameObjectsWithTag("Player");
         int i = 0;
         acceptButton.SetActive(true);
+        addAIBtn.SetActive(true);
+        subAIBtn.SetActive(true);
         foreach (GameObject player in allPlayers)
         {
             GameObject button = Instantiate(characterButton, buttonLocations[i].position, Quaternion.identity, gameObject.transform);
@@ -187,7 +190,7 @@ public class NetDadBtnMngr : NetworkBehaviour
             dad.GetComponent<NetworkCharacterMovementController>().RpcSetToMini(false);
         }
 
-        Invoke("LoadLevel", 0.5f); // Calling this after a delay so NetworkTransform has a chance to update scale before changing scenes.
+        Invoke("LoadLevel", 1.0f); // Calling this after a delay so NetworkTransform has a chance to update scale before changing scenes.
     }
 
     private void LoadLevel()

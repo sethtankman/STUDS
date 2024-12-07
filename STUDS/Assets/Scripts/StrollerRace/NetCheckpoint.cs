@@ -49,7 +49,7 @@ public class NetCheckpoint : MonoBehaviour
             GameObject stroller = player.GetGrabbedObject();
             if ((player.getCheckpointCount() == checkPointNum - 1) && stroller != null)
             {
-                if (stroller.GetComponent<StrollerController>().StrollerID == player.getPlayerID())
+                if (stroller.GetComponent<StrollerController>().GetID() == player.getPlayerID())
                 {
                     player.SetCheckpointCount(checkPointNum);
                     display = true;

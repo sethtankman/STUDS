@@ -130,6 +130,7 @@ public class NetworkCharacterMovementController : NetworkBehaviour
         }
         if (isLocalPlayer)
             CmdRequestPlayerVariables();
+        SetToMini(isMini);
         if (GetComponentInChildren<Camera>()) { 
             if (SceneManager.GetActiveScene().name.Equals("NetVictoryStands"))
             {
@@ -149,8 +150,10 @@ public class NetworkCharacterMovementController : NetworkBehaviour
             PlayerInfo info = (PlayerInfo)connectionToClient.authenticationData;
             color = info.color;
             playerID = info.id;
+            isMini = info.isMini;
             SetFinishPosition(info.finishPos);
             GetComponentInChildren<SkinnedMeshRenderer>().material = NetGameManager.Instance.colorMaterials[color];
+            SetToMini(info.isMini);
         }
     }
 
@@ -158,7 +161,7 @@ public class NetworkCharacterMovementController : NetworkBehaviour
     {
         base.OnStopServer();
 
-        PlayerInfo info = new PlayerInfo(color, playerID, finishPosition);
+        PlayerInfo info = new PlayerInfo(color, playerID, finishPosition, isMini);
         if(connectionToClient != null)
             connectionToClient.authenticationData = info;
     }
@@ -1281,12 +1284,14 @@ public class NetworkCharacterMovementController : NetworkBehaviour
         public string color;
         public int id;
         public int finishPos;
+        public bool isMini;
 
-        public PlayerInfo(string _color, int _id, int _finishPos)
+        public PlayerInfo(string _color, int _id, int _finishPos, bool _isMini)
         {
             color = _color;
             id = _id;
             finishPos = _finishPos;
+            isMini = _isMini;
         }
     }
 }
