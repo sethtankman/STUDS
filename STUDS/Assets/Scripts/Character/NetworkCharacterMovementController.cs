@@ -560,17 +560,6 @@ public class NetworkCharacterMovementController : NetworkBehaviour
         }
     }
 
-    public void OnRestart(CallbackContext context)
-    {
-        if (context.performed)
-        {
-            GameObject gameManager = GameObject.Find("GameManager");
-            gameManager.GetComponent<ManagePlayerHub>().DeletePlayers();
-            Destroy(gameManager);
-            SceneManager.LoadScene("TheBlock_LevelSelect"); // TODO: Should this be changed or is this method even used?
-        }
-    }
-
     public void OnPickup(CallbackContext context)
     {
         if (context.performed)
