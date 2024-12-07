@@ -249,7 +249,6 @@ public class NetworkCharacterMovementController : NetworkBehaviour
                     // Defaults
                     float grabDistance = 1.3f;
                     float grabHeight = 0.7f;
-                    //Quaternion grabRotation = Quaternion.; // TODO: Maybe we'll need this for the hammer in shopping spree
 
                     if (grabbedObject.GetComponent<NetGrabbableObjectController>())
                     {
@@ -285,7 +284,6 @@ public class NetworkCharacterMovementController : NetworkBehaviour
                     if (pickupPressed)
                     {
                         GrabSound.Post(gameObject);
-                        //grabSound.Play();
                         DropGrabbedItem();
                         pickupPressed = false;
 

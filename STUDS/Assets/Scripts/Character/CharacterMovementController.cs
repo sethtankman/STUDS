@@ -177,7 +177,6 @@ public class CharacterMovementController : MonoBehaviour
                         if (pickupPressed)
                         {
                             GrabSound.Post(gameObject);
-                            //grabSound.Play();
                             DropGrabbedItem();
                             pickupPressed = false;
                             animator.SetBool("isHoldingSomething", false);

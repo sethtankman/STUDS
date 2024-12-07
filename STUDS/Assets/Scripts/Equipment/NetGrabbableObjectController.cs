@@ -8,7 +8,6 @@ public class NetGrabbableObjectController : NetworkBehaviour
 {
     public float distance, height;
     public List<Collider> additionalColliders;
-    public Vector3 rotation;
     public GameObject target;
 
     [Header("Dodgeball Aimer Prefab")]
