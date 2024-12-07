@@ -470,7 +470,7 @@ public class NetworkCharacterMovementController : NetworkBehaviour
             {
                 animator.SetBool("isRunning", false);
                 isMoving = false;
-                if (airborn == false) // TODO: is this stopping us from receiving collisions when we don't have input?
+                if (airborn == false) 
                 {
                     velocity.x = 0;
                     velocity.z = 0;
