@@ -202,14 +202,10 @@ public class CharacterMovementController : MonoBehaviour
         else
         {
             knockBackCounter -= Time.deltaTime;
-            if (hasGrabbed) // TODO: Should we be able to throw while knocked back?
+            if (hasGrabbed) 
             {
                 grabbedObject.transform.position = transform.position + (transform.forward * 1.3f) + (transform.up * 0.7f); // Added transform.up because stroller is in the ground with new dad model.
                 grabbedObject.transform.rotation = transform.rotation;
-                if (throwPressed && throwCoolDown <= 0)
-                {
-                    performThrow();
-                }
             }
         }
 
