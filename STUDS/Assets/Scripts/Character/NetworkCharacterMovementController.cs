@@ -929,14 +929,6 @@ public class NetworkCharacterMovementController : NetworkBehaviour
     }
 
 
-    /*[Command] //TODO: Delete this if nothing's broken with animations
-    private void CmdAnimSetBool(string varName, bool tf)
-    {
-        animator.SetBool(varName, tf);
-        RpcAnimSetBool(varName, tf);
-    }*/
-
-
     [Command]
     private void CmdAnimSetTrigger(string varName)
     {
