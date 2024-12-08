@@ -117,7 +117,7 @@ public class NetPWRBill_Manager : NetworkBehaviour
         }
         if (isServer)
         {
-            foreach (GameObject player in players) // TODO: Doesn't account for which side won!
+            foreach (GameObject player in players)
             {
                 var controller = player.GetComponent<NetworkCharacterMovementController>();
                 if (controller)
