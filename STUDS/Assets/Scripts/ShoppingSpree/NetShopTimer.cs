@@ -46,7 +46,6 @@ public class NetShopTimer : NetworkBehaviour
         {
             if (player.GetComponent<NetworkCharacterMovementController>().GetFinishPosition() == 0)
             {
-                // TODO: Tally up number of items turned in
                 player.GetComponent<NetworkCharacterMovementController>().SetFinishPosition(noFinishPos);
                 noFinishPos--;
             }
