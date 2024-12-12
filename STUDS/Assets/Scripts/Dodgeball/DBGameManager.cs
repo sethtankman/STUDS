@@ -1,3 +1,4 @@
+using Steamworks;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -101,12 +102,21 @@ public class DBGameManager : MonoBehaviour
     public void GetHitBy(int obstacleIndex)
     {
         hitByArr[obstacleIndex] = true;
-        for(int i = 0; i < hitByArr.Length; i++)
+        int hitByCt = 0;
+        SteamUserStats.GetStat("DB_HITS", out int prevRecord);
+        for (int i = 0; i < hitByArr.Length; i++)
         {
-            if (hitByArr[i] == false)
-                return;
+            if (hitByArr[i] == true)
+            {
+                hitByCt++;
+                if (hitByCt > prevRecord)
+                {
+                    SteamUserStats.SetStat("DB_HITS", hitByCt);
+                }
+            }
         }
-        SteamAchievements.UnlockAchievement("DB_OUCH");
+        if (hitByCt == hitByArr.Length)
+            SteamAchievements.UnlockAchievement("DB_OUCH");
     }
 
     internal List<GameObject> GetAvailableDodgeballs()
