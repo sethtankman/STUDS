@@ -166,6 +166,17 @@ public class NetworkCharacterMovementController : NetworkBehaviour
             connectionToClient.authenticationData = info;
     }
 
+    public override void OnStartLocalPlayer()
+    {
+        base.OnStartLocalPlayer();
+        NetDBInit init = FindObjectOfType<NetDBInit>();
+        if (init)
+        {
+            CmdNotifyPlayerReady(init);
+        }
+
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -941,6 +952,12 @@ public class NetworkCharacterMovementController : NetworkBehaviour
     public void CmdSetFinishPosition(int pos)
     {
         finishPosition = pos;
+    }
+
+    [Command]
+    private void CmdNotifyPlayerReady(NetDBInit init)
+    {
+        init.NotifyPlayerReady();
     }
 
     /// <summary>

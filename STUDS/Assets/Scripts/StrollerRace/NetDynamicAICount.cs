@@ -11,12 +11,6 @@ public class NetDynamicAICount : NetworkBehaviour
     public List<GameObject> AiOBJ = new List<GameObject>();
     public int PlayerCount;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        Invoke("FillWithAI", 0.1f);
-    }
-
     public void FillWithAI()
     {
         PlayerCount = 0;
@@ -31,7 +25,14 @@ public class NetDynamicAICount : NetworkBehaviour
             for (int i = 0; i < AICount; i++)
             {
                 AiOBJ[i].SetActive(false);
+                RpcSetInactive(AiOBJ[i]);
             }
         }
+    }
+
+    [ClientRpc]
+    private void RpcSetInactive(GameObject AI)
+    {
+        AI.SetActive(false);
     }
 }

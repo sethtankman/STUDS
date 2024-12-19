@@ -14,13 +14,11 @@ public class NetDBInit : NetworkBehaviour
     public Transform[] playerSpawns;
     public GameObject playerPrefab;
 
-    private bool spawnPlayers = false;
-    public float waitTime = 5.0f;
-
     [SerializeField] private Material[] materials;
 
     private GameObject[] players;
     private List<string> aiColors;
+    private int playersLoaded = 0;
 
     //public GameObject strollerPrefab;
     public GameObject pauseMenuUI;
@@ -29,77 +27,94 @@ public class NetDBInit : NetworkBehaviour
 
     public TextMeshProUGUI startText;
     [SerializeField] private NetDBUI ui;
+    [SerializeField] private NetDynamicAICount NDAC;
 
-    // Start is called before the first frame update
+    // Called for all players when they load the level.
     void Start()
     {
         GameObject.Find("Music Manager").GetComponent<Music_Manager>().PlayStopMusic("Menu", false);
         GameObject.Find("Music Manager").GetComponent<Music_Manager>().PlayStopMusic("Stroller", true);
-        aiColors = new List<string> { "red", "blue", "purple", "yellow", "green" };
         PauseV2.canPause = false;
-        PlayerInputManager.instance.DisableJoining();
-        Invoke("LateStart", 0.5f);
-        waitTime += (float)NetworkTime.time;
-    }
-
-    private void LateStart()
-    {
         if (NetGameManager.Instance)
         {
             NetGameManager.Instance.GetComponent<PauseV2>().PauseMenuUI = pauseMenuUI;
         }
         else
             Debug.LogWarning("Manage Player Hub not found!");
+        PlayerInputManager.instance.DisableJoining();
+
+        players = GameObject.FindGameObjectsWithTag("Player");
+        foreach (GameObject player in players)
+            if (player.GetComponent<NetworkCharacterMovementController>().isLocalPlayer)
+            {
+                player.GetComponent<NetworkCharacterMovementController>().SetAimAssist(true);
+                player.GetComponent<NetworkCharacterMovementController>().CanMove = false;
+            }
+    }
+
+    /// <summary>
+    /// Initiates starting sequence once all clients have been loaded.
+    /// </summary>
+    private void StartSequence()
+    {
+        NDAC.FillWithAI();
+        aiColors = new List<string> { "red", "blue", "purple", "yellow", "green" };
         players = GameObject.FindGameObjectsWithTag("Player");
         foreach (GameObject player in players)
         {
-            aiColors.Remove(player.GetComponent<NetworkCharacterMovementController>().GetColorName());
-            player.GetComponent<NetworkCharacterMovementController>().SetAimAssist(true);
-            player.GetComponent<NetworkCharacterMovementController>().CanMove = false;
-        }
-        if (players != null)
-        {
-            for (int i = 0; i < players.Length; i++)
+            if(player.GetComponent<NetworkCharacterMovementController>().isAI == false)
             {
-                //Vector3 flagPos = GameObject.Find("Proto_Flag_01").transform.position;
-                //players[i].transform.LookAt(new Vector3(transform.position.x, transform.position.y, transform.position.z));
-                //players[i].transform.forward = new Vector3(0, 0, 1);
-                players[i].transform.position = playerSpawns[i].position;
-                players[i].transform.rotation = playerSpawns[i].rotation;
+                aiColors.Remove(player.GetComponent<NetworkCharacterMovementController>().color);
             }
         }
-        spawnPlayers = true;
-
+        for (int i = 0; i < players.Length; i++)
+        {
+            if (players[i].GetComponent<NetworkCharacterMovementController>().isAI)
+            {
+                string aiColor = aiColors[0];
+                players[i].GetComponentInChildren<NetworkCharacterMovementController>(true).SetColorName(aiColor);
+                RpcSetMaterial(players[i], aiColor);
+                aiColors.Remove(aiColor);
+            }
+        }
+        Invoke("StartGame", 5.0f);
     }
 
-    // Update is called once per frame
-    void Update()
+    public void NotifyPlayerReady()
     {
-        if (NetworkTime.time > waitTime && spawnPlayers)
+        playersLoaded++;
+        if (isServer && playersLoaded == NetGameManager.Instance.playerIDCount)
         {
-            Destroy(startCam);
-            Destroy(startText);
-            Destroy(startUI);
-            //startText.text = "";
-            if (players != null)
-            {
-                for (int i = 0; i < players.Length; i++)
-                {
-                    if(players[i].GetComponent<NetworkCharacterMovementController>().isAI)
-                    {
-                        string aiColor = aiColors[0];
-                        players[i].GetComponentInChildren<NetworkCharacterMovementController>(true).SetColorName(aiColor);
-                        players[i].GetComponentInChildren<SkinnedMeshRenderer>(true).material = materials[GetColorIndex(aiColor)];
-                        aiColors.Remove(aiColor);
-                    }
-                    spawnPlayers = false;
-                    players[i].GetComponent<NetworkCharacterMovementController>().CanMove = true;
-                }
-                ui.UpdateSpriteColors();
-                NetDBGameManager.Instance.InitScores();
-            }
-            PauseV2.canPause = true;
+            StartSequence();
         }
+    }
+
+
+
+    /// <summary>
+    /// Starts the game for all players
+    /// </summary>
+    [ClientRpc]
+    private void StartGame()
+    {
+        ui.UpdateSpriteColors();
+        NetDBGameManager.Instance.InitScores();
+        players = GameObject.FindGameObjectsWithTag("Player");
+        if (players.Length == 0) { Debug.LogError("No players found"); }
+        foreach(GameObject player in players)
+        {
+            player.GetComponent<NetworkCharacterMovementController>().CanMove = true;
+        }
+        Destroy(startCam);
+        Destroy(startText);
+        Destroy(startUI);
+        PauseV2.canPause = true;
+    }
+
+    [ClientRpc]
+    private void RpcSetMaterial(GameObject player, string aiColor)
+    {
+        player.GetComponentInChildren<SkinnedMeshRenderer>(true).material = materials[GetColorIndex(aiColor)];
     }
 
     private int GetColorIndex(string _color)
