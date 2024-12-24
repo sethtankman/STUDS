@@ -80,7 +80,6 @@ public class NetPennyPincherAI : NetworkBehaviour
         }
         else if (isServer && active && !hasTarget)
         {
-            // Debug.Log("Active set to false in Update");
             active = false;
             StartCoroutine("FindNewTarget");
         }

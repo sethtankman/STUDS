@@ -63,13 +63,12 @@ public class NetKidTimeout : NetworkBehaviour
                     mini = null;
                     isTimeout = false;
                 }
-                currTime += Time.deltaTime;
             }
             else
             {
-                currTime += Time.deltaTime;
                 transform.position = timeoutPos[currIdx].transform.position;
             }
+            currTime += Time.deltaTime;
         }
     }
 

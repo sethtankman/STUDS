@@ -15,9 +15,6 @@ public class PowerBillLevelInitializer : MonoBehaviour
 
     private List<GameObject> players;
 
-    private int maxRounds;
-    private int roundCount;
-
     public GameObject startCam;
 
     public Text startText;
@@ -26,8 +23,6 @@ public class PowerBillLevelInitializer : MonoBehaviour
     {
       
         players = ManagePlayerHub.Instance.getPlayers();
-        maxRounds = players.Count + 1;
-        roundCount = 1;
         PlayerInputManager.instance.DisableJoining();
     }
 

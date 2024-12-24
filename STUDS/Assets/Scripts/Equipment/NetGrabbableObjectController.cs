@@ -27,7 +27,7 @@ public class NetGrabbableObjectController : NetworkBehaviour
     public GameObject DeleteBallFX;
 
     [Header("Homing")]
-    private bool homing = false, dirMagCaptured = false;
+    private bool homing = false;
     private Vector2 ogDir = new Vector2();
     public string throwerColor = "";
     private Transform holderTransform = null;
@@ -89,7 +89,6 @@ public class NetGrabbableObjectController : NetworkBehaviour
         if (collision.gameObject.CompareTag("Ground"))
         {
             homing = false;
-            dirMagCaptured = false;
             throwerColor = "";
             if (GetComponent<CombatThrow>())
             {

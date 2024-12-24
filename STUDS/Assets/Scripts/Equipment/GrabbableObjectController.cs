@@ -26,7 +26,7 @@ public class GrabbableObjectController : MonoBehaviour
     public GameObject DeleteBallFX;
 
     [Header("Homing")]
-    private bool homing = false, dirMagCaptured = false, canPickup = true;
+    private bool homing = false, canPickup = true;
     private Vector2 ogDir = new Vector2();
     public string throwerColor = "";
     
@@ -68,7 +68,6 @@ public class GrabbableObjectController : MonoBehaviour
         if (collision.gameObject.CompareTag("Ground"))
         {
             homing = false;
-            dirMagCaptured = false;
             throwerColor = "";
             if (GetComponent<CombatThrow>())
             {
