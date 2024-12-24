@@ -166,13 +166,14 @@ public class NetGameManager : NetworkBehaviour
         if (isServer)
             return;
         foreach (GameObject playerObj in GameObject.FindGameObjectsWithTag("Player"))
-        {   
-            if(playerObj.GetComponent<NetworkCharacterMovementController>().isAI) { continue; } // Do not need to set AI colors in RPC
-            int playerID = playerObj.GetComponent<NetworkCharacterMovementController>().getPlayerID();
+        {
+            NetworkCharacterMovementController netCMC = playerObj.GetComponent<NetworkCharacterMovementController>();
+            if (netCMC.isAI) { continue; } // Do not need to set AI colors in RPC
+            int playerID = netCMC.getPlayerID();
             Debug.Log($"Player ID: {playerID}");
             playerObj.name = $"STUD{playerID + 1}";
             playerObj.GetComponentInChildren<SkinnedMeshRenderer>().material = colorMaterials[playerColors[playerID]];
-            NetworkCharacterMovementController netCMC = playerObj.GetComponent<NetworkCharacterMovementController>();
+            netCMC.SetToMini(netCMC.isMini);
             netCMC.color = playerColors[playerID];
         }
     }

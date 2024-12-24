@@ -875,6 +875,7 @@ public class NetworkCharacterMovementController : NetworkBehaviour
         hub.RpcSetPlayerVariables();
     }
 
+    // Called by localPlayers in hubcolor change and on AI.
     [Command]
     private void CmdChangePlayerColor(string colorName)
     {
@@ -1071,6 +1072,10 @@ public class NetworkCharacterMovementController : NetworkBehaviour
         SetToMini(setMini);
     }
 
+    /// <summary>
+    /// Only called on AI in PennyPincher
+    /// </summary>
+    /// <param name="_color"></param>
     [ClientRpc]
     public void RpcSetColorName(string _color)
     {
@@ -1213,6 +1218,10 @@ public class NetworkCharacterMovementController : NetworkBehaviour
         return grabbedObject;
     }
     
+    /// <summary>
+    /// Called in hubcolor change and on AI.
+    /// </summary>
+    /// <param name="colorName"></param>
     public void SetColorName(string colorName)
     { 
         color = colorName;
