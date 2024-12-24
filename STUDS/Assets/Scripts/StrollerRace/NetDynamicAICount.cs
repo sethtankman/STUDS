@@ -11,6 +11,9 @@ public class NetDynamicAICount : NetworkBehaviour
     public List<GameObject> AiOBJ = new List<GameObject>();
     public int PlayerCount;
 
+    /// <summary>
+    /// Should only be called by server.
+    /// </summary>
     public void FillWithAI()
     {
         PlayerCount = 0;
@@ -21,18 +24,12 @@ public class NetDynamicAICount : NetworkBehaviour
 
         if (PlayerCount > 4)
         {
-            int AICount = PlayerCount - 4;
-            for (int i = 0; i < AICount; i++)
+            int numAI2Remove = PlayerCount - 4;
+            for (int i = 0; i < numAI2Remove; i++)
             {
-                AiOBJ[i].SetActive(false);
-                RpcSetInactive(AiOBJ[i]);
+                AiOBJ[i].SetActive(false); // Keep this here so the server will be able to immediately have an accurate count of players.
+                AiOBJ[i].GetComponentInChildren<NetPlayerAI>().RpcSetActive(false);
             }
         }
-    }
-
-    [ClientRpc]
-    private void RpcSetInactive(GameObject AI)
-    {
-        AI.SetActive(false);
     }
 }

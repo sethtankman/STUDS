@@ -102,4 +102,10 @@ public class NetPlayerAI : NetworkBehaviour
     {
         start = true;
     }
+
+    [ClientRpc]
+    public void RpcSetActive(bool _tf)
+    {
+        transform.parent.gameObject.SetActive(_tf);
+    }
 }

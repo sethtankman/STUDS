@@ -173,10 +173,19 @@ public class NetworkCharacterMovementController : NetworkBehaviour
         if (init)
         {
             CmdNotifyPlayerReady(init);
+            return;
         }
         NetPBInitLvl initPB = FindObjectOfType<NetPBInitLvl>();
-        if (initPB)
+        if (initPB) {
             CmdNotifyPlayerReadyPB(initPB);
+            return;
+        }
+        NetInitRace initR = FindObjectOfType<NetInitRace>();
+        if (initR)
+        {
+            CmdNotifyPlayerReadySR(initR);
+            return;
+        }
     }
 
     // Update is called once per frame
@@ -965,6 +974,12 @@ public class NetworkCharacterMovementController : NetworkBehaviour
 
     [Command]
     private void CmdNotifyPlayerReadyPB(NetPBInitLvl init)
+    {
+        init.NotifyPlayerReady();
+    }
+
+    [Command]
+    private void CmdNotifyPlayerReadySR(NetInitRace init)
     {
         init.NotifyPlayerReady();
     }

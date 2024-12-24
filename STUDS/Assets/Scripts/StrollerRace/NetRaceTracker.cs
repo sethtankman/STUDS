@@ -18,8 +18,9 @@ public class NetRaceTracker : MonoBehaviour
 
     public RawImage[] Positions;
 
-    // Start is called before the first frame update
-    void Start()
+    private bool allPlayersLoaded = false;
+
+    public void SetColorsGivePlaceTrackers()
     {
         foreach(GameObject obj in GameObject.FindGameObjectsWithTag("Player")){
             Players.Add(obj);
@@ -36,27 +37,24 @@ public class NetRaceTracker : MonoBehaviour
             PT.Add(Players[i].GetComponentInChildren<NetPlaceTracker>());
 
         }
-        
+        allPlayersLoaded=true;
     }
 
     // Update is called once per frame
     void Update()
     {
-        PT = PT.OrderByDescending(e => e.GetComponentInChildren<NetPlaceTracker>().Progress).ToList();
-
-        for(int i = 0; i < Players.Count; i++) 
+        if (allPlayersLoaded)
         {
-            if (i >= 4)
+            PT = PT.OrderByDescending(e => e.GetComponentInChildren<NetPlaceTracker>().Progress).ToList();
+
+            for (int i = 0; i < Players.Count; i++)
             {
-                GetComponent<NetDynamicAICount>().FillWithAI();
-                break;
+                string PlrColor = PT[i].GetComponentInChildren<NetPlaceTracker>().PLRCol;
+
+                Positions[i].texture = IconPicker(PlrColor);
+
             }
-            string PlrColor = PT[i].GetComponentInChildren<NetPlaceTracker>().PLRCol;
-
-            Positions[i].texture = IconPicker(PlrColor);
-
         }
-        
     }
 
     private Texture IconPicker(string Color)

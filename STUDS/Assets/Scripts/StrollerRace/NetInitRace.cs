@@ -15,7 +15,6 @@ public class NetInitRace : NetworkBehaviour
     public GameObject playerPrefab;
 
     private bool spawnedPlayers = false;
-    public float waitTime = 5f;
 
     public Material strollerColor1;
     public Material strollerColor2;
@@ -24,10 +23,13 @@ public class NetInitRace : NetworkBehaviour
     public Material strollerColor5;
 
     private GameObject[] players;
+    private int playersLoaded = 0;
 
     public GameObject strollerPrefab;
     public GameObject pauseMenuUI;
     public GameObject loadingCam;
+
+    [SerializeField] private NetDynamicAICount NDAC;
 
     public TextMeshProUGUI startText;
     // Start is called before the first frame update
@@ -39,32 +41,42 @@ public class NetInitRace : NetworkBehaviour
         PlayerInputManager.instance.DisableJoining();
         if(pauseMenuUI)
             NetGameManager.Instance.GetComponent<PauseV2>().PauseMenuUI = pauseMenuUI;
-        waitTime += (float)NetworkTime.time;
     }
 
-    // Update is called once per frame
-    void Update()
+    /// <summary>
+    /// Each NetCMC will let the server know when they have loaded the scene.
+    /// </summary>
+    public void NotifyPlayerReady()
     {
-        if (isServer)
+        playersLoaded++;
+        if (isServer && playersLoaded == NetGameManager.Instance.playerIDCount)
         {
-            if (NetworkTime.time > waitTime && !spawnedPlayers)
+            NDAC.FillWithAI();
+            FindObjectOfType<NetRaceTracker>().SetColorsGivePlaceTrackers();
+            Invoke(nameof(StartGame), 5.0f);
+        }
+    }
+
+    private void StartGame()
+    {
+        if (!spawnedPlayers)
+        {
+            startText.text = "";
+            players = GameObject.FindGameObjectsWithTag("Player");
+            if (players != null)
             {
-                startText.text = "";
-                players = GameObject.FindGameObjectsWithTag("Player");
-                if (players != null)
+
+                for (int i = 0; i < players.Length; i++)
                 {
-                    for (int i = 0; i < players.Length; i++)
+                    if (!players[i].GetComponent<NetworkCharacterMovementController>().isAI)
                     {
-                        if (!players[i].GetComponent<NetworkCharacterMovementController>().isAI)
-                        {
-                            GameObject stroller = Instantiate(strollerPrefab, players[i].transform.position + new Vector3(0, 0, 2f), Quaternion.identity);
-                            NetworkServer.Spawn(stroller);
-                            RpcDetermineColor(players[i].GetComponent<NetworkCharacterMovementController>().GetColorName(),
-                                stroller.GetComponent<NetworkIdentity>().netId,
-                                players[i].GetComponent<NetworkCharacterMovementController>().getPlayerID());
-                        }
-                        players[i].GetComponent<NetworkCharacterMovementController>().inStrollerRace = true;
+                        GameObject stroller = Instantiate(strollerPrefab, players[i].transform.position + new Vector3(0, 0, 2f), Quaternion.identity);
+                        NetworkServer.Spawn(stroller);
+                        RpcDetermineColor(players[i].GetComponent<NetworkCharacterMovementController>().GetColorName(),
+                            stroller.GetComponent<NetworkIdentity>().netId,
+                            players[i].GetComponent<NetworkCharacterMovementController>().getPlayerID());
                     }
+                    players[i].GetComponent<NetworkCharacterMovementController>().inStrollerRace = true;
                 }
             }
         }
