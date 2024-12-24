@@ -93,10 +93,8 @@ public class NetPBInitLvl : NetworkBehaviour
     [ClientRpc]
     private void RpcSetKidMaterial(uint netID, int v)
     {
-        Debug.Log("RpcSetKidMaterial");
         if (NetworkClient.spawned.ContainsKey(netID))
         {
-            Debug.Log($"Setting material to {v}");
             NetworkClient.spawned[netID].GetComponentInChildren<SkinnedMeshRenderer>(true).material = kidsMaterials[v];
         }
     }
