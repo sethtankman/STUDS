@@ -3,30 +3,21 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 
-/// <summary>
-/// Used to inherit from CombatThrow, now inherits from NetworkBehavior so explosions spawn over network.
-/// </summary>
 public class NetExplodingPropane : CombatThrow
 {
     public GameObject explosionEffect;
     private string ownerName;
+    private bool live;
 
     public new void EnableKnockBack()
     {
-        if (knockBack)
-        {
-            StartCoroutine(KnockBackTimer());
-        }
-        else
-        {
-            Debug.LogError("No knockback collider assigned to stroller controller");
-        }
+        live = true;
     }
 
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (knockBack.activeInHierarchy && !collision.gameObject.name.Equals(ownerName))
+        if (live && !collision.gameObject.name.Equals(ownerName))
         {
             if (GetComponent<NetGrabbableObjectController>().isServer) {
                 GetComponent<NetGrabbableObjectController>().PropaneExplode(explosionEffect);
@@ -44,7 +35,7 @@ public class NetExplodingPropane : CombatThrow
 
     }
 
-    public void setOwnerName(string _ownerName)
+    public void SetOwnerName(string _ownerName)
     {
         ownerName = _ownerName;
     }

@@ -28,7 +28,7 @@ public class CombatThrow : MonoBehaviour
         }
         else
         {
-            Debug.Log("No knockback collider assigned to stroller controller");
+            Debug.LogError("No knockback collider assigned.");
         }
     }
 

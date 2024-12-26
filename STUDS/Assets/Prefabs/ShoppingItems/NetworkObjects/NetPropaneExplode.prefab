@@ -170,9 +170,21 @@ MonoBehaviour:
   distance: 0.8
   height: 0.7
   additionalColliders: []
-  rotation: {x: 0, y: 0, z: 0}
+  target: {fileID: 0}
+  throwableArrow: {fileID: 0}
+  isDodgeball: 0
+  isDropped: 1
+  PickedUpMaterial: {fileID: 0}
+  DroppedMaterial: {fileID: 0}
+  dodgeballRenderer: {fileID: 0}
+  materialLerpDuration: 1.5
+  isDeleteBallTimerStarted: 0
+  DeleteBallTimer: 0
+  DeleteBallFX: {fileID: 0}
+  throwerColor: 
   localPrefab: {fileID: 3024696683417736306, guid: f8e6e342d94b1164695932e38a3c9045,
     type: 3}
+  effects: {fileID: 0}
 --- !u!114 &995210322991104760
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -186,7 +198,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   knockBack: {fileID: 4190459552753404649}
-  knockBackCooldown: 1
+  knockBackCooldown: 1.5
   explosionEffect: {fileID: 2398608829508964987, guid: 5500e04eeb743b549b188e8710cf4730,
     type: 3}
 --- !u!114 &8515265622378048346

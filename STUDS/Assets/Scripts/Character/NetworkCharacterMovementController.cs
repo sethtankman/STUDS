@@ -762,10 +762,6 @@ public class NetworkCharacterMovementController : NetworkBehaviour
         else if (isLocalPlayer)
         {
             CmdThrow(grabbedObject.GetComponent<NetworkIdentity>().netId, throwingForce, localPos);
-            if (grabbedObject.GetComponent<CombatThrow>())
-            {
-                CmdEnableKnockBack(grabbedObject.GetComponent<NetworkIdentity>().netId);
-            }
         }
 
         if (grabbedObject.GetComponent<StrollerController>() && !isAI)
@@ -786,10 +782,10 @@ public class NetworkCharacterMovementController : NetworkBehaviour
 
     private void LocalEnableKnockBack(GameObject grabbedObject)
     {
-        if (grabbedObject.GetComponent<CombatThrow>())
-            grabbedObject.GetComponent<CombatThrow>().EnableKnockBack(name);
-        else if (grabbedObject.GetComponent<NetExplodingPropane>())
+        if (grabbedObject.GetComponent<NetExplodingPropane>())
             grabbedObject.GetComponent<NetExplodingPropane>().EnableKnockBack();
+        else if (grabbedObject.GetComponent<CombatThrow>())
+            grabbedObject.GetComponent<CombatThrow>().EnableKnockBack(name);
     }
 
     /// <summary>
@@ -938,17 +934,14 @@ public class NetworkCharacterMovementController : NetworkBehaviour
     [Command]
     private void CmdThrow(uint objID, Vector3 throwingForce, Vector3 itemPosition)
     {
-        Debug.Log("Command Throw");
         NetworkServer.spawned[objID].GetComponent<Rigidbody>().isKinematic = false;
         NetworkServer.spawned[objID].GetComponent<Rigidbody>().useGravity = true;
         NetworkServer.spawned[objID].transform.position = itemPosition;
         NetworkServer.spawned[objID].GetComponent<Rigidbody>().AddForce(throwingForce);
-    }
-
-    [Command]
-    private void CmdEnableKnockBack(uint grabbedObjectID)
-    {
-        RpcEnableKnockBack(grabbedObjectID);
+        if (NetworkServer.spawned[objID].GetComponent<CombatThrow>())
+        {
+            RpcEnableKnockBack(objID);
+        }
     }
 
 

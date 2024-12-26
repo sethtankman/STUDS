@@ -129,7 +129,7 @@ public class NetGrabbableObjectController : NetworkBehaviour
         }
         if (GetComponent<NetExplodingPropane>())
         {
-            GetComponent<NetExplodingPropane>().setOwnerName(holder.name);
+            GetComponent<NetExplodingPropane>().SetOwnerName(holder.name);
             SteamAchievements.UnlockAchievement("SS_PROPANE");
         }
 
