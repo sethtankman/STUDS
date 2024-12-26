@@ -34,6 +34,7 @@ public class NetManageGame : NetworkBehaviour
 
     private int positions = 1;
     private int noFinishPositions = -1;
+    private int prevTime = 0;
     private bool endSequenceCalled = false;
 
     // Start is called before the first frame update
@@ -46,81 +47,91 @@ public class NetManageGame : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (display)
+        if (isServer)
         {
-            FinishText.text = $"Player {playerID} has finished the race!";
-            playerFinish = true;
-            endTimer += (float)NetworkTime.time;
-            if (NetworkTime.time >= swapTime)
+            if (display)
             {
-                display = false;
-                swapTime = (float)NetworkTime.time + 3.0f;
+                RpcPlayerFinish($"Player {playerID} has finished the race!");
+                if (NetworkTime.time >= swapTime)
+                {
+                    display = false;
+                    swapTime = (float)NetworkTime.time + 3.0f;
+                }
             }
-        }
-        else if (!display)
-        {
-            FinishText.text = "";
-        }
 
-        if (playerFinish)
-        {
-            FinishTimer.text = "A player has finished the race! The race will end in " + (int)(endTimer - NetworkTime.time) + " seconds!";
-            if(NetworkTime.time >= endTimer && endSequenceCalled == false)
+            if (playerFinish)
             {
-                endSequenceCalled = true;
-                GameObject[] allPlayers = GameObject.FindGameObjectsWithTag("Player");
-                foreach (GameObject player in allPlayers)
+                if (prevTime != (int)(endTimer - NetworkTime.time)) // Reduces network traffic
                 {
-                    if (player.GetComponent<NetworkCharacterMovementController>().isAI)
-                    {
-                        DontDestroyOnLoad(player.transform.parent.gameObject);
-                        NetGameManager.Instance.AddPlayer(player);
-                    }
+                    prevTime = (int)(endTimer - NetworkTime.time);
+                    RpcEndSequence($"A player has finished the race! The race will end in {prevTime} seconds!");
                 }
-                List<GameObject> players = NetGameManager.Instance.getPlayers();
-                foreach (GameObject player in players)
+                if (endTimer - NetworkTime.time <= 0)
                 {
-                    if(player.GetComponent<NetworkCharacterMovementController>().GetFinishPosition() == 0)
-                    {
-                        player.GetComponent<NetworkCharacterMovementController>().SetFinishPosition(noFinishPositions);
-                        noFinishPositions--;
-                    }
+                    netManager.ServerChangeScene("NetVictoryStands");
+                    playerFinish = false;
                 }
-                netManager.ServerChangeScene("NetVictoryStands");
             }
-        }
-        else
+            else
+            {
+                FinishTimer.text = "";
+            }
+        } else // Not server
         {
-            FinishTimer.text = "";
+            if (display)
+            {
+                if (NetworkTime.time >= swapTime)
+                {
+                    display = false;
+                    swapTime = (float)NetworkTime.time + 3.0f;
+                }
+            }
+            if (playerFinish)
+            {
+                if (endTimer - NetworkTime.time <= 0)
+                {
+                    playerFinish = false;
+                }
+            }
+            else
+            {
+                FinishTimer.text = "";
+            }
         }
     }
 
     void OnTriggerEnter(Collider collider)
     {
-        if (isServer && collider.CompareTag("Player"))
+        if (collider.CompareTag("Player"))
         {
-            NetworkCharacterMovementController netCMC = collider.GetComponent<NetworkCharacterMovementController>();
-            if(netCMC.isAI 
-                || netCMC.getCheckpointCount() == checkpoints.Length 
-                && netCMC.GetHasGrabbed() 
-                && netCMC.GetFinishPosition() == 0)
+            if (isServer)
             {
-                
-                if (!collider.GetComponent<NetworkCharacterMovementController>().isAI)
+                NetworkCharacterMovementController netCMC = collider.GetComponent<NetworkCharacterMovementController>();
+                if (netCMC.isAI
+                    || netCMC.getCheckpointCount() == checkpoints.Length
+                    && netCMC.GetHasGrabbed()
+                    && netCMC.GetFinishPosition() == 0)
                 {
-                    display = true;
-                    if (SceneManager.GetActiveScene().name.Equals("NetBlock"))
-                        SteamAchievements.UnlockAchievement("SR_NE_ONLINE");
-                    else if(SceneManager.GetActiveScene().name.Equals("NetDowntown"))
-                        SteamAchievements.UnlockAchievement("SR_DT_ONLINE");
-                    mySource.Post(gameObject);
+                    if (!netCMC.isAI)
+                    {
+                        display = true;
+                    }
+                    playerID = netCMC.getPlayerID() + 1;
+                    netCMC.SetFinishPosition(positions);
+                    positions++;
                 }
-                playerID = collider.GetComponent<NetworkCharacterMovementController>().getPlayerID() + 1;
-                collider.GetComponent<NetworkCharacterMovementController>().SetFinishPosition(positions);
-                positions++;
-            } else
+                else
+                {
+                    Debug.LogWarning($"Player {collider.name} failed finish checks! AI: {netCMC.isAI}, allCheckpoints: {netCMC.getCheckpointCount() == checkpoints.Length}, HasGrabbed: {netCMC.GetHasGrabbed()}, FinishPos: {netCMC.GetFinishPosition() == 0}");
+                }
+            }
+            if (collider.GetComponent<NetworkCharacterMovementController>().isLocalPlayer)
             {
-                Debug.LogWarning($"Player {collider.name} failed finish checks! AI: {netCMC.isAI}, allCheckpoints: {netCMC.getCheckpointCount() == checkpoints.Length}, HasGrabbed: {netCMC.GetHasGrabbed()}, FinishPos: {netCMC.GetFinishPosition() == 0}");
+                if (SceneManager.GetActiveScene().name.Equals("NetBlock"))
+                    SteamAchievements.UnlockAchievement("SR_NE_ONLINE");
+                else if (SceneManager.GetActiveScene().name.Equals("NetDowntown"))
+                    SteamAchievements.UnlockAchievement("SR_DT_ONLINE");
+                mySource.Post(gameObject);
             }
         }
     }
@@ -132,6 +143,38 @@ public class NetManageGame : NetworkBehaviour
             if (!this.configs.Contains(config))
             {
                 this.configs.Add(config);
+            }
+        }
+    }
+
+    [ClientRpc]
+    private void RpcPlayerFinish(string _text)
+    {
+        FinishText.text = _text;
+        playerFinish = true;
+        endTimer += (float)NetworkTime.time;
+    }
+
+    [ClientRpc]
+    private void RpcEndSequence(string _text)
+    {
+        FinishTimer.text = _text;
+        if (endSequenceCalled == false)
+        {
+            endSequenceCalled = true;
+            GameObject[] allPlayers = GameObject.FindGameObjectsWithTag("Player");
+            foreach (GameObject player in allPlayers)
+            {
+                if (player.GetComponent<NetworkCharacterMovementController>().isAI)
+                {
+                    DontDestroyOnLoad(player.transform.parent.gameObject);
+                    NetGameManager.Instance.AddPlayer(player);
+                }
+                if (isServer && player.GetComponent<NetworkCharacterMovementController>().GetFinishPosition() == 0)
+                {
+                    player.GetComponent<NetworkCharacterMovementController>().SetFinishPosition(noFinishPositions);
+                    noFinishPositions--;
+                }
             }
         }
     }
