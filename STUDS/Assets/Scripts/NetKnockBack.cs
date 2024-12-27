@@ -31,12 +31,18 @@ public class NetKnockBack : NetworkBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            if (other.GetComponent<NetworkCharacterMovementController>())
+            NetworkCharacterMovementController netCMC = other.GetComponent<NetworkCharacterMovementController>();
+            if (netCMC)
             {
                 // Cancel hit if your own item hits you (network only)
                 if (owner.Equals(other.name) 
-                    || (clientAuthority && 
-                    (other.GetComponent<NetworkCharacterMovementController>().isAI && !isServer && !isLocalPlayer)))
+                    || (clientAuthority && // In client authority mode, ...
+                        (netCMC.isAI && !isServer) // ai outside the server cannot be hit
+                        || (netCMC.isAI == false && isServer && !netCMC.isLocalPlayer) // nonlocal players on the server cannot be hit.
+                    )
+                    || (!clientAuthority && !isServer) // In server authority mode, don't collide outside server.
+
+                ) 
                 {
                     return;
                 }

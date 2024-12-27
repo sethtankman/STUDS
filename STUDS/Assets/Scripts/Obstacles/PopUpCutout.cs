@@ -17,31 +17,39 @@ public class PopUpCutout : MonoBehaviour
     void Start()
     {
         countdown = timer;
-        initialForce = this.GetComponent<KnockBack>().KBForce;
-           currentPos = this.transform.rotation;
+        if (GetComponent<KnockBack>())
+            initialForce = GetComponent<KnockBack>().KBForce;
+        else
+            initialForce = GetComponent<NetKnockBack>().KBForce;
+        currentPos = transform.rotation;
     }
 
     // Update is called once per frame
     void Update()
     {
-        //print(countdown);
          countdown -= Time.deltaTime;
         if (countdown < 0) {
             Standing = !Standing;
             countdown = timer;
-            }
+        }
 
         if (Standing)
         {
-            this.GetComponent<KnockBack>().KBForce = 0;
-            this.GetComponent<BoxCollider>().enabled = false;
+            if (GetComponent<KnockBack>())
+                GetComponent<KnockBack>().KBForce = 0;
+            else
+                GetComponent<NetKnockBack>().KBForce = 0;
+            GetComponent<BoxCollider>().enabled = false;
             Quaternion wantedRotation = transform.rotation * Quaternion.AngleAxis(10, Vector3.left);
             transform.rotation = Quaternion.Slerp(transform.rotation, wantedRotation, Time.deltaTime*speed);
         }
         else
         {
-            this.GetComponent<KnockBack>().KBForce = initialForce;
-            this.GetComponent<BoxCollider>().enabled = true;
+            if (GetComponent<KnockBack>())
+                GetComponent<KnockBack>().KBForce = initialForce;
+            else
+                GetComponent<NetKnockBack>().KBForce = initialForce;
+            GetComponent<BoxCollider>().enabled = true;
             transform.rotation = Quaternion.Slerp(transform.rotation, currentPos, Time.deltaTime * speed);
         }
 

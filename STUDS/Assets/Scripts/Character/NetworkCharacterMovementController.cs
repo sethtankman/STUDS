@@ -670,6 +670,19 @@ public class NetworkCharacterMovementController : NetworkBehaviour
         {
             RpcKnockBack(direction, _drop);
         }
+        else if (isLocalPlayer)
+        {
+            knockBackCounter = knockBackTime;
+            beingKnockedBack = true;
+            drop = _drop;
+            if (_drop)
+            {
+                DropGrabbedItem();
+                if (cameraShake)
+                    StartCoroutine(cameraShake.Shake(0.15f, 0.4f));
+            }
+            velocity = direction;
+        }
     }
 
     /// <summary>

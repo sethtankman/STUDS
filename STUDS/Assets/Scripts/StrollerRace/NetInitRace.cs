@@ -12,6 +12,7 @@ using Mirror;
 public class NetInitRace : NetworkBehaviour
 {
     public Transform[] playerSpawns;
+    [SerializeField] private GameObject[] objectsToDisableOnline;
     public GameObject playerPrefab;
 
     private bool spawnedPlayers = false;
@@ -51,6 +52,7 @@ public class NetInitRace : NetworkBehaviour
         playersLoaded++;
         if (isServer && playersLoaded == NetGameManager.Instance.playerIDCount)
         {
+            RpcDisableOnlineObjects();
             NDAC.FillWithAI();
             FindObjectOfType<NetRaceTracker>().SetColorsGivePlaceTrackers();
             Invoke(nameof(StartGame), 5.0f);
@@ -83,7 +85,7 @@ public class NetInitRace : NetworkBehaviour
     }
 
     [ClientRpc]
-    public void RpcDetermineColor(string colorName, uint strollerID, int playerID)
+    private void RpcDetermineColor(string colorName, uint strollerID, int playerID)
     {
         if (NetworkClient.spawned.ContainsKey(strollerID) == false)
         {
@@ -95,5 +97,14 @@ public class NetInitRace : NetworkBehaviour
         NetworkClient.spawned[strollerID].GetComponent<StrollerController>().SetID(playerID);
         NetworkClient.spawned[strollerID].GetComponent<StrollerController>().DetermineColor(colorName);
         PauseV2.canPause = true;
+    }
+
+    [ClientRpc]
+    private void RpcDisableOnlineObjects()
+    {
+        foreach (GameObject obj in objectsToDisableOnline)
+        {
+            obj.SetActive(false);
+        }
     }
 }
