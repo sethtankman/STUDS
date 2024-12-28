@@ -36,12 +36,12 @@ public class NetInitRace : NetworkBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        PauseV2.canPause = false;
+        NetPause.canPause = false;
         GameObject.Find("Music Manager").GetComponent<Music_Manager>().PlayStopMusic("Menu", false);
         GameObject.Find("Music Manager").GetComponent<Music_Manager>().PlayStopMusic("Stroller", true);
         PlayerInputManager.instance.DisableJoining();
         if(pauseMenuUI)
-            NetGameManager.Instance.GetComponent<PauseV2>().PauseMenuUI = pauseMenuUI;
+            NetGameManager.Instance.GetComponent<NetPause>().PauseMenuUI = pauseMenuUI;
     }
 
     /// <summary>
@@ -96,7 +96,7 @@ public class NetInitRace : NetworkBehaviour
         spawnedPlayers = true;
         NetworkClient.spawned[strollerID].GetComponent<StrollerController>().SetID(playerID);
         NetworkClient.spawned[strollerID].GetComponent<StrollerController>().DetermineColor(colorName);
-        PauseV2.canPause = true;
+        NetPause.canPause = true;
     }
 
     [ClientRpc]

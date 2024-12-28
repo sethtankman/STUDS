@@ -34,10 +34,10 @@ public class NetDBInit : NetworkBehaviour
     {
         GameObject.Find("Music Manager").GetComponent<Music_Manager>().PlayStopMusic("Menu", false);
         GameObject.Find("Music Manager").GetComponent<Music_Manager>().PlayStopMusic("Stroller", true);
-        PauseV2.canPause = false;
+        NetPause.canPause = false;
         if (NetGameManager.Instance)
         {
-            NetGameManager.Instance.GetComponent<PauseV2>().PauseMenuUI = pauseMenuUI;
+            NetGameManager.Instance.GetComponent<NetPause>().PauseMenuUI = pauseMenuUI;
         }
         else
             Debug.LogWarning("Manage Player Hub not found!");
@@ -108,7 +108,7 @@ public class NetDBInit : NetworkBehaviour
         Destroy(startCam);
         Destroy(startText);
         Destroy(startUI);
-        PauseV2.canPause = true;
+        NetPause.canPause = true;
     }
 
     [ClientRpc]

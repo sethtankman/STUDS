@@ -19,7 +19,7 @@ public class NetDadBtnMngr : NetworkBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        PauseV2.canPause = false;
+        NetPause.canPause = false;
         acceptButton.SetActive(false);
         AIColors = new Stack<string>();
         remainingColors = new List<string>() { "blue", "red", "purple", "green", "yellow" };

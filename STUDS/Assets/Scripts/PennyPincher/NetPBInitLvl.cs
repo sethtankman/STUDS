@@ -43,7 +43,7 @@ public class NetPBInitLvl : NetworkBehaviour
             player.GetComponent<NetworkCharacterMovementController>().SetAimAssist(true);
 
         if (pauseMenuUI)
-            GameObject.Find("NetGameManager").GetComponent<PauseV2>().PauseMenuUI = pauseMenuUI;
+            GameObject.Find("NetGameManager").GetComponent<NetPause>().PauseMenuUI = pauseMenuUI;
         else
         {
             Debug.LogError("PB no pause menu UI?");
@@ -104,7 +104,7 @@ public class NetPBInitLvl : NetworkBehaviour
     {
         spawnedPlayers = true;
         loadingScreen.SetActive(false);
-        PauseV2.canPause = true;
+        NetPause.canPause = true;
         players = GameObject.FindGameObjectsWithTag("Player");
         foreach (GameObject player in players)
         {

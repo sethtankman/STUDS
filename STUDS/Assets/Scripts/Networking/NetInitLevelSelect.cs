@@ -10,7 +10,7 @@ public class NetInitLevelSelect : NetworkBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        PauseV2.canPause = true;
+        NetPause.canPause = true;
         // We only need this when we revisit the levelselect.
         if (NetGameManager.Instance)
         {

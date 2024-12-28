@@ -71,7 +71,7 @@ public class SettingsMenu_Scott : MonoBehaviour
         {
             menuPlayButton.GetComponent<Button>().onClick.AddListener(pv2.GetComponent<PauseV2>().Pause);
         } else if (ngm) {
-            menuPlayButton.GetComponent<Button>().onClick.AddListener(ngm.GetComponent<PauseV2>().Pause);
+            menuPlayButton.GetComponent<Button>().onClick.AddListener(ngm.GetComponent<NetPause>().Pause);
         }
     }
 

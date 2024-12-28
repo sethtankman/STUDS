@@ -134,9 +134,10 @@ public class SteamLobby : NetworkBehaviour
     /// </summary>
     public void HandleLeave()
     {
-        PauseV2.gameisPaused = false;
+        NetPause.gameisPaused = false;
         netManager.StopHost();
         StudsNetworkManager.ResetStatics();
+        SteamMatchmaking.LeaveLobby(joinedLobbyID);
     }
 
     public void JoinRoomAsClient()

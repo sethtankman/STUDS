@@ -36,7 +36,7 @@ public class NetGameManager : NetworkBehaviour
     public Text StartText;
 
     [SerializeField] private bool playerJoined;
-    [SerializeField] private PauseV2 pv2; // to be set in editor
+    [SerializeField] private NetPause np; // to be set in editor
 
     public static NetGameManager Instance { get; private set; }
     public PlayerInputManager pim;
@@ -78,7 +78,7 @@ public class NetGameManager : NetworkBehaviour
                     case InputDeviceChange.Disconnected:
                         // Device got unplugged.
                         Debug.Log("A Player has disconnected");
-                        pv2.Pause();
+                        np.Pause();
                         break;
                     case InputDeviceChange.Reconnected:
                         Debug.Log("A Player has reconnected");
@@ -135,7 +135,7 @@ public class NetGameManager : NetworkBehaviour
         {
             Debug.Log("Steam Overlay has been activated");
 
-            GameObject.Find("GameManager").GetComponent<PauseV2>().Pause();
+            GameObject.Find("GameManager").GetComponent<NetPause>().Pause();
         }
         else
         {
@@ -297,6 +297,6 @@ public class NetGameManager : NetworkBehaviour
 
     public void SetPauseMenuPanel(GameObject panel)
     {
-        pv2.PauseMenuUI = panel;
+        np.PauseMenuUI = panel;
     }
 }

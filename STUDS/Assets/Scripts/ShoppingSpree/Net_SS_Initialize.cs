@@ -30,7 +30,7 @@ public class Net_SS_Initialize : NetworkBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        PauseV2.canPause = false;
+        NetPause.canPause = false;
         GameObject.Find("Music Manager").GetComponent<Music_Manager>().PlayStopMusic("Menu", false);
         GameObject.Find("Music Manager").GetComponent<Music_Manager>().PlayStopMusic("Shopping", true);
         PlayerInputManager.instance.DisableJoining();
@@ -55,7 +55,7 @@ public class Net_SS_Initialize : NetworkBehaviour
             tracker.myPaper = p1Paper;
         }
         if (pauseMenuUI)
-            GameObject.Find("NetGameManager").GetComponent<PauseV2>().PauseMenuUI = pauseMenuUI;
+            GameObject.Find("NetGameManager").GetComponent<NetPause>().PauseMenuUI = pauseMenuUI;
         else
         {
             Debug.LogError("SS no pause menu UI");
@@ -76,7 +76,7 @@ public class Net_SS_Initialize : NetworkBehaviour
                 spawnedPlayers = true;
             }
             GameObject.Find("Row1").GetComponent<NetRandomPicker>().RandomDeactivate();
-            PauseV2.canPause = true;
+            NetPause.canPause = true;
         }
     }
 

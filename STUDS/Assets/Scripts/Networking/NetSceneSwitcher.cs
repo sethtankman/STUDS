@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Mirror;
+using Steamworks;
 
 
 public class NetSceneSwitcher : NetworkBehaviour
@@ -17,9 +18,13 @@ public class NetSceneSwitcher : NetworkBehaviour
         }
     }
 
+    /// <summary>
+    /// Called by Return to main menu call.
+    /// </summary>
     public void CallHandleLeave()
     {
         SteamLobby.singleton.HandleLeave();
+
     }
 
     public void LoadSpecificScene()
