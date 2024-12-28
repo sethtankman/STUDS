@@ -1,10 +1,11 @@
-﻿using System.Collections;
+﻿using Mirror;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
-using System.Linq;
 
-public class NetRaceTracker : MonoBehaviour
+public class NetRaceTracker : NetworkBehaviour
 {
     public List<GameObject> Players = new List<GameObject>();
     public List<NetPlaceTracker> PT = new List<NetPlaceTracker>();
@@ -22,28 +23,30 @@ public class NetRaceTracker : MonoBehaviour
 
     public void SetColorsGivePlaceTrackers()
     {
-        foreach(GameObject obj in GameObject.FindGameObjectsWithTag("Player")){
+        foreach (GameObject obj in GameObject.FindGameObjectsWithTag("Player"))
+        {
             Players.Add(obj);
         }
-        if(Players.Count < 4)
+        if (Players.Count < 4)
         {
             Color invis;
             invis = new Color32(0, 0, 0, 0);
             Positions[3].color = invis;
         }
 
-        for(int i = 0; i < Players.Count; i++)
+        for (int i = 0; i < Players.Count; i++)
         {
             PT.Add(Players[i].GetComponentInChildren<NetPlaceTracker>());
 
         }
-        allPlayersLoaded=true;
+        if (isServer)
+            StartCoroutine(nameof(UpdatePlacements));
     }
 
     // Update is called once per frame
-    void Update()
+    private IEnumerator UpdatePlacements()
     {
-        if (allPlayersLoaded)
+        while (true)
         {
             PT = PT.OrderByDescending(e => e.GetComponentInChildren<NetPlaceTracker>().Progress).ToList();
 
@@ -51,9 +54,10 @@ public class NetRaceTracker : MonoBehaviour
             {
                 string PlrColor = PT[i].GetComponentInChildren<NetPlaceTracker>().PLRCol;
 
-                Positions[i].texture = IconPicker(PlrColor);
+                RpcSetIcon(i, PlrColor);
 
             }
+            yield return new WaitForSeconds(1.0f);
         }
     }
 
@@ -86,4 +90,9 @@ public class NetRaceTracker : MonoBehaviour
         return null;
     }
 
+    [ClientRpc]
+    private void RpcSetIcon(int i, string color)
+    {
+        Positions[i].texture = IconPicker(color);
+    }
 }
