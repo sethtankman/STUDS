@@ -3,16 +3,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using System.Runtime.CompilerServices;
+using Mirror;
+using UnityEngine.UI;
 
-public class NetVictoryScreenInit : MonoBehaviour
+public class NetVictoryScreenInit : NetworkBehaviour
 {
     public GameObject finalText;
+    [SerializeField] private Button LevelSelectBtn;
 
     // Start is called before the first frame update
     void Start()
     {
         NetPause.canPause = false;
         Time.timeScale = 1f;
+        if (!isServer)
+            LevelSelectBtn.interactable = false;
 
         GameObject.Find("Music Manager").GetComponent<Music_Manager>().PlayStopMusic("Menu", false);
         GameObject.Find("Music Manager").GetComponent<Music_Manager>().PlayStopMusic("Shopping", false);

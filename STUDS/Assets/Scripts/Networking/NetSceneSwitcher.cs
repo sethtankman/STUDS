@@ -29,7 +29,8 @@ public class NetSceneSwitcher : NetworkBehaviour
 
     public void LoadSpecificScene()
     {
-        FindObjectOfType<NetworkManager>().ServerChangeScene(specificScene);
+        if(isServer)
+            FindObjectOfType<NetworkManager>().ServerChangeScene(specificScene);
     }
 
     public void QuitGame()
