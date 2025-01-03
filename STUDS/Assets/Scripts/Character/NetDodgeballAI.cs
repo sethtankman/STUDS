@@ -247,4 +247,10 @@ public class NetDodgeballAI : NetworkBehaviour
         else
             return false;
     }
+
+    [ClientRpc]
+    public void RpcSetActive(bool tf)
+    {
+        gameObject.SetActive(tf);
+    }
 }

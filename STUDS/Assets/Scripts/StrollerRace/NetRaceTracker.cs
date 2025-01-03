@@ -19,8 +19,6 @@ public class NetRaceTracker : NetworkBehaviour
 
     public RawImage[] Positions;
 
-    private bool allPlayersLoaded = false;
-
     public void SetColorsGivePlaceTrackers()
     {
         foreach (GameObject obj in GameObject.FindGameObjectsWithTag("Player"))

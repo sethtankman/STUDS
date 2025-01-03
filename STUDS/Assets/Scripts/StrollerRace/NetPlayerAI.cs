@@ -4,6 +4,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 
+/// <summary>
+/// Player AI for Stroller Race Levels.
+/// </summary>
 public class NetPlayerAI : NetworkBehaviour
 {
     public GameObject path;

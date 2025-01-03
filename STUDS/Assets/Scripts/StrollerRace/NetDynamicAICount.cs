@@ -28,7 +28,10 @@ public class NetDynamicAICount : NetworkBehaviour
             for (int i = 0; i < numAI2Remove; i++)
             {
                 AiOBJ[i].SetActive(false); // Keep this here so the server will be able to immediately have an accurate count of players.
-                AiOBJ[i].GetComponentInChildren<NetPlayerAI>().RpcSetActive(false);
+                if (AiOBJ[i].GetComponentInChildren<NetPlayerAI>())
+                    AiOBJ[i].GetComponentInChildren<NetPlayerAI>().RpcSetActive(false);
+                else if (AiOBJ[i].GetComponent<NetDodgeballAI>())
+                    AiOBJ[i].GetComponent<NetDodgeballAI>().RpcSetActive(false);
             }
         }
     }
