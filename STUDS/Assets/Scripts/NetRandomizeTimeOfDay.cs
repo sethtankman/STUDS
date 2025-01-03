@@ -24,9 +24,9 @@ public class NetRandomizeTimeOfDay : NetworkBehaviour
     //random numbers
     [Header("Debug View Random Number Values")]
     [Tooltip("View the value of floats that determine time, weather at runtime")]
-    public float RandomSky;
-    public float RandomRain;
-    public float RandomFog;
+    [SyncVar] public int RandomSky;
+    [SyncVar] public int RandomRain;
+    [SyncVar] public int RandomFog;
 
     //day, night, FX game objects
     [Header("Time and Weather GameObjects")]
@@ -74,7 +74,28 @@ public class NetRandomizeTimeOfDay : NetworkBehaviour
             RandomSky = Random.Range(1, 4);
             RandomRain = Random.Range(0, 3); //33% chance of rain
             RandomFog = Random.Range(0, 4); //25% chance of fog
-            RpcSetWeather(RandomSky, RandomRain, RandomFog);
+            Invoke("CallSetWeather", 0.1f); // need to wait for network object to be spawned to call rpc.
+        }
+    }
+
+    public override void OnStartClient()
+    {
+        //day
+        if (RandomSky == 1)
+        {
+            Day.SetActive(true);
+        }
+        //sunset + weather
+        else if (RandomSky == 2)
+        {
+            Sunset.SetActive(true);
+            SetWeather();
+        }
+        //night + weather
+        else
+        {
+            Night.SetActive(true);
+            SetWeather();
         }
     }
 
@@ -88,8 +109,13 @@ public class NetRandomizeTimeOfDay : NetworkBehaviour
         setRaining = false;
     }
 
+    void CallSetWeather()
+    {
+        RpcSetWeather(RandomSky, RandomRain, RandomFog);
+    }
+
     [ClientRpc]
-    private void RpcSetWeather(float _Sky, float _Rain, float _Fog)
+    private void RpcSetWeather(int _Sky, int _Rain, int _Fog)
     {
         RandomSky = _Sky;
         RandomRain = _Rain;
