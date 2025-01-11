@@ -8,7 +8,6 @@ public class NetworkMenuActions : MonoBehaviour
 {
     public static NetworkMenuActions instance;
     public Text logText;
-    public StudsNetworkManager manager;
     public GameObject RoomButtonPrefab;
     public GameObject ContentPanel;
     public CSteamID SelectedRoomId;
@@ -38,9 +37,9 @@ public class NetworkMenuActions : MonoBehaviour
 
     public void HostRoom()
     {
-        if (!manager)
-            manager = GameObject.Find("NetworkManager").GetComponent<StudsNetworkManager>();
-        manager.StartHost();
+        if (!StudsNetworkManager.singleton)
+            Debug.LogError("Network Manager not instantiated!");
+        StudsNetworkManager.singleton.StartHost();
     }
 
     public void DisplayLobbies(List<CSteamID> lobbyIDS, LobbyDataUpdate_t result)

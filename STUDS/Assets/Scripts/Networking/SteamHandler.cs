@@ -5,34 +5,33 @@ using UnityEngine;
 public class SteamHandler : MonoBehaviour
 {
     public GameObject steamLobbyHandler;
-    public static SteamLobby myHandler;
 
     public void spawnLobbyHandler()
     {
         if(!SteamLobby.singleton)
-            myHandler = Instantiate(steamLobbyHandler).GetComponent<SteamLobby>();
+            Instantiate(steamLobbyHandler).GetComponent<SteamLobby>();
     }
 
     public void callGetLobbies()
     {
-        myHandler.GetLobbyList();
-        myHandler.fetchLobbies = true;
+        SteamLobby.singleton.GetLobbyList();
+        SteamLobby.singleton.fetchLobbies = true;
     }
 
     public void stopGettingLobbies()
     {
-        myHandler.fetchLobbies = false;
+        SteamLobby.singleton.fetchLobbies = false;
     }
 
     public void callHostGame()
     {
-        myHandler.fetchLobbies = false;
-        myHandler.HostLobby();
+        SteamLobby.singleton.fetchLobbies = false;
+        SteamLobby.singleton.HostLobby();
     }
 
     public static void callJoinRoomAsClient()
     {
-        myHandler.fetchLobbies = false;
-        myHandler.JoinRoomAsClient();
+        SteamLobby.singleton.fetchLobbies = false;
+        SteamLobby.singleton.JoinRoomAsClient();
     }
 }

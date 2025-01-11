@@ -33,7 +33,6 @@ public class NetPWRBill_Manager : NetworkBehaviour
 
 
     public GameObject PBGameEndText;
-    private StudsNetworkManager netManager;
 
     private int racePositions;
     private int noFinishPos;
@@ -44,7 +43,6 @@ public class NetPWRBill_Manager : NetworkBehaviour
     {
         racePositions = 1;
         noFinishPos = -1;
-        netManager = GameObject.Find("NetworkManager").GetComponent<StudsNetworkManager>();
         foreach (GameObject Electronic in GameObject.FindGameObjectsWithTag("RandomPick"))
         {
             Interactives.Add(Electronic.GetComponent<NetInteraction>());
@@ -158,7 +156,7 @@ public class NetPWRBill_Manager : NetworkBehaviour
                     Debug.LogError("No Network Character movement controller found in player!");
                 }
             }
-            netManager.ServerChangeScene("NetVictoryStands");
+            StudsNetworkManager.singleton.ServerChangeScene("NetVictoryStands");
         }
     }
 

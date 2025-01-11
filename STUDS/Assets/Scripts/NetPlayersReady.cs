@@ -55,28 +55,26 @@ public class NetPlayersReady : NetworkBehaviour
                 if (allReady)
                 {
                     GameObject.Find("NetGameManager").GetComponent<NetGameManager>().RpcSaveState();
-                    StudsNetworkManager netManager = NetworkManager.GetComponent<StudsNetworkManager>();
-                    // Close the lobby
                     SteamLobby.singleton.SetLobbyClosed();
                     SteamMatchmaking.LeaveLobby(SteamLobby.singleton.joinedLobbyID);
                     if (gameObject.CompareTag("PennyPincher"))
                     {
-                        netManager.ServerChangeScene("Net-PBDadRandom");
+                        StudsNetworkManager.singleton.ServerChangeScene("Net-PBDadRandom");
                     }
                     else if (gameObject.CompareTag("StrollerRace"))
                     {
-                        netManager.ServerChangeScene("NetBlock");
+                        StudsNetworkManager.singleton.ServerChangeScene("NetBlock");
                     }
                     else if (gameObject.CompareTag("ShoppingSpree"))
                     {
-                        netManager.ServerChangeScene("Network_Shopping_Spree");
+                        StudsNetworkManager.singleton.ServerChangeScene("Network_Shopping_Spree");
                     }
                     else if (gameObject.CompareTag("Downtown"))
                     {
-                        netManager.ServerChangeScene("NetDowntown");
+                        StudsNetworkManager.singleton.ServerChangeScene("NetDowntown");
                     } else if (gameObject.CompareTag("Dodgeball"))
                     {
-                        netManager.ServerChangeScene("NetDodgeball");
+                        StudsNetworkManager.singleton.ServerChangeScene("NetDodgeball");
                     }
                 }
             }

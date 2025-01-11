@@ -7,8 +7,6 @@ using UnityEngine.EventSystems;
 
 public class SteamLobby : NetworkBehaviour
 {
-
-    private StudsNetworkManager netManager;
     private const string hostAddressKey = "HostAddress";
     private int refreshTimer;
 
@@ -52,20 +50,8 @@ public class SteamLobby : NetworkBehaviour
         if (!InitializeSingleton()) return;
     }
 
-    /// <summary>
-    /// Every time we enter the Main Menu, we need to start using the new Network Manager.  
-    /// Players also need to individually leave the lobby on steam's server once they leave the lobby.
-    /// </summary>
-    /// <param name="level">number of the main menu is 1</param>
-    private void OnLevelWasLoaded(int level)
-    {
-        if(level == 1)
-             netManager = GameObject.Find("NetworkManager").GetComponent<StudsNetworkManager>();
-    }
-
     public void Start()
     {
-        netManager = GameObject.Find("NetworkManager").GetComponent<StudsNetworkManager>();
         refreshTimer = 1000;
 
         if (!SteamManager.Initialized)
@@ -79,7 +65,6 @@ public class SteamLobby : NetworkBehaviour
         LobbyEntered = Callback<LobbyEnter_t>.Create(OnLobbyEntered);
         LobbyListRequested = Callback<LobbyDataUpdate_t>.Create(OnGetLobbyInfo);
         Callback_lobbyList = Callback<LobbyMatchList_t>.Create(OnGetLobbiesList);
-        LobbyLeft = Callback<LobbyChatUpdate_t>.Create(OnLobbyLeft);
     }
 
     public void Update()
@@ -122,10 +107,8 @@ public class SteamLobby : NetworkBehaviour
 
     public void HostLobby()
     {
-        Debug.Log("Trying to host lobby");
-        netManager = GameObject.Find("NetworkManager").GetComponent<StudsNetworkManager>();
-        if(netManager)
-            SteamMatchmaking.CreateLobby(ELobbyType.k_ELobbyTypePublic, netManager.maxConnections);
+        if(StudsNetworkManager.singleton)
+            SteamMatchmaking.CreateLobby(ELobbyType.k_ELobbyTypePublic, StudsNetworkManager.singleton.maxConnections);
         else { Debug.LogError("Could not find NetworkManager");  }
     }
 
@@ -135,7 +118,6 @@ public class SteamLobby : NetworkBehaviour
     public void HandleLeave()
     {
         NetPause.gameisPaused = false;
-        netManager.StopHost();
         StudsNetworkManager.ResetStatics();
         SteamMatchmaking.LeaveLobby(joinedLobbyID);
     }
@@ -161,14 +143,13 @@ public class SteamLobby : NetworkBehaviour
 
     private void OnLobbyCreated(LobbyCreated_t callback)
     {
-        Debug.Log("OnLobbyCreated");
         if (callback.m_eResult != EResult.k_EResultOK)
         {
             Debug.LogError($"OnLobbyCreated abort: {callback.m_eResult}");
             return;
         }
 
-        netManager.StartHost();
+        StudsNetworkManager.singleton.StartHost();
 
         joinedLobbyID = new CSteamID(callback.m_ulSteamIDLobby); // I added this to make leaving have the CSteamID it needs - Addison
         SteamMatchmaking.SetLobbyData(joinedLobbyID, hostAddressKey, SteamUser.GetSteamID().ToString());
@@ -177,11 +158,6 @@ public class SteamLobby : NetworkBehaviour
             "name",
             $"{SteamFriends.GetPersonaName()}'s lobby");
         bool result = SteamMatchmaking.SetLobbyData(joinedLobbyID, "isClosed", "f");
-    }
-
-    private void OnLobbyLeft(LobbyChatUpdate_t callback)
-    {
-        SteamMatchmaking.LeaveLobby(joinedLobbyID);
     }
 
     private void OnGameLobbyJoin(GameLobbyJoinRequested_t callback)
@@ -208,8 +184,8 @@ public class SteamLobby : NetworkBehaviour
         }
 
 
-        netManager.networkAddress = hostAddress;
-        netManager.StartClient();
+        StudsNetworkManager.singleton.networkAddress = hostAddress;
+        StudsNetworkManager.singleton.StartClient();
         lobbyIDS.Clear();
 
         if (GameObject.Find("OnlineMenu"))

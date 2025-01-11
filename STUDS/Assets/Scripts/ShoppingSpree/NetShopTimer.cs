@@ -52,8 +52,7 @@ public class NetShopTimer : NetworkBehaviour
             Destroy(player.GetComponent<SS_ItemTracker>());
         }
         SteamAchievements.UnlockAchievement("SS_ONLINE");
-        StudsNetworkManager netManager = NetworkManager.GetComponent<StudsNetworkManager>();
-        netManager.ServerChangeScene("NetVictoryStands");
+        StudsNetworkManager.singleton.ServerChangeScene("NetVictoryStands");
     }
 
     void Showtime()

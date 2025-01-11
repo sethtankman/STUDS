@@ -14,7 +14,7 @@ public class StudsNetworkManager : NetworkManager
     /// when returning to the main menu and there is another Network Manager
     /// </summary>
     public bool isMyNetworkManager;
-    public static new StudsNetworkManager singleton { get; private set; }
+    public static new StudsNetworkManager singleton => (StudsNetworkManager)NetworkManager.singleton;
 
     #region Unity Callbacks
 
@@ -247,8 +247,6 @@ public class StudsNetworkManager : NetworkManager
     public override void OnStopHost()
     {
         base.OnStopHost();
-        singleton = null;
-        Destroy(gameObject);
     }
 
     /// <summary>
@@ -257,8 +255,6 @@ public class StudsNetworkManager : NetworkManager
     public override void OnStopServer()
     {
         base.OnStopServer();
-        singleton = null;
-        Destroy(gameObject);
     }
 
     /// <summary>
@@ -266,8 +262,6 @@ public class StudsNetworkManager : NetworkManager
     /// </summary>
     public override void OnStopClient() {
         base.OnStopClient();
-        singleton = null;
-        Destroy(gameObject);
     }
 
     #endregion

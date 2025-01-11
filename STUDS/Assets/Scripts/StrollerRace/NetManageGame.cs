@@ -15,8 +15,6 @@ public class NetManageGame : NetworkBehaviour
 
     public GameObject[] checkpoints;
 
-    public StudsNetworkManager netManager;
-
     public TextMeshProUGUI FinishText;
     public TextMeshProUGUI FinishTimer;
 
@@ -40,7 +38,6 @@ public class NetManageGame : NetworkBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        netManager = GameObject.Find("NetworkManager").GetComponent<StudsNetworkManager>();
         swapTime += (float)NetworkTime.time;
     }
 
@@ -68,7 +65,7 @@ public class NetManageGame : NetworkBehaviour
                 }
                 if (endTimer - NetworkTime.time <= 0)
                 {
-                    netManager.ServerChangeScene("NetVictoryStands");
+                    StudsNetworkManager.singleton.ServerChangeScene("NetVictoryStands");
                     playerFinish = false;
                 }
             }
