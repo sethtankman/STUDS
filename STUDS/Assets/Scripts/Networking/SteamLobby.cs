@@ -158,7 +158,7 @@ public class SteamLobby : NetworkBehaviour
             "name",
             $"{SteamFriends.GetPersonaName()}'s lobby");
         bool result = SteamMatchmaking.SetLobbyData(joinedLobbyID, "isClosed", "f");
-    }
+    } 
 
     private void OnGameLobbyJoin(GameLobbyJoinRequested_t callback)
     {
