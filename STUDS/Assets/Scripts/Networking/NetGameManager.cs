@@ -278,7 +278,10 @@ public class NetGameManager : NetworkBehaviour
     {
         foreach (GameObject player in AIplayers)
         {
-            Destroy(player);
+            if (player.transform.parent != null)
+                Destroy(player.transform.parent.gameObject);
+            else
+                Destroy(player);
         }
         AIplayers = new List<GameObject>();
         Destroy(GetComponent<PlayerInputManager>());

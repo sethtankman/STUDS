@@ -152,7 +152,8 @@ public class NetworkCharacterMovementController : NetworkBehaviour
             playerID = info.id;
             isMini = info.isMini;
             SetFinishPosition(info.finishPos);
-            GetComponentInChildren<SkinnedMeshRenderer>().material = NetGameManager.Instance.colorMaterials[color];
+            if(NetGameManager.Instance)
+                GetComponentInChildren<SkinnedMeshRenderer>().material = NetGameManager.Instance.colorMaterials[color];
             SetToMini(info.isMini);
         }
     }
@@ -160,10 +161,12 @@ public class NetworkCharacterMovementController : NetworkBehaviour
     public override void OnStopServer()
     {
         base.OnStopServer();
-
-        PlayerInfo info = new PlayerInfo(color, playerID, finishPosition, isMini);
-        if(connectionToClient != null)
-            connectionToClient.authenticationData = info;
+        if (isAI == false)
+        {
+            PlayerInfo info = new PlayerInfo(color, playerID, finishPosition, isMini);
+            if (connectionToClient != null)
+                connectionToClient.authenticationData = info;
+        }
     }
 
     public override void OnStartLocalPlayer()

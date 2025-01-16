@@ -290,7 +290,10 @@ public class ManagePlayerHub : MonoBehaviour
     {
         foreach (GameObject player in players)
         {
-            Destroy(player);
+            if (player.transform.parent != null)
+                Destroy(player.transform.parent.gameObject);
+            else
+                Destroy(player);
         }
         players = new List<GameObject>();
     }
