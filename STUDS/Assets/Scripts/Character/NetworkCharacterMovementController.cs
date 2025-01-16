@@ -88,7 +88,7 @@ public class NetworkCharacterMovementController : NetworkBehaviour
     private int playerID;
     private int completedCheckpoints;
     [SyncVar]
-    public int finishPosition;
+    private int finishPosition;
 
     private string selectedLevel;
     [SyncVar]

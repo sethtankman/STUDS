@@ -65,6 +65,16 @@ public class NetManageGame : NetworkBehaviour
                 }
                 if (endTimer - NetworkTime.time <= 0)
                 {
+                    GameObject[] allPlayers = GameObject.FindGameObjectsWithTag("Player");
+                    foreach (GameObject player in allPlayers)
+                    {
+                        int storedFinishPos = player.GetComponent<NetworkCharacterMovementController>().GetFinishPosition();
+                        if (storedFinishPos == 0 || storedFinishPos > 3) // If a player finishes fourth they should just be off the stand.
+                        {
+                            player.GetComponent<NetworkCharacterMovementController>().SetFinishPosition(noFinishPositions);
+                            noFinishPositions--;
+                        }
+                    }
                     StudsNetworkManager.singleton.ServerChangeScene("NetVictoryStands");
                     playerFinish = false;
                 }
@@ -104,10 +114,11 @@ public class NetManageGame : NetworkBehaviour
             if (isServer)
             {
                 NetworkCharacterMovementController netCMC = collider.GetComponent<NetworkCharacterMovementController>();
-                if (netCMC.isAI
-                    || netCMC.getCheckpointCount() == checkpoints.Length
-                    && netCMC.GetHasGrabbed()
-                    && netCMC.GetFinishPosition() == 0)
+                if (netCMC.GetFinishPosition() == 0
+                    && (netCMC.isAI
+                        || (netCMC.getCheckpointCount() == checkpoints.Length
+                        && netCMC.GetHasGrabbed()))
+                    )
                 {
                     if (!netCMC.isAI)
                     {
@@ -166,11 +177,6 @@ public class NetManageGame : NetworkBehaviour
                 {
                     DontDestroyOnLoad(player.transform.parent.gameObject);
                     NetGameManager.Instance.AddPlayer(player);
-                }
-                if (isServer && player.GetComponent<NetworkCharacterMovementController>().GetFinishPosition() == 0)
-                {
-                    player.GetComponent<NetworkCharacterMovementController>().SetFinishPosition(noFinishPositions);
-                    noFinishPositions--;
                 }
             }
         }
