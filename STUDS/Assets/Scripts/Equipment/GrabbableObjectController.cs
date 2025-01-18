@@ -48,7 +48,7 @@ public class GrabbableObjectController : MonoBehaviour
         {
             Vector3 newDir = target.transform.position - transform.position;
             newDir = newDir.normalized * ogDir.magnitude;
-            GetComponent<Rigidbody>().velocity = new Vector3((newDir.x + ogDir.x)/2, GetComponent<Rigidbody>().velocity.y, (newDir.z +ogDir.y)/2);
+            GetComponent<Rigidbody>().linearVelocity = new Vector3((newDir.x + ogDir.x)/2, GetComponent<Rigidbody>().linearVelocity.y, (newDir.z +ogDir.y)/2);
         }
 
         if (isDodgeball && isDeleteBallTimerStarted)

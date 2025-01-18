@@ -1141,11 +1141,11 @@ public class NetworkCharacterMovementController : NetworkBehaviour
         agent.enabled = false;
         rigidbody.useGravity = true;
         rigidbody.isKinematic = false;
-        rigidbody.velocity = _direction;
+        rigidbody.linearVelocity = _direction;
         yield return new WaitForFixedUpdate();
         float initTime = Time.time;
         yield return new WaitUntil(() => Time.time > knockBackTime + initTime);
-        rigidbody.velocity = Vector3.zero;
+        rigidbody.linearVelocity = Vector3.zero;
         rigidbody.useGravity = false;
         rigidbody.isKinematic = true;
         agent.Warp(transform.position);

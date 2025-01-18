@@ -26,7 +26,7 @@ public class Oscillator : MonoBehaviour
                 toPointA = false;
                 transform.Rotate(0, 180, 0);
             }
-            myBody.velocity = (Vector3.MoveTowards(transform.position, pointANucleus, 500) - transform.position).normalized * speed;
+            myBody.linearVelocity = (Vector3.MoveTowards(transform.position, pointANucleus, 500) - transform.position).normalized * speed;
 
         }
         else
@@ -36,7 +36,7 @@ public class Oscillator : MonoBehaviour
                 toPointA = true;
                 transform.Rotate(0, -180, 0);
             }
-            myBody.velocity = (Vector3.MoveTowards(transform.position, pointBNucleus, 500) - transform.position).normalized * speed;
+            myBody.linearVelocity = (Vector3.MoveTowards(transform.position, pointBNucleus, 500) - transform.position).normalized * speed;
 
         }
     }

@@ -56,7 +56,7 @@ public class TreeFallAndRoll : MonoBehaviour
             if (rolltime < 0)
             {
                 print(rolltime);
-                RB.velocity = Vector3.zero;
+                RB.linearVelocity = Vector3.zero;
                 RB.angularVelocity = Vector3.zero;
                 falling = false;
                 WobbleTime = StartWobble;

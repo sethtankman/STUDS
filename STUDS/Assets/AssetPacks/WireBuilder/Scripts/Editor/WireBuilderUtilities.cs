@@ -26,7 +26,7 @@ namespace WireBuilder
 #if UNITY_2018_1_OR_NEWER
 
 #if UNITY_2019_1_OR_NEWER //Render pipeline is no longer expiremental
-            UnityEngine.Rendering.RenderPipelineAsset renderPipelineAsset = UnityEngine.Rendering.GraphicsSettings.renderPipelineAsset;
+            UnityEngine.Rendering.RenderPipelineAsset renderPipelineAsset = UnityEngine.Rendering.GraphicsSettings.defaultRenderPipeline;
 #else
             UnityEngine.Experimental.Rendering.RenderPipelineAsset renderPipelineAsset = UnityEngine.Rendering.GraphicsSettings.renderPipelineAsset;
 #endif
