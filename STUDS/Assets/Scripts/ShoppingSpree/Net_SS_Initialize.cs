@@ -14,7 +14,7 @@ public class Net_SS_Initialize : NetworkBehaviour
     public Transform[] playerSpawns;
 
     private bool spawnedPlayers = false;
-    [SerializeField] private float waitTime = 5f;
+    private int playersLoaded = 0;
 
     private GameObject[] players;
     private GameObject localPlayer;
@@ -60,24 +60,28 @@ public class Net_SS_Initialize : NetworkBehaviour
         {
             Debug.LogError("SS no pause menu UI");
         }
-        waitTime += (float)NetworkTime.time;
     }
 
-    // Update is called once per frame
-    void Update()
+
+    public void NotifyPlayerReady()
     {
-        if (NetworkTime.time > waitTime && !spawnedPlayers)
+        playersLoaded++;
+        if (isServer && playersLoaded == NetGameManager.Instance.playerIDCount)
         {
-            Destroy(startCam);
-            if (startText)
-                startText.text = "";
-            for (int i = 0; i < players.Length; i++)
-            {
-                spawnedPlayers = true;
-            }
-            GameObject.Find("Row1").GetComponent<NetRandomPicker>().RandomDeactivate();
-            NetPause.canPause = true;
+            Invoke("StartGame", 5.0f);
         }
     }
 
+    private void StartGame()
+    {
+        Destroy(startCam);
+        if (startText)
+            startText.text = "";
+        for (int i = 0; i < players.Length; i++)
+        {
+            spawnedPlayers = true;
+        }
+        GameObject.Find("Row1").GetComponent<NetRandomPicker>().RandomDeactivate();
+        NetPause.canPause = true;
+    }
 }

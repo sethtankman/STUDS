@@ -5,21 +5,30 @@ using Mirror;
 
 public class NetCart : NetworkBehaviour
 {
-    public GameObject[] shoppingItems, cartItems;
+    public GameObject[] cartItemTransforms;
+    private GameObject[] cartItems;
+    private bool cartCooldownActive = false;
+
+    private void Start()
+    {
+        cartItems = new GameObject[cartItemTransforms.Length];
+    }
 
     public uint GiveObject(Transform owner)
     {
-        if (isServer)
+        if (isServer && cartCooldownActive == false)
         {
-            for (int i = 0; i < cartItems.Length; i++)
+            for (int i = 0; i < cartItemTransforms.Length; i++)
             {
-                if (cartItems[i].activeSelf)
+                if (cartItemTransforms[i].activeSelf)
                 {
-                    cartItems[i].SetActive(false);
-                    RpcSetItemActive(i, false); 
-                    GameObject shoppingItem = Instantiate(shoppingItems[i], owner.position + (owner.forward * 1.3f) + (owner.up * 0.7f), Quaternion.identity);
-                    NetworkServer.Spawn(shoppingItem);
-                    return shoppingItem.GetComponent<NetworkIdentity>().netId;
+                    cartItemTransforms[i].SetActive(false);
+                    RpcSetItemActive(i, false);
+                    GameObject item = cartItems[i];
+                    item.transform.parent = null;
+                    item.AddComponent<Rigidbody>();
+                    cartItems[i] = null;
+                    return item.GetComponent<NetworkIdentity>().netId;
                 }
             }
             Debug.Log("There's nothing on the cart, dummy!");
@@ -35,86 +44,81 @@ public class NetCart : NetworkBehaviour
                 && other.GetComponent<ShoppingItem>().isBeingHeld == false)
             {
                 string itemName = other.gameObject.GetComponent<ShoppingItem>().name;
+                int index = -1;
                 switch (itemName)
                 {
                     case "Boombox":
-                        if (cartItems[0].activeSelf == false)
+                        if (cartItemTransforms[0].activeSelf == false)
                         {
-                            cartItems[0].SetActive(true);
-                            RpcSetItemActive(0, true);
-                            NetworkServer.Destroy(other.gameObject);
+                            index = 0;
                         }
                         break;
                     case "Helmet":
-                        if (cartItems[1].activeSelf == false)
+                        if (cartItemTransforms[1].activeSelf == false)
                         {
-                            cartItems[1].SetActive(true);
-                            RpcSetItemActive(1, true);
-                            NetworkServer.Destroy(other.gameObject);
+                            index = 1;
                         }
                         break;
                     case "Cooler":
-                        if (cartItems[2].activeSelf == false)
+                        if (cartItemTransforms[2].activeSelf == false)
                         {
-                            cartItems[2].SetActive(true);
-                            RpcSetItemActive(2, true);
-                            NetworkServer.Destroy(other.gameObject);
+                            index = 2;
                         }
                         break;
                     case "Hammer":
-                        if (cartItems[3].activeSelf == false)
+                        if (cartItemTransforms[3].activeSelf == false)
                         {
-                            cartItems[3].SetActive(true);
-                            RpcSetItemActive(3, true);
-                            NetworkServer.Destroy(other.gameObject);
+                            index = 3;
                         }
                         break;
                     case "Shovel":
-                        if (cartItems[4].activeSelf == false)
+                        if (cartItemTransforms[4].activeSelf == false)
                         {
-                            cartItems[4].SetActive(true);
-                            RpcSetItemActive(4, true);
-                            NetworkServer.Destroy(other.gameObject);
+                            index = 4;
                         }
                         break;
                     case "Sprinkler":
-                        if (cartItems[5].activeSelf == false)
+                        if (cartItemTransforms[5].activeSelf == false)
                         {
-                            cartItems[5].SetActive(true);
-                            RpcSetItemActive(5, true);
-                            NetworkServer.Destroy(other.gameObject);
+                            index = 5;
                         }
                         break;
                     case "Toolbox":
-                        if (cartItems[6].activeSelf == false)
+                        if (cartItemTransforms[6].activeSelf == false)
                         {
-                            cartItems[6].SetActive(true);
-                            RpcSetItemActive(6, true);
-                            NetworkServer.Destroy(other.gameObject);
+                            index = 6;
                         }
                         break;
                     case "Vacuum":
-                        if (cartItems[7].activeSelf == false)
+                        if (cartItemTransforms[7].activeSelf == false)
                         {
-                            cartItems[7].SetActive(true);
-                            RpcSetItemActive(7, true);
-                            NetworkServer.Destroy(other.gameObject);
+                            index = 7;
                         }
                         break;
                     default:
                         Debug.LogError("Item name not found.");
                         break;
                 }
-
+                cartItemTransforms[index].SetActive(true);
+                RpcSetItemActive(index, true);
+                other.transform.parent = cartItemTransforms[index].transform;
+                other.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
+                cartItems[index] = other.gameObject;
+                other.GetComponent<NetGrabbableObjectController>().AddToCart();
+                Destroy(other.GetComponent<Rigidbody>());
+                cartCooldownActive = true;
+                Invoke("ResetCartCooldown", 0.6f);
             }
         }
     }
+
+    private void ResetCartCooldown() { cartCooldownActive = false; }
 
     [ClientRpc]
     private void RpcSetItemActive(int num, bool isActive)
     {
         if (isServer)
             return;
-        cartItems[num].SetActive(isActive);
+        cartItemTransforms[num].SetActive(isActive);
     }
 }

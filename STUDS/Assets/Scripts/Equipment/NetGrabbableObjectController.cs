@@ -28,6 +28,8 @@ public class NetGrabbableObjectController : NetworkBehaviour
 
     [Header("Homing")]
     private bool homing = false;
+
+    private bool onCart = false;
     private Vector2 ogDir = new Vector2();
     public string throwerColor = "";
     private Transform holderTransform = null;
@@ -146,7 +148,7 @@ public class NetGrabbableObjectController : NetworkBehaviour
             if(GetComponent<NetCart>()) { 
                 bool[] isActiveArr = new bool[8];
                 int i = 0;
-                foreach (GameObject obj in GetComponent<NetCart>().cartItems)
+                foreach (GameObject obj in GetComponent<NetCart>().cartItemTransforms)
                 {
                     isActiveArr[i] = obj.activeSelf;
                     ++i;
@@ -280,6 +282,9 @@ public class NetGrabbableObjectController : NetworkBehaviour
         DeleteBallTimer = 0;
     }
 
+    /// <summary>
+    /// Enables All MeshRenderers in children and destroys LocalGO
+    /// </summary>
     public void RenderNetworkedGO()
     {
         foreach (MeshRenderer rend in GetComponentsInChildren<MeshRenderer>())
@@ -304,6 +309,16 @@ public class NetGrabbableObjectController : NetworkBehaviour
 
     public void SetCanPickup(bool tf)
     {
-        canPickup = tf;
+        if(onCart == false)
+            canPickup = tf;
+    }
+
+    /// <summary>
+    /// Does everything the NetGOC needs when it's added to a shopping cart
+    /// </summary>
+    public void AddToCart()
+    {
+        onCart = true;
+        canPickup = false;
     }
 }

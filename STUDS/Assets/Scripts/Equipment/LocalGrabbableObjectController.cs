@@ -44,8 +44,6 @@ public class LocalGrabbableObjectController : MonoBehaviour
                 }
             } else
             {
-                if (networkedGO)
-                    networkedGO.GetComponent<NetGrabbableObjectController>().SetCanPickup(true);
                 Destroy(gameObject);
             }
         }

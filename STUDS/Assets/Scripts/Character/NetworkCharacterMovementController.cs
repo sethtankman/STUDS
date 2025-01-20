@@ -172,22 +172,28 @@ public class NetworkCharacterMovementController : NetworkBehaviour
     public override void OnStartLocalPlayer()
     {
         base.OnStartLocalPlayer();
-        NetDBInit init = FindObjectOfType<NetDBInit>();
+        NetDBInit init = FindFirstObjectByType<NetDBInit>();
         if (init)
         {
             CmdNotifyPlayerReady(init);
             return;
         }
-        NetPBInitLvl initPB = FindObjectOfType<NetPBInitLvl>();
+        NetPBInitLvl initPB = FindFirstObjectByType<NetPBInitLvl>();
         if (initPB) {
             CmdNotifyPlayerReadyPB(initPB);
             return;
         }
-        NetInitRace initR = FindObjectOfType<NetInitRace>();
+        NetInitRace initR = FindFirstObjectByType<NetInitRace>();
         if (initR)
         {
             CmdNotifyPlayerReadySR(initR);
             return;
+        }
+        Net_SS_Initialize initSS = FindFirstObjectByType<Net_SS_Initialize>();
+        if (initSS)
+        {
+            CmdNotifyPlayerReadySS(initSS);
+            return; 
         }
     }
 
@@ -934,12 +940,15 @@ public class NetworkCharacterMovementController : NetworkBehaviour
             GetComponentInChildren<StrollerLocator>().SetActive(false);
     }
 
+    /// <summary>
+    /// Local Let Go must always be performed before calling this
+    /// </summary>
+    /// <param name="objID"></param>
     [Command]
     private void CmdLetGo(uint objID)
     {
         if (NetworkServer.spawned[objID])
         {
-            //NetworkServer.spawned[objID].GetComponent<NetGrabbableObjectController>().LocalLetGo();
             RpcLetGo(objID);
         } else
         {
@@ -989,6 +998,12 @@ public class NetworkCharacterMovementController : NetworkBehaviour
 
     [Command]
     private void CmdNotifyPlayerReadySR(NetInitRace init)
+    {
+        init.NotifyPlayerReady();
+    }
+
+    [Command]
+    private void CmdNotifyPlayerReadySS(Net_SS_Initialize init)
     {
         init.NotifyPlayerReady();
     }

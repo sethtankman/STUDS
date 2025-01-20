@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 17497637188156486, guid: 1d8c13a885e3ad54e8ec22a19660c9ef,
@@ -74,17 +75,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1185861629802039081, guid: 1d8c13a885e3ad54e8ec22a19660c9ef,
         type: 3}
-      propertyPath: m_Materials.Array.data[0]
+      propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: 8f9ce61ff07cf2a4080df95593236b8b, type: 2}
     - target: {fileID: 1185861629802039081, guid: 1d8c13a885e3ad54e8ec22a19660c9ef,
         type: 3}
-      propertyPath: m_Materials.Array.data[1]
+      propertyPath: 'm_Materials.Array.data[1]'
       value: 
       objectReference: {fileID: 2100000, guid: 603a4c75ab23f2d4a929bc66fd7ff9d4, type: 2}
     - target: {fileID: 1185861629802039081, guid: 1d8c13a885e3ad54e8ec22a19660c9ef,
         type: 3}
-      propertyPath: m_Materials.Array.data[2]
+      propertyPath: 'm_Materials.Array.data[2]'
       value: 
       objectReference: {fileID: 2100000, guid: 0537544e82f618c4482f43c293c9ceec, type: 2}
     - target: {fileID: 5090435638263884020, guid: 1d8c13a885e3ad54e8ec22a19660c9ef,
@@ -98,16 +99,33 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 825841735072638716, guid: 1d8c13a885e3ad54e8ec22a19660c9ef,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1149261317064619241}
+    - targetCorrespondingSourceObject: {fileID: 825841735072638716, guid: 1d8c13a885e3ad54e8ec22a19660c9ef,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1839683981300896218}
+    - targetCorrespondingSourceObject: {fileID: 825841735072638716, guid: 1d8c13a885e3ad54e8ec22a19660c9ef,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1846552601580070495}
+    - targetCorrespondingSourceObject: {fileID: 825841735072638716, guid: 1d8c13a885e3ad54e8ec22a19660c9ef,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6423177081362734593}
+    - targetCorrespondingSourceObject: {fileID: 825841735072638716, guid: 1d8c13a885e3ad54e8ec22a19660c9ef,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7563621780646379777}
   m_SourcePrefab: {fileID: 100100000, guid: 1d8c13a885e3ad54e8ec22a19660c9ef, type: 3}
 --- !u!1 &2722066595041127252 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 825841735072638716, guid: 1d8c13a885e3ad54e8ec22a19660c9ef,
-    type: 3}
-  m_PrefabInstance: {fileID: 3365107614610378152}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &3354453338867528174 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 17497637188156486, guid: 1d8c13a885e3ad54e8ec22a19660c9ef,
     type: 3}
   m_PrefabInstance: {fileID: 3365107614610378152}
   m_PrefabAsset: {fileID: 0}
@@ -118,10 +136,21 @@ Rigidbody:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2722066595041127252}
-  serializedVersion: 2
+  serializedVersion: 4
   m_Mass: 1
   m_Drag: 0
   m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
@@ -143,20 +172,19 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0
   target: {fileID: 3354453338867528174}
-  clientAuthority: 0
   syncPosition: 1
   syncRotation: 1
   syncScale: 0
+  onlySyncOnChange: 1
+  compressRotation: 1
   interpolatePosition: 1
   interpolateRotation: 1
   interpolateScale: 1
   coordinateSpace: 0
-  sendIntervalMultiplier: 1
   timelineOffset: 0
   showGizmos: 0
   showOverlay: 0
   overlayColor: {r: 0, g: 0, b: 0, a: 0.5}
-  onlySyncOnChange: 1
   bufferResetMultiplier: 3
   positionSensitivity: 0.01
   rotationSensitivity: 0.01
@@ -188,9 +216,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sceneId: 0
-  _assetId: 55346605
+  _assetId: 3930244838
   serverOnly: 0
-  visible: 0
+  visibility: 0
   hasSpawned: 0
 --- !u!114 &7563621780646379777
 MonoBehaviour:
@@ -210,6 +238,24 @@ MonoBehaviour:
   distance: 0.7
   height: 0.8
   additionalColliders: []
-  rotation: {x: 0, y: 0, z: 0}
+  target: {fileID: 0}
+  throwableArrow: {fileID: 0}
+  isDodgeball: 0
+  isDropped: 1
+  PickedUpMaterial: {fileID: 0}
+  DroppedMaterial: {fileID: 0}
+  dodgeballRenderer: {fileID: 0}
+  materialLerpDuration: 1.5
+  isDeleteBallTimerStarted: 0
+  DeleteBallTimer: 0
+  DeleteBallFX: {fileID: 0}
+  throwerColor: 
   localPrefab: {fileID: 6730036042248736417, guid: 8270f01aec0c77747b303775c11bfc1d,
     type: 3}
+  effects: {fileID: 0}
+--- !u!4 &3354453338867528174 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 17497637188156486, guid: 1d8c13a885e3ad54e8ec22a19660c9ef,
+    type: 3}
+  m_PrefabInstance: {fileID: 3365107614610378152}
+  m_PrefabAsset: {fileID: 0}
