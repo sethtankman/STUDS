@@ -2,21 +2,29 @@
 %TAG !u! tag:unity3d.com,2011:
 --- !u!21 &2100000
 Material:
-  serializedVersion: 6
+  serializedVersion: 8
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: StylizedWater_Desktop
   m_Shader: {fileID: 4800000, guid: 4bcc0b68579a5c740ad31644411ffb54, type: 3}
-  m_ShaderKeywords: _LIGHTING_ON _SECONDARYFOAMALWAYSVISIBLE_ON _SECONDARY_WAVES_ON
-    _USEINTERSECTIONFOAM_ON _WORLDSPACETILING_ON
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords:
+  - _LIGHTING_ON
+  - _SECONDARY_WAVES_ON
+  m_InvalidKeywords:
+  - _SECONDARYFOAMALWAYSVISIBLE_ON
+  - _USEINTERSECTIONFOAM_ON
+  - _WORLDSPACETILING_ON
   m_LightmapFlags: 0
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: 3000
   stringTagMap: {}
   disabledShaderPasses: []
+  m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -60,6 +68,7 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    m_Ints: []
     m_Floats:
     - _ChromaticAberration: 0.3
     - _Cutoff: 0.5
@@ -94,7 +103,7 @@ Material:
     - _Reflection: 0
     - _ReflectionFresnel: 2.43
     - _ReflectionRefraction: 0.014
-    - _ReflectionStrength: 0.583
+    - _ReflectionStrength: 0
     - _RefractionAmount: 0.0247
     - _RimDistance: 1.91
     - _RimDistortion: 0.139
@@ -131,3 +140,4 @@ Material:
     - _WaterShallowColor: {r: 0.4190787, g: 1, b: 0.8798174, a: 1}
     - _WaveDirection: {r: 1, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
+  m_AllowLocking: 1
