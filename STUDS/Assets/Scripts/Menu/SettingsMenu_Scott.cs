@@ -16,6 +16,9 @@ public class SettingsMenu_Scott : MonoBehaviour
 
     private int resolutionIndex, numRefreshOptions;
 
+    public Toggle vSyncToggle;
+    private bool isVSyncOn = false;
+
     public TMP_Dropdown resolutionDropdown;
     public TMP_Dropdown graphicsDropdown;
 
@@ -34,6 +37,16 @@ public class SettingsMenu_Scott : MonoBehaviour
         Cursor.visible = true;
 
         resolutions = Screen.resolutions;
+
+        QualitySettings.vSyncCount = 0;
+        isVSyncOn = false;
+
+        // Update the toggle to match the V-Sync state
+        if (vSyncToggle != null)
+        {
+            vSyncToggle.isOn = isVSyncOn;
+            vSyncToggle.onValueChanged.AddListener(OnVSyncToggleChanged);
+        }
 
         if (resolutionDropdown != null)
         {
@@ -65,25 +78,24 @@ public class SettingsMenu_Scott : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Because Pausing and unpausing requires a pauseV2 object, which is a persistent object across scenes.
-    /// This finds the game manager and adds it to each scene's pause button listeners.
-    /// </summary>
-    private void OnEnable()
+    private void UpdateDropdownValues()
     {
-        GameObject pv2 = GameObject.Find("GameManager");
-        GameObject ngm = GameObject.Find("NetGameManager");
-        if (pv2)
+        // Set current resolution in the dropdown
+        if (resolutionDropdown != null)
         {
-            menuPlayButton.GetComponent<Button>().onClick.AddListener(pv2.GetComponent<PauseV2>().Pause);
-        }
-        else if (ngm)
-        {
-            menuPlayButton.GetComponent<Button>().onClick.AddListener(ngm.GetComponent<NetPause>().Pause);
+            Resolution currentResolution = Screen.currentResolution;
+            for (int i = 0; i < resolutions.Length; i++)
+            {
+                if (resolutions[i].width == currentResolution.width &&
+                    resolutions[i].height == currentResolution.height)
+                {
+                    resolutionDropdown.value = i / numRefreshOptions;
+                    resolutionDropdown.RefreshShownValue();
+                    break;
+                }
+            }
         }
     }
-
-    public Dictionary<string, int> val = new Dictionary<string, int>();
 
     public void SetResolution(int _resolutionIndex)
     {
@@ -110,23 +122,13 @@ public class SettingsMenu_Scott : MonoBehaviour
         Screen.fullScreen = isFullscreen;
     }
 
-    private void UpdateDropdownValues()
+    public void OnVSyncToggleChanged(bool isOn)
     {
-        // Set current resolution in the dropdown
-        if (resolutionDropdown != null)
-        {
-            Resolution currentResolution = Screen.currentResolution;
-            for (int i = 0; i < resolutions.Length; i++)
-            {
-                if (resolutions[i].width == currentResolution.width &&
-                    resolutions[i].height == currentResolution.height)
-                {
-                    resolutionDropdown.value = i / numRefreshOptions;
-                    resolutionDropdown.RefreshShownValue();
-                    break;
-                }
-            }
-        }
+        // Update V-Sync state when the toggle is changed
+        isVSyncOn = isOn;
+        QualitySettings.vSyncCount = isVSyncOn ? 1 : 0;
+
+        //Debug.Log("QualitySettings.vSyncCount is now: " + QualitySettings.vSyncCount);
     }
 
     public void OpenMainMenu()
