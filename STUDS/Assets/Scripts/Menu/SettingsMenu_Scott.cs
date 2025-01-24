@@ -19,10 +19,6 @@ public class SettingsMenu_Scott : MonoBehaviour
     public TMP_Dropdown resolutionDropdown;
     public TMP_Dropdown graphicsDropdown;
 
-    public Slider volumeSlider; // Reference to the volume slider
-
-    [SerializeField] private float defaultVolume = -1f; // Default volume in decibels
-
     public GameObject[] allOtherMenus;
     public GameObject menuPlayButton, optionsFirstButton, optionsCloseButton, quitFirstButton, creditsFirstButton,
         extrasFirstButton, feedbackFirstButton, videoFirstButton, videoCloseButton, soundFirstButton, soundCloseButton,
@@ -36,16 +32,6 @@ public class SettingsMenu_Scott : MonoBehaviour
     {
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
-
-        // Set default volume
-        float savedVolume = PlayerPrefs.GetFloat("volume", defaultVolume); // Load saved volume or use default
-        audioMixer.SetFloat("volume", savedVolume);
-
-        // Synchronize slider with the saved/default volume
-        if (volumeSlider != null)
-        {
-            volumeSlider.value = Mathf.InverseLerp(-80f, 0f, savedVolume); // Slider value (0 to 1)
-        }
 
         resolutions = Screen.resolutions;
 
@@ -79,6 +65,10 @@ public class SettingsMenu_Scott : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Because Pausing and unpausing requires a pauseV2 object, which is a persistent object across scenes.
+    /// This finds the game manager and adds it to each scene's pause button listeners.
+    /// </summary>
     private void OnEnable()
     {
         GameObject pv2 = GameObject.Find("GameManager");
@@ -93,6 +83,8 @@ public class SettingsMenu_Scott : MonoBehaviour
         }
     }
 
+    public Dictionary<string, int> val = new Dictionary<string, int>();
+
     public void SetResolution(int _resolutionIndex)
     {
         resolutionIndex = _resolutionIndex * numRefreshOptions;
@@ -103,15 +95,9 @@ public class SettingsMenu_Scott : MonoBehaviour
         }
     }
 
-    public void SetVolume(float sliderValue)
+    public void SetVolume(float volume)
     {
-        // Convert slider value (0 to 1) to decibels (-80 to 0)
-        float volume = Mathf.Lerp(-80f, 0f, sliderValue);
         audioMixer.SetFloat("volume", volume);
-
-        // Save volume setting
-        PlayerPrefs.SetFloat("volume", volume);
-        PlayerPrefs.Save();
     }
 
     public void SetQuality(int qualityIndex)
@@ -141,6 +127,119 @@ public class SettingsMenu_Scott : MonoBehaviour
                 }
             }
         }
+    }
+
+    public void OpenMainMenu()
+    {
+        EventSystem.current.SetSelectedGameObject(null);
+        EventSystem.current.SetSelectedGameObject(menuPlayButton);
+    }
+
+    public void OpenOptionsMenu()
+    {
+        EventSystem.current.SetSelectedGameObject(null);
+        EventSystem.current.SetSelectedGameObject(optionsFirstButton);
+    }
+
+    public void CloseOptionsMenu()
+    {
+        EventSystem.current.SetSelectedGameObject(null);
+        EventSystem.current.SetSelectedGameObject(menuPlayButton);
+    }
+
+    public void OpenVideoMenu()
+    {
+        EventSystem.current.SetSelectedGameObject(null);
+        EventSystem.current.SetSelectedGameObject(videoFirstButton);
+    }
+
+    public void OpenOnlineMenu()
+    {
+        EventSystem.current.SetSelectedGameObject(null);
+        EventSystem.current.SetSelectedGameObject(onlineFirstButton);
+    }
+
+    public void CloseVideoMenu()
+    {
+        EventSystem.current.SetSelectedGameObject(null);
+        EventSystem.current.SetSelectedGameObject(optionsFirstButton);
+    }
+
+    public void OpenSoundMenu()
+    {
+        EventSystem.current.SetSelectedGameObject(null);
+        EventSystem.current.SetSelectedGameObject(soundFirstButton);
+    }
+
+    public void OpenPlayerConnectionMenu()
+    {
+        EventSystem.current.SetSelectedGameObject(null);
+        EventSystem.current.SetSelectedGameObject(okayButton);
+    }
+
+    public void CloseSoundMenu()
+    {
+        EventSystem.current.SetSelectedGameObject(null);
+        EventSystem.current.SetSelectedGameObject(optionsFirstButton);
+    }
+
+    public void OpenControlsMenu()
+    {
+        EventSystem.current.SetSelectedGameObject(null);
+        EventSystem.current.SetSelectedGameObject(controlsFirstButton);
+    }
+
+    public void CloseControlsMenu()
+    {
+        EventSystem.current.SetSelectedGameObject(null);
+        EventSystem.current.SetSelectedGameObject(optionsFirstButton);
+    }
+
+    public void CloseOnlineMenu()
+    {
+        EventSystem.current.SetSelectedGameObject(null);
+        EventSystem.current.SetSelectedGameObject(menuPlayButton);
+    }
+
+    public void OpenCreditsMenu()
+    {
+        EventSystem.current.SetSelectedGameObject(null);
+        EventSystem.current.SetSelectedGameObject(creditsFirstButton);
+    }
+
+    public void OpenExtrasMenu()
+    {
+        EventSystem.current.SetSelectedGameObject(null);
+        EventSystem.current.SetSelectedGameObject(extrasFirstButton);
+    }
+
+    public void OpenFeedbackMenu()
+    {
+        EventSystem.current.SetSelectedGameObject(null);
+        EventSystem.current.SetSelectedGameObject(feedbackFirstButton);
+    }
+
+    public void OpenQuitMenu()
+    {
+        EventSystem.current.SetSelectedGameObject(null);
+        EventSystem.current.SetSelectedGameObject(quitFirstButton);
+    }
+
+    public void OpenURL()
+    {
+        Application.OpenURL("https://discord.gg/MvrPPpy6");
+    }
+
+    public void OpenReturnMenu()
+    {
+        EventSystem.current.SetSelectedGameObject(null);
+        EventSystem.current.SetSelectedGameObject(ReturnFirstButton);
+    }
+
+    public void OpenKickPlayerDialogue()
+    {
+        EventSystem.current.SetSelectedGameObject(null);
+        EventSystem.current.SetSelectedGameObject(noKickButton);
     }
 
     public void PlayButtonSound()
