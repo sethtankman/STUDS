@@ -682,6 +682,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audioMixer: {fileID: 24100000, guid: 7a08b19250a3ae042a11791078964747, type: 2}
+  vSyncToggle: {fileID: 0}
   resolutionDropdown: {fileID: 6432761694229111559}
   graphicsDropdown: {fileID: 6432761693661007646}
   allOtherMenus: []
@@ -2385,8 +2386,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 284, y: 84}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 284, y: 82}
+  m_SizeDelta: {x: 0, y: -4}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4167009904179902664
 CanvasRenderer:
@@ -2416,7 +2417,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: NETWORKING UPDATE v2.0
+  m_text: WORLD WIDE DADS UPDATE NOW LIVE!
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 4214caa71498eaa4cb3741b2b8955d4b, type: 2}
   m_sharedMaterial: {fileID: 1686265398414052133, guid: 4214caa71498eaa4cb3741b2b8955d4b,
@@ -2444,8 +2445,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 48
-  m_fontSizeBase: 48
+  m_fontSize: 40
+  m_fontSizeBase: 40
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -5036,7 +5037,7 @@ MonoBehaviour:
     button.
 
 
-    The new DODGEBALL game mode is now live, featuring dynamic obstacles
+    The new DODGEFATHER game mode is now live, featuring dynamic obstacles
     and randomized events.
 
 
@@ -5914,6 +5915,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: VideoMenu
       objectReference: {fileID: 0}
+    - target: {fileID: 8273593568308902418, guid: 87a798a4ed3a34649a424d0942c3380a,
+        type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 2879277151784729857}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
