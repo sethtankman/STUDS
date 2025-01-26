@@ -1,14 +1,25 @@
 #if ! (UNITY_DASHBOARD_WIDGET || UNITY_WEBPLAYER || UNITY_WII || UNITY_WIIU || UNITY_NACL || UNITY_FLASH || UNITY_BLACKBERRY) // Disable under unsupported platforms.
-//////////////////////////////////////////////////////////////////////
-//
-// Copyright (c) 2012 Audiokinetic Inc. / All Rights Reserved
-//
-//////////////////////////////////////////////////////////////////////
+/*******************************************************************************
+The content of this file includes portions of the proprietary AUDIOKINETIC Wwise
+Technology released in source code form as part of the game integration package.
+The content of this file may not be used without valid licenses to the
+AUDIOKINETIC Wwise Technology.
+Note that the use of the game engine is subject to the Unity(R) Terms of
+Service at https://unity3d.com/legal/terms-of-service
+ 
+License Usage
+ 
+Licensees holding valid licenses to the AUDIOKINETIC Wwise Technology may use
+this file in accordance with the end user license agreement provided with the
+software or, alternatively, in accordance with the terms contained
+in a written agreement between you and Audiokinetic Inc.
+Copyright (c) 2024 Audiokinetic Inc.
+*******************************************************************************/
 
 public class AkMIDIPostArray
 {
 	private readonly int m_Count;
-	private readonly int SIZE_OF = AkSoundEnginePINVOKE.CSharp_AkMIDIPost_GetSizeOf();
+	private readonly int SIZE_OF = AkUnitySoundEnginePINVOKE.CSharp_AkMIDIPost_GetSizeOf();
 	private System.IntPtr m_Buffer = System.IntPtr.Zero;
 
 	public AkMIDIPostArray(int size)
@@ -32,7 +43,7 @@ public class AkMIDIPostArray
 			if (index >= m_Count)
 				throw new System.IndexOutOfRangeException("Out of range access in AkMIDIPostArray");
 
-			AkSoundEnginePINVOKE.CSharp_AkMIDIPost_Clone(GetObjectPtr(index), AkMIDIPost.getCPtr(value));
+			AkUnitySoundEnginePINVOKE.CSharp_AkMIDIPost_Clone(GetObjectPtr(index), AkMIDIPost.getCPtr(value));
 		}
 	}
 
@@ -44,9 +55,9 @@ public class AkMIDIPostArray
 
 	public void PostOnEvent(uint in_eventID, UnityEngine.GameObject gameObject)
 	{
-		var gameObjectID = AkSoundEngine.GetAkGameObjectID(gameObject);
-		AkSoundEngine.PreGameObjectAPICall(gameObject, gameObjectID);
-		AkSoundEnginePINVOKE.CSharp_PostMIDIOnEvent__SWIG_3(in_eventID, gameObjectID, m_Buffer, (ushort) m_Count);
+		var gameObjectID = AkUnitySoundEngine.GetAkGameObjectID(gameObject);
+		AkUnitySoundEngine.PreGameObjectAPICall(gameObject, gameObjectID);
+		AkUnitySoundEnginePINVOKE.CSharp_PostMIDIOnEvent__SWIG_3(in_eventID, gameObjectID, m_Buffer, (ushort) m_Count);
 	}
 
 	public void PostOnEvent(uint in_eventID, UnityEngine.GameObject gameObject, int count)
@@ -54,9 +65,9 @@ public class AkMIDIPostArray
 		if (count >= m_Count)
 			throw new System.IndexOutOfRangeException("Out of range access in AkMIDIPostArray");
 
-		var gameObjectID = AkSoundEngine.GetAkGameObjectID(gameObject);
-		AkSoundEngine.PreGameObjectAPICall(gameObject, gameObjectID);
-		AkSoundEnginePINVOKE.CSharp_PostMIDIOnEvent__SWIG_3(in_eventID, gameObjectID, m_Buffer, (ushort) count);
+		var gameObjectID = AkUnitySoundEngine.GetAkGameObjectID(gameObject);
+		AkUnitySoundEngine.PreGameObjectAPICall(gameObject, gameObjectID);
+		AkUnitySoundEnginePINVOKE.CSharp_PostMIDIOnEvent__SWIG_3(in_eventID, gameObjectID, m_Buffer, (ushort) count);
 	}
 
 	public System.IntPtr GetBuffer()

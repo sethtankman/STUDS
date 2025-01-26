@@ -1,9 +1,20 @@
-﻿#if UNITY_EDITOR
-//////////////////////////////////////////////////////////////////////
-//
-// Copyright (c) 2020 Audiokinetic Inc. / All Rights Reserved
-//
-//////////////////////////////////////////////////////////////////////
+#if UNITY_EDITOR
+/*******************************************************************************
+The content of this file includes portions of the proprietary AUDIOKINETIC Wwise
+Technology released in source code form as part of the game integration package.
+The content of this file may not be used without valid licenses to the
+AUDIOKINETIC Wwise Technology.
+Note that the use of the game engine is subject to the Unity(R) Terms of
+Service at https://unity3d.com/legal/terms-of-service
+ 
+License Usage
+ 
+Licensees holding valid licenses to the AUDIOKINETIC Wwise Technology may use
+this file in accordance with the end user license agreement provided with the
+software or, alternatively, in accordance with the terms contained
+in a written agreement between you and Audiokinetic Inc.
+Copyright (c) 2024 Audiokinetic Inc.
+*******************************************************************************/
 
 using System;
 using System.Collections;
@@ -64,6 +75,11 @@ public class AkWaapiUtilities
 	/// </summary>
 	static AkWaapiUtilities()
 	{
+		if (UnityEditor.AssetDatabase.IsAssetImportWorkerProcess())
+		{
+			return;
+		}
+
 #if UNITY_2019_1_OR_NEWER
 		UnityEditor.Compilation.CompilationPipeline.compilationStarted += (object context) => FireDisconnect(true);
 #else
@@ -509,11 +525,11 @@ public class AkWaapiUtilities
 	}
 
 	/// <summary>
-	/// Use this function to enqueue a command with no expected return object.
+	/// Use this function to queue a command with no expected return object.
 	/// </summary>
-	/// <param name="uri">The URI of the waapi command</param>
-	/// <param name="args">The command-specific arguments</param>
-	/// <param name="options">The command-specific options</param>
+	/// <param name="uri">The URI of the WAAPI command</param>
+	/// <param name="args">Array of command-specific arguments, or <tt>{}</tt> if there are none.</param>
+	/// <param name="options">Array of command-specific options, or <tt>{}</tt> if there are none.</param>
 	public static void QueueCommand(string uri, string args, string options)
 	{
 		waapiCommandQueue.Enqueue(new WaapiCommand(
@@ -588,7 +604,7 @@ public class AkWaapiUtilities
 	}
 
 	/// <summary>
-	/// Enqueues a waapi command to fetch the specified object and all of its ancestors in the heirarchy.
+	/// Enqueues a waapi command to fetch the specified object and all of its ancestors in the hierarchy.
 	/// Passes the list of WwiseObjectInfo containing the specified object and ancestors to the callback. 
 	/// </summary>
 	/// <param name="guid">GUID of the target object.</param>
@@ -602,7 +618,7 @@ public class AkWaapiUtilities
 	}
 
 	/// <summary>
-	/// Enqueues a waapi comand to fetch the specified object and all of its descendants in the heirarchy to a specified depth.
+	/// Enqueues a waapi comand to fetch the specified object and all of its descendants in the hierarchy to a specified depth.
 	/// Passes the list of WwiseObjectInfo containing the specified object and descendants to the callback. 
 	/// </summary>
 	/// <param name="guid">GUID of the target object.</param>
@@ -618,7 +634,7 @@ public class AkWaapiUtilities
 	/// Composes a WAQL "from object" request based on the parameters and enqueues a WAAPI command.
 	/// Passes the list of WwiseObjectInfo containing the results to the callback
 	/// </summary>
-	/// <param name="identifier">Can bethe target object GUID or path within the heirarchy.</param>
+	/// <param name="identifier">Can bethe target object GUID or path within the hierarchy.</param>
 	/// <param name="options">Specifies which object properties to include in the response</param>
 	/// <param name="depth">Depth of descendants to fetch. If -1, fetches all descendants.</param>
 	/// <param name="callback">Function accepting a list of WwiseObjectInfo.</param>
@@ -994,12 +1010,13 @@ public class AkWaapiUtilities
 	/// </summary>
 	/// <param name="topic">The topic URI to subscribe to.</param>
 	/// <param name="subscriptionCallback">Delegate function to call when the topic is published.</param>
-	/// <param name="handshakeCallback">Action to be executed once the subscription has been made. 
+	/// <param name="handshakeCallback">Action to be executed once the subscription has been made.</param>
+	/// <param name="returnOptions">The options the subscription. 
 	/// This should store the subscription ID so that the subscription can be cleaned up when it is no longer needed.</param>
-	public static void Subscribe(string topic, Wamp.PublishHandler subscriptionCallback, System.Action<SubscriptionInfo> handshakeCallback)
+	public static void Subscribe(string topic, Wamp.PublishHandler subscriptionCallback, System.Action<SubscriptionInfo> handshakeCallback, ReturnOptions returnOptions = null)
 	{
 		waapiCommandQueue.Enqueue(new WaapiCommand(
-		   async () => handshakeCallback(await SubscribeAsync(new SubscriptionInfo(topic, subscriptionCallback)))));
+		   async () => handshakeCallback(await SubscribeAsync(new SubscriptionInfo(topic, subscriptionCallback), returnOptions))));
 	}
 
 	/// <summary>
@@ -1007,11 +1024,11 @@ public class AkWaapiUtilities
 	/// Creates and sends a WAAPI command to subscribe to the topic.
 	/// </summary>
 	/// <param name="subscription">SubscriptionInfo object containing the topic URI and the message handling callback.</param>
+	/// <param name="returnOptions">The options the subscription.</param>
 	/// <returns>Updated SubscriptionInfo object containing the subscription ID (uint). </returns>
-	private static async Task<SubscriptionInfo> SubscribeAsync(SubscriptionInfo subscription)
+	private static async Task<SubscriptionInfo> SubscribeAsync(SubscriptionInfo subscription, ReturnOptions returnOptions)
 	{
-		var options = new ReturnOptions(new string[] { "id", "parent", "name", "type", "childrenCount", "path", "workunitType" });
-		uint id = await WaapiClient.Subscribe(subscription.Uri, options, subscription.Callback);
+		uint id = await WaapiClient.Subscribe(subscription.Uri, returnOptions, subscription.Callback);
 		subscription.SubscriptionId = id;
 		return subscription;
 	}

@@ -12,7 +12,7 @@ public class HitScore : MonoBehaviour
     public int pointValue;
 
     /// <summary>
-    /// Records the hit and destroys the parent gameobject
+    /// Records the hit, plays the sound, and destroys the parent gameobject
     /// </summary>
     /// <param name="owner"></param>
     public void RecordHit(string owner)

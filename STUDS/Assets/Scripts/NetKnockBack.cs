@@ -64,7 +64,7 @@ public class NetKnockBack : NetworkBehaviour
                     Instantiate(KnockBackFX, other.transform.position, Quaternion.identity); 
                 if (GetComponent<HitScore>())
                     GetComponent<HitScore>().RecordHit(GetComponentInParent<NetGrabbableObjectController>().throwerColor);
-                if (!KBSound.Equals("") && other.gameObject.GetComponent<NetworkCharacterMovementController>().isAI == false)
+                if (!KBSound.Equals(""))
                 {
                     KBSound.Post(gameObject);
                 }

@@ -1,9 +1,20 @@
-﻿#if UNITY_EDITOR
-//////////////////////////////////////////////////////////////////////
-//
-// Copyright (c) 2020 Audiokinetic Inc. / All Rights Reserved
-//
-//////////////////////////////////////////////////////////////////////
+#if UNITY_EDITOR
+/*******************************************************************************
+The content of this file includes portions of the proprietary AUDIOKINETIC Wwise
+Technology released in source code form as part of the game integration package.
+The content of this file may not be used without valid licenses to the
+AUDIOKINETIC Wwise Technology.
+Note that the use of the game engine is subject to the Unity(R) Terms of
+Service at https://unity3d.com/legal/terms-of-service
+ 
+License Usage
+ 
+Licensees holding valid licenses to the AUDIOKINETIC Wwise Technology may use
+this file in accordance with the end user license agreement provided with the
+software or, alternatively, in accordance with the terms contained
+in a written agreement between you and Audiokinetic Inc.
+Copyright (c) 2024 Audiokinetic Inc.
+*******************************************************************************/
 
 using System.Linq;
 using System.Collections.Generic;
@@ -35,6 +46,7 @@ public class AkWwiseTreeView : TreeView
 			{ typeof(AkEnvironment), WwiseObjectType.AuxBus },
 			{ typeof(AkState), WwiseObjectType.State },
 			{ typeof(AkSurfaceReflector), WwiseObjectType.AcousticTexture },
+			{ typeof(AkWwiseTrigger), WwiseObjectType.Trigger },
 			{ typeof(AkSwitch), WwiseObjectType.Switch },
 		};
 
@@ -196,6 +208,7 @@ public class AkWwiseTreeView : TreeView
 		{
 			dataRoot = m_dataSource.GetSearchResults();
 		}
+		TreeUtility.SortTreeIfNecessary(dataRoot);
 		AddChildrenRecursive(dataRoot, m_Rows);
 		searchString = "";
 		return m_Rows.Cast<TreeViewItem>().ToList();
@@ -224,20 +237,13 @@ public class AkWwiseTreeView : TreeView
 
 		foreach (AkWwiseTreeViewItem child in parent.children)
 		{
-			var item = new AkWwiseTreeViewItem(child);
-			item.parent = parent;
-			item.children = child.children;
-			newRows.Add(item);
+			newRows.Add(child);
 
 			if (child.children.Count > 0)
 			{
 				if (TestExpanded(child))
 				{
 					AddChildrenRecursive(child, newRows);
-				}
-				else
-				{
-					item.children = AkWwiseTreeDataSource.CreateCollapsedChild();
 				}
 			}
 		}
@@ -255,13 +261,12 @@ public class AkWwiseTreeView : TreeView
 
 	public AkWwiseTreeViewItem GetItemByGuid(System.Guid guid)
 	{
-
-		return m_dataSource.Find(m_Rows, guid);
+		return TreeUtility.FindByGuid(m_Rows, guid);
 	}
 
 	public void SelectItem(System.Guid guid)
 	{
-		var item = dataSource.Find(guid);
+		var item = m_dataSource.FindByGuid(guid);
 		if (item == null && AkWwiseProjectInfo.GetData().currentDataSource == AkWwiseProjectInfo.DataSourceType.WwiseAuthoring)
 		{
 			m_dataSource.SelectItem(guid);
@@ -281,17 +286,22 @@ public class AkWwiseTreeView : TreeView
 			return true;
 		}
 
-		item = m_dataSource.Find(guid);
+		item = m_dataSource.FindByGuid(guid);
 		if (item != null)
 		{
-			var parent = item.parent;
-			while (parent != null && GetItemByGuid((parent as AkWwiseTreeViewItem).objectGuid) == null)
+			AkWwiseTreeViewItem parent = item;
+			while (parent.parent != null && GetItemByGuid(parent.objectGuid) == null)
 			{
-				parent = parent.parent;
+				parent = parent.parent as AkWwiseTreeViewItem;
 			}
 			if (parent != null)
 			{
 				SetExpandedRecursive(parent.id, true);
+				if (select)
+				{
+					return false;
+				}
+				return true;
 			}
 		}
 		return false;
@@ -559,7 +569,7 @@ public class AkWwiseTreeView : TreeView
 
 	protected void OpenSettings()
 	{
-		UnityEditor.SettingsService.OpenProjectSettings("Project/Wwise Editor");
+		UnityEditor.SettingsService.OpenProjectSettings("Project/Wwise Integration");
 	}
 
 	protected override void KeyEvent()
@@ -798,7 +808,7 @@ public class AkWwiseTreeView : TreeView
 	protected override void DoubleClickedItem(int id)
 	{
 		base.DoubleClickedItem(id);
-		var doubleClickedElement = m_dataSource.Find(id);
+		var doubleClickedElement = m_dataSource.FindById(id);
 		doubleClickExternalFunction?.Invoke(doubleClickedElement);
 	}
 
@@ -860,14 +870,6 @@ public class AkWwiseTreeView : TreeView
 		m_dataSource.FetchData();
 	}
 
-	~AkWwiseTreeView()
-	{
-		if (m_pickerMode != PickerMode.ComponentPicker && StoredSearchString == System.String.Empty)
-		{
-			SaveExpansionStatus();
-		}
-	}
-
 #endregion
 }
 
@@ -891,6 +893,7 @@ public class AkWwisePickerIcons
 	private UnityEngine.Texture2D m_textureWwiseSwitchIcon;
 	private UnityEngine.Texture2D m_textureWwiseSwitchGroupIcon;
 	private UnityEngine.Texture2D m_textureWwiseWorkUnitIcon;
+	private UnityEngine.Texture2D m_textureWwiseTriggerIcon;
 
 	protected UnityEngine.Texture2D GetTexture(string texturePath)
 	{
@@ -923,6 +926,7 @@ public class AkWwisePickerIcons
 		m_textureWwiseSwitchIcon = GetTexture(tempWwisePath + "switch_nor.png");
 		m_textureWwiseSwitchGroupIcon = GetTexture(tempWwisePath + "switchgroup_nor.png");
 		m_textureWwiseWorkUnitIcon = GetTexture(tempWwisePath + "workunit_nor.png");
+		m_textureWwiseTriggerIcon = GetTexture(tempWwisePath + "trigger_nor.png");
 	}
 
 	public UnityEngine.Texture2D GetIcon(WwiseObjectType type)
@@ -957,6 +961,8 @@ public class AkWwisePickerIcons
 				return m_textureWwiseSwitchGroupIcon;
 			case WwiseObjectType.WorkUnit:
 				return m_textureWwiseWorkUnitIcon;
+			case WwiseObjectType.Trigger:
+				return m_textureWwiseTriggerIcon;
 			default:
 				return m_textureWwisePhysicalFolderIcon;
 		}

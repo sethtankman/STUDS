@@ -1,11 +1,24 @@
-#if UNITY_EDITOR
-//////////////////////////////////////////////////////////////////////
-//
-// Copyright (c) 2014 Audiokinetic Inc. / All Rights Reserved
-//
-//////////////////////////////////////////////////////////////////////
+using UnityEngine;
 
-[UnityEditor.CustomEditor(typeof(AkEnvironmentPortal))]
+#if UNITY_EDITOR
+/*******************************************************************************
+The content of this file includes portions of the proprietary AUDIOKINETIC Wwise
+Technology released in source code form as part of the game integration package.
+The content of this file may not be used without valid licenses to the
+AUDIOKINETIC Wwise Technology.
+Note that the use of the game engine is subject to the Unity(R) Terms of
+Service at https://unity3d.com/legal/terms-of-service
+ 
+License Usage
+ 
+Licensees holding valid licenses to the AUDIOKINETIC Wwise Technology may use
+this file in accordance with the end user license agreement provided with the
+software or, alternatively, in accordance with the terms contained
+in a written agreement between you and Audiokinetic Inc.
+Copyright (c) 2024 Audiokinetic Inc.
+*******************************************************************************/
+
+[UnityEditor.CustomEditor(typeof(AkEnvironmentPortal), true)]
 public class AkEnvironmentPortalInspector : UnityEditor.Editor
 {
 	private readonly int[] m_selectedIndex = new int[AkEnvironmentPortal.MAX_ENVIRONMENTS_PER_PORTAL];
@@ -128,8 +141,11 @@ public class AkEnvironmentPortalInspector : UnityEditor.Editor
 		var myCollider = m_envPortal.gameObject.GetComponent<UnityEngine.Collider>();
 		if (myCollider == null)
 			return;
-
+#if UNITY_6000_0_OR_NEWER
+		var environments = FindObjectsByType<AkEnvironment>(FindObjectsSortMode.None);
+#else
 		var environments = FindObjectsOfType<AkEnvironment>();
+#endif
 		foreach (var environment in environments)
 		{
 			var otherCollider = environment.gameObject.GetComponent<UnityEngine.Collider>();

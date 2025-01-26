@@ -71038,6 +71038,7 @@ MonoBehaviour:
     WwiseObjectReference: {fileID: 11400000, guid: 5c9ce2a2c0f5ab64f870e572e7a9cf0d,
       type: 2}
   decodeBank: 0
+  overrideLoadSetting: 0
   loadAsynchronous: 0
   saveDecodedBank: 0
   unloadTriggerList: 958ca0ea
@@ -71063,6 +71064,7 @@ MonoBehaviour:
     WwiseObjectReference: {fileID: 11400000, guid: 9918aa47fed374f45a4b9591721aed7a,
       type: 2}
   decodeBank: 0
+  overrideLoadSetting: 0
   loadAsynchronous: 0
   saveDecodedBank: 0
   unloadTriggerList: 958ca0ea
@@ -71088,6 +71090,7 @@ MonoBehaviour:
     WwiseObjectReference: {fileID: 11400000, guid: 7402a2254ea077340a51dc8ef2e340ec,
       type: 2}
   decodeBank: 0
+  overrideLoadSetting: 0
   loadAsynchronous: 0
   saveDecodedBank: 0
   unloadTriggerList: 958ca0ea
@@ -86715,6 +86718,11 @@ MonoBehaviour:
     valueGuidInternal: 
     WwiseObjectReference: {fileID: 11400000, guid: 735d6578b2dc5ec489f5aeeaba99b2a0,
       type: 2}
+  dodgeballMusic:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 835bf6949187c0c4eaaf1fa009ffb680,
+      type: 2}
 --- !u!4 &2075086314
 Transform:
   m_ObjectHideFlags: 0
@@ -86743,6 +86751,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isDefaultListener: 0
+  bOverrideScalingFactor: 0
+  scalingFactor: -1
   listenerId: 0
 --- !u!114 &2075086316
 MonoBehaviour:
@@ -86762,9 +86772,11 @@ MonoBehaviour:
     useDefaultListeners: 0
   isEnvironmentAware: 1
   isStaticObject: 0
+  usePositionOffsetData: 0
   m_positionOffsetData:
     KeepMe: 0
     positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
   m_posOffsetData: {fileID: 0}
   listenerMask: 1
 --- !u!114 &2075086317
@@ -86787,6 +86799,7 @@ MonoBehaviour:
     WwiseObjectReference: {fileID: 11400000, guid: 5c9ce2a2c0f5ab64f870e572e7a9cf0d,
       type: 2}
   decodeBank: 0
+  overrideLoadSetting: 0
   loadAsynchronous: 0
   saveDecodedBank: 0
   unloadTriggerList: 958ca0ea

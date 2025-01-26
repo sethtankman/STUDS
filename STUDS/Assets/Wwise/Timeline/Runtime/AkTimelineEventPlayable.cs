@@ -1,14 +1,27 @@
-﻿#if !(UNITY_DASHBOARD_WIDGET || UNITY_WEBPLAYER || UNITY_WII || UNITY_WIIU || UNITY_NACL || UNITY_FLASH || UNITY_BLACKBERRY) // Disable under unsupported platforms.
+using System;
+using System.Collections.Generic;
+#if !(UNITY_DASHBOARD_WIDGET || UNITY_WEBPLAYER || UNITY_WII || UNITY_WIIU || UNITY_NACL || UNITY_FLASH || UNITY_BLACKBERRY) // Disable under unsupported platforms.
 #if !UNITY_2019_1_OR_NEWER
 #define AK_ENABLE_TIMELINE
 #endif
 #if AK_ENABLE_TIMELINE
 
-//////////////////////////////////////////////////////////////////////
-//
-// Copyright (c) 2020 Audiokinetic Inc. / All Rights Reserved
-//
-//////////////////////////////////////////////////////////////////////
+/*******************************************************************************
+The content of this file includes portions of the proprietary AUDIOKINETIC Wwise
+Technology released in source code form as part of the game integration package.
+The content of this file may not be used without valid licenses to the
+AUDIOKINETIC Wwise Technology.
+Note that the use of the game engine is subject to the Unity(R) Terms of
+Service at https://unity3d.com/legal/terms-of-service
+ 
+License Usage
+ 
+Licensees holding valid licenses to the AUDIOKINETIC Wwise Technology may use
+this file in accordance with the end user license agreement provided with the
+software or, alternatively, in accordance with the terms contained
+in a written agreement between you and Audiokinetic Inc.
+Copyright (c) 2024 Audiokinetic Inc.
+*******************************************************************************/
 
 /// @brief Defines the behavior of a \ref AkTimelineEventPlayable within a \ref AkTimelineEventTrack.
 /// \sa
@@ -18,10 +31,16 @@ public class AkTimelineEventPlayableBehavior : UnityEngine.Playables.PlayableBeh
 {
 	private float currentDuration = -1f;
 	private float currentDurationProportion = 1f;
-	private bool eventIsPlaying;
-	private bool fadeinTriggered;
-	private bool fadeoutTriggered;
+
+	private bool eventIsPlaying
+	{
+		get
+		{
+			return playingId != 0;
+		}
+	}
 	private float previousEventStartTime;
+	private uint playingId = 0;
 
 	private const uint CallbackFlags = (uint)(AkCallbackType.AK_EndOfEvent | AkCallbackType.AK_Duration);
 
@@ -29,7 +48,7 @@ public class AkTimelineEventPlayableBehavior : UnityEngine.Playables.PlayableBeh
 	{
 		if (in_type == AkCallbackType.AK_EndOfEvent)
 		{
-			eventIsPlaying = fadeinTriggered = fadeoutTriggered = false;
+			StopEvent();
 		}
 		else if (in_type == AkCallbackType.AK_Duration)
 		{
@@ -48,16 +67,30 @@ public class AkTimelineEventPlayableBehavior : UnityEngine.Playables.PlayableBeh
 	[UnityEditor.InitializeOnLoadMethod]
 	private static void DetermineCanPostEvents()
 	{
+		if (UnityEditor.AssetDatabase.IsAssetImportWorkerProcess())
+		{
+			return;
+		}
+
 		UnityEditor.Compilation.CompilationPipeline.assemblyCompilationFinished += (string text, UnityEditor.Compilation.CompilerMessage[] messages) =>
 		{
 			if (!UnityEditor.EditorApplication.isPlaying)
-				CanPostEvents = false;
+			{
+				CanPostEvents = true;
+			}
 		};
 
 		UnityEditor.EditorApplication.playModeStateChanged += (UnityEditor.PlayModeStateChange playMode) =>
 		{
 			if (playMode == UnityEditor.PlayModeStateChange.ExitingEditMode)
+			{
 				CanPostEvents = true;
+			}
+			
+			if (playMode == UnityEditor.PlayModeStateChange.EnteredEditMode)
+			{
+				CanPostEvents = true;
+			}
 		};
 	}
 #endif
@@ -93,43 +126,71 @@ public class AkTimelineEventPlayableBehavior : UnityEngine.Playables.PlayableBeh
 	public UnityEngine.GameObject eventObject;
 
 	public bool retriggerEvent;
-	private bool wasScrubbingAndRequiresRetrigger;
 	public bool StopEventAtClipEnd;
 
-	private bool IsScrubbing(UnityEngine.Playables.FrameData info)
+	public bool PrintDebugInformation = false;
+
+	private bool IsScrubbing(UnityEngine.Playables.Playable playable, UnityEngine.Playables.FrameData info)
 	{
-#if !UNITY_2018_2_OR_NEWER
-		// We disable scrubbing in edit mode, due to an issue with how FrameData.EvaluationType is handled in edit mode.
-		// This is a known issue and Unity are aware of it: https://fogbugz.unity3d.com/default.asp?953109_kitf7pso0vmjm0m0
-		if (!UnityEngine.Application.isPlaying)
-			return false;
-#endif
 #if UNITY_EDITOR
-		return !UnityEngine.Application.isPlaying && info.evaluationType == UnityEngine.Playables.FrameData.EvaluationType.Evaluate;
-#else
-        return false;
+		if (!UnityEngine.Application.isPlaying)
+		{
+			return info.evaluationType == UnityEngine.Playables.FrameData.EvaluationType.Evaluate;
+		}
 #endif
+		var previousTime = UnityEngine.Playables.PlayableExtensions.GetPreviousTime(playable);
+		var currentTime = UnityEngine.Playables.PlayableExtensions.GetTime(playable);
+		var computedDelta = System.Math.Abs(currentTime - previousTime);
+
+		// Unfortunately, we can't use info.seekOccurred, because it is always true.
+		// When time is explicitely set using playable.time, deltaTime is zero, evaluationType is Evaluate, and 
+		// either previous time or current time is non-zero
+		// However, if time is added to playable.time (for example, playable.time += 1;), evaluationType remains
+		// Playing.
+		return (info.deltaTime == 0 && (previousTime >= 0 || currentTime >= 0)) || (computedDelta > info.deltaTime);
+	}
+
+	void PrintInfo(string FunctionName, UnityEngine.Playables.Playable playable, UnityEngine.Playables.FrameData info)
+	{
+		if (PrintDebugInformation)
+		{
+			var previousTime = UnityEngine.Playables.PlayableExtensions.GetPreviousTime(playable);
+			var currentTime = UnityEngine.Playables.PlayableExtensions.GetTime(playable);
+			var computedDelta = System.Math.Abs(currentTime - previousTime);
+
+			UnityEngine.Debug.Log($"{FunctionName}: prevTime={previousTime}; curTime={currentTime}; computedDelta={computedDelta}; evalType={info.evaluationType}; deltaTime={info.deltaTime}; playState={info.effectivePlayState}; timeHeld={info.timeHeld}; speed={info.effectiveSpeed}; parentSpeed={info.effectiveParentSpeed}");
+		}
 	}
 
 	public override void PrepareFrame(UnityEngine.Playables.Playable playable, UnityEngine.Playables.FrameData info)
 	{
 		base.PrepareFrame(playable, info);
+		PrintInfo("PrepareFrame", playable, info);
 
 		if (akEvent == null)
+		{
 			return;
+		}
 
 		var shouldPlay = ShouldPlay(playable);
-		if (IsScrubbing(info) && shouldPlay)
+		if (IsScrubbing(playable, info) && shouldPlay)
 		{
 			requiredActions |= Actions.Seek;
 
-			if (!eventIsPlaying)
+			if (playingId == 0)
 			{
-				requiredActions |= Actions.Playback | Actions.DelayedStop;
+				requiredActions |= Actions.Playback;
+#if UNITY_EDITOR
+				if (!UnityEngine.Application.isPlaying)
+				{
+					// If we've explicitly set the playhead, only play a small snippet.
+					requiredActions |= Actions.DelayedStop;
+				}
+#endif
 				CheckForFadeInFadeOut(playable);
 			}
 		}
-		else if (!eventIsPlaying && (requiredActions & Actions.Playback) == 0)
+		else if (shouldPlay && playingId == 0 && (requiredActions & Actions.Playback) == 0)
 		{
 			// The clip is playing but the event hasn't been triggered. We need to start the event and jump to the correct time.
 			requiredActions |= Actions.Retrigger;
@@ -145,22 +206,31 @@ public class AkTimelineEventPlayableBehavior : UnityEngine.Playables.PlayableBeh
 
 	public override void OnBehaviourPlay(UnityEngine.Playables.Playable playable, UnityEngine.Playables.FrameData info)
 	{
+		PrintInfo("OnBehaviourPlay", playable, info);
 		base.OnBehaviourPlay(playable, info);
 
 		if (akEvent == null)
+		{
 			return;
+		}
 
-		var shouldPlay = ShouldPlay(playable);
-		if (!shouldPlay)
+		if (!ShouldPlay(playable))
+		{
 			return;
+		}
 
 		requiredActions |= Actions.Playback;
 
-		if (IsScrubbing(info))
+		if (IsScrubbing(playable, info))
 		{
-			wasScrubbingAndRequiresRetrigger = true;
-			// If we've explicitly set the playhead, only play a small snippet.
-			requiredActions |= Actions.DelayedStop;
+
+#if UNITY_EDITOR
+			if (!UnityEngine.Application.isPlaying)
+			{
+				// If we've explicitly set the playhead, only play a small snippet.
+				requiredActions |= Actions.DelayedStop;
+			}
+#endif
 		}
 		else if (GetProportionalTime(playable) > alph)
 		{
@@ -173,7 +243,7 @@ public class AkTimelineEventPlayableBehavior : UnityEngine.Playables.PlayableBeh
 
 	public override void OnBehaviourPause(UnityEngine.Playables.Playable playable, UnityEngine.Playables.FrameData info)
 	{
-		wasScrubbingAndRequiresRetrigger = false;
+		PrintInfo("OnBehaviourPause", playable, info);
 
 		base.OnBehaviourPause(playable, info);
 		if (eventObject != null && akEvent != null && StopEventAtClipEnd)
@@ -184,35 +254,53 @@ public class AkTimelineEventPlayableBehavior : UnityEngine.Playables.PlayableBeh
 
 	public override void ProcessFrame(UnityEngine.Playables.Playable playable, UnityEngine.Playables.FrameData info, object playerData)
 	{
+		PrintInfo("ProcessFrame", playable, info);
 		base.ProcessFrame(playable, info, playerData);
 
 		if (akEvent == null)
+		{
 			return;
+		}
 
 		var obj = playerData as UnityEngine.GameObject;
 		if (obj != null)
+		{
 			eventObject = obj;
+		}
 
 		if (eventObject == null)
+		{
 			return;
+		}
 
 		if ((requiredActions & Actions.Playback) != 0)
+		{
 			PlayEvent();
-
-		if ((requiredActions & Actions.Seek) != 0)
+		}
+		else if ((requiredActions & Actions.Seek) != 0)
+		{
 			SeekToTime(playable);
+		}
 
-		if ((retriggerEvent || wasScrubbingAndRequiresRetrigger) && (requiredActions & Actions.Retrigger) != 0)
+		if ((requiredActions & Actions.Retrigger) != 0)
+		{
 			RetriggerEvent(playable);
+		}
 
 		if ((requiredActions & Actions.DelayedStop) != 0)
+		{
 			StopEvent(scrubPlaybackLengthMs);
+		}
 
-		if (!fadeinTriggered && (requiredActions & Actions.FadeIn) != 0)
-			TriggerFadeIn(playable);
-
-		if (!fadeoutTriggered && (requiredActions & Actions.FadeOut) != 0)
+		if ((requiredActions & Actions.FadeOut) != 0)
+		{
 			TriggerFadeOut(playable);
+		}
+		
+		if ((requiredActions & Actions.FadeIn) != 0)
+		{
+			TriggerFadeIn(playable);
+		}
 
 		requiredActions = Actions.None;
 	}
@@ -229,20 +317,31 @@ public class AkTimelineEventPlayableBehavior : UnityEngine.Playables.PlayableBeh
 		if (!UnityEditor.EditorApplication.isPlaying)
 		{
 			if (previousTime == 0.0 && System.Math.Abs(currentTime - previousTime) > 1.0)
+			{
 				return false;
+			}
 		}
 #endif
 
-		if (retriggerEvent)
+		if (previousTime > currentTime)
+		{
 			return true;
+		}
+
+		if (retriggerEvent)
+		{
+			return true;
+		}
 
 		// If max and min duration values from metadata are equal, we can assume a deterministic event.
-		if (eventDurationMax == eventDurationMin && eventDurationMin != -1f)
+		if (eventDurationMax.Equals(eventDurationMin) && !eventDurationMin.Equals(-1f))
+		{
 			return currentTime < eventDurationMax;
+		}
 
 		currentTime -= previousEventStartTime;
 
-		var maxDuration = currentDuration == -1f ? (float)UnityEngine.Playables.PlayableExtensions.GetDuration(playable) : currentDuration;
+		var maxDuration = currentDuration.Equals(-1f) ? (float)UnityEngine.Playables.PlayableExtensions.GetDuration(playable) : currentDuration;
 		return currentTime < maxDuration;
 	}
 
@@ -250,7 +349,9 @@ public class AkTimelineEventPlayableBehavior : UnityEngine.Playables.PlayableBeh
 	{
 		var currentClipTime = UnityEngine.Playables.PlayableExtensions.GetTime(playable);
 		if (blendInDuration > currentClipTime || easeInDuration > currentClipTime)
+		{
 			requiredActions |= Actions.FadeIn;
+		}
 
 		CheckForFadeOut(playable, currentClipTime);
 	}
@@ -259,7 +360,9 @@ public class AkTimelineEventPlayableBehavior : UnityEngine.Playables.PlayableBeh
 	{
 		var timeLeft = UnityEngine.Playables.PlayableExtensions.GetDuration(playable) - currentClipTime;
 		if (blendOutDuration >= timeLeft || easeOutDuration >= timeLeft)
+		{
 			requiredActions |= Actions.FadeOut;
+		}
 	}
 
 	private void TriggerFadeIn(UnityEngine.Playables.Playable playable)
@@ -268,62 +371,51 @@ public class AkTimelineEventPlayableBehavior : UnityEngine.Playables.PlayableBeh
 		var fadeDuration = UnityEngine.Mathf.Max(easeInDuration, blendInDuration) - currentClipTime;
 		if (fadeDuration > 0)
 		{
-			fadeinTriggered = true;
-			akEvent.ExecuteAction(eventObject, AkActionOnEventType.AkActionOnEventType_Pause, 0, blendOutCurve);
-			akEvent.ExecuteAction(eventObject, AkActionOnEventType.AkActionOnEventType_Resume, (int)(fadeDuration * 1000), blendInCurve);
+			AkUnitySoundEngine.ExecuteActionOnPlayingID(AkActionOnEventType.AkActionOnEventType_Pause, playingId, 0, blendInCurve);
+			AkUnitySoundEngine.ExecuteActionOnPlayingID(AkActionOnEventType.AkActionOnEventType_Resume, playingId, (int)(fadeDuration * 1000), blendInCurve);
 		}
 	}
 
 	private void TriggerFadeOut(UnityEngine.Playables.Playable playable)
 	{
-		fadeoutTriggered = true;
-
 		var fadeDuration = UnityEngine.Playables.PlayableExtensions.GetDuration(playable) - UnityEngine.Playables.PlayableExtensions.GetTime(playable);
-		akEvent.ExecuteAction(eventObject, AkActionOnEventType.AkActionOnEventType_Stop, (int)(fadeDuration * 1000), blendOutCurve);
+		AkUnitySoundEngine.ExecuteActionOnPlayingID(AkActionOnEventType.AkActionOnEventType_Stop, playingId, (int)(fadeDuration * 1000), blendOutCurve);	
 	}
 
 	private void StopEvent(int transition = 0)
 	{
-		if (!eventIsPlaying)
+		if (playingId == 0)
+		{
 			return;
+		}
 
-		akEvent.Stop(eventObject, transition);
-
-#if UNITY_EDITOR
-		if (!UnityEditor.EditorApplication.isPlaying)
-			eventIsPlaying = false;
-#endif
+		AkUnitySoundEngine.ExecuteActionOnPlayingID(AkActionOnEventType.AkActionOnEventType_Stop, playingId);
+		playingId = 0;
 	}
 
 	private bool PostEvent()
 	{
-		fadeinTriggered = fadeoutTriggered = false;
-
-		uint playingID;
 
 #if UNITY_EDITOR
 		if (!CanPostEvents)
 		{
-			playingID = AkSoundEngine.AK_INVALID_PLAYING_ID;
+			playingId = AkUnitySoundEngine.AK_INVALID_PLAYING_ID;
 		}
-		else if (!UnityEditor.EditorApplication.isPlaying)
-		{
-			playingID = akEvent.Post(eventObject);
-		}
-		else
 #endif
+		if(playingId == 0)
 		{
-			playingID = akEvent.Post(eventObject, CallbackFlags, CallbackHandler, null);
+			playingId = akEvent.Post(eventObject, CallbackFlags, CallbackHandler, null);
+			return playingId != 0;
 		}
-
-		eventIsPlaying = playingID != AkSoundEngine.AK_INVALID_PLAYING_ID;
-		return eventIsPlaying;
+		return false;
 	}
 
 	private void PlayEvent()
 	{
 		if (!PostEvent())
+		{
 			return;
+		}
 
 		currentDurationProportion = 1f;
 		previousEventStartTime = 0f;
@@ -331,10 +423,11 @@ public class AkTimelineEventPlayableBehavior : UnityEngine.Playables.PlayableBeh
 
 	private void RetriggerEvent(UnityEngine.Playables.Playable playable)
 	{
-		wasScrubbingAndRequiresRetrigger = false;
 
 		if (!PostEvent())
+		{
 			return;
+		}
 
 		currentDurationProportion = 1f - SeekToTime(playable);
 		previousEventStartTime = (float)UnityEngine.Playables.PlayableExtensions.GetTime(playable);
@@ -350,6 +443,10 @@ public class AkTimelineEventPlayableBehavior : UnityEngine.Playables.PlayableBeh
 		}
 
 		var currentTime = (float)UnityEngine.Playables.PlayableExtensions.GetTime(playable) - previousEventStartTime;
+		if (currentTime < 0)
+		{
+			return -1f;
+		}
 		var maxDuration = currentDuration == -1f ? (float)UnityEngine.Playables.PlayableExtensions.GetDuration(playable) : currentDuration;
 		// If the timeline clip has length greater than the event duration, we want to loop.
 		return currentTime % maxDuration / maxDuration;
@@ -360,15 +457,26 @@ public class AkTimelineEventPlayableBehavior : UnityEngine.Playables.PlayableBeh
 	{
 		var proportionalTime = GetProportionalTime(playable);
 		if (proportionalTime >= 1f) // Avoids Wwise "seeking beyond end of event: audio will stop" error.
+		{
 			return 1f;
+		}
+
+		if (proportionalTime < 0f)
+		{
+			return 0f;
+		}
 
 #if UNITY_EDITOR
 		if (!CanPostEvents)
+		{
 			return proportionalTime;
+		}
 #endif
 
-		if (eventIsPlaying)
-			AkSoundEngine.SeekOnEvent(akEvent.Id, eventObject, proportionalTime);
+		if (playingId != 0)
+		{
+			AkUnitySoundEngine.SeekOnEvent(akEvent.Id, eventObject, proportionalTime, false, playingId);
+		}
 
 		return proportionalTime;
 	}
@@ -398,6 +506,7 @@ public class AkTimelineEventPlayable : UnityEngine.Playables.PlayableAsset, Unit
 	private bool retriggerEvent = false;
 
 	public bool UseWwiseEventDuration = true;
+	public bool PrintDebugInformation = false;
 
 	[UnityEngine.SerializeField]
 	private bool StopEventAtClipEnd = true;
@@ -411,12 +520,15 @@ public class AkTimelineEventPlayable : UnityEngine.Playables.PlayableAsset, Unit
 	{
 		var playable = UnityEngine.Playables.ScriptPlayable<AkTimelineEventPlayableBehavior>.Create(graph);
 		if (akEvent == null)
+		{
 			return playable;
+		}
 
 		var b = playable.GetBehaviour();
 		b.akEvent = akEvent;
 		b.blendInCurve = blendInCurve;
 		b.blendOutCurve = blendOutCurve;
+		b.PrintDebugInformation = PrintDebugInformation;
 
 		if (owningClip != null)
 		{
@@ -426,24 +538,34 @@ public class AkTimelineEventPlayable : UnityEngine.Playables.PlayableAsset, Unit
 			b.blendOutDuration = (float)owningClip.blendOutDuration;
 		}
 		else
+		{
 			b.easeInDuration = b.easeOutDuration = b.blendInDuration = b.blendOutDuration = 0;
+		}
 
 		b.retriggerEvent = retriggerEvent;
 		b.StopEventAtClipEnd = StopEventAtClipEnd;
 		b.eventObject = owner;
 		b.eventDurationMin = eventDurationMin;
 		b.eventDurationMax = eventDurationMax;
+		if (eventDurationMin.Equals(eventDurationMax) && eventDurationMax.Equals(0f))
+		{
+			b.eventDurationMin = -1f;
+			b.eventDurationMax = -1f;
+			eventDurationMin = -1f;
+			eventDurationMax = -1f;
+		}
 		return playable;
 	}
 
 #if UNITY_EDITOR
-	[UnityEditor.CustomEditor(typeof(AkTimelineEventPlayable))]
+	[UnityEditor.CustomEditor(typeof(AkTimelineEventPlayable), true)]
 	public class Editor : UnityEditor.Editor
 	{
 		private AkTimelineEventPlayable m_AkTimelineEventPlayable;
 		private UnityEditor.SerializedProperty akEvent;
 		private UnityEditor.SerializedProperty retriggerEvent;
 		private UnityEditor.SerializedProperty UseWwiseEventDuration;
+		private UnityEditor.SerializedProperty PrintDebugInformation;
 		private UnityEditor.SerializedProperty StopEventAtClipEnd;
 		private UnityEditor.SerializedProperty blendInCurve;
 		private UnityEditor.SerializedProperty blendOutCurve;
@@ -452,11 +574,14 @@ public class AkTimelineEventPlayable : UnityEngine.Playables.PlayableAsset, Unit
 		{
 			m_AkTimelineEventPlayable = target as AkTimelineEventPlayable;
 			if (m_AkTimelineEventPlayable == null)
+			{
 				return;
+			}
 
 			akEvent = serializedObject.FindProperty("akEvent");
 			retriggerEvent = serializedObject.FindProperty("retriggerEvent");
 			UseWwiseEventDuration = serializedObject.FindProperty("UseWwiseEventDuration");
+			PrintDebugInformation = serializedObject.FindProperty("PrintDebugInformation");
 			StopEventAtClipEnd = serializedObject.FindProperty("StopEventAtClipEnd");
 			blendInCurve = serializedObject.FindProperty("blendInCurve");
 			blendOutCurve = serializedObject.FindProperty("blendOutCurve");
@@ -496,11 +621,19 @@ public class AkTimelineEventPlayable : UnityEngine.Playables.PlayableAsset, Unit
 					if (retriggerEvent.boolValue && !StopEventAtClipEnd.boolValue)
 					{
 						if (!retriggerEventValue)
+						{
 							StopEventAtClipEnd.boolValue = true;
+						}
 						else if (StopEventAtClipEndValue)
+						{
 							retriggerEvent.boolValue = false;
+						}
 					}
 				}
+			}
+			using (new UnityEditor.EditorGUILayout.VerticalScope("box"))
+			{
+				UnityEditor.EditorGUILayout.PropertyField(PrintDebugInformation);
 			}
 
 			serializedObject.ApplyModifiedProperties();
@@ -515,23 +648,25 @@ public class AkTimelineEventPlayable : UnityEngine.Playables.PlayableAsset, Unit
 		[UnityEditor.InitializeOnLoadMethod]
 		public static void SetupSoundbankSetting()
 		{
-			AkUtilities.EnableBoolSoundbankSettingInWproj("SoundBankGenerateEstimatedDuration", AkWwiseEditorSettings.WwiseProjectAbsolutePath);
+			if (UnityEditor.AssetDatabase.IsAssetImportWorkerProcess())
+			{
+				return;
+			}
 
-			UnityEditor.EditorApplication.update += RunOnce;
-			AkWwiseFileWatcher.Instance.XMLUpdated += UpdateAllClips;
-		}
+			string[] settingsToEnable = {"SoundBankGenerateEstimatedDuration"};
+			AkUtilities.ToggleBoolSoundbankSettingInWproj(settingsToEnable, AkWwiseEditorSettings.WwiseProjectAbsolutePath, true);
 
-		private static void RunOnce()
-		{
-			UpdateAllClips();
-			UnityEditor.EditorApplication.update -= RunOnce;
+			UnityEditor.EditorApplication.delayCall += UpdateAllClips;
+			WwiseProjectDatabase.SoundBankDirectoryUpdated += UpdateAllClips;
 		}
 
 		private static void UpdateAllClips()
 		{
 			var guids = UnityEditor.AssetDatabase.FindAssets("t:AkTimelineEventPlayable", new[] { "Assets" });
 			if (guids.Length < 1)
+			{
 				return;
+			}
 
 			var processedGuids = new System.Collections.Generic.HashSet<string>();
 
@@ -541,7 +676,9 @@ public class AkTimelineEventPlayable : UnityEngine.Playables.PlayableAsset, Unit
 
 				var guid = guids[i];
 				if (processedGuids.Contains(guid))
+				{
 					continue;
+				}
 
 				processedGuids.Add(guid);
 
@@ -551,11 +688,15 @@ public class AkTimelineEventPlayable : UnityEngine.Playables.PlayableAsset, Unit
 				foreach (var obj in objects)
 				{
 					if (obj == null)
+					{
 						continue;
+					}
 
 					var id = obj.GetInstanceID();
 					if (!instanceIds.Contains(id))
+					{
 						instanceIds.Add(id);
+					}
 				}
 
 				for (; instanceIds.Count > 0; instanceIds.RemoveAt(0))
@@ -606,14 +747,18 @@ public class AkTimelineEventPlayable : UnityEngine.Playables.PlayableAsset, Unit
 				serializedObject.FindProperty("eventDurationMax").floatValue = maxDuration;
 
 				if (maxDuration > clipDuration)
+				{
 					clipDuration = maxDuration;
+				}
 			}
 
 			if (clip != null)
 			{
 				clip.displayName = akEvent.Name;
 				if (setClipDuration)
+				{
 					clip.duration = clipDuration;
+				}
 			}
 
 			return maxDuration != -1.0f;

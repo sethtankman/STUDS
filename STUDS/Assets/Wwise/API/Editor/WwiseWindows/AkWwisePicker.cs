@@ -1,9 +1,20 @@
 #if UNITY_EDITOR
-//////////////////////////////////////////////////////////////////////
-//
-// Copyright (c) 2014 Audiokinetic Inc. / All Rights Reserved
-//
-//////////////////////////////////////////////////////////////////////
+/*******************************************************************************
+The content of this file includes portions of the proprietary AUDIOKINETIC Wwise
+Technology released in source code form as part of the game integration package.
+The content of this file may not be used without valid licenses to the
+AUDIOKINETIC Wwise Technology.
+Note that the use of the game engine is subject to the Unity(R) Terms of
+Service at https://unity3d.com/legal/terms-of-service
+ 
+License Usage
+ 
+Licensees holding valid licenses to the AUDIOKINETIC Wwise Technology may use
+this file in accordance with the end user license agreement provided with the
+software or, alternatively, in accordance with the terms contained
+in a written agreement between you and Audiokinetic Inc.
+Copyright (c) 2024 Audiokinetic Inc.
+*******************************************************************************/
 
 public class AkWwisePicker : UnityEditor.EditorWindow
 {
@@ -22,7 +33,9 @@ public class AkWwisePicker : UnityEditor.EditorWindow
 	public void OnEnable()
 	{
 		if (m_treeViewState == null)
+		{
 			m_treeViewState = new UnityEditor.IMGUI.Controls.TreeViewState();
+		}
 
 		var multiColumnHeaderState = AkWwiseTreeView.CreateDefaultMultiColumnHeaderState();
 		var multiColumnHeader = new UnityEditor.IMGUI.Controls.MultiColumnHeader(multiColumnHeaderState);
@@ -31,9 +44,20 @@ public class AkWwisePicker : UnityEditor.EditorWindow
 
 		m_treeView.dirtyDelegate = RequestRepaint;
 
+		if (m_treeView.dataSource.Data.ItemDict.Count == 0)
+		{
+			Refresh();
+			RequestRepaint();
+		}
+		
 		m_SearchField = new UnityEditor.IMGUI.Controls.SearchField();
 		m_SearchField.downOrUpArrowKeyPressed += m_treeView.SetFocusAndEnsureSelectedItem;
 		m_SearchField.SetFocus();
+	}
+
+	public void OnDisable()
+	{
+		m_treeView.SaveExpansionStatus();
 	}
 
 	public static void Refresh(bool ignoreIfWaapi = false)
@@ -52,7 +76,9 @@ public class AkWwisePicker : UnityEditor.EditorWindow
 	private void PlayPauseItem(AkWwiseTreeViewItem item)
 	{
 		if (m_treeView != null && m_treeView.CheckWaapi())
+		{
 			AkWaapiUtilities.TogglePlayEvent(item.objectType, item.objectGuid);
+		}
 	}
 
 	private bool isDirty;
@@ -126,14 +152,18 @@ public class AkWwisePicker : UnityEditor.EditorWindow
 				}
 				else
 				{
-					UnityEngine.Debug.LogError("Access to Wwise is required to generate the SoundBanks. Please go to Edit > Project Settings... and set the Wwise Application Path found in the Wwise Editor view.");
+					UnityEngine.Debug.LogError("Access to Wwise is required to generate the SoundBanks. Please go to Edit > Project Settings... and set the Wwise Application Path found in the Wwise Integration view.");
 				}
 			}
 
 			if (projectData.autoPopulateEnabled && AkUtilities.IsWwiseProjectAvailable)
+			{
 				AkWwiseWWUBuilder.StartWWUWatcher();
+			}
 			else
+			{
 				AkWwiseWWUBuilder.StopWWUWatcher();
+			}
 		}
 
 		using (new UnityEngine.GUILayout.HorizontalScope("box"))
@@ -166,7 +196,9 @@ public class AkWwisePicker : UnityEditor.EditorWindow
 		m_treeView.OnGUI(new UnityEngine.Rect(lastRect.x, lastRect.y, position.width, lastRect.height));
 
 		if (UnityEngine.GUI.changed && AkUtilities.IsWwiseProjectAvailable)
+		{
 			UnityEditor.EditorUtility.SetDirty(AkWwiseProjectInfo.GetData());
+		}
 	}
 
 	static void SelectInWwisePicker(System.Guid guid)

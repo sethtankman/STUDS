@@ -10,6 +10,7 @@ public class Music_Manager : MonoBehaviour
     public AK.Wwise.Event strollerMusic;
     public AK.Wwise.Event shoppingMusic;
     public AK.Wwise.Event pennyMusic;
+    public AK.Wwise.Event dodgeballMusic;
 
     private static GameObject instance;
 
@@ -42,6 +43,9 @@ public class Music_Manager : MonoBehaviour
                 case "Penny":
                     pennyMusic.Post(gameObject);
                     break;
+                case "Dodgeball":
+                    dodgeballMusic.Post(gameObject); 
+                    break;
                 default:
                     Debug.LogError("Yo, that's not the music's name.");
                     break;
@@ -62,16 +66,13 @@ public class Music_Manager : MonoBehaviour
                 case "Penny":
                     pennyMusic.Stop(gameObject);
                     break;
+                case "Dodgeball":
+                    dodgeballMusic.Stop(gameObject);
+                    break;
                 default:
                     Debug.LogError("Yo, that's not the music's name.");
                     break;
             }
         }
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

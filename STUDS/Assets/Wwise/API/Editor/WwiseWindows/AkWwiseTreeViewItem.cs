@@ -1,9 +1,20 @@
-﻿#if UNITY_EDITOR
-//////////////////////////////////////////////////////////////////////
-//
-// Copyright (c) 2020 Audiokinetic Inc. / All Rights Reserved
-//
-//////////////////////////////////////////////////////////////////////
+#if UNITY_EDITOR
+/*******************************************************************************
+The content of this file includes portions of the proprietary AUDIOKINETIC Wwise
+Technology released in source code form as part of the game integration package.
+The content of this file may not be used without valid licenses to the
+AUDIOKINETIC Wwise Technology.
+Note that the use of the game engine is subject to the Unity(R) Terms of
+Service at https://unity3d.com/legal/terms-of-service
+ 
+License Usage
+ 
+Licensees holding valid licenses to the AUDIOKINETIC Wwise Technology may use
+this file in accordance with the end user license agreement provided with the
+software or, alternatively, in accordance with the terms contained
+in a written agreement between you and Audiokinetic Inc.
+Copyright (c) 2024 Audiokinetic Inc.
+*******************************************************************************/
 
 using System.Linq;
 using System.Collections.Generic;
@@ -15,6 +26,7 @@ public class AkWwiseTreeViewItem : TreeViewItem, System.IEquatable<AkWwiseTreeVi
 	public System.Guid objectGuid;
 	public WwiseObjectType objectType;
 	public int numChildren;
+	public bool isSorted;
 
 	public string name
 	{
@@ -23,7 +35,7 @@ public class AkWwiseTreeViewItem : TreeViewItem, System.IEquatable<AkWwiseTreeVi
 			displayName = value;
 			if (parent != null)
 			{
-				parent.children.Sort();
+				(parent as AkWwiseTreeViewItem).SortChildren();
 			}
 		}
 	}
@@ -95,7 +107,12 @@ public class AkWwiseTreeViewItem : TreeViewItem, System.IEquatable<AkWwiseTreeVi
 		child.depth = this.depth + 1;
 		child.parent = this;
 		children.Add(child);
+		isSorted = false;
+	}
+	public void SortChildren()
+	{
 		children.Sort();
+		isSorted = true;
 	}
 
 	public override int CompareTo(TreeViewItem B)
@@ -161,6 +178,11 @@ public class AkWwiseTreeViewItem : TreeViewItem, System.IEquatable<AkWwiseTreeVi
 	public bool WwiseTypeInChildren(WwiseObjectType t)
 	{
 		if (this.objectType == t) return true;
+
+		if (!hasChildren)
+		{
+			return false;
+		}
 
 		foreach (var child in children)
 		{

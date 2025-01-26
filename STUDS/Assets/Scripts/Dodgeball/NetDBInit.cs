@@ -7,7 +7,7 @@ using TMPro;
 using Mirror;
 
 /// <summary>
-/// The level initializer for the stroller race levels.
+/// The level initializer for the online dodgeball level.
 /// </summary>
 public class NetDBInit : NetworkBehaviour
 {
@@ -33,7 +33,7 @@ public class NetDBInit : NetworkBehaviour
     void Start()
     {
         GameObject.Find("Music Manager").GetComponent<Music_Manager>().PlayStopMusic("Menu", false);
-        GameObject.Find("Music Manager").GetComponent<Music_Manager>().PlayStopMusic("Stroller", true);
+        GameObject.Find("Music Manager").GetComponent<Music_Manager>().PlayStopMusic("Dodgeball", true);
         NetPause.canPause = false;
         if (NetGameManager.Instance)
         {

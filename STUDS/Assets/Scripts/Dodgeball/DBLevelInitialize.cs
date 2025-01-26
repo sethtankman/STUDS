@@ -6,7 +6,7 @@ using UnityEngine.UI;
 using TMPro;
 
 /// <summary>
-/// The level initializer for the stroller race levels.
+/// The level initializer for the dodgeball levels.
 /// </summary>
 public class DBLevelInitialize : MonoBehaviour
 {
@@ -34,7 +34,7 @@ public class DBLevelInitialize : MonoBehaviour
     void Start()
     {
         GameObject.Find("Music Manager").GetComponent<Music_Manager>().PlayStopMusic("Menu", false);
-        GameObject.Find("Music Manager").GetComponent<Music_Manager>().PlayStopMusic("Stroller", true);
+        GameObject.Find("Music Manager").GetComponent<Music_Manager>().PlayStopMusic("Dodgeball", true);
         aiColors = new List<string> { "red", "blue", "purple", "yellow", "green" };
         PauseV2.canPause = false;
         if (ManagePlayerHub.Instance)

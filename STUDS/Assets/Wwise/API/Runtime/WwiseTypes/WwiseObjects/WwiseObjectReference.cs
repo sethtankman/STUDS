@@ -1,8 +1,20 @@
-//////////////////////////////////////////////////////////////////////
-//
-// Copyright (c) 2018 Audiokinetic Inc. / All Rights Reserved
-//
-//////////////////////////////////////////////////////////////////////
+/*******************************************************************************
+The content of this file includes portions of the proprietary AUDIOKINETIC Wwise
+Technology released in source code form as part of the game integration package.
+The content of this file may not be used without valid licenses to the
+AUDIOKINETIC Wwise Technology.
+Note that the use of the game engine is subject to the Unity(R) Terms of
+Service at https://unity3d.com/legal/terms-of-service
+ 
+License Usage
+ 
+Licensees holding valid licenses to the AUDIOKINETIC Wwise Technology may use
+this file in accordance with the end user license agreement provided with the
+software or, alternatively, in accordance with the terms contained
+in a written agreement between you and Audiokinetic Inc.
+Copyright (c) 2024 Audiokinetic Inc.
+*******************************************************************************/
+using System.Collections.Generic;
 
 /// @brief Represents Wwise objects as Unity assets.
 public abstract class WwiseObjectReference : UnityEngine.ScriptableObject
@@ -14,7 +26,7 @@ public abstract class WwiseObjectReference : UnityEngine.ScriptableObject
 
 	[AkShowOnly]
 	[UnityEngine.SerializeField]
-	private uint id = AkSoundEngine.AK_INVALID_UNIQUE_ID;
+	private uint id = AkUnitySoundEngine.AK_INVALID_UNIQUE_ID;
 
 	[AkShowOnly]
 	[UnityEngine.SerializeField]
@@ -52,6 +64,8 @@ public abstract class WwiseObjectReference : UnityEngine.ScriptableObject
 	#endregion
 
 #if UNITY_EDITOR
+	private static Dictionary<WwiseObjectType, Dictionary<System.Guid, WwiseObjectReference>> s_objectReferenceDictionary = new Dictionary<WwiseObjectType, Dictionary<System.Guid, WwiseObjectReference>>();
+
 	public virtual  bool IsComplete()
 	{
 		return true;
@@ -79,13 +93,36 @@ public abstract class WwiseObjectReference : UnityEngine.ScriptableObject
 	};
 
 
-	private static WwiseObjectReference Create(WwiseObjectType wwiseObjectType)
+	private static WwiseObjectReference Create(WwiseObjectType wwiseObjectType, System.Guid guid)
 	{
 		System.Type type = null;
+		WwiseObjectReference objectReference = null;
 		if (m_WwiseObjectReferenceClasses.TryGetValue(wwiseObjectType, out type))
-			return (WwiseObjectReference)CreateInstance(type);
+		{
+			objectReference =(WwiseObjectReference)CreateInstance(type);
+		}
+		else
+		{
+			objectReference = CreateInstance<WwiseObjectReference>();
+		}
+		
+		objectReference.guid = guid.ToString().ToUpper();
 
-		return CreateInstance<WwiseObjectReference>();
+		if (!s_objectReferenceDictionary.ContainsKey(wwiseObjectType))
+		{
+			FetchAssetsOfType(wwiseObjectType);
+		}
+
+		if (s_objectReferenceDictionary[wwiseObjectType].ContainsKey(objectReference.Guid))
+		{
+			s_objectReferenceDictionary[wwiseObjectType][objectReference.Guid] = objectReference;
+		}
+		else
+		{
+			s_objectReferenceDictionary[wwiseObjectType].Add(objectReference.Guid, objectReference);
+		}
+
+		return objectReference;
 	}
 
 	protected static WwiseObjectReference FindExistingWwiseObject(WwiseObjectType wwiseObjectType, System.Guid guid, string path)
@@ -98,23 +135,43 @@ public abstract class WwiseObjectReference : UnityEngine.ScriptableObject
 		if (!m_WwiseObjectReferenceClasses.TryGetValue(wwiseObjectType, out type))
 			return null;
 
+		if (!s_objectReferenceDictionary.ContainsKey(wwiseObjectType))
+		{
+			FetchAssetsOfType(wwiseObjectType);
+		}
+
+		if (s_objectReferenceDictionary[wwiseObjectType].ContainsKey(guid))
+		{
+			return s_objectReferenceDictionary[wwiseObjectType][guid];
+		}
+
+		return null;
+	}
+
+	private static void FetchAssetsOfType(WwiseObjectType wwiseObjectType)
+	{
+
+		System.Type type = null;
+		if (!m_WwiseObjectReferenceClasses.TryGetValue(wwiseObjectType, out type))
+			type = typeof(WwiseObjectReference);
+
+		var objectReferenceDictionary = new Dictionary<System.Guid, WwiseObjectReference>();
 		var guids = UnityEditor.AssetDatabase.FindAssets("t:" + type.Name);
 		foreach (var assetGuid in guids)
 		{
 			var assetPath = UnityEditor.AssetDatabase.GUIDToAssetPath(assetGuid);
-			asset = UnityEditor.AssetDatabase.LoadAssetAtPath<WwiseObjectReference>(assetPath);
-			if (asset && asset.WwiseObjectType == wwiseObjectType && asset.Guid == guid)
-				return asset;
+			var asset = UnityEditor.AssetDatabase.LoadAssetAtPath<WwiseObjectReference>(assetPath);
+			objectReferenceDictionary[asset.Guid] = asset;
 		}
+		s_objectReferenceDictionary[wwiseObjectType] = objectReferenceDictionary;
 
-		return null;
 	}
 
 	private static bool UpdateWwiseObjectData(WwiseObjectReference wwiseObjectReference, string name)
 	{
 		var id = AkUtilities.ShortIDGenerator.Compute(name);
 		var changed = false;
-		if (wwiseObjectReference.objectName == name && wwiseObjectReference.id == id)
+		if (wwiseObjectReference.objectName != name || wwiseObjectReference.id != id)
 			changed = true;
 
 		wwiseObjectReference.objectName = name;
@@ -147,11 +204,17 @@ public abstract class WwiseObjectReference : UnityEngine.ScriptableObject
 		if (!assetExists)
 		{
 			AkUtilities.CreateFolder(parentPath);
-			asset = Create(wwiseObjectType);
-			asset.guid = guid.ToString().ToUpper();
+			asset = Create(wwiseObjectType, guid);
 		}
 
 		var changed = UpdateWwiseObjectData(asset, name);
+		
+		if (wwiseObjectType == WwiseObjectType.Event)
+		{
+			//Need to directly set IsUserDefinedSoundBank, since we can't rely on the user to generate the bank after the creation of the reference.
+			WwiseEventReference eventRef = (WwiseEventReference)asset;
+			eventRef.UpdateIsUserDefinedSoundBank();
+		}
 		if (!assetExists)
 			UnityEditor.AssetDatabase.CreateAsset(asset, path);
 		else if (changed)

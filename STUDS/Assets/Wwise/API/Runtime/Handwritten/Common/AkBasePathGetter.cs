@@ -1,9 +1,22 @@
 #if !(UNITY_DASHBOARD_WIDGET || UNITY_WEBPLAYER || UNITY_WII || UNITY_WIIU || UNITY_NACL || UNITY_FLASH || UNITY_BLACKBERRY) // Disable under unsupported platforms.
-//////////////////////////////////////////////////////////////////////
-//
-// Copyright (c) 2012 Audiokinetic Inc. / All Rights Reserved
-//
-//////////////////////////////////////////////////////////////////////
+/*******************************************************************************
+The content of this file includes portions of the proprietary AUDIOKINETIC Wwise
+Technology released in source code form as part of the game integration package.
+The content of this file may not be used without valid licenses to the
+AUDIOKINETIC Wwise Technology.
+Note that the use of the game engine is subject to the Unity(R) Terms of
+Service at https://unity3d.com/legal/terms-of-service
+ 
+License Usage
+ 
+Licensees holding valid licenses to the AUDIOKINETIC Wwise Technology may use
+this file in accordance with the end user license agreement provided with the
+software or, alternatively, in accordance with the terms contained
+in a written agreement between you and Audiokinetic Inc.
+Copyright (c) 2024 Audiokinetic Inc.
+*******************************************************************************/
+
+using System.Text.RegularExpressions;
 
 /// <summary>
 ///     This class is responsible for determining the path where sound banks are located. When using custom platforms, this
@@ -40,6 +53,7 @@ public partial class AkBasePathGetter
 public partial class AkBasePathGetter
 {
 	public static readonly string DefaultBasePath = System.IO.Path.Combine("Audio", "GeneratedSoundBanks");
+	private const string DecodedBankFolder = "DecodedBanks";
 
 	private static bool LogWarnings_Internal = true;
 	public static bool LogWarnings
@@ -69,13 +83,19 @@ public partial class AkBasePathGetter
 		if (string.IsNullOrEmpty(fullBasePath))
 			fullBasePath = AkWwiseInitializationSettings.ActivePlatformSettings.SoundbankPath;
 
-#if UNITY_EDITOR || !UNITY_ANDROID
+#if !UNITY_EDITOR && UNITY_WEBGL
+		fullBasePath = System.IO.Path.Combine(UnityEngine.Application.persistentDataPath, fullBasePath);
+#elif UNITY_EDITOR || !UNITY_ANDROID
 		fullBasePath = System.IO.Path.Combine(UnityEngine.Application.streamingAssetsPath, fullBasePath);
 #endif
 
 #if UNITY_SWITCH
 		if (fullBasePath.StartsWith("/"))
 			fullBasePath = fullBasePath.Substring(1);
+#endif
+
+#if UNITY_OPENHARMONY
+		fullBasePath = fullBasePath.Substring(fullBasePath.IndexOf("Data"));
 #endif
 
 		// Combine base path with platform sub-folder
@@ -119,6 +139,21 @@ public partial class AkBasePathGetter
 		AkUtilities.FixSlashes(ref fullBasePath);
 		return fullBasePath;
 	}
+	
+	public static string GetWwiseRootOutputPath(string wwiseAbsolutePath = "")
+	{
+		string wwiseRootOuputPath = AkUtilities.GetRootOutputPath(wwiseAbsolutePath == "" ? AkWwiseEditorSettings.WwiseProjectAbsolutePath : wwiseAbsolutePath);
+#if UNITY_EDITOR_OSX
+		wwiseRootOuputPath = AkUtilities.ParseOsxPathFromWinePath(wwiseRootOuputPath);
+#endif
+		if (System.IO.Path.IsPathRooted(wwiseRootOuputPath))
+		{
+			return wwiseRootOuputPath;
+		}
+		var combinedPath = System.IO.Path.Combine(GetWwiseProjectDirectory(wwiseAbsolutePath), wwiseRootOuputPath);
+		AkUtilities.FixSlashes(ref combinedPath);
+		return combinedPath;
+	}
 
 	public static string GetWwiseProjectPath()
 	{
@@ -126,9 +161,9 @@ public partial class AkBasePathGetter
 		return AkUtilities.GetFullPath(UnityEngine.Application.dataPath, Settings.WwiseProjectPath);
 	}
 
-	public static string GetWwiseProjectDirectory()
+	public static string GetWwiseProjectDirectory(string wwiseAbsolutePath = "")
 	{
-		var projectPath= AkUtilities.GetFullPath(UnityEngine.Application.dataPath, AkWwiseEditorSettings.Instance.WwiseProjectPath);
+		var projectPath= AkUtilities.GetFullPath(UnityEngine.Application.dataPath, wwiseAbsolutePath == "" ? AkWwiseEditorSettings.Instance.WwiseProjectPath : wwiseAbsolutePath);
 		return System.IO.Path.GetDirectoryName(projectPath);
 	}
 
@@ -136,7 +171,6 @@ public partial class AkBasePathGetter
 	{
 		return System.IO.Path.Combine(GetWwiseProjectPath(), "GeneratedSoundBanks");
 	}
-	
 
 	/// <summary>
 	///     Determines the platform base path for use within the Editor.
@@ -199,7 +233,18 @@ public partial class AkBasePathGetter
 	}
 #endif
 
-	public static void EvaluateGamePaths()
+	private static AkBasePathGetter Instance;
+	public static AkBasePathGetter Get()
+	{
+		if (Instance == null)
+		{
+			Instance = new AkBasePathGetter();
+			Instance.EvaluateGamePaths();
+		}
+		return Instance;
+	}
+
+	public void EvaluateGamePaths()
 	{
 #if UNITY_SWITCH && !UNITY_EDITOR
 		// Calling Application.persistentDataPath crashes Switch
@@ -223,14 +268,14 @@ public partial class AkBasePathGetter
 		{
 			tempSoundBankBasePath = GetPlatformBasePath();
 
-#if !UNITY_EDITOR && UNITY_ANDROID
+#if !AK_WWISE_ADDRESSABLES //Don't log this if we're using addressables
+#if !UNITY_EDITOR && (UNITY_ANDROID || UNITY_OPENHARMONY)
 			// Can't use File.Exists on Android, assume banks are there
 			var InitBnkFound = true;
 #else
 			var InitBnkFound = System.IO.File.Exists(System.IO.Path.Combine(tempSoundBankBasePath, "Init.bnk"));
 #endif
 			
-#if !AK_WWISE_ADDRESSABLES && UNITY_ADDRESSBLES //Don't log this if we're using addressables
 			if (string.IsNullOrEmpty(tempSoundBankBasePath) || !InitBnkFound)
 			{
 				if (LogWarnings)
@@ -262,13 +307,11 @@ public partial class AkBasePathGetter
 		DecodedBankFullPath = tempDecodedBankFullPath;
 	}
 
-	public static string SoundBankBasePath { get; private set; }
+	public string SoundBankBasePath { get; private set; }
 
-	public static string PersistentDataPath { get; private set; }
+	public string PersistentDataPath { get; private set; }
 
-	private const string DecodedBankFolder = "DecodedBanks";
-
-	public static string DecodedBankFullPath { get; private set; }
+	public string DecodedBankFullPath { get; private set; }
 }
 
 #endif // #if ! (UNITY_DASHBOARD_WIDGET || UNITY_WEBPLAYER || UNITY_WII || UNITY_WIIU || UNITY_NACL || UNITY_FLASH || UNITY_BLACKBERRY) // Disable under unsupported platforms.

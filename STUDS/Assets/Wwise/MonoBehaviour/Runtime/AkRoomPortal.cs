@@ -1,4 +1,20 @@
 #if ! (UNITY_DASHBOARD_WIDGET || UNITY_WEBPLAYER || UNITY_WII || UNITY_WIIU || UNITY_NACL || UNITY_FLASH || UNITY_BLACKBERRY) // Disable under unsupported platforms.
+/*******************************************************************************
+The content of this file includes portions of the proprietary AUDIOKINETIC Wwise
+Technology released in source code form as part of the game integration package.
+The content of this file may not be used without valid licenses to the
+AUDIOKINETIC Wwise Technology.
+Note that the use of the game engine is subject to the Unity(R) Terms of
+Service at https://unity3d.com/legal/terms-of-service
+ 
+License Usage
+ 
+Licensees holding valid licenses to the AUDIOKINETIC Wwise Technology may use
+this file in accordance with the end user license agreement provided with the
+software or, alternatively, in accordance with the terms contained
+in a written agreement between you and Audiokinetic Inc.
+Copyright (c) 2024 Audiokinetic Inc.
+*******************************************************************************/
 [UnityEngine.AddComponentMenu("Wwise/Spatial Audio/AkRoomPortal")]
 [UnityEngine.RequireComponent(typeof(UnityEngine.BoxCollider))]
 [UnityEngine.DisallowMultipleComponent]
@@ -26,6 +42,7 @@ public class AkRoomPortal : AkTriggerHandler
 		set
 		{
 			active = value;
+			portalNeedsUpdate = true;
 			AkRoomManager.RegisterPortalUpdate(this);
 		}
 	}
@@ -49,14 +66,27 @@ public class AkRoomPortal : AkTriggerHandler
 	public AkRoom frontRoom { get { return rooms[1]; } }
 	public AkRoom backRoom { get { return rooms[0]; } }
 
+	public bool isSetInWwise() { return portalSet; }
+
 	private AkTransform portalTransform;
 	private UnityEngine.BoxCollider portalCollider;
 	private bool portalSet = false;
+	private bool portalNeedsUpdate = false;
+	private UnityEngine.Vector3 previousPosition;
+	private UnityEngine.Vector3 previousScale;
+	private UnityEngine.Quaternion previousRotation;
 
 	private void SetRoomPortal()
 	{
-		if (!enabled)
+		if (!AkUnitySoundEngine.IsInitialized())
+		{
 			return;
+		}
+
+		if (!isActiveAndEnabled)
+		{
+			return;
+		}
 
 		if (IsValid)
 		{
@@ -67,22 +97,28 @@ public class AkRoomPortal : AkTriggerHandler
 				UnityEngine.Mathf.Abs(extentVector.x),
 				UnityEngine.Mathf.Abs(extentVector.y),
 				UnityEngine.Mathf.Abs(extentVector.z));
-			AkSoundEngine.SetRoomPortal(GetID(), portalTransform, extent, active, frontRoomID, backRoomID);
+			AkUnitySoundEngine.SetRoomPortal(GetID(), frontRoomID, backRoomID, portalTransform, extent, active, name);
 			portalSet = true;
+			portalNeedsUpdate = false;
 		}
 		else
 		{
-			UnityEngine.Debug.LogError(name + " has identical front and back rooms. It will not be sent to Spatial Audio.");
+			UnityEngine.Debug.LogWarning(name + " Portal placement is invalid. The portal is not set in the Spatial Audio engine. The front and back Rooms of the Portal cannot be the same or have a ReverbZone-parent relationship.");
 			if (portalSet)
-				AkSoundEngine.RemovePortal(GetID());
-			portalSet = false;
+			{
+				AkUnitySoundEngine.RemovePortal(GetID());
+				portalSet = false;
+			}
 		}
 	}
 
 	public void UpdateRoomPortal()
 	{
-		UpdateRooms();
-		SetRoomPortal();
+		bool roomsChanged = UpdateRooms();
+		if (roomsChanged || !portalSet || portalNeedsUpdate)
+		{
+			SetRoomPortal();
+		}
 	}
 
 	public bool Overlaps(AkRoom room)
@@ -92,13 +128,56 @@ public class AkRoomPortal : AkTriggerHandler
 		for (int i = 0; i < MAX_ROOMS_PER_PORTAL; ++i)
 		{
 			if (roomList[i].Contains(room))
+			{
 				return true;
+			}
 		}
 
 		return false;
 	}
 
-	public bool IsValid { get { return frontRoomID != backRoomID; } }
+	public bool IsValid
+	{
+		get
+		{
+			// portal is valid if its front and back rooms are different
+			bool isPortalValid = frontRoomID != backRoomID;
+			
+			// portal is valid if its front and back room don't have a ReverbZone-parent relationship
+			if (isPortalValid && frontRoom && frontRoom.IsAReverbZoneInWwise)
+			{
+				isPortalValid = backRoomID != frontRoom.ParentRoomID;
+			}
+			if (isPortalValid && backRoom && backRoom.IsAReverbZoneInWwise)
+			{
+				isPortalValid = frontRoomID != backRoom.ParentRoomID;
+			}
+
+#if UNITY_EDITOR
+			// check all reverb zone components
+			if (isPortalValid)
+			{
+				AkReverbZone[] reverbZoneComponents = UnityEngine.Resources.FindObjectsOfTypeAll<AkReverbZone>();
+				for (uint i = 0; i < reverbZoneComponents.Length; ++i)
+				{
+					if (reverbZoneComponents[i].isActiveAndEnabled && reverbZoneComponents[i].ReverbZone)
+					{
+						ulong reverbZoneID = reverbZoneComponents[i].ReverbZone.GetID();
+						ulong parentRoomID = AkRoom.INVALID_ROOM_ID;
+						if (reverbZoneComponents[i].ParentRoom != null)
+						{
+							parentRoomID = reverbZoneComponents[i].ParentRoom.GetID();
+						}
+						isPortalValid = !(frontRoomID == reverbZoneID && backRoomID == parentRoomID);
+						isPortalValid = isPortalValid && !(backRoomID == reverbZoneID && frontRoomID == parentRoomID);
+					}
+				}
+			}
+#endif
+
+			return isPortalValid;
+		}
+	}
 
 	/// Access the portal's ID
 	public ulong GetID() { return (ulong)GetInstanceID(); }
@@ -115,6 +194,11 @@ public class AkRoomPortal : AkTriggerHandler
 
 		RegisterTriggers(closePortalTriggerList, ClosePortal);
 
+		// init update condition
+		previousPosition = transform.position;
+		previousScale = transform.lossyScale;
+		previousRotation = transform.rotation;
+
 		base.Awake();
 	}
 
@@ -124,7 +208,9 @@ public class AkRoomPortal : AkTriggerHandler
 
 		//Call the ClosePortal function if registered to the Start Trigger
 		if (closePortalTriggerList.Contains(START_TRIGGER_ID))
+		{
 			ClosePortal(null);
+		}
 	}
 
 	/// Opens the portal on trigger event
@@ -148,7 +234,6 @@ public class AkRoomPortal : AkTriggerHandler
 
 	public override void OnEnable()
 	{
-		UpdateRooms();
 		AkRoomManager.RegisterPortal(this);
 		base.OnEnable();
 	}
@@ -157,8 +242,23 @@ public class AkRoomPortal : AkTriggerHandler
 	{
 		AkRoomManager.UnregisterPortal(this);
 		if (portalSet)
-			AkSoundEngine.RemovePortal(GetID());
+		{
+			AkUnitySoundEngine.RemovePortal(GetID());
+		}
 		portalSet = false;
+	}
+	private void Update()
+	{
+		if (previousPosition != transform.position ||
+			previousScale != transform.lossyScale ||
+			previousRotation != transform.rotation)
+		{
+			portalNeedsUpdate = true;
+			AkRoomManager.RegisterPortalUpdate(this);
+			previousPosition = transform.position;
+			previousScale = transform.lossyScale;
+			previousRotation = transform.rotation;
+		}
 	}
 
 	private bool IsRoomActive(AkRoom in_room)
@@ -180,7 +280,9 @@ public class AkRoomPortal : AkTriggerHandler
 	{
 		var portalCollider = gameObject.GetComponent<UnityEngine.BoxCollider>();
 		if (portalCollider == null)
+		{
 			return;
+		}
 
 		// compute halfExtents and divide the local z extent by 2
 		var halfExtentZ = portalCollider.size.z / 2;
@@ -203,11 +305,13 @@ public class AkRoomPortal : AkTriggerHandler
 		{
 			var room = collider.gameObject.GetComponent<AkRoom>();
 			if (room != null && !list.Contains(room))
+			{
 				list.Add(room);
+			}
 		}
 	}
 
-	public void UpdateRooms()
+	public bool UpdateRooms()
 	{
 		FindOverlappingRooms(roomList);
 
@@ -218,20 +322,23 @@ public class AkRoomPortal : AkTriggerHandler
 			var room = roomList[i].GetHighestPriorityActiveAndEnabledRoom();
 
 			if (room != rooms[i])
+			{
 				wasUpdated = true;
+			}
 
 			rooms[i] = room;
 		}
 
-		if (wasUpdated)
-			AkRoomManager.RegisterPortalUpdate(this);
+		return wasUpdated;
 	}
 
 #if UNITY_EDITOR
 	private void OnDrawGizmos()
 	{
 		if (!enabled)
+		{
 			return;
+		}
 
 		UnityEngine.Gizmos.matrix = transform.localToWorldMatrix;
 
@@ -261,15 +368,22 @@ public class AkRoomPortal : AkTriggerHandler
 		faceSize[4] = new UnityEngine.Vector3(1, 1, 0);
 		faceSize[5] = faceSize[4];
 
-		UnityEngine.Gizmos.color = new UnityEngine.Color32(255, 204, 0, 100);
+		if (IsValid)
+		{
+			UnityEngine.Gizmos.color = new UnityEngine.Color32(255, 204, 0, 100);
+		}
+		else
+		{
+			UnityEngine.Gizmos.color = new UnityEngine.Color32(255, 0, 0, 100);
+		}
+
 		for (var i = 0; i < 4; i++)
 		{
 			UnityEngine.Gizmos.DrawCube(faceCenterPos[i] + centreOffset, UnityEngine.Vector3.Scale(faceSize[i], sizeMultiplier));
 		}
 
 		if (!portalActive)
-        {
-			UnityEngine.Gizmos.color = new UnityEngine.Color32(255, 204, 0, 30);
+		{
 			UnityEngine.Gizmos.DrawCube(faceCenterPos[4] + centreOffset, UnityEngine.Vector3.Scale(faceSize[4], sizeMultiplier));
 			UnityEngine.Gizmos.DrawCube(faceCenterPos[5] + centreOffset, UnityEngine.Vector3.Scale(faceSize[5], sizeMultiplier));
 		}
@@ -281,38 +395,40 @@ public class AkRoomPortal : AkTriggerHandler
 		CornerCenterPos[2].y -= 0.5f * sizeMultiplier.y;
 		CornerCenterPos[3].x += 0.5f * sizeMultiplier.x;
 
-		UnityEngine.Gizmos.color = UnityEngine.Color.red;
+		UnityEngine.Gizmos.color = UnityEngine.Color.green;
 		for (var i = 0; i < 4; i++)
+		{
 			UnityEngine.Gizmos.DrawLine(CornerCenterPos[i] + centreOffset, CornerCenterPos[(i + 1) % 4] + centreOffset);
+		}
 	}
 #endif
 
 	#region Obsolete
-	[System.Obsolete(AkSoundEngine.Deprecation_2019_2_0)]
+	[System.Obsolete(AkUnitySoundEngine.Deprecation_2019_2_0)]
 	public void SetRoom(int in_roomIndex, AkRoom in_room)
 	{
 		UnityEngine.Debug.LogFormat("SetRoom is deprecated. Highest priority, active and enabled room will be automatically chosen. Make sure room priorities and game object placements are correct.");
 	}
 
-	[System.Obsolete(AkSoundEngine.Deprecation_2019_2_0)]
+	[System.Obsolete(AkUnitySoundEngine.Deprecation_2019_2_0)]
 	public void SetFrontRoom(AkRoom room)
 	{
 		UnityEngine.Debug.LogFormat("SetFrontRoom is deprecated. Highest priority, active and enabled room will be automatically chosen. Make sure room priorities and game object placements are correct.");
 	}
 
-	[System.Obsolete(AkSoundEngine.Deprecation_2019_2_0)]
+	[System.Obsolete(AkUnitySoundEngine.Deprecation_2019_2_0)]
 	public void SetBackRoom(AkRoom room)
 	{
 		UnityEngine.Debug.LogFormat("SetBackRoom is deprecated. Highest priority, active and enabled room will be automatically chosen. Make sure room priorities and game object placements are correct.");
 	}
 
-	[System.Obsolete(AkSoundEngine.Deprecation_2019_2_0)]
+	[System.Obsolete(AkUnitySoundEngine.Deprecation_2019_2_0)]
 	public void UpdateSoundEngineRoomIDs()
 	{
 		UpdateRoomPortal();
 	}
 
-	[System.Obsolete(AkSoundEngine.Deprecation_2019_2_0)]
+	[System.Obsolete(AkUnitySoundEngine.Deprecation_2019_2_0)]
 	public void UpdateOverlappingRooms()
 	{
 		UpdateRooms();

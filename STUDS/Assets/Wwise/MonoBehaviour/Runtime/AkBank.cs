@@ -1,9 +1,20 @@
 #if ! (UNITY_DASHBOARD_WIDGET || UNITY_WEBPLAYER || UNITY_WII || UNITY_WIIU || UNITY_NACL || UNITY_FLASH || UNITY_BLACKBERRY) // Disable under unsupported platforms.
-//////////////////////////////////////////////////////////////////////
-//
-// Copyright (c) 2014 Audiokinetic Inc. / All Rights Reserved
-//
-//////////////////////////////////////////////////////////////////////
+/*******************************************************************************
+The content of this file includes portions of the proprietary AUDIOKINETIC Wwise
+Technology released in source code form as part of the game integration package.
+The content of this file may not be used without valid licenses to the
+AUDIOKINETIC Wwise Technology.
+Note that the use of the game engine is subject to the Unity(R) Terms of
+Service at https://unity3d.com/legal/terms-of-service
+ 
+License Usage
+ 
+Licensees holding valid licenses to the AUDIOKINETIC Wwise Technology may use
+this file in accordance with the end user license agreement provided with the
+software or, alternatively, in accordance with the terms contained
+in a written agreement between you and Audiokinetic Inc.
+Copyright (c) 2024 Audiokinetic Inc.
+*******************************************************************************/
 
 [UnityEngine.AddComponentMenu("Wwise/AkBank")]
 [UnityEngine.ExecuteInEditMode]
@@ -16,13 +27,15 @@ public class AkBank : AkTriggerHandler
 {
 	public AK.Wwise.Bank data = new AK.Wwise.Bank();
 
-	/// Decode this SoundBank upon load
+	/// DEPRECATED Decode this SoundBank upon load
 	public bool decodeBank = false;
+
+	public bool overrideLoadSetting = false;
 
 	/// Check this to load the SoundBank in the background. Be careful, if Events are triggered and the SoundBank hasn't finished loading, you'll have "Event not found" errors.
 	public bool loadAsynchronous = false;
 
-	/// Save the decoded SoundBank to disk for faster loads in the future
+	/// DEPRECATED Save the decoded SoundBank to disk for faster loads in the future
 	public bool saveDecodedBank = false;
 
 	/// Reserved.
@@ -33,14 +46,18 @@ public class AkBank : AkTriggerHandler
 	{
 #if UNITY_EDITOR
 		if (UnityEditor.BuildPipeline.isBuildingPlayer || AkUtilities.IsMigrating)
+		{
 			return;
+		}
 
 		var reference = AkWwiseTypes.DragAndDropObjectReference;
 		if (reference)
 		{
 			UnityEngine.GUIUtility.hotControl = 0;
 			data.ObjectReference = reference;
+			AkWwiseTypes.DragAndDropObjectReference = null;
 		}
+		AkUnitySoundEngineInitialization.Instance.initializationDelegate += HandleEvent;
 #endif
 
 		base.Awake();
@@ -48,27 +65,60 @@ public class AkBank : AkTriggerHandler
 		RegisterTriggers(unloadTriggerList, UnloadBank);
 	}
 
+
+#if UNITY_EDITOR
+	public override void OnEnable()
+	{
+		if (UnityEditor.BuildPipeline.isBuildingPlayer)
+        {
+			return;
+        }
+		base.OnEnable();
+	}
+#endif
 	protected override void Start()
 	{
 #if UNITY_EDITOR
 		if (UnityEditor.BuildPipeline.isBuildingPlayer || AkUtilities.IsMigrating)
+		{
 			return;
+		}
+		if (!UnityEditor.EditorApplication.isPlaying)
+		{
+			HandleEvent();
+		}
 #endif
 
 		base.Start();
 
 		//Call the UnloadBank function if registered to the Start Trigger
 		if (unloadTriggerList.Contains(START_TRIGGER_ID))
+		{
 			UnloadBank(null);
+		}
 	}
 
 	/// Loads the SoundBank
 	public override void HandleEvent(UnityEngine.GameObject in_gameObject)
 	{
-		if (!loadAsynchronous)
-			data.Load(decodeBank, saveDecodedBank);
-		else
+		bool asyncResult = loadAsynchronous;
+		if(!overrideLoadSetting)
+		{
+			asyncResult = AkWwiseInitializationSettings.ActivePlatformSettings.LoadBanksAsynchronously;
+		}
+		if (asyncResult)
+		{
 			data.LoadAsync();
+		}
+		else
+		{
+			data.Load(decodeBank, saveDecodedBank);
+		}
+	}
+
+	private void HandleEvent()
+	{
+		HandleEvent(gameObject);
 	}
 
 	/// Unloads a SoundBank
@@ -81,7 +131,10 @@ public class AkBank : AkTriggerHandler
 	{
 #if UNITY_EDITOR
 		if (UnityEditor.BuildPipeline.isBuildingPlayer || AkUtilities.IsMigrating)
+		{
 			return;
+		}
+		AkUnitySoundEngineInitialization.Instance.initializationDelegate -= HandleEvent;
 #endif
 
 		base.OnDestroy();
@@ -90,10 +143,10 @@ public class AkBank : AkTriggerHandler
 	}
 
 	#region Obsolete
-	[System.Obsolete(AkSoundEngine.Deprecation_2018_1_6)]
+	[System.Obsolete(AkUnitySoundEngine.Deprecation_2018_1_6)]
 	public string bankName { get { return data == null ? string.Empty : data.Name; } }
 
-	[System.Obsolete(AkSoundEngine.Deprecation_2018_1_6)]
+	[System.Obsolete(AkUnitySoundEngine.Deprecation_2018_1_6)]
 	public byte[] valueGuid
 	{
 		get

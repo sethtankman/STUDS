@@ -1,14 +1,27 @@
-﻿#if !(UNITY_DASHBOARD_WIDGET || UNITY_WEBPLAYER || UNITY_WII || UNITY_WIIU || UNITY_NACL || UNITY_FLASH || UNITY_BLACKBERRY) // Disable under unsupported platforms.
+using System.Collections.Generic;
+using System.Linq;
+#if !(UNITY_DASHBOARD_WIDGET || UNITY_WEBPLAYER || UNITY_WII || UNITY_WIIU || UNITY_NACL || UNITY_FLASH || UNITY_BLACKBERRY) // Disable under unsupported platforms.
 #if !UNITY_2019_1_OR_NEWER
 #define AK_ENABLE_TIMELINE
 #endif
 #if AK_ENABLE_TIMELINE
 
-//////////////////////////////////////////////////////////////////////
-//
-// Copyright (c) 2020 Audiokinetic Inc. / All Rights Reserved
-//
-//////////////////////////////////////////////////////////////////////
+/*******************************************************************************
+The content of this file includes portions of the proprietary AUDIOKINETIC Wwise
+Technology released in source code form as part of the game integration package.
+The content of this file may not be used without valid licenses to the
+AUDIOKINETIC Wwise Technology.
+Note that the use of the game engine is subject to the Unity(R) Terms of
+Service at https://unity3d.com/legal/terms-of-service
+ 
+License Usage
+ 
+Licensees holding valid licenses to the AUDIOKINETIC Wwise Technology may use
+this file in accordance with the end user license agreement provided with the
+software or, alternatively, in accordance with the terms contained
+in a written agreement between you and Audiokinetic Inc.
+Copyright (c) 2024 Audiokinetic Inc.
+*******************************************************************************/
 
 [UnityEngine.Timeline.TrackColor(0.855f, 0.8623f, 0.870f)]
 [UnityEngine.Timeline.TrackClipType(typeof(AkTimelineEventPlayable))]
@@ -33,6 +46,20 @@ public class AkTimelineEventTrack : UnityEngine.Timeline.TrackAsset
 		}
 
 		return playable;
+	}
+	public List<WwiseEventReference> GetEventReferences()
+	{
+		List<WwiseEventReference> returnValue = new List<WwiseEventReference>();
+		var clips = GetClips();
+		foreach (var clip in clips)
+		{
+			var timelineEventPlayable = clip.asset as AkTimelineEventPlayable;
+			if (timelineEventPlayable)
+			{
+				returnValue.Add(timelineEventPlayable.akEvent.WwiseObjectReference);
+			}
+		}
+		return returnValue;
 	}
 }
 #endif // AK_ENABLE_TIMELINE

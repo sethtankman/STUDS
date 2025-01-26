@@ -68,7 +68,7 @@ public class KnockBack : MonoBehaviour
                     Instantiate(KnockBackFX, other.transform.position, Quaternion.identity);
                 if (GetComponent<HitScore>())
                     GetComponent<HitScore>().RecordHit(GetComponentInParent<GrabbableObjectController>().throwerColor);
-                if (!KBSound.Equals("") && other.gameObject.GetComponent<CharacterMovementController>().isAI == false)
+                if (!KBSound.Equals(""))
                 {
                     KBSound.Post(gameObject);
                 }
@@ -102,7 +102,7 @@ public class KnockBack : MonoBehaviour
                     Instantiate(KnockBackFX, other.transform.position, Quaternion.identity); 
                 if (GetComponent<HitScore>())
                     GetComponent<HitScore>().RecordHit(GetComponentInParent<NetGrabbableObjectController>().throwerColor);
-                if (!KBSound.Equals("") && other.gameObject.GetComponent<NetworkCharacterMovementController>().isAI == false)
+                if (!KBSound.Equals(""))
                 {
                     KBSound.Post(gameObject);
                 }
