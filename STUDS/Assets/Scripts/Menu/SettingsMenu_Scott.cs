@@ -16,6 +16,9 @@ public class SettingsMenu_Scott : MonoBehaviour
 
     private int resolutionIndex, numRefreshOptions;
 
+    public Toggle vSyncToggle;
+    private bool isVSyncOn = false;
+
     public TMP_Dropdown resolutionDropdown;
     public TMP_Dropdown graphicsDropdown;
 
@@ -30,52 +33,69 @@ public class SettingsMenu_Scott : MonoBehaviour
 
     void Start()
     {
-
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
 
         resolutions = Screen.resolutions;
 
-        if (!resolutionDropdown)
-            return;
-        resolutionDropdown.ClearOptions();
+        QualitySettings.vSyncCount = 0;
+        isVSyncOn = false;
 
-        List<string> options = new List<string>();
-
-        string option = "";
-        int i = 0;
-        while (i < resolutions.Length)
+        // Update the toggle to match the V-Sync state
+        if (vSyncToggle != null)
         {
-            if (option != resolutions[i].width + "x" + resolutions[i].height)
+            vSyncToggle.isOn = isVSyncOn;
+            vSyncToggle.onValueChanged.AddListener(OnVSyncToggleChanged);
+        }
+
+        if (resolutionDropdown != null)
+        {
+            resolutionDropdown.ClearOptions();
+
+            List<string> options = new List<string>();
+            string lastOption = "";
+
+            for (int i = 0; i < resolutions.Length; i++)
             {
-                option = resolutions[i].width + "x" + resolutions[i].height;
-                options.Add(option);
+                string option = $"{resolutions[i].width}x{resolutions[i].height}";
+                if (option != lastOption)
+                {
+                    options.Add(option);
+                    lastOption = option;
+                }
             }
-            i++;
+
+            numRefreshOptions = resolutions.Length / options.Count;
+            resolutionDropdown.AddOptions(options);
+
+            UpdateDropdownValues();
         }
 
-        numRefreshOptions = i / options.Count;
-        resolutionDropdown.AddOptions(options);
-        SetResolution(i - 1);
-    }
-
-    /// <summary>
-    /// Because Pausing and unpausing requires a pauseV2 object, which is a persistent object across scenes.
-    /// This finds the game manager and adds it to each scene's pause button listeners.
-    /// </summary>
-    private void OnEnable()
-    {
-        GameObject pv2 = GameObject.Find("GameManager");
-        GameObject ngm = GameObject.Find("NetGameManager");
-        if (pv2)
+        if (graphicsDropdown != null)
         {
-            menuPlayButton.GetComponent<Button>().onClick.AddListener(pv2.GetComponent<PauseV2>().Pause);
-        } else if (ngm) {
-            menuPlayButton.GetComponent<Button>().onClick.AddListener(ngm.GetComponent<NetPause>().Pause);
+            graphicsDropdown.value = QualitySettings.GetQualityLevel();
+            graphicsDropdown.RefreshShownValue();
         }
     }
 
-    public Dictionary<string, int> val = new Dictionary<string, int>();
+    private void UpdateDropdownValues()
+    {
+        // Set current resolution in the dropdown
+        if (resolutionDropdown != null)
+        {
+            Resolution currentResolution = Screen.currentResolution;
+            for (int i = 0; i < resolutions.Length; i++)
+            {
+                if (resolutions[i].width == currentResolution.width &&
+                    resolutions[i].height == currentResolution.height)
+                {
+                    resolutionDropdown.value = i / numRefreshOptions;
+                    resolutionDropdown.RefreshShownValue();
+                    break;
+                }
+            }
+        }
+    }
 
     public void SetResolution(int _resolutionIndex)
     {
@@ -100,6 +120,15 @@ public class SettingsMenu_Scott : MonoBehaviour
     public void SetFullscreen(bool isFullscreen)
     {
         Screen.fullScreen = isFullscreen;
+    }
+
+    public void OnVSyncToggleChanged(bool isOn)
+    {
+        // Update V-Sync state when the toggle is changed
+        isVSyncOn = isOn;
+        QualitySettings.vSyncCount = isVSyncOn ? 1 : 0;
+
+        //Debug.Log("QualitySettings.vSyncCount is now: " + QualitySettings.vSyncCount);
     }
 
     public void OpenMainMenu()

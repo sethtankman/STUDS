@@ -40,7 +40,7 @@ public class DBGameManager : MonoBehaviour
             scores.Add(owner, 0);
         scores[owner] += pointValue;
         scoreOrder = scorePanel.UpdateScores(owner);
-        if(scores[owner] >= 15 && winnerFound == false)
+        if(scores[owner] >= 10 && winnerFound == false)
         {
             StartCoroutine(EndGame());
         }
