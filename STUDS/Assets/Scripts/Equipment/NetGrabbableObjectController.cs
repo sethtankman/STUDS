@@ -321,4 +321,9 @@ public class NetGrabbableObjectController : NetworkBehaviour
         onCart = true;
         canPickup = false;
     }
+
+    public void RemoveFromCart()
+    {
+        onCart = false;
+    }
 }
