@@ -107,6 +107,7 @@ public class NetDBGameManager : NetworkBehaviour
         {
             if (player.GetComponent<NetworkCharacterMovementController>().isAI)
             {
+                NetGameManager.Instance.AddPlayer(player);
                 player.transform.parent = null;
                 DontDestroyOnLoad(player); // Players need to persist into the next scene to load their data.
             }
@@ -115,7 +116,7 @@ public class NetDBGameManager : NetworkBehaviour
             if (placement == 4) { placement = -1; } // Since 4th place is represented as -1 in victoryStands.
             player.GetComponent<NetworkCharacterMovementController>().SetFinishPosition(placement);
         }
-        FindObjectOfType<NetworkManager>().ServerChangeScene("NetVictoryStands");
+        FindFirstObjectByType<NetworkManager>().ServerChangeScene("NetVictoryStands");
     }
 
     public void GetHitBy(int obstacleIndex)
