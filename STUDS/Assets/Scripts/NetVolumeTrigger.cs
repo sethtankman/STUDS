@@ -50,10 +50,7 @@ public class NetVolumeTrigger : MonoBehaviour
 
     private bool Check(Collider other)
     {
-        if (other.CompareTag(TriggerTag))
-            return true;
-        else
-            return false;
+        return other.CompareTag(TriggerTag);
     }
 
     void OnDrawGizmos()

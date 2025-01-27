@@ -7,7 +7,7 @@ using static UnityEngine.GraphicsBuffer;
 public class NetGrabbableObjectController : NetworkBehaviour
 {
     public float distance, height;
-    public List<Collider> additionalColliders;
+    public List<Collider> collidersToDisable;
     public GameObject target;
 
     [Header("Dodgeball Aimer Prefab")]
@@ -116,12 +116,11 @@ public class NetGrabbableObjectController : NetworkBehaviour
     {
         gameObject.GetComponent<Rigidbody>().isKinematic = true;
         gameObject.GetComponent<Rigidbody>().useGravity = false;
-        GetComponent<Collider>().enabled = false;
         canPickup = false;
         holderTransform = _holderTransform;
         holder = _holderTransform.gameObject;
         throwerColor = holder.GetComponent<NetworkCharacterMovementController>().GetColorName();
-        foreach (Collider collider in additionalColliders)
+        foreach (Collider collider in collidersToDisable)
         {
             collider.enabled = false;
         }
@@ -178,7 +177,7 @@ public class NetGrabbableObjectController : NetworkBehaviour
         gameObject.GetComponent<Rigidbody>().isKinematic = false;
         gameObject.GetComponent<Rigidbody>().useGravity = true;
         GetComponent<Collider>().enabled = true;
-        foreach (Collider collider in additionalColliders)
+        foreach (Collider collider in collidersToDisable)
         {
             collider.enabled = true;
         }
