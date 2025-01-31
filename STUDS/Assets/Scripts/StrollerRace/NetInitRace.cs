@@ -54,8 +54,8 @@ public class NetInitRace : NetworkBehaviour
         {
             RpcDisableOnlineObjects();
             NDAC.FillWithAI();
-            FindObjectOfType<NetRaceTracker>().SetColorsGivePlaceTrackers();
-            Invoke(nameof(StartGame), 5.0f);
+            FindFirstObjectByType<NetRaceTracker>().SetColorsGivePlaceTrackers();
+            Invoke(nameof(StartGame), 3.0f);
         }
     }
 
