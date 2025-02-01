@@ -57,27 +57,33 @@ public class NetPlayersReady : NetworkBehaviour
                     GameObject.Find("NetGameManager").GetComponent<NetGameManager>().RpcSaveState();
                     SteamLobby.singleton.SetLobbyClosed();
                     SteamMatchmaking.LeaveLobby(SteamLobby.singleton.joinedLobbyID);
-                    if (gameObject.CompareTag("PennyPincher"))
-                    {
-                        StudsNetworkManager.singleton.ServerChangeScene("Net-PBDadRandom");
-                    }
-                    else if (gameObject.CompareTag("StrollerRace"))
-                    {
-                        StudsNetworkManager.singleton.ServerChangeScene("NetBlock");
-                    }
-                    else if (gameObject.CompareTag("ShoppingSpree"))
-                    {
-                        StudsNetworkManager.singleton.ServerChangeScene("Network_Shopping_Spree");
-                    }
-                    else if (gameObject.CompareTag("Downtown"))
-                    {
-                        StudsNetworkManager.singleton.ServerChangeScene("NetDowntown");
-                    } else if (gameObject.CompareTag("Dodgeball"))
-                    {
-                        StudsNetworkManager.singleton.ServerChangeScene("NetDodgeball");
-                    }
+                    Invoke(nameof(ChangeScenes), 3.0f);
                 }
             }
+        }
+    }
+
+    private void ChangeScenes()
+    {
+        if (gameObject.CompareTag("PennyPincher"))
+        {
+            StudsNetworkManager.singleton.ServerChangeScene("Net-PBDadRandom");
+        }
+        else if (gameObject.CompareTag("StrollerRace"))
+        {
+            StudsNetworkManager.singleton.ServerChangeScene("NetBlock");
+        }
+        else if (gameObject.CompareTag("ShoppingSpree"))
+        {
+            StudsNetworkManager.singleton.ServerChangeScene("Network_Shopping_Spree");
+        }
+        else if (gameObject.CompareTag("Downtown"))
+        {
+            StudsNetworkManager.singleton.ServerChangeScene("NetDowntown");
+        }
+        else if (gameObject.CompareTag("Dodgeball"))
+        {
+            StudsNetworkManager.singleton.ServerChangeScene("NetDodgeball");
         }
     }
 }

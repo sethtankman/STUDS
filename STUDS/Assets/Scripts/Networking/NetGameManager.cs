@@ -41,6 +41,8 @@ public class NetGameManager : NetworkBehaviour
     public static NetGameManager Instance { get; private set; }
     public PlayerInputManager pim;
 
+    private bool UILocked = false;
+
     private void Awake()
     {
         colorMaterials = new Dictionary<string, Material>();
@@ -98,7 +100,7 @@ public class NetGameManager : NetworkBehaviour
     // Update is called once per frame.  Updates playersReady text, removes start text.
     void Update()
     {
-        if (playerJoined && SceneManager.GetActiveScene().name.Equals("TheBlock_LevelSelectOnlineMultiplayer"))
+        if (!UILocked && playerJoined && SceneManager.GetActiveScene().name.Equals("TheBlock_LevelSelectOnlineMultiplayer"))
         {
             if (StartText)
                 StartText.text = "";
@@ -110,7 +112,14 @@ public class NetGameManager : NetworkBehaviour
                     readyCount++;
                 }
             }
-            ReadyText.text = "" + readyCount + "/" + playerIDCount + " players are ready!";
+            if (readyCount == playerIDCount)
+            {
+                ReadyText.text = "Loading level...";
+                UILocked = true;
+            } else
+            {
+                ReadyText.text = $"{readyCount}/{playerIDCount} players are ready!";
+            }
         }
         else if (playerJoined && !SceneManager.GetActiveScene().name.Equals("TheBlock_LevelSelectOnlineMultiplayer"))
         {
@@ -146,7 +155,6 @@ public class NetGameManager : NetworkBehaviour
     public void HandlePlayerJoin(PlayerInput pi)
     {
         playerJoined = true;
-        //oldHub = true;
         playerIDCount++;
     }
 
