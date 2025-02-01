@@ -26,7 +26,7 @@ public class NetDBInit : NetworkBehaviour
     public GameObject startUI;
 
     public TextMeshProUGUI startText;
-    [SerializeField] private NetDBUI ui;
+    [SerializeField] private NetDBUI scorePanel;
     [SerializeField] private NetDynamicAICount NDAC;
 
     // Called for all players when they load the level.
@@ -89,15 +89,21 @@ public class NetDBInit : NetworkBehaviour
         }
     }
 
-
+    private void StartGame()
+    {
+        if (isServer)
+        {
+            RpcStartGame();
+        }
+    }
 
     /// <summary>
     /// Starts the game for all players
     /// </summary>
     [ClientRpc]
-    private void StartGame()
+    private void RpcStartGame()
     {
-        ui.UpdateSpriteColors();
+        scorePanel.UpdateSpriteColors();
         NetDBGameManager.Instance.InitScores();
         players = GameObject.FindGameObjectsWithTag("Player");
         if (players.Length == 0) { Debug.LogError("No players found"); }

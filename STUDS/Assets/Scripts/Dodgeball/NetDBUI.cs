@@ -15,7 +15,8 @@ public class NetDBUI : NetworkBehaviour
 
     private void Start()
     {
-        gameObject.SetActive(false);
+        if(isServer)
+            gameObject.SetActive(false);
     }
 
     /// <summary>
