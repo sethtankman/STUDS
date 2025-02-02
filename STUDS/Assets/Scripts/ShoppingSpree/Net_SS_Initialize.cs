@@ -80,7 +80,7 @@ public class Net_SS_Initialize : NetworkBehaviour
     [ClientRpc]
     private void RpcStartGame()
     {
-        Destroy(startCam);
+        startCam.SetActive(false);
         if (startText)
             startText.text = "";
         for (int i = 0; i < players.Length; i++)

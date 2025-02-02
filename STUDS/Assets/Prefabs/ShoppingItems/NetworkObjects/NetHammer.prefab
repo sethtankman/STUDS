@@ -148,6 +148,12 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 8885523279119879616}
   m_SourcePrefab: {fileID: 100100000, guid: 712423f4143fbe64ba3d31c92fbf7f72, type: 3}
+--- !u!65 &1632096975236519574 stripped
+BoxCollider:
+  m_CorrespondingSourceObject: {fileID: 7722546840020726510, guid: 712423f4143fbe64ba3d31c92fbf7f72,
+    type: 3}
+  m_PrefabInstance: {fileID: 9047064120443430008}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &4661627310750628600 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4412627913996410496, guid: 712423f4143fbe64ba3d31c92fbf7f72,
@@ -204,7 +210,8 @@ MonoBehaviour:
   syncInterval: 0.1
   distance: 1.1
   height: 0.8
-  additionalColliders: []
+  collidersToDisable:
+  - {fileID: 1632096975236519574}
   target: {fileID: 0}
   throwableArrow: {fileID: 0}
   isDodgeball: 0
