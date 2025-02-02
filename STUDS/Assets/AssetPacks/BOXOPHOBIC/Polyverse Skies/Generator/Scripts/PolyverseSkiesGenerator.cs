@@ -1,4 +1,4 @@
-﻿#if UNITY_EDITOR
+﻿
 
 using UnityEditor;
 using UnityEngine;
@@ -46,7 +46,7 @@ namespace PolyverseSkies
 
         [StyledSpace(10)]
         public bool styledSpace0;
-
+        #if UNITY_EDITOR
         void Start()
         {
             generateCubemap = false;
@@ -195,7 +195,6 @@ namespace PolyverseSkies
                 generateCubemap = false;
             }
         }
+        #endif
     }
 }
-
-#endif
