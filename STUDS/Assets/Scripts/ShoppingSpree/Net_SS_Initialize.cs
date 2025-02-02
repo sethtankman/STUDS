@@ -68,11 +68,17 @@ public class Net_SS_Initialize : NetworkBehaviour
         playersLoaded++;
         if (isServer && playersLoaded == NetGameManager.Instance.playerIDCount)
         {
-            Invoke("StartGame", 5.0f);
+            Invoke(nameof(StartGame), 5.0f);
         }
     }
 
     private void StartGame()
+    {
+        RpcStartGame();
+    }
+
+    [ClientRpc]
+    private void RpcStartGame()
     {
         Destroy(startCam);
         if (startText)
