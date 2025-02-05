@@ -286,9 +286,12 @@ public class NetGrabbableObjectController : NetworkBehaviour
     /// </summary>
     public void RenderNetworkedGO()
     {
-        foreach (MeshRenderer rend in GetComponentsInChildren<MeshRenderer>())
+        if (!onCart)
         {
-            rend.enabled = true;
+            foreach (MeshRenderer rend in GetComponentsInChildren<MeshRenderer>())
+            {
+                rend.enabled = true;
+            }
         }
         Destroy(localGO);
     }
@@ -301,7 +304,7 @@ public class NetGrabbableObjectController : NetworkBehaviour
         Destroy(gameObject);
     }
 
-    public bool GetCanPickup()
+    public bool GetCanPickup() 
     {
         return canPickup;
     }
@@ -312,17 +315,39 @@ public class NetGrabbableObjectController : NetworkBehaviour
             canPickup = tf;
     }
 
+    [ClientRpc]
+    public void RpcRemoveFromCart()
+    {
+        onCart = false;
+        // Make it visible.
+        foreach (MeshRenderer rend in GetComponentsInChildren<MeshRenderer>())
+        {
+            rend.enabled = true;
+        }
+        // Enable colliders.
+        foreach (Collider collider in collidersToDisable)
+        {
+            collider.enabled = true;
+        }
+    }
+
     /// <summary>
     /// Does everything the NetGOC needs when it's added to a shopping cart
     /// </summary>
-    public void AddToCart()
+    [ClientRpc]
+    public void RpcAddToCart()
     {
         onCart = true;
         canPickup = false;
-    }
-
-    public void RemoveFromCart()
-    {
-        onCart = false;
+        // Make it invisible.
+        foreach (MeshRenderer rend in GetComponentsInChildren<MeshRenderer>())
+        {
+            rend.enabled = false;
+        }
+        // Disable colliders.
+        foreach (Collider collider in collidersToDisable)
+        {
+            collider.enabled = false;
+        }
     }
 }

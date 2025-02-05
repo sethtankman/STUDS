@@ -25,7 +25,7 @@ public class NetCart : NetworkBehaviour
                     cartItemTransforms[i].SetActive(false);
                     RpcSetItemActive(i, false);
                     GameObject item = cartItems[i];
-                    item.GetComponent<NetGrabbableObjectController>().RemoveFromCart();
+                    item.GetComponent<NetGrabbableObjectController>().RpcRemoveFromCart();
                     item.transform.parent = null;
                     item.AddComponent<Rigidbody>();
                     cartItems[i] = null;
@@ -102,10 +102,8 @@ public class NetCart : NetworkBehaviour
                 }
                 cartItemTransforms[index].SetActive(true);
                 RpcSetItemActive(index, true);
-                other.transform.parent = cartItemTransforms[index].transform;
-                other.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
                 cartItems[index] = other.gameObject;
-                other.GetComponent<NetGrabbableObjectController>().AddToCart();
+                other.GetComponent<NetGrabbableObjectController>().RpcAddToCart();
                 Destroy(other.GetComponent<Rigidbody>());
                 cartCooldownActive = true;
                 Invoke("ResetCartCooldown", 0.6f);
