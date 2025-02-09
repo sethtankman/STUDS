@@ -66,9 +66,11 @@ public class SettingsMenu_Scott : MonoBehaviour
             }
 
             numRefreshOptions = resolutions.Length / options.Count;
+            Debug.Log($"Resolutions: {resolutions.Length}, Options: {options.Count}, NumRefreshOptions: {numRefreshOptions}");
             resolutionDropdown.AddOptions(options);
 
             UpdateDropdownValues();
+            SetResolution(resolutionDropdown.value); // Set the initial resolution
         }
 
         if (graphicsDropdown != null)
@@ -76,6 +78,12 @@ public class SettingsMenu_Scott : MonoBehaviour
             graphicsDropdown.value = QualitySettings.GetQualityLevel();
             graphicsDropdown.RefreshShownValue();
         }
+
+        // Ensure the game starts in fullscreen mode
+        Screen.fullScreen = true;
+
+        // Force the camera's aspect ratio to 16:9
+        Camera.main.aspect = 16f / 9f;
     }
 
     private void UpdateDropdownValues()
@@ -103,7 +111,12 @@ public class SettingsMenu_Scott : MonoBehaviour
         if (resolutions.Length > resolutionIndex)
         {
             Resolution resolution = resolutions[resolutionIndex];
+            Debug.Log($"Setting resolution to: {resolution.width}x{resolution.height}");
             Screen.SetResolution(resolution.width, resolution.height, Screen.fullScreen);
+        }
+        else
+        {
+            Debug.LogError($"Resolution index out of range: {resolutionIndex}");
         }
     }
 
