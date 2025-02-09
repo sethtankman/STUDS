@@ -7,6 +7,10 @@ public class NetResetGame : MonoBehaviour
 {
     public void Reset()
     {
+        foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
+        {
+            player.GetComponent<NetworkCharacterMovementController>().RpcSetToMini(false);
+        }
         if (NetGameManager.Instance)
         {
             NetGameManager.Instance.DeletePlayers();
