@@ -116,7 +116,8 @@ public class NetDBGameManager : NetworkBehaviour
             if (placement == 4) { placement = -1; } // Since 4th place is represented as -1 in victoryStands.
             player.GetComponent<NetworkCharacterMovementController>().SetFinishPosition(placement);
         }
-        FindFirstObjectByType<NetworkManager>().ServerChangeScene("NetVictoryStands"); // TODO: This should only happen on the server
+        if(isServer)
+            FindFirstObjectByType<NetworkManager>().ServerChangeScene("NetVictoryStands");
     }
 
     public void GetHitBy(int obstacleIndex)
