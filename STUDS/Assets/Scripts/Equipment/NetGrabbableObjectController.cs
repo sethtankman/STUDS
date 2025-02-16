@@ -103,7 +103,7 @@ public class NetGrabbableObjectController : NetworkBehaviour
     public void OnDestroy()
     {
         Destroy(localGO);
-        if (isDodgeball && isServer) // TODO: Check if instance exists to avoid error
+        if (isDodgeball && isServer && NetDBGameManager.Instance)
             NetDBGameManager.Instance.deListDodgeball(gameObject);
     }
 
