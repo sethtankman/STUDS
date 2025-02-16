@@ -748,49 +748,51 @@ public class NetworkCharacterMovementController : NetworkBehaviour
         netAnim.ResetTrigger("Land");
         netAnim.SetTrigger("Throw");
         ThrowSound.Post(gameObject);
-        GameObject networkedObj = grabbedObject.GetComponentInChildren<LocalGrabbableObjectController>().networkedGO;
-        Vector3 localPos = grabbedObject.transform.position;
-        Vector3 forward = transform.forward;
-        grabbedObject.transform.forward = forward;
-        if (hasAimAssist)
+        if (grabbedObject) // Safeguards against disappeared grabbedObjects in NetDodgeball
         {
-            Vector3 upCompensation = Vector3.up;
-            if (!isAI)
-                upCompensation = Vector3.zero;
-            if (networkedObj.GetComponent<NetGrabbableObjectController>().isDodgeball)
-                networkedObj.GetComponent<NetGrabbableObjectController>().HomingThrow(true, target, (forward + upCompensation) * homingSpeed);
-        }
-        grabbedObject.GetComponentInChildren<LocalGrabbableObjectController>().LocalLetGo();
-        grabbedObject = networkedObj;
-        if (isLocalPlayer)
-        {
-            if (inStrollerRace && grabbedObject.GetComponent<StrollerController>())
-                GetComponentInChildren<StrollerLocator>().SetActive(true);
-            CmdLetGo(grabbedObject.GetComponent<NetworkIdentity>().netId);
-        }
-        else
-        {
-            grabbedObject.GetComponent<NetGrabbableObjectController>().LocalLetGo();
-        }
-
-        if (isServer)
-        {
-            grabbedObject.GetComponent<Rigidbody>().AddForce(throwingForce);
-            if (grabbedObject.GetComponent<CombatThrow>())
+            GameObject networkedObj = grabbedObject.GetComponentInChildren<LocalGrabbableObjectController>().networkedGO;
+            Vector3 localPos = grabbedObject.transform.position;
+            Vector3 forward = transform.forward;
+            grabbedObject.transform.forward = forward;
+            if (hasAimAssist)
             {
-                RpcEnableKnockBack(grabbedObject.GetComponent<NetworkIdentity>().netId);
+                Vector3 upCompensation = Vector3.up;
+                if (!isAI)
+                    upCompensation = Vector3.zero;
+                if (networkedObj.GetComponent<NetGrabbableObjectController>().isDodgeball)
+                    networkedObj.GetComponent<NetGrabbableObjectController>().HomingThrow(true, target, (forward + upCompensation) * homingSpeed);
+            }
+            grabbedObject.GetComponentInChildren<LocalGrabbableObjectController>().LocalLetGo();
+            grabbedObject = networkedObj;
+            if (isLocalPlayer)
+            {
+                if (inStrollerRace && grabbedObject.GetComponent<StrollerController>())
+                    GetComponentInChildren<StrollerLocator>().SetActive(true);
+                CmdLetGo(grabbedObject.GetComponent<NetworkIdentity>().netId);
+            }
+            else
+            {
+                grabbedObject.GetComponent<NetGrabbableObjectController>().LocalLetGo();
+            }
+
+            if (isServer)
+            {
+                grabbedObject.GetComponent<Rigidbody>().AddForce(throwingForce);
+                if (grabbedObject.GetComponent<CombatThrow>())
+                {
+                    RpcEnableKnockBack(grabbedObject.GetComponent<NetworkIdentity>().netId);
+                }
+            }
+            else if (isLocalPlayer)
+            {
+                CmdThrow(grabbedObject.GetComponent<NetworkIdentity>().netId, throwingForce, localPos);
+            }
+
+            if (grabbedObject.GetComponent<StrollerController>() && !isAI)
+            {
+                SteamAchievements.UnlockAchievement("SR_STROLLER");
             }
         }
-        else if (isLocalPlayer)
-        {
-            CmdThrow(grabbedObject.GetComponent<NetworkIdentity>().netId, throwingForce, localPos);
-        }
-
-        if (grabbedObject.GetComponent<StrollerController>() && !isAI)
-        {
-            SteamAchievements.UnlockAchievement("SR_STROLLER");
-        }
-
         hasGrabbed = false;
         moveSpeed = moveSpeedNormal;
         grabbedObject = null;
