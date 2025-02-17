@@ -224,14 +224,6 @@ public class ManagePlayerHub : MonoBehaviour
         playerIDCount++;
     }
 
-    public void NetworkPlayerJoin(GameObject player)
-    {
-        playerJoined = true;
-        players.Add(player);
-        DontDestroyOnLoad(player);
-        playerIDCount++;
-    }
-
     /// <summary>
     /// This was causing issues when called from the GameManager Input System event,
     /// so now we aren't using it.

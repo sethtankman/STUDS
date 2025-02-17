@@ -91,7 +91,7 @@ public class NetworkCharacterMovementController : NetworkBehaviour
     private int finishPosition;
 
     private string selectedLevel;
-    [SyncVar]
+    [SyncVar(hook = nameof(SetColor))]
     public string color;
 
     //Particle effects
@@ -1190,6 +1190,12 @@ public class NetworkCharacterMovementController : NetworkBehaviour
     public bool GetHasGrabbed()
     {
         return hasGrabbed;
+    }
+
+    private void SetColor(string oldColor, string newColor)
+    {
+        if(NetGameManager.Instance)
+            GetComponentInChildren<SkinnedMeshRenderer>().material = NetGameManager.Instance.colorMaterials[newColor];
     }
 
     public void SetPlayerID(int ID)
