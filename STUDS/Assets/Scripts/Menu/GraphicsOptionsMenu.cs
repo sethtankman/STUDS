@@ -56,6 +56,7 @@ public class GraphicsOptionsMenu : MonoBehaviour
 
         QualitySettings.SetQualityLevel(selectedGraphicsOption);
         UpdateGraphicsLabel();
+        Screen.SetResolution(resolutions[selectedResolution].horizontal, resolutions[selectedResolution].vertical, fullscreenToggle.isOn);
     }
 
     public void ResolutionLeft()
