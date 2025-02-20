@@ -120,8 +120,11 @@ public class GraphicsOptionsMenu : MonoBehaviour
     public void ApplyGraphics()
     {
         QualitySettings.SetQualityLevel(selectedGraphicsOption);
-        Screen.fullScreen = fullscreenToggle.isOn;
         
+        //Screen.fullScreen = fullscreenToggle.isOn;
+        
+        Screen.SetResolution(resolutions[selectedResolution].horizontal, resolutions[selectedResolution].vertical, fullscreenToggle.isOn);
+
         if(vsyncToggle.isOn)
         {
             QualitySettings.vSyncCount = 1;
