@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.Audio;
+using UnityEngine.EventSystems;
 
 public class GraphicsOptionsMenu : MonoBehaviour
 {
@@ -16,6 +18,9 @@ public class GraphicsOptionsMenu : MonoBehaviour
 
     public TMP_Text resolutionLabel;
     public TMP_Text graphicsLabel;
+
+    public AK.Wwise.Event PlayButtonSoundEvent;
+    public AudioMixer audioMixer;
 
     void Start()
     {
@@ -136,7 +141,14 @@ public class GraphicsOptionsMenu : MonoBehaviour
         }
     }
 
+        public void PlayButtonSound()
+    {
+        GameObject Manager = GameObject.Find("Music Manager");
+        PlayButtonSoundEvent.Post(Manager);
+    }
+
 }
+
 
 [System.Serializable]
 public class ResItem
