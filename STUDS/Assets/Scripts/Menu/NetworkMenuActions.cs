@@ -53,6 +53,7 @@ public class NetworkMenuActions : MonoBehaviour
                 Debug.Log($"Lobby {i} :: {roomName} number of players: {SteamMatchmaking.GetNumLobbyMembers((CSteamID)lobbyIDS[i].m_SteamID).ToString()} max players: {SteamMatchmaking.GetLobbyMemberLimit((CSteamID)lobbyIDS[i].m_SteamID).ToString()}");
                 if (roomName == null || roomName.Length == 0 || isClosed)
                     continue;
+                // NOTICE: Leaving this in in case we want to Add in a Lobby Search functionality.
                 /*if (didPlayerSearchForLobbies)
                 {
                     Debug.Log("OnGetLobbyInfo: Player searched for lobbies");
