@@ -21,15 +21,16 @@ public class HitScore : MonoBehaviour
         {
             if (DBGameManager.Instance)
                 DBGameManager.Instance.AddPoints(owner, pointValue);
-            else
+            else if (NetDBGameManager.Instance)
                 NetDBGameManager.Instance.AddPoints(owner, pointValue);
+            else
+                Debug.LogError("No Game manager found!");
         }
         if(DBGameManager.Instance)
             Destroy(transform.parent.gameObject);
         else if (NetDBGameManager.Instance)
         {
-            if (NetDBGameManager.Instance.isServer)
-                NetworkServer.Destroy(transform.parent.gameObject);
+            NetworkServer.Destroy(transform.parent.gameObject);
         }
     }
 }

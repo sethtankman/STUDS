@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8590852628051663335}
   - component: {fileID: 5751683562983010142}
-  - component: {fileID: 4945832940876397603}
+  - component: {fileID: 6908742549532280815}
   m_Layer: 0
   m_Name: HitBox
   m_TagString: Untagged
@@ -54,7 +54,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1.8, z: 1.8}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &4945832940876397603
+--- !u!114 &6908742549532280815
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -63,9 +63,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 171074949477335136}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1e6c75dba9b09664d866479b179f9726, type: 3}
+  m_Script: {fileID: 11500000, guid: 53ec16f69717ad740a5114a8fbfb89c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
   directionVector: {x: 0, y: 0, z: 0}
   KBForce: 0
   makePlayerDrop: 1
@@ -77,6 +80,7 @@ MonoBehaviour:
   reflective: 0
   directional: 0
   owner: 
+  clientAuthority: 0
   KnockBackFX: {fileID: 0}
 --- !u!1 &549320158485714031
 GameObject:

@@ -9,8 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8889821909936617362}
-  - component: {fileID: 7162765847430497580}
   - component: {fileID: 238143574046990478}
+  - component: {fileID: 2217185605042538195}
   m_Layer: 0
   m_Name: KnockBack
   m_TagString: Untagged
@@ -33,30 +33,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 3673970781665873641}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7162765847430497580
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2155882088604651070}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1e6c75dba9b09664d866479b179f9726, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  directionVector: {x: 0, y: 0, z: 0}
-  KBForce: 2
-  makePlayerDrop: 1
-  KBSound:
-    idInternal: 0
-    valueGuidInternal: 
-    WwiseObjectReference: {fileID: 0}
-  slidethrough: 0
-  reflective: 0
-  directional: 0
-  owner: 
-  KnockBackFX: {fileID: 0}
 --- !u!65 &238143574046990478
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -78,6 +54,34 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1.37, y: 0.85, z: 0.82}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &2217185605042538195
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2155882088604651070}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 53ec16f69717ad740a5114a8fbfb89c7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  directionVector: {x: 0, y: 0, z: 0}
+  KBForce: 2
+  makePlayerDrop: 1
+  KBSound:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 0}
+  slidethrough: 0
+  reflective: 0
+  directional: 0
+  owner: 
+  clientAuthority: 0
+  KnockBackFX: {fileID: 0}
 --- !u!1 &3673970781665907401
 GameObject:
   m_ObjectHideFlags: 0

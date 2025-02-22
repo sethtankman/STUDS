@@ -36,12 +36,12 @@ public class NetKnockBack : NetworkBehaviour
             {
                 // Cancel hit if your own item hits you (network only)
                 if (owner.Equals(other.name) 
-                    || (clientAuthority && // In client authority mode, ...
-                        (netCMC.isAI && !isServer) // ai outside the server cannot be hit
-                        || (netCMC.isAI == false && isServer && !netCMC.isLocalPlayer) // nonlocal players on the server cannot be hit.
+                    || (clientAuthority 
+                        && // In client authority mode, ...
+                            ((netCMC.isAI && !isServer) // ai outside the server cannot be hit
+                            || (netCMC.isAI == false && isServer && !netCMC.isLocalPlayer)) // nonlocal players on the server cannot be hit.
                     )
                     || (!clientAuthority && !isServer) // In server authority mode, don't collide outside server.
-
                 ) 
                 {
                     return;
@@ -62,7 +62,7 @@ public class NetKnockBack : NetworkBehaviour
 
                 if (KnockBackFX)
                     Instantiate(KnockBackFX, other.transform.position, Quaternion.identity); 
-                if (GetComponent<HitScore>())
+                if (GetComponent<HitScore>() && isServer)
                     GetComponent<HitScore>().RecordHit(GetComponentInParent<NetGrabbableObjectController>().throwerColor);
                 if (!KBSound.Equals(""))
                 {

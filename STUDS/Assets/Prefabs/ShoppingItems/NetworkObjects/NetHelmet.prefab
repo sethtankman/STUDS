@@ -98,7 +98,8 @@ PrefabInstance:
       propertyPath: KBForce
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 8394669186624641256, guid: 1d8c13a885e3ad54e8ec22a19660c9ef, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
@@ -122,6 +123,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 7563621780646379777}
+    - targetCorrespondingSourceObject: {fileID: 8822582495098571286, guid: 1d8c13a885e3ad54e8ec22a19660c9ef,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7969404116393061623}
   m_SourcePrefab: {fileID: 100100000, guid: 1d8c13a885e3ad54e8ec22a19660c9ef, type: 3}
 --- !u!65 &1046239709900835387 stripped
 BoxCollider:
@@ -266,3 +271,37 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 3365107614610378152}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &6107830535256426430 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8822582495098571286, guid: 1d8c13a885e3ad54e8ec22a19660c9ef,
+    type: 3}
+  m_PrefabInstance: {fileID: 3365107614610378152}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &7969404116393061623
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6107830535256426430}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 53ec16f69717ad740a5114a8fbfb89c7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  directionVector: {x: 0, y: 0, z: 0}
+  KBForce: 0
+  makePlayerDrop: 0
+  KBSound:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 0}
+  slidethrough: 0
+  reflective: 0
+  directional: 0
+  owner: 
+  clientAuthority: 0
+  KnockBackFX: {fileID: 0}

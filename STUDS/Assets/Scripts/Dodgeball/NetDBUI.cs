@@ -13,18 +13,11 @@ public class NetDBUI : NetworkBehaviour
     /// </summary>
     private string[] scoreOrder = new string[4];
 
-    private void Start()
-    {
-        if(isServer)
-            gameObject.SetActive(false);
-    }
-
     /// <summary>
-    /// Activates scoreboard and sets the colors initially of the scoreboard and backend values.
+    /// sets the colors initially of the scoreboard and backend values.
     /// </summary>
     public void UpdateSpriteColors()
     {
-        gameObject.SetActive(true);
         int i = 0;
         foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
         {
@@ -37,7 +30,8 @@ public class NetDBUI : NetworkBehaviour
 
     /// <summary>
     /// Updates the scoreOrder dictionary for the score display.
-    /// PRE: Scores should have been updated in DBGameManager.Instance.scores before this.
+    /// PRE: Only occurs on the server.
+    /// Scores should have been updated in NetDBGameManager.Instance.scores before this.
     /// POST: Arranges scores in order in the scoreOrder dictionary.
     /// </summary>
     /// <param name="updatedOwner">The name of the person who increased their score</param>

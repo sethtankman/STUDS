@@ -36,14 +36,12 @@ public class NetDBGameManager : NetworkBehaviour
     }
 
     /// <summary>
-    /// Only has functionality on the Server.
+    /// PRE: Must only be run on the server.
     /// </summary>
-    /// <param name="owner"></param>
-    /// <param name="pointValue"></param>
+    /// <param name="owner">the color of the owner of the dodgeball</param>
+    /// <param name="pointValue">Points to gain from the hit</param>
     public void AddPoints(string owner, int pointValue)
     {
-        if (!isServer)
-            return;
         if (!scores.ContainsKey(owner))
             scores.Add(owner, 0);
         scores[owner] += pointValue;

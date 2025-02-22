@@ -10,8 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 6500825423745447227}
   - component: {fileID: 442459421261463435}
-  - component: {fileID: 3572316151570547896}
   - component: {fileID: 5871426752808286411}
+  - component: {fileID: 6530524672519594262}
   m_Layer: 0
   m_Name: HitBox
   m_TagString: Untagged
@@ -55,32 +55,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &3572316151570547896
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 510619608642661251}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1e6c75dba9b09664d866479b179f9726, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  directionVector: {x: 0, y: 1, z: 0}
-  KBForce: 20
-  makePlayerDrop: 1
-  KBSound:
-    idInternal: 0
-    valueGuidInternal: 
-    WwiseObjectReference: {fileID: 11400000, guid: 7dfb3594dafe1e8458ef83c375c0dfce,
-      type: 2}
-  slidethrough: 0
-  reflective: 1
-  directional: 1
-  owner: 
-  KnockBackFX: {fileID: 4021103657954561961, guid: 5c755f9bc5253ea418e919994537dcc7,
-    type: 3}
 --- !u!114 &5871426752808286411
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -94,6 +68,36 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pointValue: 1
+--- !u!114 &6530524672519594262
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 510619608642661251}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 53ec16f69717ad740a5114a8fbfb89c7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  directionVector: {x: 0, y: 1, z: 0}
+  KBForce: 20
+  makePlayerDrop: 1
+  KBSound:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 7dfb3594dafe1e8458ef83c375c0dfce,
+      type: 2}
+  slidethrough: 0
+  reflective: 1
+  directional: 1
+  owner: 
+  clientAuthority: 0
+  KnockBackFX: {fileID: 4021103657954561961, guid: 5c755f9bc5253ea418e919994537dcc7,
+    type: 3}
 --- !u!1 &6245996945508181891
 GameObject:
   m_ObjectHideFlags: 0

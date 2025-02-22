@@ -23,7 +23,10 @@ public class CombatThrow : MonoBehaviour
     {
         if (knockBack)
         {
-            knockBack.GetComponent<KnockBack>().owner = owner;
+            if(knockBack.GetComponent<KnockBack>())
+                knockBack.GetComponent<KnockBack>().owner = owner;
+            else if (knockBack.GetComponent<NetKnockBack>())
+                knockBack.GetComponent<NetKnockBack>().owner = owner;
             StartCoroutine(knockBackTimer());
         }
         else
@@ -37,7 +40,10 @@ public class CombatThrow : MonoBehaviour
         yield return new WaitForSeconds(0.1f);
         knockBack.SetActive(true);
         yield return new WaitForSeconds(knockBackCooldown); //Knockback enabled for 1.5 seconds when thrown.
-        knockBack.GetComponent<KnockBack>().owner = "";
+        if (knockBack.GetComponent<KnockBack>())
+            knockBack.GetComponent<KnockBack>().owner = "";
+        else if (knockBack.GetComponent<NetKnockBack>())
+            knockBack.GetComponent<NetKnockBack>().owner = "";
         knockBack.SetActive(false);
     }
 
