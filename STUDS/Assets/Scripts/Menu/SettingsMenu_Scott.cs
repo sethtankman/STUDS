@@ -275,4 +275,9 @@ public class SettingsMenu_Scott : MonoBehaviour
         EventSystem.current.SetSelectedGameObject(null);
         EventSystem.current.SetSelectedGameObject(menuPlayButton); 
     }
+
+    public void Unpause()
+    {
+        FindFirstObjectByType<NetPause>().Pause();
+    }
 }
