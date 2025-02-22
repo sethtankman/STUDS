@@ -22,7 +22,7 @@ public class NetDBUI : NetworkBehaviour
         foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
         {
             scoreOrder[i] = player.GetComponent<NetworkCharacterMovementController>().color;
-            Scores[i].text = $"{i+1}   0"; 
+            Scores[i].text = $"{i+1}   0/10"; 
             SetSpriteColor(scoreOrder[i], i);
             i++;
         }
@@ -74,7 +74,7 @@ public class NetDBUI : NetworkBehaviour
     {
         for (int i = 0; i < scoreOrder.Length; i++)
         {
-            Scores[i].text = $"{i + 1}   {_scoreVals[i]}";
+            Scores[i].text = $"{i + 1}   {_scoreVals[i]}/10";
             SetSpriteColor(_scoreOrder[i], i);
         }
     }
