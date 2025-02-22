@@ -25,7 +25,7 @@ public class SettingsMenu_Scott : MonoBehaviour
     public GameObject[] allOtherMenus;
     public GameObject menuPlayButton, optionsFirstButton, optionsCloseButton, quitFirstButton, creditsFirstButton,
         extrasFirstButton, feedbackFirstButton, videoFirstButton, videoCloseButton, soundFirstButton, soundCloseButton,
-        controlsFirstButton, controlsCloseButton, ReturnFirstButton, okayButton, noKickButton, onlineFirstButton;
+        controlsFirstButton, controlsCloseButton, ReturnFirstButton, okayButton, noKickButton, onlineFirstButton, onlineReturnFirstButton;
 
     [SerializeField] private GameObject mainPauseMenu;
 
@@ -35,6 +35,8 @@ public class SettingsMenu_Scott : MonoBehaviour
     {
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
+
+                EventSystem.current.SetSelectedGameObject(menuPlayButton);
 
         // resolutions = Screen.resolutions;
 
@@ -260,5 +262,17 @@ public class SettingsMenu_Scott : MonoBehaviour
     public GameObject GetMainPauseMenu()
     {
         return mainPauseMenu;
+    }
+
+    public void OpenOnlineReturnMenu()
+    {
+        EventSystem.current.SetSelectedGameObject(null);
+        EventSystem.current.SetSelectedGameObject(onlineReturnFirstButton); 
+    }
+
+    public void CloseOnlineReturnMenu()
+    {
+        EventSystem.current.SetSelectedGameObject(null);
+        EventSystem.current.SetSelectedGameObject(menuPlayButton); 
     }
 }
