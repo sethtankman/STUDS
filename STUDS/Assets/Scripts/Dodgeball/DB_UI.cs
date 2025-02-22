@@ -27,7 +27,7 @@ public class DB_UI : MonoBehaviour
         foreach (GameObject player in ManagePlayerHub.Instance.players)
         {
             scoreOrder[i] = player.GetComponent<CharacterMovementController>().color;
-            Scores[i].text = $"{i+1}   0";
+            Scores[i].text = $"{i+1}   0/10";
             SetSpriteColor(scoreOrder[i], i);
             i++;
         }
@@ -66,7 +66,7 @@ public class DB_UI : MonoBehaviour
         // Put the updated scores on the screen in order.
         for (int i=0; i < scoreOrder.Length; i++)
         {
-            Scores[i].text = $"{i+1}   {DBGameManager.Instance.scores[scoreOrder[i]]}";
+            Scores[i].text = $"{i+1}   {DBGameManager.Instance.scores[scoreOrder[i]]}/10";
             SetSpriteColor(scoreOrder[i], i);
         }
         return scoreOrder;
