@@ -18,8 +18,8 @@ public class CameraMovementKieran : MonoBehaviour
 
     void Start()
     {
-        Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Locked;
+        //Cursor.visible = false;
+        //Cursor.lockState = CursorLockMode.Locked;
 
         if (UseOffset)
         {
@@ -40,8 +40,8 @@ public class CameraMovementKieran : MonoBehaviour
         //For editor only!
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            Cursor.visible = true;
-            Cursor.lockState = CursorLockMode.None;
+            //Cursor.visible = true;
+            //Cursor.lockState = CursorLockMode.None;
         }
     }
 

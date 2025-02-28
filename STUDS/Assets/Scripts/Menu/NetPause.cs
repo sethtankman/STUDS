@@ -50,10 +50,10 @@ public class NetPause : MonoBehaviour {
             Debug.Log("CanPause is false");
             return;
         }
-        Cursor.lockState = CursorLockMode.None;
-        Cursor.visible = true;
         if (!gameisPaused)
         {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
             gameisPaused = true;
             foreach (NetworkCharacterMovementController player in FindObjectsOfType<NetworkCharacterMovementController>())
                 player.CanMove = false;
@@ -96,8 +96,8 @@ public class NetPause : MonoBehaviour {
 
     void OnDisable()
     {
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+        //Cursor.lockState = CursorLockMode.Locked;
+        //Cursor.visible = false;
         thePause.Menu.Disable();
     }
 
