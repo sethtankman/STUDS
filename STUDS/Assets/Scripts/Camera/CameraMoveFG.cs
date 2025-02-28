@@ -35,25 +35,6 @@ public class CameraMoveFG : MonoBehaviour
         float horizontalInput = direction.x;
         playerRotation += horizontalInput;
         Control(playerRotation);
-        /*
-        RaycastHit hit;
-        Ray ray = new Ray(transform.position, transform.forward);
-        if (Physics.Raycast(ray, out hit, 3.5f))
-        {
-            if (hit.transform.tag != "Player")
-            {
-                tracker.gameObject.GetComponent<UCPTracker>().obstructed = true;
-                Debug.Log("I am not pointed at the player");
-                transform.Translate(target.position - transform.position);
-            }
-        }
-        */
-        //For editor only!
-        /*if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            Cursor.visible = true;
-            Cursor.lockState = CursorLockMode.None;
-        }*/
     }
 
     void Control(float horizontalInput)

@@ -96,8 +96,6 @@ public class NetPause : MonoBehaviour {
 
     void OnDisable()
     {
-        //Cursor.lockState = CursorLockMode.Locked;
-        //Cursor.visible = false;
         thePause.Menu.Disable();
     }
 

@@ -69,13 +69,13 @@ public class PauseV2 : MonoBehaviour
             Debug.Log("CanPause is false");
             return;
         }
-        Cursor.lockState = CursorLockMode.None;
-        Cursor.visible = true;
         if(p4PH && p4PH.activeSelf)
             p4PHWasEnabled = true;
         if (!gameisPaused)
         {
-            if(p4PH) // Activates the player 4 placeholder image if it is set.
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+            if (p4PH) // Activates the player 4 placeholder image if it is set.
                 p4PH.SetActive(false);
             if (EventSystem.current)
             {

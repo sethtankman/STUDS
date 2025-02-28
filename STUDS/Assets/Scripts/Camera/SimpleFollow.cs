@@ -29,7 +29,6 @@ public class SimpleFollow : MonoBehaviour
     {
         cameraComp = GetComponent<Camera>();
         startingFOV = cameraComp.fieldOfView;
-        //Cursor.visible = false;
         if (UseOffset)
         {
             offset = transform.position - Player.transform.position;
@@ -39,10 +38,6 @@ public class SimpleFollow : MonoBehaviour
     // Call FixedUpdate so it stays synced with the physics engine
     void FixedUpdate()
     {
-        if(Input.GetKeyDown(KeyCode.Escape))
-        {
-            //Cursor.visible = true;
-        }
 
         currentFieldOfView = cameraComp.fieldOfView;
 
