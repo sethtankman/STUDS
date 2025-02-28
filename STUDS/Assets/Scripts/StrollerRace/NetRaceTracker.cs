@@ -21,24 +21,26 @@ public class NetRaceTracker : NetworkBehaviour
 
     public void SetColorsGivePlaceTrackers()
     {
-        foreach (GameObject obj in GameObject.FindGameObjectsWithTag("Player"))
-        {
-            Players.Add(obj);
-        }
-        if (Players.Count < 4)
-        {
-            Color invis;
-            invis = new Color32(0, 0, 0, 0);
-            Positions[3].color = invis;
-        }
-
-        for (int i = 0; i < Players.Count; i++)
-        {
-            PT.Add(Players[i].GetComponentInChildren<NetPlaceTracker>());
-
-        }
         if (isServer)
+        {
+            foreach (GameObject obj in GameObject.FindGameObjectsWithTag("Player"))
+            {
+                Players.Add(obj);
+            }
+            if (Players.Count < 4)
+            {
+                Color invis;
+                invis = new Color32(0, 0, 0, 0);
+                Positions[3].color = invis;
+            }
+
+            for (int i = 0; i < Players.Count; i++)
+            {
+                PT.Add(Players[i].GetComponentInChildren<NetPlaceTracker>());
+
+            }
             StartCoroutine(nameof(UpdatePlacements));
+        }
     }
 
     // Update is called once per frame
@@ -47,7 +49,7 @@ public class NetRaceTracker : NetworkBehaviour
         while (true)
         {
             PT = PT.OrderByDescending(e => e.GetComponentInChildren<NetPlaceTracker>().Progress).ToList();
-
+            Debug.Log(PT);
             for (int i = 0; i < Players.Count; i++)
             {
                 string PlrColor = PT[i].GetComponentInChildren<NetPlaceTracker>().PLRCol;
