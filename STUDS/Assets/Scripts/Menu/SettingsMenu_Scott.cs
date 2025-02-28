@@ -33,8 +33,8 @@ public class SettingsMenu_Scott : MonoBehaviour
 
     void Start()
     {
-        //Cursor.lockState = CursorLockMode.None;
-        //Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
 
                 EventSystem.current.SetSelectedGameObject(menuPlayButton);
 
