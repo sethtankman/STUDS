@@ -108,6 +108,7 @@ public class NetDBGameManager : NetworkBehaviour
                 NetGameManager.Instance.AddPlayer(player);
                 player.transform.parent = null;
                 DontDestroyOnLoad(player); // Players need to persist into the next scene to load their data.
+                player.GetComponent<NetDodgeballAI>().enabled = false;
             }
             string color = player.GetComponent<NetworkCharacterMovementController>().GetColorName();
             int placement = Array.IndexOf(scoreOrder, color) + 1;
