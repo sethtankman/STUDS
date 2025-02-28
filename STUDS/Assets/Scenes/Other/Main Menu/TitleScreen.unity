@@ -16004,6 +16004,80 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4282a5e1826c80f48a1112e73dc142a0, type: 3}
+--- !u!1001 &408457035
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 1684605947}
+    m_Modifications:
+    - target: {fileID: 1951144073518813145, guid: f7b64acf3adddce48a934cf75f32bce6,
+        type: 3}
+      propertyPath: m_Name
+      value: FireWorks_1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1951144073518813148, guid: f7b64acf3adddce48a934cf75f32bce6,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 76.69418
+      objectReference: {fileID: 0}
+    - target: {fileID: 1951144073518813148, guid: f7b64acf3adddce48a934cf75f32bce6,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -51
+      objectReference: {fileID: 0}
+    - target: {fileID: 1951144073518813148, guid: f7b64acf3adddce48a934cf75f32bce6,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -1.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1951144073518813148, guid: f7b64acf3adddce48a934cf75f32bce6,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 1951144073518813148, guid: f7b64acf3adddce48a934cf75f32bce6,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 1951144073518813148, guid: f7b64acf3adddce48a934cf75f32bce6,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1951144073518813148, guid: f7b64acf3adddce48a934cf75f32bce6,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1951144073518813148, guid: f7b64acf3adddce48a934cf75f32bce6,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: 1951144073518813148, guid: f7b64acf3adddce48a934cf75f32bce6,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1951144073518813148, guid: f7b64acf3adddce48a934cf75f32bce6,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: f7b64acf3adddce48a934cf75f32bce6, type: 3}
+--- !u!4 &408457036 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1951144073518813148, guid: f7b64acf3adddce48a934cf75f32bce6,
+    type: 3}
+  m_PrefabInstance: {fileID: 408457035}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &409525947 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8033125975602465308, guid: a8465aa477abefd478391cc069145a53,
@@ -30822,9 +30896,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77f79f89e65c90f4ba3ad5d3775f4e5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableSeasons: 0
-  debugSeasons: 1
-  month: 12
+  enableSeasons: 1
+  debugSeasons: 0
+  month: 0
   springObjects: {fileID: 1265968519}
   summerObjects: {fileID: 858851144}
   fallObjects: {fileID: 1917122916}
@@ -74285,7 +74359,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 408457036}
   m_Father: {fileID: 2109647991}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1687160906
@@ -89676,10 +89751,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cfbd43f3bd537d544baefec48fcdcb67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableHolidays: 0
-  debugHolidays: 1
-  debugMonth: 12
-  debugDay: 25
+  enableHolidays: 1
+  debugHolidays: 0
+  debugMonth: 0
+  debugDay: 0
   newYearsObjects: {fileID: 499553130}
   valentinesObjects: {fileID: 505655590}
   stPatricksObjects: {fileID: 1674671038}
