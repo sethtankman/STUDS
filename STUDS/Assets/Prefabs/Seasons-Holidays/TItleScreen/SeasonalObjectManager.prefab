@@ -1,0 +1,256 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1950651926396349256
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1535538764700259215}
+  m_Layer: 0
+  m_Name: FallObjects
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1535538764700259215
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1950651926396349256}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7728736921619536158}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2676814251583054054
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7728736921619536158}
+  - component: {fileID: 2132561564800035508}
+  m_Layer: 0
+  m_Name: SeasonalObjectManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7728736921619536158
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2676814251583054054}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 5685651191339070912}
+  - {fileID: 7492986820439175770}
+  - {fileID: 1535538764700259215}
+  - {fileID: 5530783603564767518}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2132561564800035508
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2676814251583054054}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77f79f89e65c90f4ba3ad5d3775f4e5c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enableSeasons: 1
+  debugSeasons: 0
+  month: 0
+  springObjects: {fileID: 2864751366468408639}
+  summerObjects: {fileID: 5926876496642906719}
+  fallObjects: {fileID: 1950651926396349256}
+  winterObjects: {fileID: 8901470915137837040}
+--- !u!1 &2864751366468408639
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5685651191339070912}
+  m_Layer: 0
+  m_Name: SpringObjects
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5685651191339070912
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2864751366468408639}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7728736921619536158}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &5926876496642906719
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7492986820439175770}
+  m_Layer: 0
+  m_Name: SummerObjects
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7492986820439175770
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5926876496642906719}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7728736921619536158}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &8901470915137837040
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5530783603564767518}
+  m_Layer: 0
+  m_Name: WinterObjects
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5530783603564767518
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8901470915137837040}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 8618178715827782140}
+  m_Father: {fileID: 7728736921619536158}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &1208079688278046439
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 5530783603564767518}
+    m_Modifications:
+    - target: {fileID: 7447297863049164571, guid: 1ff96e7b8b1246f40a3557a7c8c8a0a8,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -59.74418
+      objectReference: {fileID: 0}
+    - target: {fileID: 7447297863049164571, guid: 1ff96e7b8b1246f40a3557a7c8c8a0a8,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.9200859
+      objectReference: {fileID: 0}
+    - target: {fileID: 7447297863049164571, guid: 1ff96e7b8b1246f40a3557a7c8c8a0a8,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -58.70146
+      objectReference: {fileID: 0}
+    - target: {fileID: 7447297863049164571, guid: 1ff96e7b8b1246f40a3557a7c8c8a0a8,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.2784934
+      objectReference: {fileID: 0}
+    - target: {fileID: 7447297863049164571, guid: 1ff96e7b8b1246f40a3557a7c8c8a0a8,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7447297863049164571, guid: 1ff96e7b8b1246f40a3557a7c8c8a0a8,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.96043813
+      objectReference: {fileID: 0}
+    - target: {fileID: 7447297863049164571, guid: 1ff96e7b8b1246f40a3557a7c8c8a0a8,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7447297863049164571, guid: 1ff96e7b8b1246f40a3557a7c8c8a0a8,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7447297863049164571, guid: 1ff96e7b8b1246f40a3557a7c8c8a0a8,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -147.659
+      objectReference: {fileID: 0}
+    - target: {fileID: 7447297863049164571, guid: 1ff96e7b8b1246f40a3557a7c8c8a0a8,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7787231036276108705, guid: 1ff96e7b8b1246f40a3557a7c8c8a0a8,
+        type: 3}
+      propertyPath: m_Name
+      value: SM_Xmas_Snowman
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 1ff96e7b8b1246f40a3557a7c8c8a0a8, type: 3}
+--- !u!4 &8618178715827782140 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7447297863049164571, guid: 1ff96e7b8b1246f40a3557a7c8c8a0a8,
+    type: 3}
+  m_PrefabInstance: {fileID: 1208079688278046439}
+  m_PrefabAsset: {fileID: 0}
