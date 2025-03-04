@@ -15,49 +15,24 @@ public class HubColorChange : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(!gameManager)
-            gameManager = GameObject.Find("NetGameManager");
-            if (!gameManager)
-                gameManager = GameObject.Find("GameManager");
+        gameManager = GameObject.Find("GameManager");
         if (other.CompareTag("Player"))
         {
-            if (gameManager.GetComponent<ManagePlayerHub>())
-            {
-                List<GameObject> players = gameManager.GetComponent<ManagePlayerHub>().getPlayers();
+            List<GameObject> players = gameManager.GetComponent<ManagePlayerHub>().getPlayers();
 
-                bool isTaken = false;
-                foreach (GameObject player in players)
+            bool isTaken = false;
+            foreach (GameObject player in players)
+            {
+                if (player && player.GetComponent<CharacterMovementController>().GetColorName().Equals(colorName))
                 {
-                    if (player && player.GetComponent<CharacterMovementController>().GetColorName().Equals(colorName))
-                    {
-                        isTaken = true;
-                    }
-                }
-                if (!isTaken)
-                {
-                    ParticleSound.Post(gameObject);
-                    other.gameObject.GetComponentInChildren<SkinnedMeshRenderer>().material = playerColor;
-                    other.GetComponent<CharacterMovementController>().SetColorName(colorName);
+                    isTaken = true;
                 }
             }
-            else if (gameManager.GetComponent<NetGameManager>())
+            if (!isTaken)
             {
-                GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
-
-                bool isTaken = false;
-                foreach (GameObject player in players)
-                {
-                    if (player.GetComponent<NetworkCharacterMovementController>().GetColorName().ToLower().Equals(colorName.ToLower()))
-                    {
-                        isTaken = true;
-                    }
-                }
-                if (!isTaken)
-                {
-                    ParticleSound.Post(gameObject);
-                    other.gameObject.GetComponentInChildren<SkinnedMeshRenderer>().material = playerColor;
-                    other.GetComponent<NetworkCharacterMovementController>().SetColorName(colorName);
-                }
+                ParticleSound.Post(gameObject);
+                other.gameObject.GetComponentInChildren<SkinnedMeshRenderer>().material = playerColor;
+                other.GetComponent<CharacterMovementController>().SetColorName(colorName);
             }
         }
     }
