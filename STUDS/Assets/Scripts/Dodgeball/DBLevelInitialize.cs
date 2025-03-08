@@ -92,10 +92,6 @@ public class DBLevelInitialize : MonoBehaviour
             }
             PauseV2.canPause = true;
         }
-        else if(!spawnedPlayers)
-        {
-            
-        }
     }
 
     private int GetColorIndex(string _color)

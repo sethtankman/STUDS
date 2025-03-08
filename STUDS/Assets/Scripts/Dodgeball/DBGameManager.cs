@@ -119,8 +119,17 @@ public class DBGameManager : MonoBehaviour
             SteamAchievements.UnlockAchievement("DB_OUCH");
     }
 
-    internal List<GameObject> GetAvailableDodgeballs()
+    public List<GameObject> GetAvailableDodgeballsInDistance(Transform AIPos, float distance)
     {
-        return availableDodgeballs;
+        List<GameObject> results = new List<GameObject>();
+        foreach (GameObject dodgeball in availableDodgeballs)
+        {
+            float measuredDist = Vector3.Distance(AIPos.position, dodgeball.transform.position);
+            if (measuredDist <= distance)
+            {
+                results.Add(dodgeball);
+            }
+        }
+        return results;
     }
 }

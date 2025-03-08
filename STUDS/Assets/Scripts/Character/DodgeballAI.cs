@@ -27,7 +27,7 @@ public class DodgeballAI : MonoBehaviour
     [SerializeField] private bool _onNavMeshLink = false;
 
     private float turnSpeed = 2;
-    [SerializeField] private int loiter = 540, patience, maxPatience;
+    [SerializeField] private int loiter = 60, patience, maxPatience;
     [SerializeField] private float _jumpDuration = 0.8f;
 
     private void Start()
@@ -35,48 +35,59 @@ public class DodgeballAI : MonoBehaviour
         // We disable the character controller so it doesn't override the navmesh agent.
         GetComponent<CharacterController>().enabled = false;
         agent.autoTraverseOffMeshLink = false;
+        Invoke(nameof(StartTick), 4.0f);
     }
 
-    private void FixedUpdate()
+    private void StartTick()
     {
-        patience--;
+        StartCoroutine(AITick());
     }
 
-    // Update is called once per frame
-    void Update()
+    private IEnumerator AITick()
     {
-        loiter--;
-        if (loiter > 0)
-            return;
-        if (!hasTarget) { 
-            if (!GetComponent<CharacterMovementController>().GetHasGrabbed()) {
-                AcquireTargetDodgeball();
-            } else
+        while (gameObject)
+        {
+            patience--;
+            loiter--;
+            if (loiter > 0)
+                continue;
+            if (!hasTarget)
             {
-                AcquireTargetPlayer();
+                if (!GetComponent<CharacterMovementController>().GetHasGrabbed())
+                {
+                    AcquireTargetDodgeball();
+                }
+                else
+                {
+                    AcquireTargetPlayer();
+                }
             }
-        } else if (patience < 0)
-        {
-            hasTarget = false;
-            coroutineOn = false;
-        } else if (agent.hasPath)
-        {
-            Vector3 lookPos;
-            Quaternion targetRot;
-
-
-            lookPos = agent.desiredVelocity;
-            lookPos.y = 0;
-            targetRot = Quaternion.LookRotation(lookPos);
-            this.transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, Time.deltaTime * turnSpeed);
-
-            if(agent.isOnOffMeshLink && _onNavMeshLink == false)
+            else if (patience < 0)
             {
-                StartNavMeshLinkMovement();
+                hasTarget = false;
+                coroutineOn = false;
             }
-        } else if (!agent.pathPending)
-        {
-            Loiter(true);
+            else if (agent.hasPath)
+            {
+                Vector3 lookPos;
+                Quaternion targetRot;
+
+
+                lookPos = agent.desiredVelocity;
+                lookPos.y = 0;
+                targetRot = Quaternion.LookRotation(lookPos);
+                this.transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, Time.deltaTime * turnSpeed);
+
+                if (agent.isOnOffMeshLink && _onNavMeshLink == false)
+                {
+                    StartNavMeshLinkMovement();
+                }
+            }
+            else if (!agent.pathPending)
+            {
+                Loiter(true);
+            }
+            yield return new WaitForSeconds(0.5f);
         }
     }
 
@@ -175,7 +186,12 @@ public class DodgeballAI : MonoBehaviour
 
     private void AcquireTargetDodgeball()
     {
-        List<GameObject> dodgeballs = DBGameManager.Instance.GetAvailableDodgeballs();
+        float searchDistance = 20.0f;
+        List<GameObject> dodgeballs = DBGameManager.Instance.GetAvailableDodgeballsInDistance(transform, searchDistance);
+        while (dodgeballs.Count == 0 && searchDistance < 100.0f) {
+            searchDistance += 20.0f;
+            dodgeballs = DBGameManager.Instance.GetAvailableDodgeballsInDistance(transform, searchDistance);
+        }
         if (dodgeballs.Count == 0)
         {
             Debug.LogWarning("Dodgeball list is empty");
