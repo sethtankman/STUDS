@@ -60,7 +60,10 @@ public class SpawnDrops : MonoBehaviour {
                     int randIndex = Random.Range((int)0, DropTypes.Length);
                     items[numTrack] = Instantiate(DropTypes[randIndex], transform.position, transform.rotation);
                     if (!AIIgnore)
+                    {
                         DBGameManager.Instance.enlistDodgeball(items[numTrack]);
+                        Debug.Log($"Spawning ignored dogeball at {transform.position}");
+                    }
                     numTrack++;
                     if (numTrack >= 1)
                         break;
@@ -86,8 +89,6 @@ public class SpawnDrops : MonoBehaviour {
             StartCoroutine(CountdownForRemoval());
     }
 
-
-
     protected virtual IEnumerator CountdownForRemoval()
     {
         yield return new WaitForSeconds(lifetimeOfDrops);
@@ -98,4 +99,8 @@ public class SpawnDrops : MonoBehaviour {
         Destroy(this.gameObject);
     }
 
+    public void setAIIgnore(bool tf)
+    {
+        AIIgnore = tf;
+    }
 }
