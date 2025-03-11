@@ -202,7 +202,7 @@ public class DodgeballAI : MonoBehaviour
         {
             NavMeshHit hit;
             target = dodgeballs[Random.Range(0, dodgeballs.Count)].transform;
-            NavMesh.SamplePosition(target.position, out hit, 150, NavMesh.AllAreas);
+            NavMesh.SamplePosition(target.position, out hit, 15, 1); // Argument "1" corresponds to "Walkable" areas
             targetPosition = hit.position;
             DBGameManager.Instance.deListDodgeball(target.gameObject, gameObject);
         }
@@ -239,12 +239,12 @@ public class DodgeballAI : MonoBehaviour
     }
 
     /// <summary>
-    /// Called to reset targets and have AI stop for a second.
+    /// Called to reset targets and have AI stop for 3 seconds.
     /// </summary>
     /// <param name="enlistDB">true if the held dodgeball should be re-added to the list.</param>
     public void Loiter(bool enlistDB)
     {
-        loiter = 60;
+        loiter = 6;
         hasTarget = false;
         coroutineOn = false;
         if (target && target.GetComponent<GrabbableObjectController>() && enlistDB)
