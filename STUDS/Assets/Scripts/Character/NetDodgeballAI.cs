@@ -35,7 +35,6 @@ public class NetDodgeballAI : NetworkBehaviour
     {
         // We disable the character controller so it doesn't override the navmesh agent.
         GetComponent<CharacterController>().enabled = false;
-        agent.autoTraverseOffMeshLink = false;
     }
 
     private void FixedUpdate()
@@ -71,74 +70,10 @@ public class NetDodgeballAI : NetworkBehaviour
             targetRot = Quaternion.LookRotation(lookPos);
             this.transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, Time.deltaTime * turnSpeed);
 
-            if(agent.isOnOffMeshLink && _onNavMeshLink == false)
-            {
-                StartNavMeshLinkMovement();
-            }
         } else if (!agent.pathPending) // Agent gives up finding a path to target.
         {
             Loiter(true);
         }
-    }
-
-    private void StartNavMeshLinkMovement()
-    {
-        _onNavMeshLink = true;
-        NavMeshLink link = (NavMeshLink)agent.navMeshOwner;
-        Spline spline = link.GetComponentInChildren<Spline>();
-        PerformJump(link, spline);
-    }
-
-    private void PerformJump(NavMeshLink link, Spline spline)
-    {
-        bool reverseDirection = CheckIfJumpingFromEndToStart(link);
-        StartCoroutine(MoveOnOffMeshLink(spline, reverseDirection));
-
-        animator.SetTrigger("Jump");
-    }
-
-    private bool CheckIfJumpingFromEndToStart(NavMeshLink link)
-    {
-        Vector3 startPosWorld
-            = link.gameObject.transform.TransformPoint(link.startPoint);
-        Vector3 endPosWorld
-            = link.gameObject.transform.TransformPoint(link.endPoint);
-
-        float distancePlayerToStart
-            = Vector3.Distance(agent.transform.position, startPosWorld);
-        float distancePlayerToEnd
-            = Vector3.Distance(agent.transform.position, endPosWorld);
-
-
-        return distancePlayerToStart > distancePlayerToEnd;
-    }
-
-    private IEnumerator MoveOnOffMeshLink(Spline spline, bool reverseDirection)
-    {
-        float currentTime = 0;
-        Vector3 agentStartPosition = agent.transform.position;
-
-        while (currentTime < _jumpDuration)
-        {
-            currentTime += Time.deltaTime;
-
-            float amount = Mathf.Clamp01(currentTime / _jumpDuration);
-            amount = reverseDirection ? 1 - amount : amount;
-
-            agent.transform.position =
-                reverseDirection ?
-                spline.CalculatePositionCustomEnd(amount, agentStartPosition)
-                : spline.CalculatePositionCustomStart(amount, agentStartPosition);
-
-            yield return new WaitForEndOfFrame();
-        }
-
-        agent.CompleteOffMeshLink();
-        animator.SetTrigger("Jump");
-
-        yield return new WaitForSeconds(0.1f);
-        _onNavMeshLink = false;
-
     }
 
     private void AcquireTargetPlayer()

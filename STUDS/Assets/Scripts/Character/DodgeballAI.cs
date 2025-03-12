@@ -24,18 +24,48 @@ public class DodgeballAI : MonoBehaviour
     /// Used so the AI will routinely repath to moving players
     /// </summary>
     [SerializeField] private bool coroutineOn = false;
-    [SerializeField] private bool _onNavMeshLink = false;
 
     private float turnSpeed = 2;
     [SerializeField] private int loiter = 60, patience, maxPatience;
     [SerializeField] private float _jumpDuration = 0.8f;
 
-    private void Start()
+    private IEnumerator Start()
     {
         // We disable the character controller so it doesn't override the navmesh agent.
         GetComponent<CharacterController>().enabled = false;
+        Invoke(nameof(StartTick), 10.0f);
         agent.autoTraverseOffMeshLink = false;
-        Invoke(nameof(StartTick), 4.0f);
+        while (true)
+        {
+            if (agent.isOnOffMeshLink)
+            {
+                yield return StartCoroutine(Parabola(2.0f, 0.8f));
+                agent.CompleteOffMeshLink();
+            }
+            yield return null;
+        }
+    }
+
+    /// <summary>
+    /// Copied from https://github.com/Unity-Technologies/NavMeshComponents/blob/master/Assets/Examples/Scripts/AgentLinkMover.cs
+    /// </summary>
+    /// <param name="height"></param>
+    /// <param name="duration"></param>
+    /// <returns></returns>
+    private IEnumerator Parabola(float height, float duration)
+    {
+        OffMeshLinkData data = agent.currentOffMeshLinkData;
+        Vector3 startPos = agent.transform.position;
+        Vector3 endPos = data.endPos + Vector3.up * agent.baseOffset;
+        float normalizedTime = 0.0f;
+        while (normalizedTime < 1.0f)
+        {
+            animator.SetTrigger("Jump");
+            float yOffset = height * 4.0f * (normalizedTime - normalizedTime * normalizedTime);
+            agent.transform.position = Vector3.Lerp(startPos, endPos, normalizedTime) + yOffset * Vector3.up;
+            normalizedTime += Time.deltaTime / duration;
+            yield return null;
+        }
     }
 
     private void StartTick()
@@ -78,10 +108,6 @@ public class DodgeballAI : MonoBehaviour
                 targetRot = Quaternion.LookRotation(lookPos);
                 this.transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, Time.deltaTime * turnSpeed);
 
-                if (agent.isOnOffMeshLink && _onNavMeshLink == false)
-                {
-                    StartNavMeshLinkMovement();
-                }
             }
             else if (!agent.pathPending)
             {
@@ -91,69 +117,9 @@ public class DodgeballAI : MonoBehaviour
         }
     }
 
-    private void StartNavMeshLinkMovement()
-    {
-        _onNavMeshLink = true;
-        NavMeshLink link = (NavMeshLink)agent.navMeshOwner;
-        Spline spline = link.GetComponentInChildren<Spline>();
-        PerformJump(link, spline);
-    }
-
-    private void PerformJump(NavMeshLink link, Spline spline)
-    {
-        bool reverseDirection = CheckIfJumpingFromEndToStart(link);
-        StartCoroutine(MoveOnOffMeshLink(spline, reverseDirection));
-
-        animator.SetTrigger("Jump");
-    }
-
-    private bool CheckIfJumpingFromEndToStart(NavMeshLink link)
-    {
-        Vector3 startPosWorld
-            = link.gameObject.transform.TransformPoint(link.startPoint);
-        Vector3 endPosWorld
-            = link.gameObject.transform.TransformPoint(link.endPoint);
-
-        float distancePlayerToStart
-            = Vector3.Distance(agent.transform.position, startPosWorld);
-        float distancePlayerToEnd
-            = Vector3.Distance(agent.transform.position, endPosWorld);
-
-
-        return distancePlayerToStart > distancePlayerToEnd;
-    }
-
-    private IEnumerator MoveOnOffMeshLink(Spline spline, bool reverseDirection)
-    {
-        float currentTime = 0;
-        Vector3 agentStartPosition = agent.transform.position;
-
-        while (currentTime < _jumpDuration)
-        {
-            currentTime += Time.deltaTime;
-
-            float amount = Mathf.Clamp01(currentTime / _jumpDuration);
-            amount = reverseDirection ? 1 - amount : amount;
-
-            agent.transform.position =
-                reverseDirection ?
-                spline.CalculatePositionCustomEnd(amount, agentStartPosition)
-                : spline.CalculatePositionCustomStart(amount, agentStartPosition);
-
-            yield return new WaitForEndOfFrame();
-        }
-
-        agent.CompleteOffMeshLink();
-        animator.SetTrigger("Jump");
-
-        yield return new WaitForSeconds(0.1f);
-        _onNavMeshLink = false;
-
-    }
-
     private void AcquireTargetPlayer()
     {
-        
+
         List<GameObject> players = GameObject.FindGameObjectsWithTag("Player").ToList();
         players.Remove(gameObject);
         GameObject[] candidates = players.ToArray();
@@ -188,7 +154,8 @@ public class DodgeballAI : MonoBehaviour
     {
         float searchDistance = 20.0f;
         List<GameObject> dodgeballs = DBGameManager.Instance.GetAvailableDodgeballsInDistance(transform, searchDistance);
-        while (dodgeballs.Count == 0 && searchDistance < 100.0f) {
+        while (dodgeballs.Count == 0 && searchDistance < 100.0f)
+        {
             searchDistance += 20.0f;
             dodgeballs = DBGameManager.Instance.GetAvailableDodgeballsInDistance(transform, searchDistance);
         }
@@ -208,27 +175,24 @@ public class DodgeballAI : MonoBehaviour
         }
         patience = maxPatience;
         animator.SetBool("isRunning", true);
-        if (_onNavMeshLink == false)
+        if (agent.isOnNavMesh)
         {
-            if (agent.isOnNavMesh)
+            NavMeshPath path = new NavMeshPath();
+            if (agent.CalculatePath(targetPosition, path))
             {
-                NavMeshPath path = new NavMeshPath();
-                if (agent.CalculatePath(targetPosition, path))
-                {
-                    if (path.status == NavMeshPathStatus.PathComplete)
-                        agent.SetDestination(targetPosition);
-                    else
-                        Debug.Log($"Path for {name} is incomplete or too complex!  Status: {path.status}");
-                }
-                hasTarget = true;
-            } 
-            else
-            { // Return navmesh agents to navmesh after being knocked back.
-                NavMeshHit hit;
-                NavMesh.SamplePosition(transform.position, out hit, 150, NavMesh.AllAreas);
-                transform.position = hit.position;
-                agent.Warp(hit.position);
+                if (path.status == NavMeshPathStatus.PathComplete)
+                    agent.SetDestination(targetPosition);
+                else
+                    Debug.Log($"Path for {name} is incomplete or too complex!  Status: {path.status}");
             }
+            hasTarget = true;
+        }
+        else
+        { // Return navmesh agents to navmesh after being knocked back.
+            NavMeshHit hit;
+            NavMesh.SamplePosition(transform.position, out hit, 150, NavMesh.AllAreas);
+            transform.position = hit.position;
+            agent.Warp(hit.position);
         }
     }
 
