@@ -29,11 +29,43 @@ public class DodgeballAI : MonoBehaviour
     [SerializeField] private int loiter = 60, patience, maxPatience;
     [SerializeField] private float _jumpDuration = 0.8f;
 
-    private void Start()
+    private IEnumerator Start()
     {
         // We disable the character controller so it doesn't override the navmesh agent.
         GetComponent<CharacterController>().enabled = false;
         Invoke(nameof(StartTick), 10.0f);
+        agent.autoTraverseOffMeshLink = false;
+        while (true)
+        {
+            if (agent.isOnOffMeshLink)
+            {
+                yield return StartCoroutine(Parabola(2.0f, 0.8f));
+                agent.CompleteOffMeshLink();
+            }
+            yield return null;
+        }
+    }
+
+    /// <summary>
+    /// Copied from https://github.com/Unity-Technologies/NavMeshComponents/blob/master/Assets/Examples/Scripts/AgentLinkMover.cs
+    /// </summary>
+    /// <param name="height"></param>
+    /// <param name="duration"></param>
+    /// <returns></returns>
+    private IEnumerator Parabola(float height, float duration)
+    {
+        OffMeshLinkData data = agent.currentOffMeshLinkData;
+        Vector3 startPos = agent.transform.position;
+        Vector3 endPos = data.endPos + Vector3.up * agent.baseOffset;
+        float normalizedTime = 0.0f;
+        while (normalizedTime < 1.0f)
+        {
+            animator.SetTrigger("Jump");
+            float yOffset = height * 4.0f * (normalizedTime - normalizedTime * normalizedTime);
+            agent.transform.position = Vector3.Lerp(startPos, endPos, normalizedTime) + yOffset * Vector3.up;
+            normalizedTime += Time.deltaTime / duration;
+            yield return null;
+        }
     }
 
     private void StartTick()
