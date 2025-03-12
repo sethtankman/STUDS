@@ -25,13 +25,13 @@ public class SeasonalObjectManager : MonoBehaviour
         {
             EnableSeasonalObjects();
         }
-        else
-        {
-            springObjects?.SetActive(false);
-            summerObjects?.SetActive(false);
-            fallObjects?.SetActive(false);
-            winterObjects?.SetActive(false);
-        }
+        //else
+        //{
+        //    springObjects?.SetActive(false);
+        //    summerObjects?.SetActive(false);
+        //    fallObjects?.SetActive(false);
+        //    winterObjects?.SetActive(false);
+        //}
         
         
         // Debug enable a specified month (be sure to set enableSeasons bool to false first)
