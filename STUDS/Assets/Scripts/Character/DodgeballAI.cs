@@ -33,7 +33,7 @@ public class DodgeballAI : MonoBehaviour
     {
         // We disable the character controller so it doesn't override the navmesh agent.
         GetComponent<CharacterController>().enabled = false;
-        Invoke(nameof(StartTick), 4.0f);
+        Invoke(nameof(StartTick), 10.0f);
     }
 
     private void StartTick()
