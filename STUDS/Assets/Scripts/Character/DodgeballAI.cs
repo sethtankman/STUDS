@@ -202,7 +202,7 @@ public class DodgeballAI : MonoBehaviour
         {
             NavMeshHit hit;
             target = dodgeballs[Random.Range(0, dodgeballs.Count)].transform;
-            NavMesh.SamplePosition(target.position, out hit, 15, 1); // Argument "1" corresponds to "Walkable" areas
+            NavMesh.SamplePosition(target.position, out hit, 15, 1); // Argument "1" corresponds to "Walkable" areas?
             targetPosition = hit.position;
             DBGameManager.Instance.deListDodgeball(target.gameObject, gameObject);
         }
@@ -212,7 +212,14 @@ public class DodgeballAI : MonoBehaviour
         {
             if (agent.isOnNavMesh)
             {
-                agent.SetDestination(targetPosition);
+                NavMeshPath path = new NavMeshPath();
+                if (agent.CalculatePath(targetPosition, path))
+                {
+                    if (path.status == NavMeshPathStatus.PathComplete)
+                        agent.SetDestination(targetPosition);
+                    else
+                        Debug.Log($"Path for {name} is incomplete or too complex!  Status: {path.status}");
+                }
                 hasTarget = true;
             } 
             else
