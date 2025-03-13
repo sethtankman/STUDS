@@ -31,48 +31,94 @@ public class NetDodgeballAI : NetworkBehaviour
     [SerializeField] private int loiter = 540, patience, maxPatience;
     [SerializeField] private float _jumpDuration = 0.8f;
 
-    private void Start()
+    private IEnumerator Start()
     {
         // We disable the character controller so it doesn't override the navmesh agent.
         GetComponent<CharacterController>().enabled = false;
-    }
-
-    private void FixedUpdate()
-    {
-        patience--;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        loiter--;
-        if (!isServer || loiter > 0)
-            return;
-        if (!hasTarget) { // Agent finds target
-            if (!GetComponent<NetworkCharacterMovementController>().GetHasGrabbed()) {
-                AcquireTargetDodgeball();
-            } else
+        agent.autoTraverseOffMeshLink = false;
+        if(isServer)
+        {
+            Invoke(nameof(StartTick), 10.0f);
+            while (true)
             {
-                AcquireTargetPlayer();
+                if (agent.isOnOffMeshLink)
+                {
+                    yield return StartCoroutine(Parabola(2.0f, 0.8f));
+                    agent.CompleteOffMeshLink();
+                }
+                yield return null;
             }
-        } else if (patience < 0) // Agent runs out of patience trying to get target.
+        }
+    }
+
+    /// <summary>
+    /// Copied from https://github.com/Unity-Technologies/NavMeshComponents/blob/master/Assets/Examples/Scripts/AgentLinkMover.cs
+    /// </summary>
+    /// <param name="height"></param>
+    /// <param name="duration"></param>
+    /// <returns></returns>
+    private IEnumerator Parabola(float height, float duration)
+    {
+        OffMeshLinkData data = agent.currentOffMeshLinkData;
+        Vector3 startPos = agent.transform.position;
+        Vector3 endPos = data.endPos + Vector3.up * agent.baseOffset;
+        float normalizedTime = 0.0f;
+        while (normalizedTime < 1.0f)
         {
-            hasTarget = false;
-            coroutineOn = false;
-        } else if (agent.hasPath) // Agent pursues target
+            animator.SetTrigger("Jump");
+            float yOffset = height * 4.0f * (normalizedTime - normalizedTime * normalizedTime);
+            agent.transform.position = Vector3.Lerp(startPos, endPos, normalizedTime) + yOffset * Vector3.up;
+            normalizedTime += Time.deltaTime / duration;
+            yield return null;
+        }
+    }
+
+    private void StartTick()
+    {
+        StartCoroutine(AITick());
+    }
+
+    private IEnumerator AITick()
+    {
+        while (gameObject)
         {
-            Vector3 lookPos;
-            Quaternion targetRot;
+            patience--;
+            loiter--;
+            if (loiter > 0)
+                continue;
+            if (!hasTarget)
+            { // Agent finds target
+                if (!GetComponent<NetworkCharacterMovementController>().GetHasGrabbed())
+                {
+                    AcquireTargetDodgeball();
+                }
+                else
+                {
+                    AcquireTargetPlayer();
+                }
+            }
+            else if (patience < 0) // Agent runs out of patience trying to get target.
+            {
+                hasTarget = false;
+                coroutineOn = false;
+            }
+            else if (agent.hasPath) // Agent pursues target
+            {
+                Vector3 lookPos;
+                Quaternion targetRot;
 
 
-            lookPos = agent.desiredVelocity;
-            lookPos.y = 0;
-            targetRot = Quaternion.LookRotation(lookPos);
-            this.transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, Time.deltaTime * turnSpeed);
+                lookPos = agent.desiredVelocity;
+                lookPos.y = 0;
+                targetRot = Quaternion.LookRotation(lookPos);
+                this.transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, Time.deltaTime * turnSpeed);
 
-        } else if (!agent.pathPending) // Agent gives up finding a path to target.
-        {
-            Loiter(true);
+            }
+            else if (!agent.pathPending)
+            {
+                Loiter(true);
+            }
+            yield return new WaitForSeconds(0.5f);
         }
     }
 
