@@ -36,7 +36,7 @@ public class PBInitializeLevel : MonoBehaviour
         aiInstantiated = new bool[numAI];
         aiColors = ManagePlayerHub.Instance.aiColors;
         PlayerInputManager.instance.DisableJoining();
-
+        PauseV2.canPause = false;
 
         if (pauseMenuUI)
             GameObject.Find("GameManager").GetComponent<PauseV2>().PauseMenuUI = pauseMenuUI;

@@ -37,6 +37,7 @@ public class InitializeLevel : MonoBehaviour
         GameObject.Find("Music Manager").GetComponent<Music_Manager>().PlayStopMusic("Stroller", true);
         players = ManagePlayerHub.Instance.getPlayers();
         PlayerInputManager.instance.DisableJoining();
+        PauseV2.canPause = false;
         if(pauseMenuUI)
             GameObject.Find("GameManager").GetComponent<PauseV2>().PauseMenuUI = pauseMenuUI;
     }
@@ -49,6 +50,7 @@ public class InitializeLevel : MonoBehaviour
         if (currentTime > waitTime && !spawnedPlayers)
         {
             Destroy(startCam);
+            PauseV2.canPause = true;
             startText.text = "";
             if (players != null)
             {

@@ -33,6 +33,7 @@ public class SS_Initialize : MonoBehaviour
         GameObject.Find("Music Manager").GetComponent<Music_Manager>().PlayStopMusic("Shopping", true);
         PlayerInputManager.instance.DisableJoining();
         players = ManagePlayerHub.Instance.getPlayers();
+        PauseV2.canPause = false;
         for (int i = 0; i < players.Count; i++)
         {
             players[i].gameObject.AddComponent<SS_ItemTracker>();
@@ -81,6 +82,7 @@ public class SS_Initialize : MonoBehaviour
         currentTime += Time.deltaTime;
         if (currentTime > waitTime && !spawnedPlayers)
         {
+            PauseV2.canPause = true;
             Destroy(startCam);
             if (startText)
                 startText.text = "";
