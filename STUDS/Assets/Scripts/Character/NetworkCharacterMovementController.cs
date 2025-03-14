@@ -79,7 +79,7 @@ public class NetworkCharacterMovementController : NetworkBehaviour
     public bool isJumping = false;
     public bool airborn;
     public bool beingKnockedBack;
-    public bool movementEnabled = true;
+    public bool movementOnCooldown = true;
     public bool isMoving;
     public bool isAI = false;
 
@@ -99,7 +99,7 @@ public class NetworkCharacterMovementController : NetworkBehaviour
     public bool hasAimAssist;
     private PLR_ParticleController PlayerParticles;
 
-    public bool CanJump, CanMove;
+    public bool CanJump, CanMove = true;
 
     private void Awake()
     {
@@ -122,7 +122,6 @@ public class NetworkCharacterMovementController : NetworkBehaviour
         controller = GetComponent<CharacterController>();
         PlayerParticles = GetComponent<PLR_ParticleController>();
         CanJump = true;
-        CanMove = true;
         if(!isAI)
         {
             SetToMini(isMini);
@@ -220,15 +219,15 @@ public class NetworkCharacterMovementController : NetworkBehaviour
             return;
         }
 
-        if (movementEnabled && !isAI)
+        if (movementOnCooldown == false && !isAI)
             Move();
-        else if(!movementEnabled)
+        else if(movementOnCooldown)
         {
             timeUntilMoveEnabled -= Time.deltaTime;
             if (timeUntilMoveEnabled < 0)
             {
                 timeUntilMoveEnabled = 0;
-                movementEnabled = true;
+                movementOnCooldown = false;
                 velocity.x = 0;
                 velocity.z = 0;
             }
@@ -413,7 +412,7 @@ public class NetworkCharacterMovementController : NetworkBehaviour
         else if (isAI) 
             netAnim.SetTrigger("FallDown"); 
         beingKnockedBack = false;
-        movementEnabled = false;
+        movementOnCooldown = true;
         timeUntilMoveEnabled = cooldown;
         drop = false;
     }
@@ -520,7 +519,7 @@ public class NetworkCharacterMovementController : NetworkBehaviour
     {
         if (CanMove)
         {
-            if (dirVector.magnitude >= 0.1f && movementEnabled)
+            if (dirVector.magnitude >= 0.1f && movementOnCooldown == false)
             {
                 animator.SetBool("isRunning", true);
                 controller.Move(dirVector.normalized * moveSpeed * speedMultiplier * Time.deltaTime);
@@ -817,7 +816,7 @@ public class NetworkCharacterMovementController : NetworkBehaviour
     /// </summary>
     private void HandleGrabObject()
     {
-        Collider[] hitColliders = Physics.OverlapSphere(transform.position, 1.2f);
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position, 1);
         if (pickupPressed)
         {
             foreach (Collider collider in hitColliders)

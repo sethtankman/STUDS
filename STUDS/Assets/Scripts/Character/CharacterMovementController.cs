@@ -75,7 +75,7 @@ public class CharacterMovementController : MonoBehaviour
     public bool isJumping = false;
     public bool airborn;
     public bool beingKnockedBack;
-    public bool movementEnabled = true;
+    public bool movementOnCooldown = false;
     public bool isMoving;
     public bool isAI = false;
 
@@ -92,8 +92,7 @@ public class CharacterMovementController : MonoBehaviour
     private PLR_ParticleController PlayerParticles;
 
     public bool CanJump;
-
-    public bool CanMove;
+    public bool CanMove = true;
 
     // Start is called before the first frame update
     void Start()
@@ -105,13 +104,12 @@ public class CharacterMovementController : MonoBehaviour
         controller = GetComponent<CharacterController>();
         PlayerParticles = GetComponent<PLR_ParticleController>();
         CanJump = true;
-        CanMove = true;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (movementEnabled && !isAI)
+        if (movementOnCooldown == false && !isAI)
             Move();
         else
         {
@@ -119,7 +117,7 @@ public class CharacterMovementController : MonoBehaviour
             if (timeUntilMoveEnabled < 0)
             {
                 timeUntilMoveEnabled = 0;
-                movementEnabled = true;
+                movementOnCooldown = false;
                 velocity.x = 0;
                 velocity.z = 0;
             }
@@ -234,7 +232,7 @@ public class CharacterMovementController : MonoBehaviour
                     velocity.x = 0;
                     velocity.z = 0;
                     airborn = false;
-                    movementEnabled = false;
+                    movementOnCooldown = true;
                     timeUntilMoveEnabled = 1.5f;
                     drop = false;
                 }
@@ -261,7 +259,7 @@ public class CharacterMovementController : MonoBehaviour
                 animator.ResetTrigger("Land");
                 animator.SetTrigger("FallDown");
                 beingKnockedBack = false;
-                movementEnabled = false;
+                movementOnCooldown = true;
                 drop = false;
                 timeUntilMoveEnabled = 1.3f;
             }
@@ -344,10 +342,9 @@ public class CharacterMovementController : MonoBehaviour
     private void PlaySteps()
     {
         float timeBetween = 0.25f;
-        if (isMoving && !airborn && stepSoundCooldown < 0)
+        if (CanMove && isMoving && !airborn && stepSoundCooldown < 0)
         {
             RunSound.Post(gameObject);
-            //runSound.Play();
             stepSoundCooldown = timeBetween;
         }
         else
@@ -360,7 +357,7 @@ public class CharacterMovementController : MonoBehaviour
     {
         if (CanMove)
         {
-            if (dirVector.magnitude >= 0.1f && movementEnabled)
+            if (dirVector.magnitude >= 0.1f && movementOnCooldown == false)
             {
                 animator.SetBool("isRunning", true);
                 //runSound.Play();

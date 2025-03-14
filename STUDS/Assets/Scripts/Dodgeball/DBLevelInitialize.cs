@@ -45,6 +45,7 @@ public class DBLevelInitialize : MonoBehaviour
             {
                 aiColors.Remove(player.GetComponent<CharacterMovementController>().GetColorName());
                 player.GetComponent<CharacterMovementController>().SetAimAssist(true);
+                player.GetComponent<CharacterMovementController>().CanMove = false;
             }
         } else
             Debug.LogWarning("Manage Player Hub not found!");
@@ -85,6 +86,7 @@ public class DBLevelInitialize : MonoBehaviour
                         players[i].GetComponentInChildren<SkinnedMeshRenderer>(true).material = materials[GetColorIndex(aiColor)];
                         aiColors.Remove(aiColor);
                     }
+                    players[i].GetComponent<CharacterMovementController>().CanMove = true;
                     spawnedPlayers = true;
                 }
                 ui.UpdateSpriteColors();
