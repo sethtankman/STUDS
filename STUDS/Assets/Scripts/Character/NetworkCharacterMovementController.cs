@@ -817,7 +817,7 @@ public class NetworkCharacterMovementController : NetworkBehaviour
     /// </summary>
     private void HandleGrabObject()
     {
-        Collider[] hitColliders = Physics.OverlapSphere(transform.position, 1);
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position, 1.2f);
         if (pickupPressed)
         {
             foreach (Collider collider in hitColliders)
