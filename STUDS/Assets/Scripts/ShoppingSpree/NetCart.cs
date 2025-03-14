@@ -100,6 +100,7 @@ public class NetCart : NetworkBehaviour
                         Debug.LogError("Item name not found.");
                         break;
                 }
+                if (index == -1) { return; } // If an item tries to add itself to the cart that already has that item.
                 cartItemTransforms[index].SetActive(true);
                 RpcSetItemActive(index, true);
                 cartItems[index] = other.gameObject;
