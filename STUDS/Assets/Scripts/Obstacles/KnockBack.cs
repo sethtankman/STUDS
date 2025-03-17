@@ -13,6 +13,9 @@ public class KnockBack : MonoBehaviour
     public string owner;
 
     public GameObject KnockBackFX;
+
+    public bool autoDisableKnockback = false;
+    public float disableDelay = 1.0f;
     
 
     private void Start()
@@ -21,6 +24,10 @@ public class KnockBack : MonoBehaviour
         if(PaintColl == null)
         {
             PaintColl = gameObject.GetComponent<MeshCollider>();
+        }
+        if (autoDisableKnockback)
+        {
+            StartCoroutine(DisableKnockbackAfterTime());
         }
     }
 
@@ -120,6 +127,21 @@ public class KnockBack : MonoBehaviour
         yield return new WaitForSeconds(2);
         PaintColl.enabled = true;
         yield return null;
+    }
+
+    private IEnumerator DisableKnockbackAfterTime()
+    {
+        yield return new WaitForSeconds(disableDelay);
+
+       SphereCollider sphereCollider = GetComponent<SphereCollider>();
+       if (sphereCollider != null)
+       {
+           sphereCollider.enabled = false;
+       }
+       else
+       {
+           Debug.Log("No sphere collider found");
+       }
     }
 }
  
