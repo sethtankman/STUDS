@@ -834,7 +834,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f053f1f741dcea4698f6540dbc42e57, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audioMixer: {fileID: 0}
+  audioMixer: {fileID: 24100000, guid: 7a08b19250a3ae042a11791078964747, type: 2}
   allOtherMenus:
   - {fileID: 893557527979957462}
   - {fileID: 8240447016630488145}
@@ -2341,18 +2341,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2616085400827784505, guid: fce0ca0c562bf364da5f21d80b6a7ce7,
         type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2616085400827784505, guid: fce0ca0c562bf364da5f21d80b6a7ce7,
+        type: 3}
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 3348673977772664710}
+      objectReference: {fileID: 3735997106213329044}
     - target: {fileID: 2616085400827784505, guid: fce0ca0c562bf364da5f21d80b6a7ce7,
         type: 3}
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: SetVolume
+      value: SetSpecificVolume
       objectReference: {fileID: 0}
     - target: {fileID: 2616085400827784505, guid: fce0ca0c562bf364da5f21d80b6a7ce7,
         type: 3}
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: SettingsMenu_Scott, Assembly-CSharp
+      value: ChangeVolume, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 2616085401011051794, guid: fce0ca0c562bf364da5f21d80b6a7ce7,
         type: 3}
@@ -2550,7 +2555,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 3348673977772664710}
+      objectReference: {fileID: 3020375174011394461}
     - target: {fileID: 4848363674748355734, guid: fce0ca0c562bf364da5f21d80b6a7ce7,
         type: 3}
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[1].m_Target
@@ -2559,7 +2564,7 @@ PrefabInstance:
     - target: {fileID: 4848363674748355734, guid: fce0ca0c562bf364da5f21d80b6a7ce7,
         type: 3}
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: SetVolume
+      value: SetSpecificVolume
       objectReference: {fileID: 0}
     - target: {fileID: 4848363674748355734, guid: fce0ca0c562bf364da5f21d80b6a7ce7,
         type: 3}
@@ -2569,7 +2574,7 @@ PrefabInstance:
     - target: {fileID: 4848363674748355734, guid: fce0ca0c562bf364da5f21d80b6a7ce7,
         type: 3}
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: SettingsMenu_Scott, Assembly-CSharp
+      value: SFXVolume, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 4848363674748355734, guid: fce0ca0c562bf364da5f21d80b6a7ce7,
         type: 3}
@@ -2625,7 +2630,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 3348673977772664710}
+      objectReference: {fileID: 7035700313025710358}
     - target: {fileID: 8298688330502120344, guid: fce0ca0c562bf364da5f21d80b6a7ce7,
         type: 3}
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[1].m_Target
@@ -2634,7 +2639,7 @@ PrefabInstance:
     - target: {fileID: 8298688330502120344, guid: fce0ca0c562bf364da5f21d80b6a7ce7,
         type: 3}
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: SetVolume
+      value: SetSpecificVolume
       objectReference: {fileID: 0}
     - target: {fileID: 8298688330502120344, guid: fce0ca0c562bf364da5f21d80b6a7ce7,
         type: 3}
@@ -2644,7 +2649,7 @@ PrefabInstance:
     - target: {fileID: 8298688330502120344, guid: fce0ca0c562bf364da5f21d80b6a7ce7,
         type: 3}
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: SettingsMenu_Scott, Assembly-CSharp
+      value: MusicVolume, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 8298688330502120344, guid: fce0ca0c562bf364da5f21d80b6a7ce7,
         type: 3}
@@ -2689,6 +2694,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9f2c756872e708742a2c7b4815bb9cf6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &3735997106213329044 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4469398492040538660, guid: fce0ca0c562bf364da5f21d80b6a7ce7,
+    type: 3}
+  m_PrefabInstance: {fileID: 999398539769787056}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2995070099035611016}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c5fee56d86081c446a76cff2b696830e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &7035700313025710358 stripped
