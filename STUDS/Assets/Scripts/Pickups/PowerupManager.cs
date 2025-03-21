@@ -4,13 +4,14 @@ using UnityEngine;
 
 public class PowerupManager : MonoBehaviour
 {
-    public float SpeedIncreaseMultiplier = 1.2f; // 20% speed boost
-    public float BoostDuration = 3.0f; // Duration in seconds
-    public GameObject SpeedBoostEffectPrefab; // Assign in Unity
-    public GameObject speedupArrowPrefab; // Assign the speedup arrow prefab
+    public float SpeedIncreaseMultiplier = 1.2f;
+    public float BoostDuration = 3.0f; 
+    public GameObject SpeedBoostEffectPrefab; 
+    public GameObject speedupArrowPrefab; 
 
     private float speedupArrowsHeight = 2.25f; // Height to spawn arrows
     private Dictionary<GameObject, GameObject> activeArrows = new Dictionary<GameObject, GameObject>(); // Store arrows per player
+    private Dictionary<GameObject, Coroutine> arrowCoroutines = new Dictionary<GameObject, Coroutine>(); // Store coroutines per player
 
     public void ActivateSpeedBoost(GameObject player)
     {
@@ -43,8 +44,9 @@ public class PowerupManager : MonoBehaviour
         GameObject arrowInstance = Instantiate(speedupArrowPrefab, player.transform.position + Vector3.up * speedupArrowsHeight, Quaternion.identity, player.transform);
         activeArrows[player] = arrowInstance;
 
-        // Start opacity animation
-        StartCoroutine(LerpArrowOpacity(arrowInstance));
+        // Start arrow opacity animation
+        Coroutine opacityCoroutine = StartCoroutine(LerpArrowOpacity(arrowInstance, BoostDuration));
+        arrowCoroutines[player] = opacityCoroutine;
 
         // Wait for duration
         yield return new WaitForSeconds(BoostDuration);
@@ -56,12 +58,8 @@ public class PowerupManager : MonoBehaviour
         // Destroy visual effect
         if (effect) Destroy(effect);
 
-        // Destroy speedup arrows
-        if (activeArrows.ContainsKey(player))
-        {
-            Destroy(activeArrows[player]);
-            activeArrows.Remove(player);
-        }
+        // Stop arrow opacity animation & destroy speedup arrows
+        CleanupArrow(player);
     }
 
     private IEnumerator ApplySpeedBoost(NetworkCharacterMovementController ncmc, GameObject player)
@@ -81,7 +79,8 @@ public class PowerupManager : MonoBehaviour
         activeArrows[player] = arrowInstance;
 
         // Start opacity animation
-        StartCoroutine(LerpArrowOpacity(arrowInstance));
+        Coroutine opacityCoroutine = StartCoroutine(LerpArrowOpacity(arrowInstance, BoostDuration));
+        arrowCoroutines[player] = opacityCoroutine;
 
         // Wait for duration
         yield return new WaitForSeconds(BoostDuration);
@@ -93,24 +92,25 @@ public class PowerupManager : MonoBehaviour
         // Destroy visual effect
         if (effect) Destroy(effect);
 
-        // Destroy speedup arrows
-        if (activeArrows.ContainsKey(player))
-        {
-            Destroy(activeArrows[player]);
-            activeArrows.Remove(player);
-        }
+        // Stop opacity animation & destroy speedup arrows
+        CleanupArrow(player);
     }
 
     // Coroutine to lerp the opacity of the speedup arrow
-    private IEnumerator LerpArrowOpacity(GameObject arrowObj)
+    private IEnumerator LerpArrowOpacity(GameObject arrowObj, float duration)
     {
+        if (arrowObj == null) yield break;
+
         SpriteRenderer[] arrowRenderers = arrowObj.GetComponentsInChildren<SpriteRenderer>();
         float arrowLerpTime = 0;
         bool increasing = true;
         float opacityLerpDuration = 0.5f;
+        float elapsedTime = 0;
 
-        while (arrowObj)
+        while (arrowObj != null && elapsedTime < duration)
         {
+            elapsedTime += Time.deltaTime;
+
             // Make arrow face each player's camera
             foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
             {
@@ -147,12 +147,48 @@ public class PowerupManager : MonoBehaviour
             // Apply alpha to each arrow's SpriteRenderer
             foreach (SpriteRenderer renderer in arrowRenderers)
             {
+                if (renderer == null) continue;
                 Color newColor = renderer.color;
                 newColor.a = alpha;
                 renderer.color = newColor;
             }
 
             yield return null;
+        }
+
+        // Ensure arrow is fully transparent before being destroyed
+        foreach (SpriteRenderer renderer in arrowRenderers)
+        {
+            if (renderer != null)
+            {
+                Color newColor = renderer.color;
+                newColor.a = 0;
+                renderer.color = newColor;
+            }
+        }
+    }
+
+    // Properly stops animation and destroys the arrow
+    private void CleanupArrow(GameObject player)
+    {
+        if (activeArrows.ContainsKey(player))
+        {
+            GameObject arrow = activeArrows[player];
+
+            // Stop the coroutine before destroying
+            if (arrowCoroutines.ContainsKey(player))
+            {
+                StopCoroutine(arrowCoroutines[player]);
+                arrowCoroutines.Remove(player);
+            }
+
+            // Ensure arrow is destroyed
+            if (arrow)
+            {
+                Destroy(arrow);
+            }
+
+            activeArrows.Remove(player);
         }
     }
 }
