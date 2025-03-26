@@ -124,7 +124,8 @@ public class SteamLobby : NetworkBehaviour
 
     public void CleanupLobby()
     {
-        SteamMatchmaking.SetLobbyJoinable(joinedLobbyID, false);
+        if(isServer)
+            SteamMatchmaking.SetLobbyJoinable(joinedLobbyID, false);
         SteamMatchmaking.LeaveLobby(joinedLobbyID);
     }
 
