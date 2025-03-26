@@ -7,6 +7,7 @@ public class NetResetGame : MonoBehaviour
 {
     public void Reset()
     {
+        // TODO: if Server
         foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
         {
             player.GetComponent<NetworkCharacterMovementController>().RpcSetToMini(false);
@@ -17,7 +18,6 @@ public class NetResetGame : MonoBehaviour
             GameObject ngm = NetGameManager.Instance.gameObject;
             NetGameManager.Instance.RemoveInstance();
             Destroy(ngm);
-            //Destroy(GameObject.Find("SteamScripts"));
         } else if (GameObject.Find("NetGameManager"))
         {
             Destroy(GameObject.Find("NetGameManager"));

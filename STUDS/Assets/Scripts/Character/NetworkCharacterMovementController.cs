@@ -801,8 +801,6 @@ public class NetworkCharacterMovementController : NetworkBehaviour
             GetComponentInChildren<NetAIThrowTrigger>().setCanThrow(false);
     }
 
-
-
     private void LocalEnableKnockBack(GameObject grabbedObject)
     {
         if (grabbedObject.GetComponent<NetExplodingPropane>())
