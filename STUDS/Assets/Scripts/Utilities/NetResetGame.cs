@@ -3,15 +3,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class NetResetGame : MonoBehaviour
+public class NetResetGame : NetworkBehaviour
 {
     public void Reset()
     {
-        // TODO: if Server
-        foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
-        {
-            player.GetComponent<NetworkCharacterMovementController>().RpcSetToMini(false);
-        }
+        if (isServer)
+            foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
+            {
+                player.GetComponent<NetworkCharacterMovementController>().RpcSetToMini(false);
+            }
         if (NetGameManager.Instance)
         {
             NetGameManager.Instance.DeletePlayers();
