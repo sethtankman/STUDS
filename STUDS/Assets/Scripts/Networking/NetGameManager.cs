@@ -173,7 +173,6 @@ public class NetGameManager : NetworkBehaviour
     {
         if (isServer)
             return;
-        SetPauseMenuPanel(GameObject.Find("Initializer_LevelSelect").GetComponent<NetInitLevelSelect>().PausePanel);
         foreach (GameObject playerObj in GameObject.FindGameObjectsWithTag("Player"))
         {
             NetworkCharacterMovementController netCMC = playerObj.GetComponent<NetworkCharacterMovementController>();
