@@ -1289,10 +1289,8 @@ GameObject:
   - component: {fileID: 3899830961749603958}
   - component: {fileID: 3899830961749603944}
   - component: {fileID: 3899830961749603945}
-  - component: {fileID: 6186435525747240360}
   - component: {fileID: 463551326258442481}
   - component: {fileID: 8159622307718405672}
-  - component: {fileID: 1900114912316777075}
   m_Layer: 5
   m_Name: NetPauseMenuPanel
   m_TagString: Untagged
@@ -1370,22 +1368,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &6186435525747240360
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3899830961749603959}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 708a06e0ed7f3d84294620b3c6452434, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0
-  specificScene: TitleScreen
 --- !u!114 &463551326258442481
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1447,23 +1429,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameObjectsToCheck: []
---- !u!114 &1900114912316777075
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3899830961749603959}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sceneId: 0
-  _assetId: 1928927631
-  serverOnly: 0
-  visibility: 0
-  hasSpawned: 0
 --- !u!1 &4518441591845613604
 GameObject:
   m_ObjectHideFlags: 0
@@ -2285,6 +2250,7 @@ GameObject:
   - component: {fileID: 9120103706203549175}
   - component: {fileID: 9120103706203549172}
   - component: {fileID: 5740392041808045834}
+  - component: {fileID: 106141834204552873}
   m_Layer: 5
   m_Name: YesButton
   m_TagString: Untagged
@@ -2407,9 +2373,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 6186435525747240360}
-        m_TargetAssemblyTypeName: NetSceneSwitcher, Assembly-CSharp
-        m_MethodName: CallHandleLeave
+      - m_Target: {fileID: 463551326258442481}
+        m_TargetAssemblyTypeName: SettingsMenu_Scott, Assembly-CSharp
+        m_MethodName: OnlineReturnToLevelSelect
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2443,6 +2409,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6650c8ed3edbf644c93fdcea1644eb1e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+--- !u!114 &106141834204552873
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9120103706203549173}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 0
+  _assetId: 1928927631
+  serverOnly: 0
+  visibility: 0
+  hasSpawned: 0
 --- !u!1 &9120103706414530224
 GameObject:
   m_ObjectHideFlags: 0
