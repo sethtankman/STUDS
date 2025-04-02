@@ -32,8 +32,6 @@ public class PlayerAI : MonoBehaviour
     void Update()
     {
         SelectCurrentNode();
-
-
     }
 
     private void SelectCurrentNode()
@@ -42,9 +40,10 @@ public class PlayerAI : MonoBehaviour
         {
             transform.LookAt(new Vector3(stroller.transform.position.x, transform.position.y, stroller.transform.position.z));
             GetComponent<CharacterMovementController>().Move(transform.forward);
-            if (Math.Abs((stroller.transform.position - transform.position).magnitude) < 3)
+            if (Math.Abs((stroller.transform.position - transform.position).magnitude) < 5)
             {
                 GetComponent<CharacterMovementController>().SetGrabbedObject(stroller);
+                stroller.GetComponent<GrabbableObjectController>().PickupObject(GetComponent<CharacterMovementController>().GetColorName());
             }
         }
         else if (index+1 <= pathNodes.Count && start)
