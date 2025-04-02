@@ -92,10 +92,13 @@ public class DBGameManager : MonoBehaviour
             }
             string color = player.GetComponent<CharacterMovementController>().GetColorName();
             int placement = Array.IndexOf(scoreOrder, color) + 1;
-            if(placement == 4) { placement = -1; } // Since 4th place is represented as -1 in victoryStands.
+            if (placement == 4) { placement = -1; } // Since 4th place is represented as -1 in victoryStands.
             player.GetComponent<CharacterMovementController>().SetFinishPosition(placement);
+            if (player.GetComponent<CharacterMovementController>().isAI == false && placement == 1)
+            {
+                SteamAchievements.UnlockAchievement("DB_WINNER");
+            }
         }
-        SteamAchievements.UnlockAchievement("DB_WINNER");
         SceneManager.LoadScene("VictoryStands");
     }
 
