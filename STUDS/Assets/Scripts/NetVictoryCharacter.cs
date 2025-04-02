@@ -1,10 +1,12 @@
-﻿using System.Collections;
+﻿using Mirror;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class NetVictoryCharacter : MonoBehaviour
+public class NetVictoryCharacter : NetworkBehaviour
 {
     public GameObject[] players;
+    [SerializeField] private GameObject PolySurface;
     public int posNumber;
     public Material color1;
     public Material color2;
@@ -16,45 +18,48 @@ public class NetVictoryCharacter : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Invoke(nameof(FindMatchingPlayer), 0.1f);
+        if(isServer)
+            StartCoroutine(nameof(FindMatchingPlayer));
     }
 
-    private void FindMatchingPlayer()
+    private IEnumerator FindMatchingPlayer()
     {
-        foundMatch = false;
-        isPowerBill = (GameObject.Find("PBFinalText(Clone)") != null);
-        players = GameObject.FindGameObjectsWithTag("Player");
-        foreach (GameObject player in players)
+        while (foundMatch == false)
         {
-            GetComponent<CharacterMovementController>().enabled = true;
-            if (player.GetComponent<NetworkCharacterMovementController>().GetFinishPosition() == posNumber)
+            foundMatch = false;
+            isPowerBill = (GameObject.Find("PBFinalText(Clone)") != null);
+            players = GameObject.FindGameObjectsWithTag("Player");
+            foreach (GameObject player in players)
             {
-                SetColor(player.GetComponent<NetworkCharacterMovementController>().GetColorName());
-                TurnMini(player);
-                foundMatch = true;
-                break;
+                GetComponent<CharacterMovementController>().enabled = true;
+                if (player.GetComponent<NetworkCharacterMovementController>().GetFinishPosition() == posNumber)
+                {
+                    RpcActivateCharacter(player.GetComponent<NetworkCharacterMovementController>().GetColorName(), isPowerBill && player.GetComponent<NetworkCharacterMovementController>().isMini);
+                    foundMatch = true;
+                    break;
+                }
             }
-        }
 
-        if (!foundMatch)
-        {
-            gameObject.SetActive(false);
+            if (!foundMatch)
+            {
+                RpcDeactivateCharacter();
+            }
+            yield return new WaitForSeconds(1f);
         }
     }
 
-    /// <summary>
-    /// Turns player mini if isMini is true
-    /// </summary>
-    /// <param name="player"></param>
-    private void TurnMini(GameObject player)
+    [ClientRpc]
+    private void RpcActivateCharacter(string colorName, bool turnMini)
     {
-        if (player.GetComponent<NetworkCharacterMovementController>()) {
-            if (isPowerBill && player.GetComponent<NetworkCharacterMovementController>().isMini)
-            {
-                gameObject.GetComponent<CharacterMovementController>().SetToMini(true);
-                //gameObject.GetComponent<CharacterMovementController>().enabled = false;
-            }
-        }
+        SetColor(colorName);
+        if (turnMini) { gameObject.GetComponent<CharacterMovementController>().SetToMini(true); }
+        PolySurface.SetActive(true);
+    }
+
+    [ClientRpc]
+    private void RpcDeactivateCharacter()
+    {
+        PolySurface.SetActive(false);
     }
 
     private void SetColor(string colorName)
