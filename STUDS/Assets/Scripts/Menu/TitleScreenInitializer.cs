@@ -8,6 +8,7 @@ public class TitleScreenInitializer : MonoBehaviour
     {
         Time.timeScale = 1f;
 
+        AkUnitySoundEngine.SetRTPCValue("Master", PlayerPrefs.GetFloat("Volume", 50.0f));
         GameObject.Find("Music Manager").GetComponent<Music_Manager>().PlayStopMusic("Menu", false);
         GameObject.Find("Music Manager").GetComponent<Music_Manager>().PlayStopMusic("Shopping", false);
         GameObject.Find("Music Manager").GetComponent<Music_Manager>().PlayStopMusic("Stroller", false);
