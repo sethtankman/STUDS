@@ -24,19 +24,10 @@ public class RaceTracker : MonoBehaviour
         foreach(GameObject PT in GameObject.FindGameObjectsWithTag("Player")){
             Players.Add(PT);
         }
-        if(Players.Count < 4)
-        {
-            Color invis;
-            invis = new Color32(0, 0, 0, 0);
-            Positions[3].color = invis;
-        }
-
         for(int i = 0; i < Players.Count; i++)
         {
             PT.Add(Players[i].GetComponentInChildren<PlaceTracker>());
-
         }
-        
     }
 
     // Update is called once per frame
