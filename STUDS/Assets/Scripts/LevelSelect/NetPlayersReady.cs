@@ -57,6 +57,8 @@ public class NetPlayersReady : NetworkBehaviour
                     GameObject.Find("NetGameManager").GetComponent<NetGameManager>().RpcSaveState();
                     SteamLobby.singleton.SetLobbyClosed();
                     SteamMatchmaking.LeaveLobby(SteamLobby.singleton.joinedLobbyID);
+                    NetPause.canPause = false;
+                    NetPause.gameisPaused = false;
                     Invoke(nameof(ChangeScenes), 3.0f);
                 }
             }
