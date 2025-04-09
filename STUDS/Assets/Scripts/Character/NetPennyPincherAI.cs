@@ -42,30 +42,20 @@ public class NetPennyPincherAI : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (isServer && active && hasTarget && CanMove)
+        if (isServer && active && hasTarget && CanMove && target)
         {
             float distance = Vector3.Distance(transform.position, target.position);
             if (distance < 1.9f)
             {
                 hasTarget = false;
                 target.GetComponent<NetVolumeTrigger>().FlipSwitch();
-            } /*
-            else if (Mathf.Abs(target.position.x - transform.position.x) < 0.1f
-              && Mathf.Abs(target.position.z - transform.position.z) < 0.1f
-              && target.position.y - transform.position.y < 3)
-            {
-                Debug.Log("Jump!");
-                movementController.isJumping = true;
-            } */
+            }
             else
             {
                 Vector3 lookPos;
                 Quaternion targetRot;
 
                 agent.SetDestination(target.position);
-
-                // agent.updatePosition = false;
-                // agent.updateRotation = false;
 
                 lookPos = agent.desiredVelocity;
                 lookPos.y = 0;

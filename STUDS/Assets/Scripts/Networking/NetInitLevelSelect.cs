@@ -5,7 +5,7 @@ using Mirror;
 
 public class NetInitLevelSelect : NetworkBehaviour
 {
-    [SerializeField] private GameObject PausePanel;
+    public GameObject PausePanel;
 
     // Start is called before the first frame update
     void Start()

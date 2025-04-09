@@ -122,6 +122,13 @@ public class SteamLobby : NetworkBehaviour
         SteamMatchmaking.LeaveLobby(joinedLobbyID);
     }
 
+    public void CleanupLobby()
+    {
+        if(isServer)
+            SteamMatchmaking.SetLobbyJoinable(joinedLobbyID, false);
+        SteamMatchmaking.LeaveLobby(joinedLobbyID);
+    }
+
     public void JoinRoomAsClient()
     {
         if (NetworkMenuActions.instance.SelectedRoomId.IsValid())

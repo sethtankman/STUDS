@@ -9,9 +9,16 @@ public class FindAchievement : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player") && other.GetComponent<NetworkCharacterMovementController>().isLocalPlayer)
+        if (other.CompareTag("Player"))
         {
-            SteamAchievements.UnlockAchievement(achievementName);
+            if (other.GetComponent<NetworkCharacterMovementController>() && other.GetComponent<NetworkCharacterMovementController>().isLocalPlayer)
+            {
+                SteamAchievements.UnlockAchievement(achievementName);
+            }
+            if (other.GetComponent<CharacterMovementController>())
+            {
+                SteamAchievements.UnlockAchievement(achievementName);
+            }
         }
     }
 }

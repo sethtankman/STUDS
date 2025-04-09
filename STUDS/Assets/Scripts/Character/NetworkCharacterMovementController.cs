@@ -117,8 +117,10 @@ public class NetworkCharacterMovementController : NetworkBehaviour
         moveSpeed = moveSpeedNormal;
         direction = new Vector2();
         isReady = false;
-        if(SceneManager.GetActiveScene().name.Equals("TheBlock_LevelSelectOnlineMultiplayer"))
+        if (SceneManager.GetActiveScene().name.Equals("TheBlock_LevelSelectOnlineMultiplayer"))
+        {
             finishPosition = 0;
+        }
         controller = GetComponent<CharacterController>();
         PlayerParticles = GetComponent<PLR_ParticleController>();
         CanJump = true;
@@ -800,8 +802,6 @@ public class NetworkCharacterMovementController : NetworkBehaviour
         if (GetComponentInChildren<NetAIThrowTrigger>())
             GetComponentInChildren<NetAIThrowTrigger>().setCanThrow(false);
     }
-
-
 
     private void LocalEnableKnockBack(GameObject grabbedObject)
     {

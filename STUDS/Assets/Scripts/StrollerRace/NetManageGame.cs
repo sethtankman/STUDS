@@ -28,7 +28,7 @@ public class NetManageGame : NetworkBehaviour
 
     [SyncVar] private bool display;
     [SyncVar] private int playerID;
-    private bool playerFinish = false;
+    private bool aPlayerHasFinished = false;
 
     private int positions = 1;
     private int noFinishPositions = -1;
@@ -56,7 +56,7 @@ public class NetManageGame : NetworkBehaviour
                 }
             }
 
-            if (playerFinish)
+            if (aPlayerHasFinished)
             {
                 if (prevTime != (int)(endTimer - NetworkTime.time)) // Reduces network traffic
                 {
@@ -76,7 +76,7 @@ public class NetManageGame : NetworkBehaviour
                         }
                     }
                     StudsNetworkManager.singleton.ServerChangeScene("NetVictoryStands");
-                    playerFinish = false;
+                    aPlayerHasFinished = false;
                 }
             }
             else
@@ -93,11 +93,11 @@ public class NetManageGame : NetworkBehaviour
                     swapTime = (float)NetworkTime.time + 3.0f;
                 }
             }
-            if (playerFinish)
+            if (aPlayerHasFinished)
             {
                 if (endTimer - NetworkTime.time <= 0)
                 {
-                    playerFinish = false;
+                    aPlayerHasFinished = false;
                 }
             }
             else
@@ -159,8 +159,11 @@ public class NetManageGame : NetworkBehaviour
     private void RpcPlayerFinish(string _text)
     {
         FinishText.text = _text;
-        playerFinish = true;
-        endTimer += (float)NetworkTime.time;
+        if (aPlayerHasFinished == false)
+        {
+            aPlayerHasFinished = true;
+            endTimer += (float)NetworkTime.time;
+        }
     }
 
     [ClientRpc]
