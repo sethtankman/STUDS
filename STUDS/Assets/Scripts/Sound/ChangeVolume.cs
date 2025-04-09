@@ -10,26 +10,18 @@ public class ChangeVolume : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
-    }
-   
-    // Update is called once per frame
-    void Update()
-    {
-        
+        masterVolume = PlayerPrefs.GetFloat("Volume", 50.0f);
+        thisSlider.value = masterVolume;
     }
     
     public void SetSpecificVolume(string whatValue)
     {
         float sliderValue = thisSlider.value;
-        Debug.Log(sliderValue);
-
         if (whatValue == "Master")
         {
-            //Debug.Log("changed master volume to :" + thisSlider.value);
             masterVolume = thisSlider.value;
-            AkSoundEngine.SetRTPCValue("Master", masterVolume);
-
+            PlayerPrefs.SetFloat("Volume", thisSlider.value);
+            AkUnitySoundEngine.SetRTPCValue("Master", masterVolume);
         }
     }
 }

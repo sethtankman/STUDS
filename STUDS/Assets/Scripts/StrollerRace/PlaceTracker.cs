@@ -14,6 +14,27 @@ public class PlaceTracker : MonoBehaviour
     public float timer;
     public bool Ready = true;
 
+
+    private void Start()
+    {
+        CharacterMovementController cmc = GetComponentInParent<CharacterMovementController>();
+        PLRCol = cmc.GetColorName();
+        timer = ExitTime;
+    }
+
+    private void Update()
+    {
+        if (Ready == false && timer > 0.0f)
+        {
+            timer -= Time.deltaTime;
+        }
+
+        if (timer <= 0.0f)
+        {
+            ReadySwap();
+        }
+    }
+
     public void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("RacePoint") && Ready)
@@ -31,10 +52,10 @@ public class PlaceTracker : MonoBehaviour
             {
                 Progress += 1;
                 ProgressPoints.Add(other.gameObject);
-                
+
             }
         }
-        if(other.gameObject.name == "RaceReset")
+        if (other.gameObject.name == "RaceReset")
         {
             PLRCol = GetComponentInParent<CharacterMovementController>().GetColorName();
             ProgressPoints.Clear();
@@ -49,26 +70,6 @@ public class PlaceTracker : MonoBehaviour
             Ready = false;
             timer = ExitTime;
         }
-    }
-
-    private void Update()
-    {
-        if (Ready == false && timer > 0.0f)
-        {            
-            timer -= Time.deltaTime;
-        }
-
-        if (timer <= 0.0f)
-        {
-            ReadySwap();
-        }
-    }
-
-    private void Start()
-    {
-        CharacterMovementController cmc = GetComponentInParent<CharacterMovementController>();
-        PLRCol = cmc.GetColorName();
-        timer = ExitTime;
     }
 
     void ReadySwap()

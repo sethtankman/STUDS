@@ -34,26 +34,7 @@ public class Net_SS_Initialize : NetworkBehaviour
         GameObject.Find("Music Manager").GetComponent<Music_Manager>().PlayStopMusic("Menu", false);
         GameObject.Find("Music Manager").GetComponent<Music_Manager>().PlayStopMusic("Shopping", true);
         PlayerInputManager.instance.DisableJoining();
-        players = GameObject.FindGameObjectsWithTag("Player");
-        for (int i = 0; i < players.Length; i++)
-        {
-            players[i].AddComponent<SS_ItemTracker>();
-            players[i].GetComponent<NetworkCharacterMovementController>().SetAimAssist(true);
-            if (players[i].GetComponent<NetworkIdentity>().isOwned)
-            {
-                localPlayer = players[i];
-            }
-            else
-            {
-                players[i].GetComponent<SS_ItemTracker>().isLocal = false;
-            }
-        }
-        if (localPlayer)
-        {
-            SS_ItemTracker tracker = localPlayer.GetComponent<SS_ItemTracker>();
-            tracker.shoppingItemImages = p1shoppingItemImages;
-            tracker.myPaper = p1Paper;
-        }
+        
         if (pauseMenuUI)
             GameObject.Find("NetGameManager").GetComponent<NetPause>().PauseMenuUI = pauseMenuUI;
         else
@@ -80,6 +61,26 @@ public class Net_SS_Initialize : NetworkBehaviour
     [ClientRpc]
     private void RpcStartGame()
     {
+        players = GameObject.FindGameObjectsWithTag("Player");
+        for (int i = 0; i < players.Length; i++)
+        {
+            players[i].AddComponent<SS_ItemTracker>();
+            players[i].GetComponent<NetworkCharacterMovementController>().SetAimAssist(true);
+            if (players[i].GetComponent<NetworkIdentity>().isOwned)
+            {
+                localPlayer = players[i];
+            }
+            else
+            {
+                players[i].GetComponent<SS_ItemTracker>().isLocal = false;
+            }
+        }
+        if (localPlayer)
+        {
+            SS_ItemTracker tracker = localPlayer.GetComponent<SS_ItemTracker>();
+            tracker.shoppingItemImages = p1shoppingItemImages;
+            tracker.myPaper = p1Paper;
+        }
         Destroy(startCam);
         if (startText)
             startText.text = "";

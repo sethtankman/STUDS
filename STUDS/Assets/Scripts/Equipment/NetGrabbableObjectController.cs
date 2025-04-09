@@ -92,9 +92,12 @@ public class NetGrabbableObjectController : NetworkBehaviour
         {
             homing = false;
             throwerColor = "";
-            if (GetComponent<CombatThrow>())
+            if (GetComponent<CombatThrow>() && GetComponent<CombatThrow>().knockBack)
             {
-                GetComponent<CombatThrow>().knockBack.GetComponent<NetKnockBack>().owner = "";
+                if (GetComponent<CombatThrow>().knockBack.GetComponent<NetKnockBack>())
+                {
+                    GetComponent<CombatThrow>().knockBack.GetComponent<NetKnockBack>().owner = "";
+                }
                 GetComponent<CombatThrow>().knockBack.SetActive(false);
             }
         }

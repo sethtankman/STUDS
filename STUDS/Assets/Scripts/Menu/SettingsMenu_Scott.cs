@@ -280,4 +280,14 @@ public class SettingsMenu_Scott : MonoBehaviour
     {
         FindFirstObjectByType<NetPause>().Pause();
     }
+
+    public void OnlineReturnToLevelSelect()
+    {
+        SteamLobby.singleton.HandleLeave();
+        if(NetGameManager.Instance) { NetGameManager.Instance.GetComponent<NetSceneSwitcher>().LoadSpecificScene(); }
+        else
+        {
+            FindFirstObjectByType<NetGameManager>().GetComponent<NetSceneSwitcher>().LoadSpecificScene();
+        }
+    }
 }
