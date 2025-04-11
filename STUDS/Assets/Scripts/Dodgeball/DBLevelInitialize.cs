@@ -54,11 +54,7 @@ public class DBLevelInitialize : MonoBehaviour
         {
             for (int i = 0; i < players.Count; i++)
             {
-                //Vector3 flagPos = GameObject.Find("Proto_Flag_01").transform.position;
-                //players[i].transform.LookAt(new Vector3(transform.position.x, transform.position.y, transform.position.z));
-                //players[i].transform.forward = new Vector3(0, 0, 1);
-                players[i].transform.position = playerSpawns[i].position;
-                players[i].transform.rotation = playerSpawns[i].rotation;
+                players[i].transform.SetPositionAndRotation(playerSpawns[i].position, playerSpawns[i].rotation);
             }
         }
 
@@ -74,7 +70,6 @@ public class DBLevelInitialize : MonoBehaviour
             Destroy(startCam);
             Destroy(startText);
             Destroy(startUI);
-            //startText.text = "";
             if (players != null)
             {
                 for (int i = 0; i < players.Count; i++)
@@ -86,6 +81,7 @@ public class DBLevelInitialize : MonoBehaviour
                         players[i].GetComponentInChildren<SkinnedMeshRenderer>(true).material = materials[GetColorIndex(aiColor)];
                         aiColors.Remove(aiColor);
                     }
+                    players[i].transform.SetPositionAndRotation(playerSpawns[i].position, playerSpawns[i].rotation); // Doing this an extra time because sometimes it doesn't work the first time in build
                     players[i].GetComponent<CharacterMovementController>().CanMove = true;
                     spawnedPlayers = true;
                 }
