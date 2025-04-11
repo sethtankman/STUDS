@@ -10,6 +10,7 @@ using UnityEngine.UI;
 public class NetVictoryScreenInit : NetworkBehaviour
 {
     public GameObject finalText;
+    private int playersLoaded = 0;
     [SerializeField] private Button LevelSelectBtn;
 
     // Start is called before the first frame update
