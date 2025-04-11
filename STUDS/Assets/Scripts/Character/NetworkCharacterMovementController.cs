@@ -196,6 +196,12 @@ public class NetworkCharacterMovementController : NetworkBehaviour
             CmdNotifyPlayerReadySS(initSS);
             return; 
         }
+        NetVictoryScreenInit initVS = FindFirstObjectByType<NetVictoryScreenInit>();
+        if (initVS)
+        {
+            CmdNotifyPlayerReadyVS(initVS);
+            return;
+        }
     }
 
     // Update is called once per frame
@@ -1005,6 +1011,12 @@ public class NetworkCharacterMovementController : NetworkBehaviour
 
     [Command]
     private void CmdNotifyPlayerReadySS(Net_SS_Initialize init)
+    {
+        init.NotifyPlayerReady();
+    }
+
+    [Command]
+    private void CmdNotifyPlayerReadyVS(NetVictoryScreenInit init)
     {
         init.NotifyPlayerReady();
     }

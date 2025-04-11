@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -35,6 +35,15 @@ public class NetVictoryScreenInit : NetworkBehaviour
         }
     }
 
+    public void NotifyPlayerReady()
+    {
+        playersLoaded++;
+        if (isServer && playersLoaded == NetGameManager.Instance.playerIDCount)
+        {
+            RpcInitVictory();
+        }
+    }
+
     private void DetermineFinalText()
     {
         finalText.transform.SetParent(GameObject.Find("Canvas").transform);
@@ -58,5 +67,17 @@ public class NetVictoryScreenInit : NetworkBehaviour
             SteamAchievements.UnlockAchievement("PB_ONLINE");
             finalText.GetComponent<TextMeshProUGUI>().text += " My mother-in-law will have nothing to say...";
         }
+    }
+
+    [ClientRpc]
+    private void RpcInitVictory()
+    {
+        NetVictoryCharacter[] vcs = FindObjectsByType<NetVictoryCharacter>(FindObjectsSortMode.None);
+        foreach (NetVictoryCharacter vc in vcs)
+        {
+            vc.FindMatchingPlayer();
+        }
+        LoadingCam.enabled = false;
+        MainCam.enabled = true;
     }
 }
