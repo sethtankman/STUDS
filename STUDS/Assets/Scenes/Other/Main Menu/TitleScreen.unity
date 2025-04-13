@@ -16302,7 +16302,7 @@ MonoBehaviour:
   isJumping: 0
   airborn: 0
   beingKnockedBack: 0
-  movementEnabled: 1
+  movementOnCooldown: 0
   isMoving: 0
   isAI: 0
   finishPosition: 0
@@ -48711,7 +48711,7 @@ MonoBehaviour:
   isJumping: 0
   airborn: 0
   beingKnockedBack: 0
-  movementEnabled: 1
+  movementOnCooldown: 0
   isMoving: 0
   isAI: 0
   finishPosition: 0
@@ -79197,6 +79197,21 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6132308476364413905, guid: 61b75bf1e6f34db44be90ce6827c474b,
         type: 3}
+      propertyPath: debugDay
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6132308476364413905, guid: 61b75bf1e6f34db44be90ce6827c474b,
+        type: 3}
+      propertyPath: debugMonth
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6132308476364413905, guid: 61b75bf1e6f34db44be90ce6827c474b,
+        type: 3}
+      propertyPath: debugHolidays
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6132308476364413905, guid: 61b75bf1e6f34db44be90ce6827c474b,
+        type: 3}
       propertyPath: enableHolidays
       value: 1
       objectReference: {fileID: 0}
@@ -83837,6 +83852,8 @@ MonoBehaviour:
   directional: 0
   owner: 
   KnockBackFX: {fileID: 0}
+  autoDisableKnockback: 0
+  disableDelay: 1
 --- !u!4 &1980325946 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8672013244657744505, guid: de09bf4b4ac7dd84bac3ec09c7c8b0d8,
@@ -96486,7 +96503,7 @@ MonoBehaviour:
   isJumping: 0
   airborn: 0
   beingKnockedBack: 0
-  movementEnabled: 1
+  movementOnCooldown: 0
   isMoving: 0
   isAI: 0
   finishPosition: 0
