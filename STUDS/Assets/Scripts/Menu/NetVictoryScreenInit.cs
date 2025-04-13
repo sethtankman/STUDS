@@ -78,7 +78,7 @@ public class NetVictoryScreenInit : NetworkBehaviour
         {
             vc.FindMatchingPlayer();
         }
-        LoadingCam.enabled = false;
-        MainCam.enabled = true;
+        //LoadingCam.enabled = false;
+        //MainCam.enabled = true;
     }
 }
