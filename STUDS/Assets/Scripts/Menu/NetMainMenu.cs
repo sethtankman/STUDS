@@ -20,6 +20,21 @@ public class NetMainMenu : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Called in Return to main menu Yes button
+    /// </summary>
+    public void CallResetGame()
+    {
+        if (NetGameManager.Instance)
+        {
+            NetGameManager.Instance.GetComponent<NetResetGame>().Reset();
+        } else
+        {
+            NetGameManager ngm = FindFirstObjectByType<NetGameManager>();
+            ngm.GetComponent<NetResetGame>().Reset();
+        }
+    }
+
     public void QuitGame()
     {
         SteamLobby.singleton.CleanupLobby();
