@@ -12,6 +12,7 @@ public class NetVictoryScreenInit : NetworkBehaviour
     public GameObject finalText;
     private int playersLoaded = 0;
     [SerializeField] private Button LevelSelectBtn;
+    [SerializeField] private Camera MainCam, LoadingCam;
 
     // Start is called before the first frame update
     void Start()
@@ -78,7 +79,7 @@ public class NetVictoryScreenInit : NetworkBehaviour
         {
             vc.FindMatchingPlayer();
         }
-        //LoadingCam.enabled = false;
-        //MainCam.enabled = true;
+        LoadingCam.enabled = false;
+        MainCam.enabled = true;
     }
 }

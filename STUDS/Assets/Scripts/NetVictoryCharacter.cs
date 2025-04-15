@@ -26,7 +26,7 @@ public class NetVictoryCharacter : NetworkBehaviour
             GetComponent<CharacterMovementController>().enabled = true;
             if (player.GetComponent<NetworkCharacterMovementController>().GetFinishPosition() == posNumber)
             {
-                RpcActivateCharacter(player.GetComponent<NetworkCharacterMovementController>().GetColorName(), isPowerBill && player.GetComponent<NetworkCharacterMovementController>().isMini);
+                ActivateCharacter(player.GetComponent<NetworkCharacterMovementController>().GetColorName(), isPowerBill && player.GetComponent<NetworkCharacterMovementController>().isMini);
                 foundMatch = true;
                 break;
             }
@@ -34,12 +34,11 @@ public class NetVictoryCharacter : NetworkBehaviour
 
         if (!foundMatch)
         {
-            RpcDeactivateCharacter();
+            DeactivateCharacter();
         }
     }
 
-    [ClientRpc]
-    private void RpcActivateCharacter(string colorName, bool turnMini)
+    private void ActivateCharacter(string colorName, bool turnMini)
     {
         SetColor(colorName);
         if (turnMini) { gameObject.GetComponent<CharacterMovementController>().SetToMini(true); }
@@ -47,8 +46,7 @@ public class NetVictoryCharacter : NetworkBehaviour
             PolySurface.SetActive(true);
     }
 
-    [ClientRpc]
-    private void RpcDeactivateCharacter()
+    private void DeactivateCharacter()
     {
         foreach (GameObject PolySurface in PolySurfaces)
             PolySurface.SetActive(false);
