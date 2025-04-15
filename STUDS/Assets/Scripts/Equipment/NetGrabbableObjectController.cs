@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
-using static UnityEngine.GraphicsBuffer;
 
 public class NetGrabbableObjectController : NetworkBehaviour
 {
@@ -321,6 +320,8 @@ public class NetGrabbableObjectController : NetworkBehaviour
     [ClientRpc]
     public void RpcRemoveFromCart()
     {
+        transform.parent = null;
+        gameObject.AddComponent<Rigidbody>();
         onCart = false;
         // Make it visible.
         foreach (MeshRenderer rend in GetComponentsInChildren<MeshRenderer>())

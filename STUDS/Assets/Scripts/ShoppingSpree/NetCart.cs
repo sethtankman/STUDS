@@ -26,8 +26,6 @@ public class NetCart : NetworkBehaviour
                     RpcSetItemActive(i, false);
                     GameObject item = cartItems[i];
                     item.GetComponent<NetGrabbableObjectController>().RpcRemoveFromCart();
-                    item.transform.parent = null;
-                    item.AddComponent<Rigidbody>();
                     cartItems[i] = null;
                     return item.GetComponent<NetworkIdentity>().netId;
                 }
