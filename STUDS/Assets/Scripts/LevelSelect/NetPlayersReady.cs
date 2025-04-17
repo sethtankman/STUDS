@@ -73,7 +73,7 @@ public class NetPlayersReady : NetworkBehaviour
         }
         else if (gameObject.CompareTag("StrollerRace"))
         {
-            StudsNetworkManager.singleton.ServerChangeScene("NetBlock-rework");
+            StudsNetworkManager.singleton.ServerChangeScene("NetBlock");
         }
         else if (gameObject.CompareTag("ShoppingSpree"))
         {
