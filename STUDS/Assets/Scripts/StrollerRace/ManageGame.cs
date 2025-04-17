@@ -96,7 +96,7 @@ public class ManageGame : MonoBehaviour
                 if(collider.gameObject.GetComponent<CharacterMovementController>().GetFinishPosition() == 0)
                 {
                     display = true;
-                    if (SceneManager.GetActiveScene().name.Equals("TheBlock_Scott"))
+                    if (SceneManager.GetActiveScene().name.Equals("Neighborhood"))
                         SteamAchievements.UnlockAchievement("SR_COMPLETE");
                     else
                         SteamAchievements.UnlockAchievement("SR_DOWNTOWN");

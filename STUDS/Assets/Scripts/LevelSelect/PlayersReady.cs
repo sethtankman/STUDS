@@ -59,7 +59,7 @@ public class PlayersReady : MonoBehaviour
                     }
                     else if (gameObject.CompareTag("StrollerRace"))
                     {
-                        SceneManager.LoadScene("TheBlock_Scott_rework");
+                        SceneManager.LoadScene("Neighborhood");
                     }
                     else if (gameObject.CompareTag("ShoppingSpree"))
                     {
