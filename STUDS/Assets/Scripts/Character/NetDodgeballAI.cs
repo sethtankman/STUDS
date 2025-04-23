@@ -141,7 +141,7 @@ public class NetDodgeballAI : NetworkBehaviour
     {
         Vector3 previousTargetPosition = new Vector3(float.PositiveInfinity, float.PositiveInfinity);
 
-        while (coroutineOn && Vector3.SqrMagnitude(transform.position - target.position) > 0.1f)
+        while (coroutineOn && target && Vector3.SqrMagnitude(transform.position - target.position) > 0.1f)
         {
             // did target move more than at least a minimum amount since last destination set?
             if (Vector3.SqrMagnitude(previousTargetPosition - target.position) > 0.1f)
@@ -167,7 +167,9 @@ public class NetDodgeballAI : NetworkBehaviour
         if (target == null)
         {
             NavMeshHit hit;
-            target = dodgeballs[Random.Range(0, dodgeballs.Count)].transform;
+            int random = Random.Range(0, dodgeballs.Count);
+            if (dodgeballs[random]) 
+                target = dodgeballs[random].transform;
             NavMesh.SamplePosition(target.position, out hit, 150, NavMesh.AllAreas);
             targetPosition = hit.position;
             NetDBGameManager.Instance.deListDodgeball(target.gameObject, gameObject);

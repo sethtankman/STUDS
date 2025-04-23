@@ -126,7 +126,7 @@ public class ManagePlayerHub : MonoBehaviour
             }
         }
 
-        if (SceneManager.GetActiveScene().name == "TheBlock_Scott" || SceneManager.GetActiveScene().name == "Shopping_Spree-Scott")
+        if (SceneManager.GetActiveScene().name == "Neighborhood" || SceneManager.GetActiveScene().name == "Shopping_Spree-Scott")
         {
             foreach (GameObject player in players)
             {

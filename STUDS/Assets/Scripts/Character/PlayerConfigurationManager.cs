@@ -43,7 +43,7 @@ public class PlayerConfigurationManager : MonoBehaviour
         PlayerConfigs[index].IsReady = true;
         if(PlayerConfigs.All(p => p.IsReady == true))
         {
-            SceneManager.LoadScene("TheBlock_Scott");
+            SceneManager.LoadScene("Neighborhood");
         }
     }
 

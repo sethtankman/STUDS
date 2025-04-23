@@ -135,7 +135,7 @@ public class NetManageGame : NetworkBehaviour
             }
             if (collider.GetComponent<NetworkCharacterMovementController>().isLocalPlayer)
             {
-                if (SceneManager.GetActiveScene().name.Equals("NetBlock"))
+                if (SceneManager.GetActiveScene().name.Equals("NetNeighborhood"))
                     SteamAchievements.UnlockAchievement("SR_NE_ONLINE");
                 else if (SceneManager.GetActiveScene().name.Equals("NetDowntown"))
                     SteamAchievements.UnlockAchievement("SR_DT_ONLINE");

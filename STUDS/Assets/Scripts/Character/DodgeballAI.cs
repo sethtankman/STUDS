@@ -27,7 +27,6 @@ public class DodgeballAI : MonoBehaviour
 
     private float turnSpeed = 2;
     [SerializeField] private int loiter = 60, patience, maxPatience;
-    [SerializeField] private float _jumpDuration = 0.8f;
 
     private IEnumerator Start()
     {
