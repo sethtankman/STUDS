@@ -62,7 +62,7 @@ public class NetDBGameManager : NetworkBehaviour
         availableDodgeballs.Remove(dodgeball);
         foreach (GameObject player in players)
         {
-            if(player.GetComponent<NetworkCharacterMovementController>().isAI && player.GetComponent<NetDodgeballAI>().CompareTarget(dodgeball))
+            if(dodgeball && player.GetComponent<NetworkCharacterMovementController>().isAI && player.GetComponent<NetDodgeballAI>().CompareTarget(dodgeball))
             {
                 player.GetComponent<NetDodgeballAI>().Loiter(false);
             }

@@ -939,7 +939,9 @@ public class NetworkCharacterMovementController : NetworkBehaviour
     private void CmdPickupObject(uint objID)
     {
         hasGrabbed = true;
-        grabbedObject = NetworkServer.spawned[objID].GetComponent<NetGrabbableObjectController>().LocalPickupObject(transform);
+        if (NetworkServer.spawned.ContainsKey(objID))
+            grabbedObject = NetworkServer.spawned[objID].GetComponent<NetGrabbableObjectController>().LocalPickupObject(transform);
+        else { Debug.LogError("That object wasn't spawned on the server!"); }
         RpcPickupObject(objID);
         if (NetworkServer.spawned[objID].GetComponent<ShoppingItem>())
             NetworkServer.spawned[objID].GetComponent<ShoppingItem>().SetPlayer(gameObject);
