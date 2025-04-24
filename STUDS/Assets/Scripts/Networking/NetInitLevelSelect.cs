@@ -43,14 +43,14 @@ public class NetInitLevelSelect : NetworkBehaviour
                     ++i;
             }
 
-            foreach (GameObject player in NetGameManager.Instance.AIplayers)
+            foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
             {
                 player.GetComponent<NetworkCharacterMovementController>().SetAimAssist(true);
                 player.GetComponent<NetworkCharacterMovementController>().SetFinishPosition(0);
             }
         }
         else {
-            FindObjectOfType<NetGameManager>().SetPauseMenuPanel(PausePanel);
+            FindFirstObjectByType<NetGameManager>().SetPauseMenuPanel(PausePanel);
         }
     }
 }

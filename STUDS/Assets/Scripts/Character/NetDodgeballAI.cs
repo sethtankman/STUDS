@@ -170,6 +170,7 @@ public class NetDodgeballAI : NetworkBehaviour
             int random = Random.Range(0, dodgeballs.Count);
             if (dodgeballs[random]) 
                 target = dodgeballs[random].transform;
+            else { return; }
             NavMesh.SamplePosition(target.position, out hit, 150, NavMesh.AllAreas);
             targetPosition = hit.position;
             NetDBGameManager.Instance.deListDodgeball(target.gameObject, gameObject);
