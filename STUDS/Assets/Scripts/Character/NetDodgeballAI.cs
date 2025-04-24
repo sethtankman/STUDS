@@ -28,16 +28,17 @@ public class NetDodgeballAI : NetworkBehaviour
     [SerializeField] private bool _onNavMeshLink = false;
 
     private float turnSpeed = 2;
-    [SerializeField] private int loiter = 540, patience, maxPatience;
+    [SerializeField] private int loiter = 540, patience, maxPatience, AI_ID;
     [SerializeField] private float _jumpDuration = 0.8f;
+
 
     private IEnumerator Start()
     {
         // We disable the character controller so it doesn't override the navmesh agent.
         GetComponent<CharacterController>().enabled = false;
         agent.autoTraverseOffMeshLink = false;
-        if(isServer)
-        {
+        if(isServer && AI_ID >= NetGameManager.Instance.playerIDCount)
+        {   
             Invoke(nameof(StartTick), 10.0f);
             while (true)
             {
