@@ -35,6 +35,19 @@ public class NetVictoryScreenInit : NetworkBehaviour
         {
             DetermineFinalText();
         }
+        if (isServer)
+        {
+            foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
+            {
+                if (player.GetComponent<NetworkCharacterMovementController>().isAI)
+                {
+                    if (player.GetComponent<NetPlayerAI>()) { player.GetComponent<NetPlayerAI>().enabled = false; }
+                    player.GetComponent<CharacterController>().enabled = false;
+                    player.transform.position = new Vector3(0, 0, 60);
+                    player.GetComponent<CharacterController>().enabled = true;
+                }
+            }
+        }
     }
 
     public void NotifyPlayerReady()
