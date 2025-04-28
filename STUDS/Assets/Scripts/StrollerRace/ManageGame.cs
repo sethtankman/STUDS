@@ -9,6 +9,7 @@ public class ManageGame : MonoBehaviour
 {
 
     private List<PlayerConfiguration> configs;
+    private List<int> finishedPlayers = new List<int>();
 
     public GameObject[] checkpoints;
 
@@ -89,7 +90,7 @@ public class ManageGame : MonoBehaviour
 
     void OnTriggerEnter(Collider collider)
     {
-        if (collider.tag.Equals("Player"))
+        if (collider.CompareTag("Player"))
         {
             if(collider.gameObject.GetComponent<CharacterMovementController>().getCheckpointCount() == checkpoints.Length && collider.gameObject.GetComponent<CharacterMovementController>().GetHasGrabbed())
             {
@@ -103,9 +104,10 @@ public class ManageGame : MonoBehaviour
                     playerID = collider.gameObject.GetComponent<CharacterMovementController>().getPlayerID() + 1;
                     collider.gameObject.GetComponent<CharacterMovementController>().SetFinishPosition(positions);
                     positions++;
-                    if (collider.gameObject.GetComponent<CharacterMovementController>().isAI == false)
+                    if (finishedPlayers.Contains(playerID-1) == false && collider.gameObject.GetComponent<CharacterMovementController>().isAI == false )
                     {
                         mySource.Post(gameObject);
+                        finishedPlayers.Add(playerID);
                     }
                 }
 
