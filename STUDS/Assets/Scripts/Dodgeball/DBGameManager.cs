@@ -23,7 +23,6 @@ public class DBGameManager : MonoBehaviour
         Instance = this;
         availableDodgeballs = new List<GameObject>();
         players = GameObject.FindGameObjectsWithTag("Player");
-        SteamAchievements.UnlockAchievement("DB_COUCH");
     }
 
     public void InitScores()
@@ -43,6 +42,7 @@ public class DBGameManager : MonoBehaviour
         if(scores[owner] >= 10 && winnerFound == false)
         {
             StartCoroutine(EndGame());
+            SteamAchievements.UnlockAchievement("DB_COUCH");
         }
     }
 
