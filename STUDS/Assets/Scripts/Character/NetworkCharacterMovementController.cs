@@ -1310,13 +1310,9 @@ public class NetworkCharacterMovementController : NetworkBehaviour
     /// </summary>
     /// <param name="_selectedLevel"></param>
     /// <returns></returns>
-    public bool GetReadyPlayer(string _selectedLevel)
+    public bool GetReadyPlayer()
     {
-        if (_selectedLevel.Equals("ManagePlayerHub"))
-        {
-            return isReady;
-        }
-        return isReady && _selectedLevel == selectedLevel;
+        return isReady;
     }
 
 

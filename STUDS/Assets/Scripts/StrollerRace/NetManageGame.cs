@@ -34,6 +34,7 @@ public class NetManageGame : NetworkBehaviour
     private int noFinishPositions = -1;
     private int prevTime = 0;
     private bool endSequenceCalled = false;
+    private bool soundPlayed = false;
 
     // Start is called before the first frame update
     void Start()
@@ -139,7 +140,11 @@ public class NetManageGame : NetworkBehaviour
                     SteamAchievements.UnlockAchievement("SR_NE_ONLINE");
                 else if (SceneManager.GetActiveScene().name.Equals("NetDowntown"))
                     SteamAchievements.UnlockAchievement("SR_DT_ONLINE");
-                mySource.Post(gameObject);
+                if (!soundPlayed)
+                {
+                    mySource.Post(gameObject);
+                    soundPlayed = true;
+                }
             }
         }
     }

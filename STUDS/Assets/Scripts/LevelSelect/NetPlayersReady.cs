@@ -16,9 +16,13 @@ public class NetPlayersReady : NetworkBehaviour
     public List<GameObject> players;
     public AK.Wwise.Event EffectSound;
     public GameObject NetworkManager;
+    private static KeyValuePair<string, int> PopularVote;
+    private int Votes;
     // Start is called before the first frame update
     void Start()
     {
+        PopularVote = new KeyValuePair<string, int>("None", 0);
+
         players = new List<GameObject>();
         NetworkManager = GameObject.Find("NetworkManager");
     }
@@ -30,6 +34,11 @@ public class NetPlayersReady : NetworkBehaviour
             if (other.gameObject.GetComponent<NetworkCharacterMovementController>())
             {
                 other.gameObject.GetComponent<NetworkCharacterMovementController>().ReadyPlayer(false, null);
+                Votes--;
+                if (PopularVote.Key == gameObject.tag)
+                {
+                    PopularVote = new KeyValuePair<string, int>(gameObject.tag, Votes);
+                }
             }
         }
     }
@@ -38,15 +47,19 @@ public class NetPlayersReady : NetworkBehaviour
     {
         if (isServer && other.CompareTag("Player"))
         {
-            if (other.gameObject.GetComponent<NetworkCharacterMovementController>())
+            if (other.GetComponent<NetworkCharacterMovementController>())
             {
                 bool allReady = true;
-                other.gameObject.GetComponent<NetworkCharacterMovementController>().ReadyPlayer(true, gameObject.tag);
-
+                other.GetComponent<NetworkCharacterMovementController>().ReadyPlayer(true, gameObject.tag);
+                Votes++;
+                if (Votes > PopularVote.Value)
+                {
+                    PopularVote = new KeyValuePair<string, int>(gameObject.tag, Votes);
+                }
                 netPlayers = GameObject.FindGameObjectsWithTag("Player");
                 foreach (GameObject player in netPlayers)
                 {
-                    if (player && !player.GetComponent<NetworkCharacterMovementController>().GetReadyPlayer(gameObject.tag))
+                    if (player && !player.GetComponent<NetworkCharacterMovementController>().GetReadyPlayer())
                     {
                         EffectSound.Post(gameObject);
                         allReady = false;
@@ -65,27 +78,33 @@ public class NetPlayersReady : NetworkBehaviour
         }
     }
 
+    private void OnTriggerStay(Collider other)
+    {
+        if (Votes > PopularVote.Value)
+        {
+            PopularVote = new KeyValuePair<string, int>(gameObject.tag, Votes);
+        }
+    }
+
     private void ChangeScenes()
     {
-        if (gameObject.CompareTag("PennyPincher"))
+        switch (PopularVote.Key)
         {
-            StudsNetworkManager.singleton.ServerChangeScene("Net-PBDadRandom");
-        }
-        else if (gameObject.CompareTag("StrollerRace"))
-        {
-            StudsNetworkManager.singleton.ServerChangeScene("NetNeighborhood");
-        }
-        else if (gameObject.CompareTag("ShoppingSpree"))
-        {
-            StudsNetworkManager.singleton.ServerChangeScene("Network_Shopping_Spree");
-        }
-        else if (gameObject.CompareTag("Downtown"))
-        {
-            StudsNetworkManager.singleton.ServerChangeScene("NetDowntown");
-        }
-        else if (gameObject.CompareTag("Dodgeball"))
-        {
-            StudsNetworkManager.singleton.ServerChangeScene("NetDodgeball");
+            case "PennyPincher":
+                StudsNetworkManager.singleton.ServerChangeScene("Net-PBDadRandom");
+                break;
+            case "StrollerRace":
+                StudsNetworkManager.singleton.ServerChangeScene("NetNeighborhood");
+                break;
+            case "ShoppingSpree":
+                StudsNetworkManager.singleton.ServerChangeScene("Network_Shopping_Spree");
+                break;
+            case "Downtown":
+                StudsNetworkManager.singleton.ServerChangeScene("NetDowntown");
+                break;
+            case "Dodgeball":
+                StudsNetworkManager.singleton.ServerChangeScene("NetDodgeball");
+                break;
         }
     }
 }

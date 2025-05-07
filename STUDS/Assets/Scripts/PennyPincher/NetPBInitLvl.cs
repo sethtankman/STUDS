@@ -33,6 +33,7 @@ public class NetPBInitLvl : NetworkBehaviour
     void Start()
     {
         NetPause.canPause = false;
+        Cursor.visible = false;
         loadingScreen.SetActive(true);
         GameObject.Find("Music Manager").GetComponent<Music_Manager>().PlayStopMusic("Menu", false);
         GameObject.Find("Music Manager").GetComponent<Music_Manager>().PlayStopMusic("Penny", true);

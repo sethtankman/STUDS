@@ -24,7 +24,6 @@ public class NetDBGameManager : NetworkBehaviour
         Instance = this;
         availableDodgeballs = new List<GameObject>();
         players = GameObject.FindGameObjectsWithTag("Player");
-        SteamAchievements.UnlockAchievement("DB_ONLINE"); 
     }
 
     public void InitScores()
@@ -133,6 +132,7 @@ public class NetDBGameManager : NetworkBehaviour
     [ClientRpc]
     private void RpcEndGame()
     {
+        SteamAchievements.UnlockAchievement("DB_ONLINE");
         winnerFound = true;
         Invoke("EndGame", 1.0f);
     }

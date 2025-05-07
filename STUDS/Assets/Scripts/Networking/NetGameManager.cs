@@ -107,7 +107,7 @@ public class NetGameManager : NetworkBehaviour
             int readyCount = 0;
             foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
             {
-                if (player && player.GetComponent<NetworkCharacterMovementController>().GetReadyPlayer("ManagePlayerHub"))
+                if (player && player.GetComponent<NetworkCharacterMovementController>().GetReadyPlayer())
                 {
                     readyCount++;
                 }

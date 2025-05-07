@@ -65,6 +65,11 @@ public class NetVictoryScreenInit : NetworkBehaviour
         double score = Double.Parse(finalText.GetComponent<TextMeshProUGUI>().text);
         finalText.GetComponent<TextMeshProUGUI>().text = "Power Bill: $" + (score / 10) + "0";
         finalText.GetComponent<RectTransform>().anchoredPosition = new Vector3(10, -10, 0);
+        int childCount = 0;
+        foreach (NetworkCharacterMovementController netcmc in FindObjectsByType<NetworkCharacterMovementController>(0))
+        {
+            if(netcmc.isMini) childCount++;
+        }
         if(score > 4000)
         {
             finalText.GetComponent<TextMeshProUGUI>().text += " When your credit card is stolen but your credit starts to improve...";
@@ -79,8 +84,12 @@ public class NetVictoryScreenInit : NetworkBehaviour
             finalText.GetComponent<TextMeshProUGUI>().text += " Time for that new boat!";
         } else
         {
-            SteamAchievements.UnlockAchievement("PB_ONLINE");
             finalText.GetComponent<TextMeshProUGUI>().text += " My mother-in-law will have nothing to say...";
+        }
+        if (score < 1500 && childCount > 0)
+        {
+            Debug.Log("Achieved");
+            SteamAchievements.UnlockAchievement("PB_ONLINE");
         }
     }
 

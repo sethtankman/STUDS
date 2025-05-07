@@ -5,6 +5,7 @@ using UnityEngine.Audio;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 
 public class SettingsMenu_Scott : MonoBehaviour
 {
@@ -283,11 +284,14 @@ public class SettingsMenu_Scott : MonoBehaviour
 
     public void OnlineReturnToLevelSelect()
     {
-        SteamLobby.singleton.HandleLeave();
-        if(NetGameManager.Instance) { NetGameManager.Instance.GetComponent<NetSceneSwitcher>().LoadSpecificScene(); }
-        else
+        if (SceneManager.GetActiveScene().name.Equals("TheBlock_LevelSelectOnlineMultiplayer") == false)
         {
-            FindFirstObjectByType<NetGameManager>().GetComponent<NetSceneSwitcher>().LoadSpecificScene();
+            if (NetGameManager.Instance) { NetGameManager.Instance.GetComponent<NetSceneSwitcher>().LoadSpecificScene(); }
+            else
+            {
+                FindFirstObjectByType<NetGameManager>().GetComponent<NetSceneSwitcher>().LoadSpecificScene();
+            }
         }
+        SteamLobby.singleton.HandleLeave();
     }
 }
