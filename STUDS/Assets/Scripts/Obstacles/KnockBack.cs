@@ -49,7 +49,6 @@ public class KnockBack : MonoBehaviour
                 else if (GetComponentInParent<GrabbableObjectController>())
                 {
                     GetComponentInParent<GrabbableObjectController>().HomingThrow(false, null, Vector3.zero);
-                    Debug.Log($"1: {GetComponentInParent<GrabbableObjectController>().throwerColor}, 2: {other.GetComponent<CharacterMovementController>().GetColorName()}");
                     if (GetComponentInParent<GrabbableObjectController>().throwerColor == other.GetComponent<CharacterMovementController>().GetColorName())
                     {
                         return;
@@ -68,7 +67,6 @@ public class KnockBack : MonoBehaviour
                     direction.z *= 1 - directionVector.z;
                     direction += directionVector.normalized;
                 }
-                Debug.Log("direction: " + direction.ToString() + " Force " + KBForce + " MakePlayerDrop " + makePlayerDrop);
 
                 other.GetComponent<CharacterMovementController>().KnockBack(direction * KBForce, makePlayerDrop);
                 if(KnockBackFX)
