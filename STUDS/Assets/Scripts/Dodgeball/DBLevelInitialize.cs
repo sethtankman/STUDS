@@ -54,7 +54,9 @@ public class DBLevelInitialize : MonoBehaviour
         {
             for (int i = 0; i < players.Count; i++)
             {
+                players[i].GetComponent<CharacterController>().enabled = false;
                 players[i].transform.SetPositionAndRotation(playerSpawns[i].position, playerSpawns[i].rotation);
+                players[i].GetComponent<CharacterController>().enabled = true;
             }
         }
 
@@ -81,7 +83,6 @@ public class DBLevelInitialize : MonoBehaviour
                         players[i].GetComponentInChildren<SkinnedMeshRenderer>(true).material = materials[GetColorIndex(aiColor)];
                         aiColors.Remove(aiColor);
                     }
-                    players[i].transform.SetPositionAndRotation(playerSpawns[i].position, playerSpawns[i].rotation); // Doing this an extra time because sometimes it doesn't work the first time in build
                     players[i].GetComponent<CharacterMovementController>().CanMove = true;
                     spawnedPlayers = true;
                 }
