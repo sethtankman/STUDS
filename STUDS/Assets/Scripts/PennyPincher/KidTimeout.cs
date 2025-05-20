@@ -55,7 +55,7 @@ public class KidTimeout : MonoBehaviour
                         }
                     } else
                     {
-                        mini.GetComponent<NetworkCharacterMovementController>().CanMove = true;
+                        mini.GetComponent<NetworkCharacterMovementController>().SetCanMove(true);
                         if (mini.GetComponent<NetworkCharacterMovementController>().isAI)
                         {
                             mini.GetComponent<NavMeshAgent>().Warp(backInPos[currIdx].transform.position);
@@ -103,7 +103,7 @@ public class KidTimeout : MonoBehaviour
             }
         } else
         {
-            mini.GetComponent<NetworkCharacterMovementController>().CanMove = false;
+            mini.GetComponent<NetworkCharacterMovementController>().SetCanMove(false);
             if (mini.GetComponent<NetworkCharacterMovementController>().isAI)
             {
                 mini.GetComponent<NetPennyPincherAI>().CanMove = false;

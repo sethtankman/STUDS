@@ -56,7 +56,7 @@ public class NetPause : MonoBehaviour {
             Cursor.visible = true;
             gameisPaused = true;
             foreach (NetworkCharacterMovementController player in FindObjectsByType<NetworkCharacterMovementController>(FindObjectsSortMode.None))
-                if(player.isLocalPlayer) player.CanMove = false;
+                if(player.isLocalPlayer) player.SetCanMove(false);
             PauseMenuUI.SetActive(true);
             allOtherMenus = PauseMenuUI.GetComponent<SettingsMenu_Scott>().allOtherMenus;
             MainPauseMenu = PauseMenuUI.GetComponent<SettingsMenu_Scott>().GetMainPauseMenu();
@@ -67,7 +67,7 @@ public class NetPause : MonoBehaviour {
             DeactivateAll();
             gameisPaused = false;
             foreach (NetworkCharacterMovementController player in FindObjectsByType<NetworkCharacterMovementController>(FindObjectsSortMode.None))
-                if (player.isLocalPlayer) player.CanMove = true;
+                if (player.isLocalPlayer) player.SetCanMove(true);
         }
     }
 

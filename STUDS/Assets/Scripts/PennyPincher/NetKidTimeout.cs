@@ -53,7 +53,7 @@ public class NetKidTimeout : NetworkBehaviour
                     }
                     else
                     {
-                        mini.GetComponent<NetworkCharacterMovementController>().CanMove = true;
+                        mini.GetComponent<NetworkCharacterMovementController>().SetCanMove(true);
                         if (mini.GetComponent<NetworkCharacterMovementController>().isAI)
                         {
                             mini.GetComponent<NavMeshAgent>().Warp(backInPos[currIdx].transform.position);
@@ -92,7 +92,7 @@ public class NetKidTimeout : NetworkBehaviour
         mini.transform.position = newPos;
         if (mini.GetComponent<NetworkCharacterMovementController>())
         {
-            mini.GetComponent<NetworkCharacterMovementController>().CanMove = false;
+            mini.GetComponent<NetworkCharacterMovementController>().SetCanMove(false);
             if (mini.GetComponent<NetworkCharacterMovementController>().isAI)
             {
                 mini.GetComponent<NetPennyPincherAI>().CanMove = false;

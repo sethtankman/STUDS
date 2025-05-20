@@ -48,7 +48,7 @@ public class NetDBInit : NetworkBehaviour
             if (player.GetComponent<NetworkCharacterMovementController>().isLocalPlayer)
             {
                 player.GetComponent<NetworkCharacterMovementController>().SetAimAssist(true);
-                player.GetComponent<NetworkCharacterMovementController>().CanMove = false;
+                player.GetComponent<NetworkCharacterMovementController>().SetCanMove(false);
             }
     }
 
@@ -109,7 +109,7 @@ public class NetDBInit : NetworkBehaviour
         if (players.Length == 0) { Debug.LogError("No players found"); }
         foreach(GameObject player in players)
         {
-            player.GetComponent<NetworkCharacterMovementController>().CanMove = true;
+            player.GetComponent<NetworkCharacterMovementController>().SetCanMove(true);
         }
         Destroy(startCam);
         Destroy(startText);

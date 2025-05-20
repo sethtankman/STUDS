@@ -99,7 +99,8 @@ public class NetworkCharacterMovementController : NetworkBehaviour
     public bool hasAimAssist;
     private PLR_ParticleController PlayerParticles;
 
-    public bool CanJump, CanMove = true;
+    public bool CanJump = true;
+    private bool CanMove = true;
 
     private void Awake()
     {
@@ -1287,6 +1288,11 @@ public class NetworkCharacterMovementController : NetworkBehaviour
         color = colorName;
         if(isLocalPlayer)
             CmdChangePlayerColor(color);
+    }
+
+    public void SetCanMove(bool tf)
+    {
+        CanMove = tf;
     }
 
     public string GetColorName()

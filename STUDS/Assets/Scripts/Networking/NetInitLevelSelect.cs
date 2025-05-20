@@ -31,7 +31,7 @@ public class NetInitLevelSelect : NetworkBehaviour
                     AI_ids[i] = true;
                 } 
                 player.GetComponent<NetworkCharacterMovementController>().inStrollerRace = false;
-                player.GetComponent<NetworkCharacterMovementController>().CanMove = true;
+                player.GetComponent<NetworkCharacterMovementController>().SetCanMove(true);
                 ++i;
             }
             i = 0;
