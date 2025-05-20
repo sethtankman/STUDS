@@ -106,10 +106,6 @@ public class NetworkCharacterMovementController : NetworkBehaviour
     {
         _rigidbody = GetComponent<Rigidbody>();
         hub = GameObject.Find("NetGameManager").GetComponent<NetGameManager>();
-        if (!isLocalPlayer && !isAI)
-        {   
-            Destroy(GetComponent<Rigidbody>()); // This was causing characters to fly off over network.
-        }
     }
 
     // Start is called before the first frame update
@@ -141,6 +137,11 @@ public class NetworkCharacterMovementController : NetworkBehaviour
             {
                 GetComponentInChildren<Camera>().enabled = true;
             }
+        }
+        if (!isLocalPlayer && !isAI)
+        {
+            Debug.Log("Destroying rigidbody");
+            Destroy(GetComponent<Rigidbody>()); // This was causing characters to fly off over network.
         }
     }
 
