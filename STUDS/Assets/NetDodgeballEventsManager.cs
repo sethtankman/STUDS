@@ -59,13 +59,17 @@ public class NetDodgeballEventsManager : NetworkBehaviour
         RandomDodgeballHolders.SetActive(false);
     }
 
+    /// <summary>
+    /// Called on server
+    /// </summary>
+    /// <returns></returns>
     IEnumerator CountdownCoroutine()
     {
         while (EventCountdownTimer > 0)
         {
             if (EventCountdownTimer <= 5.0f)
             {
-                UpdateTimerText();
+                RpcUpdateTimerText(Mathf.CeilToInt(EventCountdownTimer));
             }
             yield return new WaitForSeconds(1);
             EventCountdownTimer -= 1;
@@ -85,16 +89,18 @@ public class NetDodgeballEventsManager : NetworkBehaviour
         {
             if (eventEndTimer <= EndingCountdownDuration)
             {
-                UpdateEventEndText();
+                RpcUpdateEventEndText(Mathf.CeilToInt(eventEndTimer));
             }
             yield return new WaitForSeconds(1);
             eventEndTimer -= 1;
         }
 
-        EndDodgeballEvent();
+        RpcEndDodgeballEvent();
     }
 
-    // Method to destroy grabbable objects with collision enabled and spawn particle effects
+    /// <summary>
+    /// Method to destroy grabbable objects with collision enabled and spawn particle effects
+    /// </summary>
     void DestroyGrabbablesWithCollision()
     {
         GameObject[] grabbableObjects = GameObject.FindGameObjectsWithTag("Grabbable");
@@ -114,6 +120,9 @@ public class NetDodgeballEventsManager : NetworkBehaviour
         }
     }
 
+    /// <summary>
+    /// Called on server
+    /// </summary>
     void DodgeballEventPicker()
     {
         // Add a 0.1 second delay before starting the event and destroying grabbable objects
@@ -121,9 +130,13 @@ public class NetDodgeballEventsManager : NetworkBehaviour
 
         currentEventType = (DodgeballEventType)Random.Range(1, 4);
         EventStarted = true;
-        HandleDodgeballEvent(currentEventType);
+        RpcHandleDodgeballEvent(currentEventType);
     }
 
+    /// <summary>
+    /// Called on all clients
+    /// </summary>
+    /// <param name="eventType"></param>
     void HandleDodgeballEvent(DodgeballEventType eventType)
     {
         LightDodgeballHolders.SetActive(false);
@@ -150,10 +163,13 @@ public class NetDodgeballEventsManager : NetworkBehaviour
                 break;
         }
         ChosenHolders.SetActive(true);
-        foreach (TimerEvents t in ChosenHolders.GetComponentsInChildren<TimerEvents>())
+        if (isServer)
         {
-            t.SetTimer(t.duration - 1);
-            t.StartTimer();
+            foreach (TimerEvents t in ChosenHolders.GetComponentsInChildren<TimerEvents>())
+            {
+                t.SetTimer(t.duration - 1);
+                t.StartTimer();
+            }
         }
     }
 
@@ -190,39 +206,66 @@ public class NetDodgeballEventsManager : NetworkBehaviour
         }
     }
 
+    /// <summary>
+    /// Called on all clients
+    /// </summary>
     void EndDodgeballEvent()
     {
-        // Destroy all grabbable objects with collisions when the event ends
-        DestroyGrabbablesWithCollision();
-
         LightDodgeballHolders.SetActive(false);
         HeavyDodgeballHolders.SetActive(false);
         RandomDodgeballHolders.SetActive(false);
         MediumDodgeballHolders.SetActive(true);
-        foreach (TimerEvents t in MediumDodgeballHolders.GetComponentsInChildren<TimerEvents>())
-        {
-            t.SetTimer(t.duration - 1);
-            t.StartTimer();
-        }
         SetEventText("");
-        EventStarted = false;
-        EventCountdownTimer = 30.0f;
-        StartCoroutine(CountdownCoroutine());
+        if (isServer)
+        {   
+            // Destroy all grabbable objects with collisions when the event ends
+            DestroyGrabbablesWithCollision();
+            foreach (TimerEvents t in MediumDodgeballHolders.GetComponentsInChildren<TimerEvents>())
+            {
+                t.SetTimer(t.duration - 1);
+                t.StartTimer();
+                EventStarted = false;
+                EventCountdownTimer = 30.0f;
+                StartCoroutine(CountdownCoroutine());
+            }
+        }
     }
 
-    void UpdateTimerText()
+    void UpdateTimerText(int timeInSeconds)
     {
-        int timeInSeconds = Mathf.CeilToInt(EventCountdownTimer);
         string countdownText = timeInSeconds == 1 ? "1 second" : $"{timeInSeconds} seconds";
 
         SetEventText($"<size={eventHeaderSize}><color=#{ColorUtility.ToHtmlStringRGB(eventColor)}>EVENT STARTS IN</color></size>\n<size={eventTypeSize}><color=#{ColorUtility.ToHtmlStringRGB(eventColor)}>{countdownText}</color></size>");
     }
 
-    void UpdateEventEndText()
+    void UpdateEventEndText(int timeInSeconds)
     {
-        int timeInSeconds = Mathf.CeilToInt(eventEndTimer);
         string countdownText = timeInSeconds == 1 ? "1 second" : $"{timeInSeconds} seconds";
 
         SetEventText($"<size={eventHeaderSize}><color=#{ColorUtility.ToHtmlStringRGB(eventColor)}>EVENT ENDS IN</color></size>\n<size={eventTypeSize}><color=#{ColorUtility.ToHtmlStringRGB(eventColor)}>{countdownText}</color></size>");
+    }
+
+    [ClientRpc]
+    private void RpcUpdateTimerText(int timeInSeconds)
+    {
+        UpdateTimerText(timeInSeconds);
+    }
+
+    [ClientRpc]
+    private void RpcHandleDodgeballEvent(DodgeballEventType currentEventType)
+    {
+        HandleDodgeballEvent(currentEventType);
+    }
+
+    [ClientRpc]
+    private void RpcUpdateEventEndText(int timeInSeconds)
+    {
+        UpdateEventEndText(timeInSeconds);
+    }
+
+    [ClientRpc]
+    private void RpcEndDodgeballEvent()
+    {
+        EndDodgeballEvent();
     }
 }
