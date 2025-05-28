@@ -178,6 +178,8 @@ public class NetworkCharacterMovementController : NetworkBehaviour
         NetDBInit init = FindFirstObjectByType<NetDBInit>();
         if (init)
         {
+            SetAimAssist(true);
+            SetCanMove(false);
             CmdNotifyPlayerReady(init);
             return;
         }

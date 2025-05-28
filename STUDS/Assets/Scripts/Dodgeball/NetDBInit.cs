@@ -45,11 +45,13 @@ public class NetDBInit : NetworkBehaviour
 
         players = GameObject.FindGameObjectsWithTag("Player");
         foreach (GameObject player in players)
+        {
             if (player.GetComponent<NetworkCharacterMovementController>().isLocalPlayer)
             {
                 player.GetComponent<NetworkCharacterMovementController>().SetAimAssist(true);
                 player.GetComponent<NetworkCharacterMovementController>().SetCanMove(false);
             }
+        }
     }
 
     /// <summary>
@@ -80,6 +82,9 @@ public class NetDBInit : NetworkBehaviour
         Invoke("StartGame", 5.0f);
     }
 
+    /// <summary>
+    /// Only called on the server.
+    /// </summary>
     public void NotifyPlayerReady()
     {
         playersLoaded++;
