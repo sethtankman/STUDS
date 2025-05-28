@@ -56,7 +56,10 @@ public class DBLevelInitialize : MonoBehaviour
             {
                 players[i].GetComponent<CharacterController>().enabled = false;
                 players[i].transform.SetPositionAndRotation(playerSpawns[i].position, playerSpawns[i].rotation);
-                players[i].GetComponent<CharacterController>().enabled = true;
+                if (players[i].GetComponent<DodgeballAI>() == false)
+                {
+                    players[i].GetComponent<CharacterController>().enabled = true;
+                }
             }
         }
 
