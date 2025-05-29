@@ -282,15 +282,12 @@ public class SettingsMenu_Scott : MonoBehaviour
         FindFirstObjectByType<NetPause>().Pause();
     }
 
-    public void OnlineReturnToLevelSelect()
+    public void OnlineReturnToTitleScreen()
     {
-        if (SceneManager.GetActiveScene().name.Equals("TheBlock_LevelSelectOnlineMultiplayer") == false)
+        if (NetGameManager.Instance) { NetGameManager.Instance.GetComponent<NetSceneSwitcher>().LoadSpecificScene(); }
+        else
         {
-            if (NetGameManager.Instance) { NetGameManager.Instance.GetComponent<NetSceneSwitcher>().LoadSpecificScene(); }
-            else
-            {
-                FindFirstObjectByType<NetGameManager>().GetComponent<NetSceneSwitcher>().LoadSpecificScene();
-            }
+            FindFirstObjectByType<NetGameManager>().GetComponent<NetSceneSwitcher>().LoadSpecificScene();
         }
         SteamLobby.singleton.HandleLeave();
     }
